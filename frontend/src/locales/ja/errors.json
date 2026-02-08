@@ -1,0 +1,46 @@
+{
+  "general": {
+    "unknown": "不明なエラーが発生しました",
+    "network": "ネットワークエラー。接続を確認してください。",
+    "timeout": "リクエストがタイムアウトしました。もう一度お試しください。",
+    "serverError": "サーバーエラー。後でもう一度お試しください。"
+  },
+  "auth": {
+    "invalidCredentials": "メールアドレスまたはパスワードが無効です",
+    "emailInUse": "このメールアドレスは既に使用されています",
+    "weakPassword": "パスワードが弱すぎます",
+    "sessionExpired": "セッションの有効期限が切れました。再度ログインしてください。",
+    "unauthorized": "この操作を実行する権限がありません"
+  },
+  "validation": {
+    "required": "この項目は必須です",
+    "invalidEmail": "無効なメールアドレスです",
+    "invalidDate": "無効な日付です",
+    "dateRange": "終了日は開始日より後である必要があります",
+    "minLength": "{{min}}文字以上である必要があります",
+    "maxLength": "{{max}}文字以下である必要があります",
+    "invalidNumber": "有効な数値である必要があります",
+    "positiveNumber": "正の数値である必要があります"
+  },
+  "trip": {
+    "notFound": "旅行が見つかりません",
+    "loadFailed": "旅行の読み込みに失敗しました",
+    "saveFailed": "旅行の保存に失敗しました",
+    "deleteFailed": "旅行の削除に失敗しました",
+    "noPermission": "この旅行を編集する権限がありません"
+  },
+  "place": {
+    "notFound": "場所が見つかりません",
+    "saveFailed": "場所の保存に失敗しました",
+    "deleteFailed": "場所の削除に失敗しました"
+  },
+  "upload": {
+    "failed": "アップロードに失敗しました",
+    "tooLarge": "ファイルが大きすぎます（最大{{max}}MB）",
+    "invalidType": "無効なファイルタイプです"
+  },
+  "offline": {
+    "syncFailed": "オフライン変更の同期に失敗しました",
+    "notAvailableOffline": "この機能はオフラインでは利用できません"
+  }
+}

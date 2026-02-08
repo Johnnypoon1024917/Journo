@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Auth Debug</title>
+</head>
+<body>
+    <h1>Auth Storage Debug</h1>
+    <pre id="output"></pre>
+    <script>
+        const output = document.getElementById('output');
+        const authStorage = localStorage.getItem('auth-storage');
+        const enhancedAuthStorage = localStorage.getItem('enhanced-auth-storage');
+        
+        output.textContent = JSON.stringify({
+            'auth-storage': authStorage ? JSON.parse(authStorage) : null,
+            'enhanced-auth-storage': enhancedAuthStorage ? JSON.parse(enhancedAuthStorage) : null,
+            'all-keys': Object.keys(localStorage)
+        }, null, 2);
+    </script>
+</body>
+</html>

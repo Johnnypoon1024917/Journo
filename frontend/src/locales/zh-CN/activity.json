@@ -1,0 +1,32 @@
+{
+  "activityLog": "活动记录",
+  "filterByAction": "按操作筛选",
+  "filterByUser": "按用户筛选",
+  "dateRange": "日期范围",
+  "clearFilters": "清除筛选",
+  "today": "今天",
+  "yesterday": "昨天",
+  "thisWeek": "本周",
+  "older": "更早",
+  "noActivity": "暂无活动",
+  "loadingActivity": "加载活动中...",
+  "actions": {
+    "created": "创建了",
+    "updated": "更新了",
+    "deleted": "删除了",
+    "added": "添加了",
+    "removed": "移除了",
+    "joined": "加入了",
+    "left": "离开了",
+    "changed": "变更了"
+  },
+  "entities": {
+    "place": "地点",
+    "day": "天数",
+    "packing": "打包项目",
+    "shopping": "购物项目",
+    "collaborator": "协作者",
+    "story": "故事",
+    "trip": "行程"
+  }
+}

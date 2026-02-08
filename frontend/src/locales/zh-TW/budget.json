@@ -1,0 +1,39 @@
+{
+  "title": "預算",
+  "budgetTracker": "預算追蹤",
+  "totalBudget": "總預算",
+  "totalSpent": "總支出",
+  "remaining": "剩餘",
+  "overspent": "超支",
+  "dailyBudget": "每日預算",
+  "categories": {
+    "accommodation": "住宿",
+    "food": "餐飲",
+    "transport": "交通",
+    "activities": "活動",
+    "shopping": "購物",
+    "misc": "其他"
+  },
+  "breakdown": {
+    "title": "支出明細",
+    "byCategory": "依類別",
+    "byDay": "依日期"
+  },
+  "warnings": {
+    "approaching": "您即將達到預算上限（已使用 {{percent}}%）",
+    "exceeded": "您已超支 {{amount}}"
+  },
+  "export": {
+    "exportPDF": "匯出為 PDF",
+    "exportCSV": "匯出為 CSV",
+    "shareableBudget": "可分享的預算檢視"
+  },
+  "tips": {
+    "addTip": "新增小費",
+    "tipPercent": "小費 {{percent}}%"
+  },
+  "split": {
+    "splitCost": "分攤費用",
+    "splitAmong": "由 {{count}} 位旅客分攤"
+  }
+}

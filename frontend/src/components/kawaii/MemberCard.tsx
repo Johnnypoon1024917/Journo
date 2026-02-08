@@ -1,0 +1,281 @@
+/**
+ * Kawaii MemberCard Component
+ * 
+ * Displays trip member with avatar, name, role, and online/offline status.
+ * 
+ * Features:
+ * - Avatar display with fallback to initials
+ * - Name and email display
+ * - Role badge (owner, editor, viewer)
+ * - Online/offline status indicator
+ * - Edit/remove actions (for owner only)
+ * - Touch-optimized interactions
+ * - Framer Motion animations
+ * 
+ * Requirements: 14.1, 14.3
+ */
+
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
+import {
+  EllipsisVerticalIcon,
+  UserCircleIcon,
+  TrashIcon,
+  ArrowPathIcon,
+} from '@heroicons/react/24/outline';
+import { cn } from '@/utils/cn';
+import { TripCollaboratorWithUser, CollaboratorRole } from '@/types/collaboration';
+
+export interface MemberCardProps {
+  member: TripCollaboratorWithUser;
+  isOnline?: boolean;
+  isOwner?: boolean;
+  canManage?: boolean;
+  onRoleChange?: (memberId: string, newRole: CollaboratorRole) => void;
+  onRemove?: (memberId: string) => void;
+  className?: string;
+}
+
+// Role colors mapping with improved dark mode contrast
+const ROLE_COLORS: Record<CollaboratorRole, { bg: string; text: string }> = {
+  owner: { bg: 'bg-purple-100 dark:bg-purple-900/40', text: 'text-purple-800 dark:text-purple-200' },
+  editor: { bg: 'bg-blue-100 dark:bg-blue-900/40', text: 'text-blue-800 dark:text-blue-200' },
+  viewer: { bg: 'bg-gray-100 dark:bg-gray-800/60', text: 'text-gray-800 dark:text-gray-200' },
+};
+
+// Role translation keys
+const ROLE_LABELS: Record<CollaboratorRole, string> = {
+  owner: 'members.roles.owner',
+  editor: 'members.roles.editor',
+  viewer: 'members.roles.viewer',
+};
+
+/**
+ * Get initials from name
+ */
+const getInitials = (name: string | null | undefined): string => {
+  if (!name) return '??';
+  
+  const parts = name.trim().split(/\s+/);
+  if (parts.length === 1) {
+    return parts[0].substring(0, 2).toUpperCase();
+  }
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+};
+
+export const MemberCard: React.FC<MemberCardProps> = ({
+  member,
+  isOnline = false,
+  isOwner = false,
+  canManage = false,
+  onRoleChange,
+  onRemove,
+  className,
+}) => {
+  const { t } = useTranslation('members');
+  const { t: tCommon } = useTranslation('common');
+  const [showMenu, setShowMenu] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleRemove = () => {
+    if (onRemove && !isOwner) {
+      setIsDeleting(true);
+      setTimeout(() => {
+        onRemove(member.id);
+      }, 300);
+    }
+  };
+
+  const handleRoleChange = (newRole: CollaboratorRole) => {
+    setShowMenu(false);
+    if (onRoleChange && !isOwner) {
+      onRoleChange(member.id, newRole);
+    }
+  };
+
+  const initials = getInitials(member.user.name);
+
+  return (
+    <div className={cn('relative', className)}>
+      {/* Member card */}
+      <motion.div
+        className={cn(
+          'relative overflow-hidden',
+          'bg-white dark:bg-kawaii-neutral-800',
+          'rounded-2xl',
+          'shadow-sm hover:shadow-md',
+          'transition-shadow duration-200',
+          'touch-manipulation'
+        )}
+        animate={isDeleting ? { x: -400, opacity: 0 } : {}}
+        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+      >
+        <div className="flex items-center gap-4 p-4">
+          {/* Avatar with online status */}
+          <div className="relative flex-shrink-0">
+            <div
+              className={cn(
+                'w-12 h-12 rounded-full',
+                'flex items-center justify-center',
+                'bg-gradient-to-br from-kawaii-primary to-kawaii-secondary',
+                'text-white font-semibold text-lg',
+                'shadow-sm',
+                // Dark mode: keep white text for better contrast
+                'dark:from-kawaii-primary-500 dark:to-kawaii-secondary-500'
+              )}
+            >
+              {initials}
+            </div>
+            
+            {/* Online status indicator */}
+            <div
+              className={cn(
+                'absolute bottom-0 right-0',
+                'w-3.5 h-3.5 rounded-full',
+                'border-2 border-white dark:border-kawaii-neutral-800',
+                isOnline
+                  ? 'bg-green-500'
+                  : 'bg-gray-400 dark:bg-gray-600'
+              )}
+              aria-label={isOnline ? t('members.status.online') : t('members.status.offline')}
+            />
+          </div>
+
+          {/* Content */}
+          <div className="flex-1 min-w-0">
+            {/* Name */}
+            <div
+              className={cn(
+                'text-base font-semibold mb-0.5',
+                'text-kawaii-neutral-900 dark:text-kawaii-neutral-100',
+                'truncate'
+              )}
+            >
+              {member.user.name}
+            </div>
+
+            {/* Email */}
+            <div
+              className={cn(
+                'text-sm mb-1.5',
+                'text-kawaii-neutral-600 dark:text-kawaii-neutral-400',
+                'truncate'
+              )}
+            >
+              {member.user.email}
+            </div>
+
+            {/* Role badge */}
+            <span
+              className={cn(
+                'inline-flex items-center px-2 py-0.5',
+                'text-xs font-medium rounded-full',
+                ROLE_COLORS[member.role].bg,
+                ROLE_COLORS[member.role].text
+              )}
+            >
+              {t(ROLE_LABELS[member.role])}
+            </span>
+          </div>
+
+          {/* Three-dot menu (only show if can manage and not owner) */}
+          {canManage && !isOwner && (
+            <div className="relative flex-shrink-0">
+              <button
+                onClick={() => setShowMenu(!showMenu)}
+                className={cn(
+                  'p-2 rounded-lg',
+                  'text-kawaii-neutral-600 dark:text-kawaii-neutral-400',
+                  'hover:bg-kawaii-neutral-100 dark:hover:bg-kawaii-neutral-700',
+                  'transition-colors duration-200',
+                  'focus:outline-none focus:ring-2 focus:ring-kawaii-primary/50',
+                  'min-w-[44px] min-h-[44px]',
+                  'flex items-center justify-center'
+                )}
+                aria-label="Menu"
+              >
+                <EllipsisVerticalIcon className="w-5 h-5" />
+              </button>
+
+              {/* Dropdown menu */}
+              {showMenu && (
+                <motion.div
+                  className={cn(
+                    'absolute right-0 top-full mt-2 z-10',
+                    'bg-white dark:bg-kawaii-neutral-800',
+                    'rounded-lg shadow-xl',
+                    'overflow-hidden',
+                    'min-w-[160px]',
+                    'border border-kawaii-neutral-200 dark:border-kawaii-neutral-700'
+                  )}
+                  initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  {/* Change role options */}
+                  {onRoleChange && member.role !== 'editor' && (
+                    <button
+                      onClick={() => handleRoleChange('editor')}
+                      className={cn(
+                        'w-full flex items-center gap-3 px-4 py-3',
+                        'text-left text-sm',
+                        'text-kawaii-neutral-700 dark:text-kawaii-neutral-200',
+                        'hover:bg-kawaii-neutral-100 dark:hover:bg-kawaii-neutral-700',
+                        'transition-colors duration-150'
+                      )}
+                    >
+                      <ArrowPathIcon className="w-4 h-4" />
+                      <span>{t('members.actions.makeEditor')}</span>
+                    </button>
+                  )}
+                  {onRoleChange && member.role !== 'viewer' && (
+                    <button
+                      onClick={() => handleRoleChange('viewer')}
+                      className={cn(
+                        'w-full flex items-center gap-3 px-4 py-3',
+                        'text-left text-sm',
+                        'text-kawaii-neutral-700 dark:text-kawaii-neutral-200',
+                        'hover:bg-kawaii-neutral-100 dark:hover:bg-kawaii-neutral-700',
+                        'transition-colors duration-150'
+                      )}
+                    >
+                      <ArrowPathIcon className="w-4 h-4" />
+                      <span>{t('members.actions.makeViewer')}</span>
+                    </button>
+                  )}
+                  
+                  {/* Remove member */}
+                  {onRemove && (
+                    <button
+                      onClick={handleRemove}
+                      className={cn(
+                        'w-full flex items-center gap-3 px-4 py-3',
+                        'text-left text-sm',
+                        'text-red-600 dark:text-red-400',
+                        'hover:bg-red-50 dark:hover:bg-red-900/20',
+                        'transition-colors duration-150'
+                      )}
+                    >
+                      <TrashIcon className="w-4 h-4" />
+                      <span>{t('members.actions.remove')}</span>
+                    </button>
+                  )}
+                </motion.div>
+              )}
+            </div>
+          )}
+        </div>
+      </motion.div>
+
+      {/* Click outside to close menu */}
+      {showMenu && (
+        <div
+          className="fixed inset-0 z-0"
+          onClick={() => setShowMenu(false)}
+        />
+      )}
+    </div>
+  );
+};

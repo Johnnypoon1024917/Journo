@@ -1,0 +1,73 @@
+{
+  "title": "行程",
+  "trips": "行程",
+  "myTrips": "我的行程",
+  "createTrip": "建立行程",
+  "editTrip": "編輯行程",
+  "deleteTrip": "刪除行程",
+  "tripDetails": "行程詳情",
+  "noTrips": "尚無行程。建立您的第一個行程！",
+  "fields": {
+    "title": "標題",
+    "destination": "目的地",
+    "startDate": "開始日期",
+    "endDate": "結束日期",
+    "coverImage": "封面圖片",
+    "theme": "主題",
+    "budget": "預算",
+    "currency": "貨幣",
+    "description": "描述"
+  },
+  "themes": {
+    "default": "預設",
+    "adventure": "冒險",
+    "romantic": "浪漫",
+    "foodie": "美食",
+    "chill": "悠閒"
+  },
+  "visibility": {
+    "public": "公開",
+    "private": "私人",
+    "community": "發佈到社群"
+  },
+  "stats": {
+    "days": "{{count}} 天",
+    "days_plural": "{{count}} 天",
+    "places": "{{count}} 個地點",
+    "places_plural": "{{count}} 個地點",
+    "views": "{{count}} 次瀏覽",
+    "views_plural": "{{count}} 次瀏覽",
+    "likes": "{{count}} 個讚",
+    "likes_plural": "{{count}} 個讚"
+  },
+  "sharing": {
+    "shareTrip": "分享行程",
+    "copyLink": "複製連結",
+    "linkCopied": "連結已複製到剪貼簿！",
+    "qrCode": "QR 碼",
+    "shareVia": "分享至",
+    "whatsapp": "WhatsApp",
+    "email": "電子郵件"
+  },
+  "collaboration": {
+    "collaborators": "協作者",
+    "addCollaborator": "新增協作者",
+    "inviteByEmail": "透過電子郵件邀請",
+    "role": "角色",
+    "roles": {
+      "owner": "擁有者",
+      "editor": "編輯者",
+      "viewer": "檢視者"
+    },
+    "permissions": {
+      "owner": "完整存取權限",
+      "editor": "可編輯",
+      "viewer": "僅檢視"
+    }
+  },
+  "versions": {
+    "versionHistory": "版本歷史",
+    "restore": "還原",
+    "currentVersion": "目前版本"
+  }
+}

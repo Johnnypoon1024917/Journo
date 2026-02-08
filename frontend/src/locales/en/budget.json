@@ -1,0 +1,39 @@
+{
+  "title": "Budget",
+  "budgetTracker": "Budget Tracker",
+  "totalBudget": "Total Budget",
+  "totalSpent": "Total Spent",
+  "remaining": "Remaining",
+  "overspent": "Overspent",
+  "dailyBudget": "Daily Budget",
+  "categories": {
+    "accommodation": "Accommodation",
+    "food": "Food",
+    "transport": "Transport",
+    "activities": "Activities",
+    "shopping": "Shopping",
+    "misc": "Miscellaneous"
+  },
+  "breakdown": {
+    "title": "Spending Breakdown",
+    "byCategory": "By Category",
+    "byDay": "By Day"
+  },
+  "warnings": {
+    "approaching": "You're approaching your budget limit ({{percent}}% spent)",
+    "exceeded": "You've exceeded your budget by {{amount}}"
+  },
+  "export": {
+    "exportPDF": "Export as PDF",
+    "exportCSV": "Export as CSV",
+    "shareableBudget": "Shareable Budget View"
+  },
+  "tips": {
+    "addTip": "Add Tip",
+    "tipPercent": "Tip {{percent}}%"
+  },
+  "split": {
+    "splitCost": "Split Cost",
+    "splitAmong": "Split among {{count}} travelers"
+  }
+}

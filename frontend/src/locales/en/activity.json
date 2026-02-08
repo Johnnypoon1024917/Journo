@@ -1,0 +1,32 @@
+{
+  "activityLog": "Activity Log",
+  "filterByAction": "Filter by action",
+  "filterByUser": "Filter by user",
+  "dateRange": "Date range",
+  "clearFilters": "Clear filters",
+  "today": "Today",
+  "yesterday": "Yesterday",
+  "thisWeek": "This week",
+  "older": "Older",
+  "noActivity": "No activity yet",
+  "loadingActivity": "Loading activity...",
+  "actions": {
+    "created": "created",
+    "updated": "updated",
+    "deleted": "deleted",
+    "added": "added",
+    "removed": "removed",
+    "joined": "joined",
+    "left": "left",
+    "changed": "changed"
+  },
+  "entities": {
+    "place": "place",
+    "day": "day",
+    "packing": "packing item",
+    "shopping": "shopping item",
+    "collaborator": "collaborator",
+    "story": "story",
+    "trip": "trip"
+  }
+}

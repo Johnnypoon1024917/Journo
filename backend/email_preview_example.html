@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invitation Email Preview - Journo Travel</title>
+  <style>
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+      line-height: 1.6; 
+      color: #333; 
+      margin: 0;
+      padding: 20px;
+      background-color: #e5e5e5;
+    }
+    .preview-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .preview-header {
+      text-align: center;
+      padding: 20px 0;
+      border-bottom: 2px solid #667eea;
+      margin-bottom: 30px;
+    }
+    .preview-header h1 {
+      margin: 0;
+      color: #667eea;
+    }
+    .preview-header p {
+      margin: 10px 0 0 0;
+      color: #666;
+    }
+    .language-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #e9ecef;
+    }
+    .language-tab {
+      padding: 10px 20px;
+      cursor: pointer;
+      border: none;
+      background: none;
+      font-size: 16px;
+      color: #666;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s;
+    }
+    .language-tab:hover {
+      color: #667eea;
+    }
+    .language-tab.active {
+      color: #667eea;
+      border-bottom-color: #667eea;
+      font-weight: 600;
+    }
+    .email-preview {
+      display: none;
+    }
+    .email-preview.active {
+      display: block;
+    }
+    .container { 
+      max-width: 600px; 
+      margin: 0 auto; 
+      background-color: #ffffff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .header { 
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white; 
+      padding: 40px 20px; 
+      text-align: center; 
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 600;
+    }
+    .content { 
+      padding: 40px 30px; 
+    }
+    .content h2 {
+      color: #333;
+      font-size: 20px;
+      margin-top: 0;
+    }
+    .trip-info {
+      background: #f8f9fa;
+      border-left: 4px solid #667eea;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+    .trip-info p {
+      margin: 8px 0;
+      font-size: 15px;
+    }
+    .trip-info strong {
+      color: #667eea;
+      display: inline-block;
+      min-width: 120px;
+    }
+    .role-badge {
+      display: inline-block;
+      background: #667eea;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      margin-left: 10px;
+    }
+    .button { 
+      display: inline-block; 
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white !important; 
+      padding: 16px 40px; 
+      text-decoration: none; 
+      border-radius: 8px; 
+      margin: 25px 0;
+      font-weight: 600;
+      font-size: 16px;
+      box-shadow: 0 4px 6px rgba(102, 126, 234, 0.3);
+      transition: all 0.3s ease;
+    }
+    .button:hover {
+      box-shadow: 0 6px 8px rgba(102, 126, 234, 0.4);
+      transform: translateY(-2px);
+    }
+    .link-box {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 4px;
+      word-break: break-all;
+      font-size: 14px;
+      color: #667eea;
+      margin: 15px 0;
+    }
+    .expires-notice {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      padding: 15px;
+      border-radius: 4px;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+    .expires-notice strong {
+      color: #856404;
+    }
+    .footer { 
+      background: #f8f9fa; 
+      padding: 30px 20px; 
+      text-align: center; 
+      font-size: 14px; 
+      color: #666; 
+      border-top: 1px solid #e9ecef;
+    }
+    .footer p {
+      margin: 5px 0;
+    }
+    @media only screen and (max-width: 600px) {
+      .content {
+        padding: 30px 20px;
+      }
+      .header h1 {
+        font-size: 24px;
+      }
+      .button {
+        display: block;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="preview-container">
+    <div class="preview-header">
+      <h1>📧 Invitation Email Preview</h1>
+      <p>This is how the invitation email will look in different languages</p>
+    </div>
+
+    <div class="language-tabs">
+      <button class="language-tab active" onclick="showLanguage('en')">English</button>
+      <button class="language-tab" onclick="showLanguage('zh-TW')">繁體中文</button>
+      <button class="language-tab" onclick="showLanguage('zh-CN')">简体中文</button>
+    </div>
+
+    <!-- English Version -->
+    <div id="en" class="email-preview active">
+      <div class="container">
+        <div class="header">
+          <h1>✈️ Trip</h1>
+        </div>
+        <div class="content">
+          <h2>Hi Jane Smith,</h2>
+          <p style="font-size: 16px; line-height: 1.8;">John Doe has invited you to collaborate on their trip to Tokyo, Japan!</p>
+          
+          <div class="trip-info">
+            <p><strong>Trip:</strong> Tokyo Adventure 2024</p>
+            <p><strong>Destination:</strong> Tokyo, Japan</p>
+            <p><strong>Your Role:</strong> <span class="role-badge">Editor - You can view and edit trip content</span></p>
+          </div>
+          
+          <div style="text-align: center;">
+            <a href="#" class="button">Accept Invitation</a>
+          </div>
+          
+          <p style="font-size: 14px; color: #666;">Or copy and paste this link into your browser:</p>
+          <div class="link-box">
+            <a href="#" style="color: #667eea; text-decoration: none;">https://journo.com/invite/abc123xyz789</a>
+          </div>
+          
+          <div class="expires-notice">
+            <p><strong>⏰ Invitation Expires:</strong> December 31, 2024 at 11:59 PM</p>
+          </div>
+          
+          <p style="font-size: 14px; color: #666; margin-top: 30px;">If you didn't expect this invitation, you can safely ignore this email.</p>
+          
+          <p style="margin-top: 30px;">Happy travels!<br><strong>The Journo Travel Team</strong></p>
+        </div>
+        <div class="footer">
+          <p>© 2024 Journo Travel. All rights reserved.</p>
+          <p>This is an automated email. Please do not reply.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Traditional Chinese Version -->
+    <div id="zh-TW" class="email-preview">
+      <div class="container">
+        <div class="header">
+          <h1>✈️ 旅程</h1>
+        </div>
+        <div class="content">
+          <h2>嗨 李四，</h2>
+          <p style="font-size: 16px; line-height: 1.8;">張三 邀請您協作他們前往 日本東京 的旅程！</p>
+          
+          <div class="trip-info">
+            <p><strong>旅程:</strong> 東京冒險 2024</p>
+            <p><strong>目的地:</strong> 日本東京</p>
+            <p><strong>您的角色:</strong> <span class="role-badge">編輯者 - 您可以查看和編輯旅程內容</span></p>
+          </div>
+          
+          <div style="text-align: center;">
+            <a href="#" class="button">接受邀請</a>
+          </div>
+          
+          <p style="font-size: 14px; color: #666;">或複製此連結並貼到瀏覽器：</p>
+          <div class="link-box">
+            <a href="#" style="color: #667eea; text-decoration: none;">https://journo.com/invite/abc123xyz789</a>
+          </div>
+          
+          <div class="expires-notice">
+            <p><strong>⏰ 邀請到期時間:</strong> 2024年12月31日 下午11:59</p>
+          </div>
+          
+          <p style="font-size: 14px; color: #666; margin-top: 30px;">如果您沒有預期收到此邀請，可以安全地忽略此郵件。</p>
+          
+          <p style="margin-top: 30px;">祝旅途愉快！<br><strong>Journo Travel 團隊</strong></p>
+        </div>
+        <div class="footer">
+          <p>© 2024 Journo Travel. 版權所有。</p>
+          <p>這是一封自動發送的郵件，請勿回覆。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Simplified Chinese Version -->
+    <div id="zh-CN" class="email-preview">
+      <div class="container">
+        <div class="header">
+          <h1>✈️ 旅程</h1>
+        </div>
+        <div class="content">
+          <h2>嗨 李四，</h2>
+          <p style="font-size: 16px; line-height: 1.8;">张三 邀请您协作他们前往 日本东京 的旅程！</p>
+          
+          <div class="trip-info">
+            <p><strong>旅程:</strong> 东京冒险 2024</p>
+            <p><strong>目的地:</strong> 日本东京</p>
+            <p><strong>您的角色:</strong> <span class="role-badge">编辑者 - 您可以查看和编辑旅程内容</span></p>
+          </div>
+          
+          <div style="text-align: center;">
+            <a href="#" class="button">接受邀请</a>
+          </div>
+          
+          <p style="font-size: 14px; color: #666;">或复制此链接并粘贴到浏览器：</p>
+          <div class="link-box">
+            <a href="#" style="color: #667eea; text-decoration: none;">https://journo.com/invite/abc123xyz789</a>
+          </div>
+          
+          <div class="expires-notice">
+            <p><strong>⏰ 邀请到期时间:</strong> 2024年12月31日 下午11:59</p>
+          </div>
+          
+          <p style="font-size: 14px; color: #666; margin-top: 30px;">如果您没有预期收到此邀请，可以安全地忽略此邮件。</p>
+          
+          <p style="margin-top: 30px;">祝旅途愉快！<br><strong>Journo Travel 团队</strong></p>
+        </div>
+        <div class="footer">
+          <p>© 2024 Journo Travel. 版权所有。</p>
+          <p>这是一封自动发送的邮件，请勿回复。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showLanguage(lang) {
+      // Hide all previews
+      document.querySelectorAll('.email-preview').forEach(el => {
+        el.classList.remove('active');
+      });
+      
+      // Remove active class from all tabs
+      document.querySelectorAll('.language-tab').forEach(el => {
+        el.classList.remove('active');
+      });
+      
+      // Show selected preview
+      document.getElementById(lang).classList.add('active');
+      
+      // Add active class to selected tab
+      event.target.classList.add('active');
+    }
+  </script>
+</body>
+</html>

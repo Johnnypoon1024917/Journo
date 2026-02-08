@@ -1,0 +1,73 @@
+{
+  "title": "旅行",
+  "trips": "旅行",
+  "myTrips": "マイ旅行",
+  "createTrip": "旅行を作成",
+  "editTrip": "旅行を編集",
+  "deleteTrip": "旅行を削除",
+  "tripDetails": "旅行の詳細",
+  "noTrips": "まだ旅行がありません。最初の旅行を作成しましょう！",
+  "fields": {
+    "title": "タイトル",
+    "destination": "目的地",
+    "startDate": "開始日",
+    "endDate": "終了日",
+    "coverImage": "カバー画像",
+    "theme": "テーマ",
+    "budget": "予算",
+    "currency": "通貨",
+    "description": "説明"
+  },
+  "themes": {
+    "default": "デフォルト",
+    "adventure": "アドベンチャー",
+    "romantic": "ロマンチック",
+    "foodie": "グルメ",
+    "chill": "リラックス"
+  },
+  "visibility": {
+    "public": "公開",
+    "private": "非公開",
+    "community": "コミュニティに投稿"
+  },
+  "stats": {
+    "days": "{{count}}日",
+    "days_plural": "{{count}}日",
+    "places": "{{count}}か所",
+    "places_plural": "{{count}}か所",
+    "views": "{{count}}回表示",
+    "views_plural": "{{count}}回表示",
+    "likes": "{{count}}いいね",
+    "likes_plural": "{{count}}いいね"
+  },
+  "sharing": {
+    "shareTrip": "旅行を共有",
+    "copyLink": "リンクをコピー",
+    "linkCopied": "リンクをクリップボードにコピーしました！",
+    "qrCode": "QRコード",
+    "shareVia": "共有方法",
+    "whatsapp": "WhatsApp",
+    "email": "メール"
+  },
+  "collaboration": {
+    "collaborators": "共同編集者",
+    "addCollaborator": "共同編集者を追加",
+    "inviteByEmail": "メールで招待",
+    "role": "役割",
+    "roles": {
+      "owner": "オーナー",
+      "editor": "編集者",
+      "viewer": "閲覧者"
+    },
+    "permissions": {
+      "owner": "フルアクセス",
+      "editor": "編集可能",
+      "viewer": "閲覧のみ"
+    }
+  },
+  "versions": {
+    "versionHistory": "バージョン履歴",
+    "restore": "復元",
+    "currentVersion": "現在のバージョン"
+  }
+}

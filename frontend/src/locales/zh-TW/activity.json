@@ -1,0 +1,32 @@
+{
+  "activityLog": "活動記錄",
+  "filterByAction": "依動作篩選",
+  "filterByUser": "依使用者篩選",
+  "dateRange": "日期範圍",
+  "clearFilters": "清除篩選",
+  "today": "今天",
+  "yesterday": "昨天",
+  "thisWeek": "本週",
+  "older": "更早",
+  "noActivity": "尚無活動",
+  "loadingActivity": "載入活動中...",
+  "actions": {
+    "created": "建立了",
+    "updated": "更新了",
+    "deleted": "刪除了",
+    "added": "新增了",
+    "removed": "移除了",
+    "joined": "加入了",
+    "left": "離開了",
+    "changed": "變更了"
+  },
+  "entities": {
+    "place": "地點",
+    "day": "天數",
+    "packing": "打包項目",
+    "shopping": "購物項目",
+    "collaborator": "協作者",
+    "story": "故事",
+    "trip": "行程"
+  }
+}

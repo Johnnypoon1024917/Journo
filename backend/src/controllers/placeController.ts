@@ -1,0 +1,945 @@
+import { Request, Response } from 'express';
+import { pool } from '../config/database.js';
+import { socketService } from '../services/socketService.js';
+import { badgeService } from '../services/badgeService.js';
+
+export class PlaceController {
+  // Create a new place
+  static async createPlace(req: Request, res: Response) {
+    try {
+      const userId = req.user?.userId;
+      
+      const {
+        trip_day_id,
+        name,
+        address,
+        lat,
+        lng,
+        time_start,
+        time_end,
+        notes,
+        image_url,
+        place_type,
+        sticker,
+        cost,
+        cost_currency,
+        budget_category,
+        transport_mode,
+        travel_time_seconds,
+        travel_distance_meters,
+        travel_time_text,
+        travel_distance_text,
+      } = req.body;
+
+      // Validate required fields
+      if (!trip_day_id || !name) {
+        return res.status(400).json({ error: 'trip_day_id and name are required' });
+      }
+
+      // Check if user can edit the trip (owner or editor)
+      const tripCheck = await pool.query(
+        `SELECT t.id, user_can_edit_trip($2, t.id) as can_edit
+         FROM trips t
+         JOIN trip_days td ON td.trip_id = t.id
+         WHERE td.id = $1`,
+        [trip_day_id, userId]
+      );
+
+      if (tripCheck.rows.length === 0) {
+        return res.status(404).json({ error: 'Trip day not found' });
+      }
+
+      if (!tripCheck.rows[0].can_edit) {
+        return res.status(403).json({ error: 'You do not have permission to add places to this trip' });
+      }
+
+      // Validate place_type if provided
+      if (place_type) {
+        const validTypes = ['attraction', 'food', 'hotel', 'transport', 'other'];
+        if (!validTypes.includes(place_type)) {
+          return res.status(400).json({ error: 'Invalid place_type' });
+        }
+      }
+
+      // Validate budget_category if provided
+      if (budget_category) {
+        const validCategories = ['accommodation', 'food', 'transport', 'activities', 'shopping', 'misc'];
+        if (!validCategories.includes(budget_category)) {
+          return res.status(400).json({ error: 'Invalid budget_category' });
+        }
+      }
+
+      // Validate transport_mode if provided
+      if (transport_mode) {
+        const validModes = ['driving', 'walking', 'transit', 'flight'];
+        if (!validModes.includes(transport_mode)) {
+          return res.status(400).json({ error: 'Invalid transport_mode' });
+        }
+      }
+
+      // Get the next display_order for this day
+      const orderResult = await pool.query(
+        'SELECT COALESCE(MAX(display_order), -1) + 1 as next_order FROM places WHERE trip_day_id = $1',
+        [trip_day_id]
+      );
+      const nextOrder = orderResult.rows[0].next_order;
+
+      // Insert place
+      const result = await pool.query(
+        `INSERT INTO places (
+          trip_day_id, name, address, lat, lng, time_start, time_end,
+          notes, image_url, place_type, sticker, cost, cost_currency,
+          budget_category, transport_mode, travel_time_seconds, travel_distance_meters,
+          travel_time_text, travel_distance_text, display_order
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)
+        RETURNING *`,
+        [
+          trip_day_id,
+          name,
+          address || null,
+          lat || null,
+          lng || null,
+          time_start || null,
+          time_end || null,
+          notes || null,
+          image_url || null,
+          place_type || null,
+          sticker || null,
+          cost || null,
+          cost_currency || 'USD',
+          budget_category || null,
+          transport_mode || null,
+          travel_time_seconds || null,
+          travel_distance_meters || null,
+          travel_time_text || null,
+          travel_distance_text || null,
+          nextOrder,
+        ]
+      );
+
+      const newPlace = result.rows[0];
+      const tripId = tripCheck.rows[0].id;
+
+      // Calculate travel time from previous place if coordinates are provided
+      if (lat && lng && !travel_time_seconds) {
+        try {
+          const prevPlaceResult = await pool.query(
+            `SELECT lat, lng, transport_mode FROM places 
+             WHERE trip_day_id = $1 AND display_order < $2 
+             ORDER BY display_order DESC LIMIT 1`,
+            [trip_day_id, nextOrder]
+          );
+
+          if (prevPlaceResult.rows.length > 0) {
+            const prevPlace = prevPlaceResult.rows[0];
+            if (prevPlace.lat && prevPlace.lng) {
+              const { GoogleMapsService } = await import('../services/googleMapsService.js');
+              const directions = await GoogleMapsService.getDirections(
+                { lat: prevPlace.lat, lng: prevPlace.lng },
+                { lat, lng },
+                transport_mode || 'driving'
+              );
+
+              if (directions) {
+                await pool.query(
+                  `UPDATE places 
+                   SET travel_time_seconds = $1, travel_distance_meters = $2 
+                   WHERE id = $3`,
+                  [directions.duration, directions.distance, newPlace.id]
+                );
+                newPlace.travel_time_seconds = directions.duration;
+                newPlace.travel_distance_meters = directions.distance;
+              }
+            }
+          }
+        } catch (calcError) {
+          console.error('Error calculating travel time for new place:', calcError);
+          // Don't fail the whole operation
+        }
+      }
+
+      // Check for badges when a place is added
+      if (userId) {
+        try {
+          const earnedBadges = await badgeService.checkAllBadges(userId, {
+            type: 'place_added',
+            tripId: tripId,
+            placeType: place_type,
+            startTime: time_start
+          });
+
+          if (earnedBadges.length > 0) {
+            console.log(`User ${userId} earned ${earnedBadges.length} badge(s):`, earnedBadges.map(b => b.badge_type));
+          }
+        } catch (badgeError) {
+          console.error('Error checking badges for place addition:', badgeError);
+          // Don't fail the place creation if badge checking fails
+        }
+      }
+
+      // Emit socket event for real-time updates
+      try {
+        socketService.emitPlaceAdded(tripId, newPlace);
+      } catch (socketError) {
+        console.error('Error emitting socket event:', socketError);
+      }
+
+      res.status(201).json({
+        success: true,
+        data: newPlace,
+        message: 'Place created successfully',
+      });
+    } catch (error) {
+      console.error('Error creating place:', error);
+      res.status(500).json({ error: 'Failed to create place' });
+    }
+  }
+
+  // Get all places for a day
+  static async getPlacesByDay(req: Request, res: Response) {
+    try {
+      const userId = req.user?.userId;
+      const { dayId } = req.params;
+
+      // Check if user has access to the trip
+      const tripCheck = await pool.query(
+        `SELECT t.* FROM trips t
+         JOIN trip_days td ON td.trip_id = t.id
+         WHERE td.id = $1 AND (t.owner_id = $2 OR t.is_public = true)`,
+        [dayId, userId]
+      );
+
+      if (tripCheck.rows.length === 0) {
+        return res.status(404).json({ error: 'Trip day not found or unauthorized' });
+      }
+
+      // Get places ordered by display_order
+      const result = await pool.query(
+        'SELECT * FROM places WHERE trip_day_id = $1 ORDER BY display_order, created_at',
+        [dayId]
+      );
+
+      res.json({
+        success: true,
+        data: result.rows,
+      });
+    } catch (error) {
+      console.error('Error fetching places:', error);
+      res.status(500).json({ error: 'Failed to fetch places' });
+    }
+  }
+
+  // Update a place
+  static async updatePlace(req: Request, res: Response) {
+    try {
+      const userId = req.user?.userId;
+      const { id } = req.params;
+      const {
+        name,
+        address,
+        lat,
+        lng,
+        time_start,
+        time_end,
+        notes,
+        image_url,
+        place_type,
+        sticker,
+        cost,
+        cost_currency,
+        budget_category,
+        transport_mode,
+        travel_time_seconds,
+        travel_distance_meters,
+        travel_time_text,
+        travel_distance_text,
+        is_completed,
+      } = req.body;
+
+      console.log('📝 updatePlace called:', {
+        placeId: id,
+        userId,
+        updates: { is_completed, name, time_start, place_type }
+      });
+
+      // Check if user owns the trip
+      const checkResult = await pool.query(
+        `SELECT p.* FROM places p
+         JOIN trip_days td ON td.id = p.trip_day_id
+         JOIN trips t ON t.id = td.trip_id
+         WHERE p.id = $1 AND t.owner_id = $2`,
+        [id, userId]
+      );
+
+      console.log('🔍 Ownership check result:', {
+        found: checkResult.rows.length > 0,
+        placeId: id,
+        userId
+      });
+
+      if (checkResult.rows.length === 0) {
+        console.log('❌ Place not found or unauthorized');
+        return res.status(404).json({ error: 'Place not found or unauthorized' });
+      }
+
+      // Validate place_type if provided
+      if (place_type) {
+        const validTypes = ['attraction', 'food', 'hotel', 'transport', 'other'];
+        if (!validTypes.includes(place_type)) {
+          return res.status(400).json({ error: 'Invalid place_type' });
+        }
+      }
+
+      // Validate budget_category if provided
+      if (budget_category) {
+        const validCategories = ['accommodation', 'food', 'transport', 'activities', 'shopping', 'misc'];
+        if (!validCategories.includes(budget_category)) {
+          return res.status(400).json({ error: 'Invalid budget_category' });
+        }
+      }
+
+      // Validate transport_mode if provided
+      if (transport_mode) {
+        const validModes = ['driving', 'walking', 'transit', 'flight'];
+        if (!validModes.includes(transport_mode)) {
+          return res.status(400).json({ error: 'Invalid transport_mode' });
+        }
+      }
+
+      // Build update query
+      const updates: string[] = [];
+      const values: any[] = [];
+      let paramCount = 1;
+
+      if (name !== undefined) {
+        updates.push(`name = $${paramCount++}`);
+        values.push(name);
+      }
+      if (address !== undefined) {
+        updates.push(`address = $${paramCount++}`);
+        values.push(address);
+      }
+      if (lat !== undefined) {
+        updates.push(`lat = $${paramCount++}`);
+        values.push(lat);
+      }
+      if (lng !== undefined) {
+        updates.push(`lng = $${paramCount++}`);
+        values.push(lng);
+      }
+      if (time_start !== undefined) {
+        updates.push(`time_start = $${paramCount++}`);
+        values.push(time_start);
+      }
+      if (time_end !== undefined) {
+        updates.push(`time_end = $${paramCount++}`);
+        values.push(time_end);
+      }
+      if (notes !== undefined) {
+        updates.push(`notes = $${paramCount++}`);
+        values.push(notes);
+      }
+      if (image_url !== undefined) {
+        updates.push(`image_url = $${paramCount++}`);
+        values.push(image_url);
+      }
+      if (place_type !== undefined) {
+        updates.push(`place_type = $${paramCount++}`);
+        values.push(place_type);
+      }
+      if (sticker !== undefined) {
+        updates.push(`sticker = $${paramCount++}`);
+        values.push(sticker);
+      }
+      if (cost !== undefined) {
+        updates.push(`cost = $${paramCount++}`);
+        values.push(cost);
+      }
+      if (cost_currency !== undefined) {
+        updates.push(`cost_currency = $${paramCount++}`);
+        values.push(cost_currency);
+      }
+      if (budget_category !== undefined) {
+        updates.push(`budget_category = $${paramCount++}`);
+        values.push(budget_category);
+      }
+      if (transport_mode !== undefined) {
+        updates.push(`transport_mode = $${paramCount++}`);
+        values.push(transport_mode);
+      }
+      if (travel_time_seconds !== undefined) {
+        updates.push(`travel_time_seconds = $${paramCount++}`);
+        values.push(travel_time_seconds);
+      }
+      if (travel_distance_meters !== undefined) {
+        updates.push(`travel_distance_meters = $${paramCount++}`);
+        values.push(travel_distance_meters);
+      }
+      if (travel_time_text !== undefined) {
+        updates.push(`travel_time_text = $${paramCount++}`);
+        values.push(travel_time_text);
+      }
+      if (travel_distance_text !== undefined) {
+        updates.push(`travel_distance_text = $${paramCount++}`);
+        values.push(travel_distance_text);
+      }
+      if (is_completed !== undefined) {
+        updates.push(`is_completed = $${paramCount++}`);
+        values.push(is_completed);
+      }
+
+      if (updates.length === 0) {
+        return res.status(400).json({ error: 'No fields to update' });
+      }
+
+      updates.push(`updated_at = NOW()`);
+      console.log("🔄 Executing UPDATE query:", { updates, values, paramCount });
+      values.push(id);
+
+      const result = await pool.query(
+        `UPDATE places SET ${updates.join(', ')} WHERE id = $${paramCount} RETURNING *`,
+        values
+      );
+      console.log("✅ UPDATE completed:", { rowCount: result.rowCount, is_completed: result.rows[0]?.is_completed });
+
+      let updatedPlace = result.rows[0];
+
+      // Recalculate travel time if coordinates or transport mode changed
+      const coordinatesChanged = (lat !== undefined && lat !== checkResult.rows[0].lat) || 
+                                 (lng !== undefined && lng !== checkResult.rows[0].lng);
+      const transportModeChanged = transport_mode !== undefined && transport_mode !== checkResult.rows[0].transport_mode;
+
+      if ((coordinatesChanged || transportModeChanged) && updatedPlace.lat && updatedPlace.lng) {
+        try {
+          // Get previous place
+          const prevPlaceResult = await pool.query(
+            `SELECT lat, lng FROM places 
+             WHERE trip_day_id = $1 AND display_order < $2 
+             ORDER BY display_order DESC LIMIT 1`,
+            [updatedPlace.trip_day_id, updatedPlace.display_order]
+          );
+
+          if (prevPlaceResult.rows.length > 0) {
+            const prevPlace = prevPlaceResult.rows[0];
+            if (prevPlace.lat && prevPlace.lng) {
+              const { GoogleMapsService } = await import('../services/googleMapsService.js');
+              const directions = await GoogleMapsService.getDirections(
+                { lat: prevPlace.lat, lng: prevPlace.lng },
+                { lat: updatedPlace.lat, lng: updatedPlace.lng },
+                updatedPlace.transport_mode || 'driving'
+              );
+
+              if (directions) {
+                const travelUpdateResult = await pool.query(
+                  `UPDATE places 
+                   SET travel_time_seconds = $1, travel_distance_meters = $2 
+                   WHERE id = $3 RETURNING *`,
+                  [directions.duration, directions.distance, id]
+                );
+                updatedPlace = travelUpdateResult.rows[0];
+              }
+            }
+          }
+
+          // Also recalculate for the next place if this place's coordinates changed
+          if (coordinatesChanged) {
+            const nextPlaceResult = await pool.query(
+              `SELECT id, lat, lng, transport_mode FROM places 
+               WHERE trip_day_id = $1 AND display_order > $2 
+               ORDER BY display_order ASC LIMIT 1`,
+              [updatedPlace.trip_day_id, updatedPlace.display_order]
+            );
+
+            if (nextPlaceResult.rows.length > 0) {
+              const nextPlace = nextPlaceResult.rows[0];
+              if (nextPlace.lat && nextPlace.lng) {
+                const { GoogleMapsService } = await import('../services/googleMapsService.js');
+                const directions = await GoogleMapsService.getDirections(
+                  { lat: updatedPlace.lat, lng: updatedPlace.lng },
+                  { lat: nextPlace.lat, lng: nextPlace.lng },
+                  nextPlace.transport_mode || 'driving'
+                );
+
+                if (directions) {
+                  await pool.query(
+                    `UPDATE places 
+                     SET travel_time_seconds = $1, travel_distance_meters = $2 
+                     WHERE id = $3`,
+                    [directions.duration, directions.distance, nextPlace.id]
+                  );
+                }
+              }
+            }
+          }
+        } catch (calcError) {
+          console.error('Error recalculating travel time:', calcError);
+          // Don't fail the whole operation
+        }
+      }
+
+      // Get trip ID for socket event
+      const tripResult = await pool.query(
+        `SELECT t.id FROM trips t
+         JOIN trip_days td ON td.trip_id = t.id
+         JOIN places p ON p.trip_day_id = td.id
+         WHERE p.id = $1`,
+        [id]
+      );
+
+      if (tripResult.rows.length > 0) {
+        const tripId = tripResult.rows[0].id;
+        // Emit socket event for real-time updates
+        try {
+          socketService.emitPlaceUpdated(tripId, updatedPlace);
+        } catch (socketError) {
+          console.error('Error emitting socket event:', socketError);
+        }
+      }
+
+      res.json({
+        success: true,
+        data: updatedPlace,
+        message: 'Place updated successfully',
+      });
+    } catch (error) {
+      console.error('Error updating place:', error);
+      res.status(500).json({ error: 'Failed to update place' });
+    }
+  }
+
+  // Delete a place
+  static async deletePlace(req: Request, res: Response) {
+    try {
+      const userId = req.user?.userId;
+      const { id } = req.params;
+
+      // Check if user owns the trip
+      const checkResult = await pool.query(
+        `SELECT p.* FROM places p
+         JOIN trip_days td ON td.id = p.trip_day_id
+         JOIN trips t ON t.id = td.trip_id
+         WHERE p.id = $1 AND t.owner_id = $2`,
+        [id, userId]
+      );
+
+      if (checkResult.rows.length === 0) {
+        return res.status(404).json({ error: 'Place not found or unauthorized' });
+      }
+
+      // Get trip ID for socket event before deletion
+      const tripResult = await pool.query(
+        `SELECT t.id FROM trips t
+         JOIN trip_days td ON td.trip_id = t.id
+         JOIN places p ON p.trip_day_id = td.id
+         WHERE p.id = $1`,
+        [id]
+      );
+
+      // Delete place
+      await pool.query('DELETE FROM places WHERE id = $1', [id]);
+
+      // Emit socket event for real-time updates
+      if (tripResult.rows.length > 0) {
+        const tripId = tripResult.rows[0].id;
+        try {
+          socketService.emitPlaceDeleted(tripId, id);
+        } catch (socketError) {
+          console.error('Error emitting socket event:', socketError);
+        }
+      }
+
+      res.json({
+        success: true,
+        message: 'Place deleted successfully',
+      });
+    } catch (error) {
+      console.error('Error deleting place:', error);
+      res.status(500).json({ error: 'Failed to delete place' });
+    }
+  }
+
+  // Update travel time for a place
+  static async updateTravelTime(req: Request, res: Response) {
+    try {
+      const userId = req.user?.userId;
+      const { id } = req.params;
+      const {
+        travel_time_seconds,
+        travel_distance_meters,
+        travel_time_text,
+        travel_distance_text,
+      } = req.body;
+
+      // Check if user owns the trip
+      const checkResult = await pool.query(
+        `SELECT p.* FROM places p
+         JOIN trip_days td ON td.id = p.trip_day_id
+         JOIN trips t ON t.id = td.trip_id
+         WHERE p.id = $1 AND t.owner_id = $2`,
+        [id, userId]
+      );
+
+      if (checkResult.rows.length === 0) {
+        return res.status(404).json({ error: 'Place not found or unauthorized' });
+      }
+
+      // Update travel time fields
+      const result = await pool.query(
+        `UPDATE places 
+         SET travel_time_seconds = $1,
+             travel_distance_meters = $2,
+             travel_time_text = $3,
+             travel_distance_text = $4,
+             updated_at = NOW()
+         WHERE id = $5
+         RETURNING *`,
+        [
+          travel_time_seconds || null,
+          travel_distance_meters || null,
+          travel_time_text || null,
+          travel_distance_text || null,
+          id,
+        ]
+      );
+
+      res.json({
+        success: true,
+        data: result.rows[0],
+        message: 'Travel time updated successfully',
+      });
+    } catch (error) {
+      console.error('Error updating travel time:', error);
+      res.status(500).json({ error: 'Failed to update travel time' });
+    }
+  }
+
+  // Recalculate travel times for a specific day
+  static async recalculateTravelTimes(req: Request, res: Response) {
+    const client = await pool.connect();
+    
+    try {
+      const userId = req.user?.userId;
+      const { dayId } = req.params;
+
+      // Check if user can edit the trip
+      const dayCheck = await client.query(
+        `SELECT td.id, t.id as trip_id, user_can_edit_trip($2, t.id) as can_edit
+         FROM trip_days td
+         JOIN trips t ON t.id = td.trip_id
+         WHERE td.id = $1`,
+        [dayId, userId]
+      );
+
+      if (dayCheck.rows.length === 0) {
+        return res.status(404).json({ error: 'Day not found' });
+      }
+
+      if (!dayCheck.rows[0].can_edit) {
+        return res.status(403).json({ error: 'You do not have permission to edit this trip' });
+      }
+
+      // Calculate travel times for the day
+      await calculateTravelTimesForDay(client, dayId);
+
+      res.json({
+        success: true,
+        message: 'Travel times recalculated successfully',
+      });
+    } catch (error) {
+      console.error('Error recalculating travel times:', error);
+      res.status(500).json({ error: 'Failed to recalculate travel times' });
+    } finally {
+      client.release();
+    }
+  }
+
+  // Move a place to a different day or reorder within the same day
+  static async movePlace(req: Request, res: Response) {
+    const client = await pool.connect();
+    
+    try {
+      const userId = req.user?.userId;
+      const { id } = req.params;
+      const { target_day_id, target_index } = req.body;
+
+      console.log('🔄 movePlace called:', { userId, placeId: id, target_day_id, target_index });
+
+      if (!target_day_id || target_index === undefined) {
+        console.error('❌ Missing required fields:', { target_day_id, target_index });
+        return res.status(400).json({ error: 'target_day_id and target_index are required' });
+      }
+
+      await client.query('BEGIN');
+
+      // Check if user can edit the trip
+      const placeCheck = await client.query(
+        `SELECT p.id, p.trip_day_id, p.display_order, t.id as trip_id, user_can_edit_trip($1, t.id) as can_edit
+         FROM places p
+         JOIN trip_days td ON td.id = p.trip_day_id
+         JOIN trips t ON t.id = td.trip_id
+         WHERE p.id = $2`,
+        [userId, id]
+      );
+
+      console.log('✅ Place check result:', placeCheck.rows[0]);
+
+      if (placeCheck.rows.length === 0) {
+        await client.query('ROLLBACK');
+        console.error('❌ Place not found');
+        return res.status(404).json({ error: 'Place not found' });
+      }
+
+      if (!placeCheck.rows[0].can_edit) {
+        await client.query('ROLLBACK');
+        console.error('❌ User cannot edit trip');
+        return res.status(403).json({ error: 'You do not have permission to edit this trip' });
+      }
+
+      const sourceDayId = placeCheck.rows[0].trip_day_id;
+      const tripId = placeCheck.rows[0].trip_id;
+      const isSameDay = sourceDayId === target_day_id;
+
+      if (isSameDay) {
+        // Reordering within the same day
+        
+        // Get all places in the day ordered by display_order
+        const placesResult = await client.query(
+          'SELECT id FROM places WHERE trip_day_id = $1 ORDER BY display_order, created_at',
+          [target_day_id]
+        );
+        
+        const placeIds = placesResult.rows.map(p => p.id);
+        const currentIndex = placeIds.indexOf(id);
+        
+        if (currentIndex !== -1 && currentIndex !== target_index) {
+          // Remove from current position
+          placeIds.splice(currentIndex, 1);
+          // Insert at target position
+          placeIds.splice(target_index, 0, id);
+          
+          // Update display_order for all places (0, 1, 2, 3...)
+          for (let i = 0; i < placeIds.length; i++) {
+            await client.query(
+              'UPDATE places SET display_order = $1, updated_at = NOW() WHERE id = $2',
+              [i, placeIds[i]]
+            );
+          }
+        }
+      } else {
+        // Moving to a different day
+        
+        // Step 1: Remove from source day and renumber
+        const sourcePlaces = await client.query(
+          'SELECT id FROM places WHERE trip_day_id = $1 ORDER BY display_order, created_at',
+          [sourceDayId]
+        );
+        
+        const sourcePlaceIds = sourcePlaces.rows.map(p => p.id).filter(pid => pid !== id);
+        
+        // Renumber source day places (0, 1, 2, 3...)
+        for (let i = 0; i < sourcePlaceIds.length; i++) {
+          await client.query(
+            'UPDATE places SET display_order = $1, updated_at = NOW() WHERE id = $2',
+            [i, sourcePlaceIds[i]]
+          );
+        }
+        
+        // Step 2: Get target day places
+        const targetPlaces = await client.query(
+          'SELECT id FROM places WHERE trip_day_id = $1 ORDER BY display_order, created_at',
+          [target_day_id]
+        );
+        
+        const targetPlaceIds = targetPlaces.rows.map(p => p.id);
+        
+        // Insert the moved place at target index
+        targetPlaceIds.splice(target_index, 0, id);
+        
+        // Step 3: Update the moved place's day first
+        await client.query(
+          'UPDATE places SET trip_day_id = $1, display_order = $2, updated_at = NOW() WHERE id = $3',
+          [target_day_id, target_index, id]
+        );
+        
+        // Step 4: Renumber all places in target day (0, 1, 2, 3...)
+        for (let i = 0; i < targetPlaceIds.length; i++) {
+          await client.query(
+            'UPDATE places SET display_order = $1, updated_at = NOW() WHERE id = $2',
+            [i, targetPlaceIds[i]]
+          );
+        }
+      }
+
+      await client.query('COMMIT');
+
+      // Get place name and user name for notification
+      // Query all columns to see what's available
+      const placeResult = await client.query(
+        'SELECT * FROM places WHERE id = $1',
+        [id]
+      );
+      
+      // Try different possible name columns
+      const place = placeResult.rows[0];
+      const placeName = place?.name || place?.place_name || place?.title || place?.location_name || 'Activity';
+      
+      console.log('📍 Place data for notification:', { 
+        placeId: id, 
+        availableColumns: place ? Object.keys(place) : [],
+        selectedName: placeName 
+      });
+
+      const userResult = await client.query(
+        'SELECT first_name, last_name FROM users WHERE id = $1',
+        [userId]
+      );
+      const userName = userResult.rows[0] 
+        ? `${userResult.rows[0].first_name} ${userResult.rows[0].last_name}`.trim() || 'Someone'
+        : 'Someone';
+
+      // Calculate travel times for the affected day(s)
+      try {
+        await calculateTravelTimesForDay(client, target_day_id);
+        if (!isSameDay) {
+          await calculateTravelTimesForDay(client, sourceDayId);
+        }
+      } catch (calcError) {
+        console.error('Error calculating travel times:', calcError);
+        // Don't fail the whole operation if travel time calculation fails
+      }
+
+      // Emit socket event for real-time updates
+      try {
+        socketService.emitPlaceReordered(tripId, id, target_day_id, target_index);
+      } catch (socketError) {
+        console.error('Error emitting socket event:', socketError);
+      }
+
+      // Notify collaborators
+      try {
+        console.log('🔔 Attempting to send activity reorder notification:', {
+          tripId,
+          placeName,
+          userId,
+          userName
+        });
+        const { NotificationService } = await import('../services/notificationService');
+        console.log('✅ NotificationService imported successfully');
+        await NotificationService.notifyActivityReordered(tripId, placeName, userId!, userName);
+        console.log('✅ Activity reorder notification sent successfully');
+      } catch (notifError) {
+        console.error('❌ Error sending reorder notification:', notifError);
+        console.error('❌ Error stack:', notifError instanceof Error ? notifError.stack : notifError);
+      }
+
+      res.json({
+        success: true,
+        message: 'Place moved successfully',
+      });
+    } catch (error) {
+      await client.query('ROLLBACK');
+      console.error('❌❌❌ Error moving place:', error);
+      console.error('❌ Error stack:', error instanceof Error ? error.stack : 'No stack');
+      res.status(500).json({ error: 'Failed to move place', details: error instanceof Error ? error.message : String(error) });
+    } finally {
+      client.release();
+    }
+  }
+}
+
+// Helper function to calculate travel times for all places in a day
+async function calculateTravelTimesForDay(client: any, dayId: string) {
+  const { GoogleMapsService } = await import('../services/googleMapsService');
+  
+  // Get all places in the day ordered by display_order
+  const placesResult = await client.query(
+    `SELECT id, lat, lng, transport_mode, display_order
+     FROM places
+     WHERE trip_day_id = $1
+     ORDER BY display_order, created_at`,
+    [dayId]
+  );
+
+  const places = placesResult.rows;
+
+  // For each place (except the first), calculate travel time from previous place
+  for (let i = 1; i < places.length; i++) {
+    const prevPlace = places[i - 1];
+    const currentPlace = places[i];
+
+    // Only calculate if both places have coordinates
+    if (prevPlace.lat && prevPlace.lng && currentPlace.lat && currentPlace.lng) {
+      try {
+        // Try to get directions from Google Maps API
+        const directions = await GoogleMapsService.getDirections(
+          { lat: prevPlace.lat, lng: prevPlace.lng },
+          { lat: currentPlace.lat, lng: currentPlace.lng },
+          currentPlace.transport_mode || 'driving'
+        );
+
+        if (directions) {
+          // Use Google Maps data
+          await client.query(
+            `UPDATE places
+             SET travel_time_seconds = $1,
+                 travel_distance_meters = $2,
+                 updated_at = NOW()
+             WHERE id = $3`,
+            [directions.duration, directions.distance, currentPlace.id]
+          );
+        } else {
+          // Fallback to simple calculation
+          const distance = calculateDistance(
+            prevPlace.lat,
+            prevPlace.lng,
+            currentPlace.lat,
+            currentPlace.lng
+          );
+          const travelTimeSeconds = estimateTravelTime(distance, currentPlace.transport_mode || 'driving');
+
+          await client.query(
+            `UPDATE places
+             SET travel_time_seconds = $1,
+                 travel_distance_meters = $2,
+                 updated_at = NOW()
+             WHERE id = $3`,
+            [travelTimeSeconds, Math.round(distance * 1000), currentPlace.id]
+          );
+        }
+      } catch (error) {
+        console.error('Error calculating travel time:', error);
+        // Continue with next place
+      }
+    }
+  }
+}
+
+// Fallback: Calculate distance between two coordinates (Haversine formula)
+function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  const R = 6371; // Radius of the Earth in kilometers
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c; // Distance in kilometers
+}
+
+function toRad(degrees: number): number {
+  return degrees * (Math.PI / 180);
+}
+
+// Fallback: Estimate travel time based on distance and transport mode
+function estimateTravelTime(distanceKm: number, mode: string): number {
+  const speeds: { [key: string]: number } = {
+    walking: 5, // km/h
+    driving: 50, // km/h
+    transit: 30, // km/h
+    flight: 500, // km/h
+  };
+
+  const speed = speeds[mode] || speeds.driving;
+  const hours = distanceKm / speed;
+  return Math.round(hours * 3600); // Convert to seconds
+}

@@ -1,0 +1,156 @@
+{
+  "appName": "Journo",
+  "navigation": {
+    "home": "Home",
+    "community": "Community",
+    "settings": "Settings",
+    "profile": "Profile"
+  },
+  "actions": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "add": "Add",
+    "remove": "Remove",
+    "close": "Close",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "share": "Share",
+    "export": "Export",
+    "download": "Download",
+    "upload": "Upload",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "view": "View",
+    "copy": "Copy",
+    "undo": "Undo",
+    "redo": "Redo",
+    "invite": "Invite"
+  },
+  "status": {
+    "loading": "Loading...",
+    "saving": "Saving...",
+    "saved": "Saved",
+    "error": "Error",
+    "success": "Success",
+    "offline": "Offline",
+    "online": "Online",
+    "syncing": "Syncing...",
+    "synced": "Synced"
+  },
+  "connection": {
+    "connected": "Connected",
+    "connecting": "Connecting...",
+    "reconnecting": "Reconnecting...",
+    "disconnected": "Disconnected",
+    "retry": "Retry"
+  },
+  "presence": {
+    "oneViewer": "1 viewer",
+    "multipleViewers": "{{count}} viewers",
+    "online": "Online",
+    "offline": "Offline"
+  },
+  "editing": {
+    "userEditing": "{{name}} is editing",
+    "someoneEditing": "Someone is editing this item",
+    "cannotEdit": "Cannot edit while someone else is editing",
+    "editingConflict": "Editing Conflict",
+    "conflictMessage": "{{name}} is currently editing this item. Please wait until they're done."
+  },
+  "collaboration": {
+    "userJoined": "{{name}} joined the trip",
+    "userLeft": "{{name}} left the trip",
+    "itemEdited": "{{name}} edited {{item}}",
+    "itemAdded": "{{name}} added {{item}}",
+    "itemDeleted": "{{name}} deleted {{item}}",
+    "viewingTrip": "Viewing trip",
+    "activeCollaborators": "Active collaborators"
+  },
+  "offline": {
+    "indicator": {
+      "offline": "You're offline",
+      "viewingCached": "Viewing cached data",
+      "pendingChanges": "{{count}} change(s) pending",
+      "syncing": "Syncing...",
+      "syncProgress": "{{progress}}% complete",
+      "syncingChanges": "Syncing your changes",
+      "syncError": "Sync failed",
+      "pendingSync": "Changes pending",
+      "synced": "All changes synced",
+      "lastSync": "Last synced at {{time}}"
+    },
+    "banner": {
+      "title": "Offline Mode",
+      "message": "You're currently offline. Your changes will be saved and synced when you're back online.",
+      "dismiss": "Got it"
+    },
+    "dataDisplay": {
+      "cachedData": "Cached Data",
+      "lastUpdated": "Last updated: {{time}}",
+      "refreshWhenOnline": "Will refresh when online",
+      "noDataCached": "No data available offline",
+      "cacheData": "Save for offline"
+    },
+    "sync": {
+      "offline": "Offline",
+      "syncing": "Syncing...",
+      "synced": "All synced",
+      "pending": "{{count}} pending",
+      "error": "Sync error",
+      "lastSynced": "Last synced",
+      "neverSynced": "Never synced",
+      "justNow": "Just now",
+      "minutesAgo": "{{count}}m ago",
+      "hoursAgo": "{{count}}h ago",
+      "syncNow": "Sync now"
+    }
+  },
+  "time": {
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "tomorrow": "Tomorrow",
+    "now": "Now",
+    "ago": "ago",
+    "in": "in"
+  },
+  "confirmation": {
+    "deleteTitle": "Confirm Delete",
+    "deleteMessage": "Are you sure you want to delete this? This action cannot be undone.",
+    "unsavedChanges": "You have unsaved changes. Are you sure you want to leave?"
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Customize your experience",
+    "appearance": {
+      "title": "Appearance"
+    },
+    "language": {
+      "title": "Language"
+    },
+    "account": {
+      "title": "Account",
+      "profile": "Profile",
+      "edit": "Edit",
+      "name": "Name",
+      "email": "Email",
+      "password": "Password",
+      "changePassword": "Change",
+      "currentPassword": "Current Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm New Password",
+      "saving": "Saving...",
+      "savePassword": "Save Password",
+      "cancel": "Cancel",
+      "passwordDescription": "Change your password to keep your account secure",
+      "logout": "Logout",
+      "logoutDescription": "Sign out of your account on this device",
+      "logoutButton": "Logout"
+    },
+    "info": "All settings are saved automatically and will be applied immediately. Your preferences are stored locally on your device."
+  }
+}

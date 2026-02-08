@@ -1,0 +1,67 @@
+{
+  "title": "Packing List",
+  "packingList": "Packing List",
+  "addItem": "Add Item",
+  "customItem": "Custom Item",
+  "progress": "{{checked}} of {{total}} items packed",
+  "categories": {
+    "clothing": "Clothing",
+    "warm_layers": "Warm Layers",
+    "toiletries": "Personal Care",
+    "electronics": "Electronics",
+    "documents": "Documents/Essentials",
+    "health": "Health/Medications",
+    "misc": "Miscellaneous",
+    "snacks": "Snacks/Food"
+  },
+  "suggestions": {
+    "autoSuggested": "Auto-suggested",
+    "custom": "Custom",
+    "basedOn": "Based on {{reason}}"
+  },
+  "export": {
+    "exportPDF": "Export as PDF",
+    "print": "Print",
+    "shareableList": "Shareable Packing List"
+  },
+  "travelers": {
+    "addTraveler": "Add Traveler",
+    "travelers": "Travelers",
+    "specificList": "{{name}}'s List"
+  },
+  "warnings": {
+    "tooManyItems": "You have {{count}} items. Consider a smaller bag!"
+  },
+  "checklist": {
+    "title": "Preparation List",
+    "subtitle": "Keep track of things you need to prepare",
+    "noItems": "List is empty",
+    "emptyDescription": "Start adding items to your preparation list!",
+    "addItem": "Add Item",
+    "editItem": "Edit Item",
+    "itemName": "Item Name",
+    "itemNamePlaceholder": "e.g., Warm pants",
+    "category": "Category",
+    "itemAdded": "Item added",
+    "itemUpdated": "Item updated",
+    "itemDeleted": "Item deleted",
+    "check": "Mark as complete",
+    "uncheck": "Mark as incomplete",
+    "totalItems": "Total Items",
+    "completed": "Completed",
+    "toPack": "To Pack",
+    "packed": "Packed",
+    "progress": "Progress",
+    "allComplete": "All Complete!",
+    "loadDefaults": "Load Default List",
+    "defaultsLoaded": "Default list loaded",
+    "expandAll": "Expand All",
+    "collapseAll": "Collapse All",
+    "addCategory": "Add Category",
+    "categoryName": "Category Name",
+    "categoryNamePlaceholder": "e.g., Winter Gear",
+    "customCategory": "Custom Category",
+    "categoryAdded": "Category added",
+    "packedCount": "{{packed}}/{{total}} packed"
+  }
+}

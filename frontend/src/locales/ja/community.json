@@ -1,0 +1,29 @@
+{
+  "title": "コミュニティ",
+  "feed": "コミュニティフィード",
+  "discover": "旅行を探す",
+  "noTrips": "まだコミュニティの旅行がありません",
+  "actions": {
+    "like": "いいね",
+    "unlike": "いいねを取り消す",
+    "copyItinerary": "旅程をコピー",
+    "viewTrip": "旅行を表示",
+    "postToCommunity": "コミュニティに投稿"
+  },
+  "search": {
+    "placeholder": "目的地、テーマ、ハッシュタグで検索...",
+    "results": "{{count}}件の結果",
+    "results_plural": "{{count}}件の結果"
+  },
+  "filters": {
+    "all": "すべて",
+    "recent": "最近",
+    "popular": "人気",
+    "theme": "テーマ"
+  },
+  "messages": {
+    "tripCopied": "旅行をあなたの旅行にコピーしました！",
+    "liked": "いいねしました！",
+    "unliked": "いいねを取り消しました"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "title": "設定",
+  "account": {
+    "title": "帳戶",
+    "email": "電子郵件",
+    "name": "名稱",
+    "avatar": "頭像",
+    "changePassword": "變更密碼",
+    "logout": "登出"
+  },
+  "preferences": {
+    "title": "偏好設定",
+    "language": "語言",
+    "darkMode": "深色模式",
+    "notifications": "通知"
+  },
+  "languages": {
+    "en": "English",
+    "zh-TW": "繁體中文",
+    "zh-CN": "简体中文",
+    "ja": "日本語"
+  },
+  "privacy": {
+    "title": "隱私",
+    "analytics": "分析",
+    "analyticsDescription": "分享匿名使用資料以協助我們改進"
+  },
+  "storage": {
+    "title": "儲存空間",
+    "offlineMaps": "離線地圖",
+    "clearCache": "清除快取",
+    "storageUsed": "已使用儲存空間"
+  },
+  "about": {
+    "title": "關於",
+    "version": "版本",
+    "termsOfService": "服務條款",
+    "privacyPolicy": "隱私政策",
+    "support": "支援"
+  }
+}

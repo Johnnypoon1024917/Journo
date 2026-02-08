@@ -1,0 +1,41 @@
+{
+  "title": "设置",
+  "account": {
+    "title": "账户",
+    "email": "电子邮件",
+    "name": "名称",
+    "avatar": "头像",
+    "changePassword": "更改密码",
+    "logout": "退出登录"
+  },
+  "preferences": {
+    "title": "偏好设置",
+    "language": "语言",
+    "darkMode": "深色模式",
+    "notifications": "通知"
+  },
+  "languages": {
+    "en": "English",
+    "zh-TW": "繁體中文",
+    "zh-CN": "简体中文",
+    "ja": "日本語"
+  },
+  "privacy": {
+    "title": "隐私",
+    "analytics": "分析",
+    "analyticsDescription": "分享匿名使用数据以帮助我们改进"
+  },
+  "storage": {
+    "title": "存储空间",
+    "offlineMaps": "离线地图",
+    "clearCache": "清除缓存",
+    "storageUsed": "已使用存储空间"
+  },
+  "about": {
+    "title": "关于",
+    "version": "版本",
+    "termsOfService": "服务条款",
+    "privacyPolicy": "隐私政策",
+    "support": "支持"
+  }
+}

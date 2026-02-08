@@ -1,0 +1,67 @@
+{
+  "title": "打包清單",
+  "packingList": "打包清單",
+  "addItem": "新增項目",
+  "customItem": "自訂項目",
+  "progress": "已打包 {{checked}} / {{total}} 項",
+  "categories": {
+    "clothing": "服飾",
+    "warm_layers": "保暖/內層",
+    "toiletries": "個人護理",
+    "electronics": "電子產品",
+    "documents": "文件/重要物品",
+    "health": "健康/藥品",
+    "misc": "其他",
+    "snacks": "零食/飲食"
+  },
+  "suggestions": {
+    "autoSuggested": "自動建議",
+    "custom": "自訂",
+    "basedOn": "根據{{reason}}"
+  },
+  "export": {
+    "exportPDF": "匯出為 PDF",
+    "print": "列印",
+    "shareableList": "可分享的打包清單"
+  },
+  "travelers": {
+    "addTraveler": "新增旅客",
+    "travelers": "旅客",
+    "specificList": "{{name}}的清單"
+  },
+  "warnings": {
+    "tooManyItems": "您有 {{count}} 項物品。考慮使用較小的行李箱！"
+  },
+  "checklist": {
+    "title": "準備清單",
+    "subtitle": "記錄需要準備的東西",
+    "noItems": "清單是空的",
+    "emptyDescription": "開始新增你的準備清單吧！",
+    "addItem": "新增項目",
+    "editItem": "編輯項目",
+    "itemName": "項目名稱",
+    "itemNamePlaceholder": "例如：保暖褲",
+    "category": "類別",
+    "itemAdded": "項目已新增",
+    "itemUpdated": "項目已更新",
+    "itemDeleted": "項目已刪除",
+    "check": "標記為完成",
+    "uncheck": "標記為未完成",
+    "totalItems": "總項目",
+    "completed": "已完成",
+    "toPack": "待準備",
+    "packed": "已準備",
+    "progress": "進度",
+    "allComplete": "全部完成！",
+    "loadDefaults": "載入預設清單",
+    "defaultsLoaded": "預設清單已載入",
+    "expandAll": "全部展開",
+    "collapseAll": "全部收合",
+    "addCategory": "新增類別",
+    "categoryName": "類別名稱",
+    "categoryNamePlaceholder": "例如：冬季裝備",
+    "customCategory": "自訂類別",
+    "categoryAdded": "類別已新增",
+    "packedCount": "{{packed}}/{{total}} 已準備"
+  }
+}

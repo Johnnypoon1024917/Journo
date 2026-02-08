@@ -1,0 +1,39 @@
+{
+  "title": "予算",
+  "budgetTracker": "予算管理",
+  "totalBudget": "総予算",
+  "totalSpent": "総支出",
+  "remaining": "残高",
+  "overspent": "超過",
+  "dailyBudget": "1日の予算",
+  "categories": {
+    "accommodation": "宿泊",
+    "food": "食事",
+    "transport": "交通",
+    "activities": "アクティビティ",
+    "shopping": "ショッピング",
+    "misc": "その他"
+  },
+  "breakdown": {
+    "title": "支出内訳",
+    "byCategory": "カテゴリー別",
+    "byDay": "日別"
+  },
+  "warnings": {
+    "approaching": "予算の上限に近づいています（{{percent}}%使用）",
+    "exceeded": "予算を{{amount}}超過しています"
+  },
+  "export": {
+    "exportPDF": "PDFでエクスポート",
+    "exportCSV": "CSVでエクスポート",
+    "shareableBudget": "共有可能な予算表示"
+  },
+  "tips": {
+    "addTip": "チップを追加",
+    "tipPercent": "チップ{{percent}}%"
+  },
+  "split": {
+    "splitCost": "費用を分割",
+    "splitAmong": "{{count}}人で分割"
+  }
+}

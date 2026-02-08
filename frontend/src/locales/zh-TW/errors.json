@@ -1,0 +1,46 @@
+{
+  "general": {
+    "unknown": "發生未知錯誤",
+    "network": "網路錯誤。請檢查您的連線。",
+    "timeout": "請求逾時。請重試。",
+    "serverError": "伺服器錯誤。請稍後再試。"
+  },
+  "auth": {
+    "invalidCredentials": "電子郵件或密碼無效",
+    "emailInUse": "電子郵件已被使用",
+    "weakPassword": "密碼強度不足",
+    "sessionExpired": "您的工作階段已過期。請重新登入。",
+    "unauthorized": "您無權執行此操作"
+  },
+  "validation": {
+    "required": "此欄位為必填",
+    "invalidEmail": "電子郵件地址無效",
+    "invalidDate": "日期無效",
+    "dateRange": "結束日期必須在開始日期之後",
+    "minLength": "至少需要 {{min}} 個字元",
+    "maxLength": "最多 {{max}} 個字元",
+    "invalidNumber": "必須是有效的數字",
+    "positiveNumber": "必須是正數"
+  },
+  "trip": {
+    "notFound": "找不到行程",
+    "loadFailed": "載入行程失敗",
+    "saveFailed": "儲存行程失敗",
+    "deleteFailed": "刪除行程失敗",
+    "noPermission": "您沒有編輯此行程的權限"
+  },
+  "place": {
+    "notFound": "找不到地點",
+    "saveFailed": "儲存地點失敗",
+    "deleteFailed": "刪除地點失敗"
+  },
+  "upload": {
+    "failed": "上傳失敗",
+    "tooLarge": "檔案太大（最大 {{max}}MB）",
+    "invalidType": "檔案類型無效"
+  },
+  "offline": {
+    "syncFailed": "同步離線變更失敗",
+    "notAvailableOffline": "此功能在離線時無法使用"
+  }
+}

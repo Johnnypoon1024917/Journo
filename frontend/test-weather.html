@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Service Test</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .test-section {
+      background: white;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    button {
+      background: #ec4899;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      margin: 5px;
+    }
+    button:hover {
+      background: #db2777;
+    }
+    pre {
+      background: #f8f8f8;
+      padding: 15px;
+      border-radius: 4px;
+      overflow-x: auto;
+      font-size: 12px;
+    }
+    .loading {
+      color: #666;
+      font-style: italic;
+    }
+    .error {
+      color: #dc2626;
+    }
+    .success {
+      color: #16a34a;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌤️ Weather Service Test</h1>
+  
+  <div class="test-section">
+    <h2>Test 1: Near Future (Next 7 Days)</h2>
+    <button onclick="testNearFuture()">Run Test</button>
+    <div id="test1-result"></div>
+  </div>
+  
+  <div class="test-section">
+    <h2>Test 2: Far Future (March 2026)</h2>
+    <button onclick="testFarFuture()">Run Test</button>
+    <div id="test2-result"></div>
+  </div>
+  
+  <div class="test-section">
+    <h2>Test 3: Different Location</h2>
+    <input type="text" id="location-input" placeholder="Enter location (e.g., Paris)" style="padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px;">
+    <button onclick="testCustomLocation()">Test Location</button>
+    <div id="test3-result"></div>
+  </div>
+
+  <script type="module">
+    // Import the weather service
+    import { getWeatherForecast } from './src/services/openMeteoWeatherService.ts';
+    
+    // Make functions available globally
+    window.testNearFuture = async function() {
+      const resultDiv = document.getElementById('test1-result');
+      resultDiv.innerHTML = '<p class="loading">Testing near future dates...</p>';
+      
+      try {
+        const today = new Date();
+        const nextWeek = new Date(today);
+        nextWeek.setDate(nextWeek.getDate() + 7);
+        
+        console.log('Test 1: Fetching weather for Tokyo, next 7 days');
+        const forecasts = await getWeatherForecast('Tokyo', today, nextWeek);
+        
+        resultDiv.innerHTML = `
+          <p class="success">✓ Success! Got ${forecasts.length} days of weather data</p>
+          <pre>${JSON.stringify(forecasts, null, 2)}</pre>
+        `;
+      } catch (error) {
+        resultDiv.innerHTML = `
+          <p class="error">✗ Error: ${error.message}</p>
+          <pre>${error.stack}</pre>
+        `;
+      }
+    };
+    
+    window.testFarFuture = async function() {
+      const resultDiv = document.getElementById('test2-result');
+      resultDiv.innerHTML = '<p class="loading">Testing far future dates (should use mock data)...</p>';
+      
+      try {
+        const start = new Date('2026-03-03');
+        const end = new Date('2026-04-07');
+        
+        console.log('Test 2: Fetching weather for Tokyo, March-April 2026');
+        const forecasts = await getWeatherForecast('Tokyo', start, end);
+        
+        resultDiv.innerHTML = `
+          <p class="success">✓ Success! Got ${forecasts.length} days of weather data (mock)</p>
+          <p>First 3 days:</p>
+          <pre>${JSON.stringify(forecasts.slice(0, 3), null, 2)}</pre>
+        `;
+      } catch (error) {
+        resultDiv.innerHTML = `
+          <p class="error">✗ Error: ${error.message}</p>
+          <pre>${error.stack}</pre>
+        `;
+      }
+    };
+    
+    window.testCustomLocation = async function() {
+      const resultDiv = document.getElementById('test3-result');
+      const location = document.getElementById('location-input').value || 'Paris';
+      resultDiv.innerHTML = `<p class="loading">Testing location: ${location}...</p>`;
+      
+      try {
+        const today = new Date();
+        const nextWeek = new Date(today);
+        nextWeek.setDate(nextWeek.getDate() + 7);
+        
+        console.log(`Test 3: Fetching weather for ${location}, next 7 days`);
+        const forecasts = await getWeatherForecast(location, today, nextWeek);
+        
+        resultDiv.innerHTML = `
+          <p class="success">✓ Success! Got ${forecasts.length} days of weather data for ${location}</p>
+          <pre>${JSON.stringify(forecasts.slice(0, 3), null, 2)}</pre>
+        `;
+      } catch (error) {
+        resultDiv.innerHTML = `
+          <p class="error">✗ Error: ${error.message}</p>
+          <pre>${error.stack}</pre>
+        `;
+      }
+    };
+  </script>
+</body>
+</html>

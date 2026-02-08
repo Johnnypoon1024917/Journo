@@ -1,0 +1,29 @@
+{
+  "title": "社区",
+  "feed": "社区动态",
+  "discover": "探索行程",
+  "noTrips": "暂无社区行程",
+  "actions": {
+    "like": "点赞",
+    "unlike": "取消赞",
+    "copyItinerary": "复制行程",
+    "viewTrip": "查看行程",
+    "postToCommunity": "发布到社区"
+  },
+  "search": {
+    "placeholder": "搜索目的地、主题或标签...",
+    "results": "找到 {{count}} 个结果",
+    "results_plural": "找到 {{count}} 个结果"
+  },
+  "filters": {
+    "all": "全部",
+    "recent": "最新",
+    "popular": "热门",
+    "theme": "主题"
+  },
+  "messages": {
+    "tripCopied": "行程已复制到您的行程！",
+    "liked": "已点赞！",
+    "unliked": "已取消赞"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "title": "社群",
+  "feed": "社群動態",
+  "discover": "探索行程",
+  "noTrips": "尚無社群行程",
+  "actions": {
+    "like": "按讚",
+    "unlike": "取消讚",
+    "copyItinerary": "複製行程",
+    "viewTrip": "檢視行程",
+    "postToCommunity": "發佈到社群"
+  },
+  "search": {
+    "placeholder": "搜尋目的地、主題或標籤...",
+    "results": "找到 {{count}} 個結果",
+    "results_plural": "找到 {{count}} 個結果"
+  },
+  "filters": {
+    "all": "全部",
+    "recent": "最新",
+    "popular": "熱門",
+    "theme": "主題"
+  },
+  "messages": {
+    "tripCopied": "行程已複製到您的行程！",
+    "liked": "已按讚！",
+    "unliked": "已取消讚"
+  }
+}

@@ -1,0 +1,828 @@
+/* ============================================
+   Enhanced Drag and Drop Animations - Funliday Style
+   ============================================ */
+
+/* ============================================
+   1. Modern Drag and Drop Animations
+   ============================================ */
+
+/* Smooth drag transitions with spring physics */
+.sortable-place-list [data-sortable-id] {
+  transition: transform 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Enhanced dragging state with modern effects */
+.place-card.dragging,
+.place-item-container.dragging {
+  opacity: 0.85;
+  transform: scale(1.05) rotate(1deg);
+  transition: all 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.25),
+    0 10px 20px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(59, 130, 246, 0.3);
+  cursor: grabbing;
+  z-index: 1000;
+  border-radius: 16px;
+  background: #ffffff;
+}
+
+/* Drag overlay with smooth spring appearance */
+.dnd-drag-overlay,
+.place-drag-overlay {
+  animation: dragOverlaySpring 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 
+    0 30px 60px rgba(0, 0, 0, 0.3),
+    0 15px 30px rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+  will-change: transform, opacity;
+}
+
+@keyframes dragOverlaySpring {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) rotate(-2deg);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.08) rotate(1deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.05) rotate(1deg);
+  }
+}
+
+/* Enhanced drop animation with bounce */
+.place-card.dropping,
+.place-item-container.dropping {
+  animation: modernDropBounce 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modernDropBounce {
+  0% {
+    transform: scale(1.1) rotate(1deg);
+  }
+  30% {
+    transform: scale(0.95) rotate(-0.5deg);
+  }
+  60% {
+    transform: scale(1.02) rotate(0.2deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* Drag handle animations */
+.drag-handle {
+  transition: all 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  opacity: 0.6;
+}
+
+.drag-handle:hover {
+  opacity: 1;
+  transform: scale(1.1);
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.drag-handle:active,
+.dragging .drag-handle {
+  opacity: 1;
+  transform: scale(0.95);
+  background: rgba(59, 130, 246, 0.2);
+}
+
+/* Drop zone animations */
+.droppable-day-container {
+  transition: all 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border-radius: 12px;
+}
+
+.droppable-day-container.drop-active {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(99, 102, 241, 0.05));
+  border: 2px dashed rgba(59, 130, 246, 0.4);
+  transform: scale(1.02);
+  box-shadow: 
+    0 8px 25px rgba(59, 130, 246, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.droppable-day-container.is-empty.drop-active {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(99, 102, 241, 0.1));
+  animation: emptyDropPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes emptyDropPulse {
+  0%, 100% {
+    transform: scale(1.02);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+/* Drop indicator animations */
+.drop-indicator {
+  animation: dropIndicatorFade 200ms ease-out;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(99, 102, 241, 0.1));
+  backdrop-filter: blur(4px);
+}
+
+@keyframes dropIndicatorFade {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Place card hover animations */
+.place-card,
+.place-item-container .place-card {
+  transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border-radius: 16px;
+  will-change: transform, box-shadow;
+}
+
+.place-card:hover,
+.place-item-container:hover .place-card {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 
+    0 12px 30px rgba(0, 0, 0, 0.12),
+    0 6px 15px rgba(0, 0, 0, 0.08);
+}
+
+/* Action button animations */
+.place-action-btn,
+button[aria-label*="Edit"],
+button[aria-label*="Delete"] {
+  transition: all 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border-radius: 8px;
+}
+
+.place-action-btn:hover,
+button[aria-label*="Edit"]:hover,
+button[aria-label*="Delete"]:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.place-action-btn:active,
+button[aria-label*="Edit"]:active,
+button[aria-label*="Delete"]:active {
+  transform: scale(0.95);
+}
+
+/* ============================================
+   2. Enhanced Loading Animations
+   ============================================ */
+
+/* Modern spinner with smooth rotation */
+.loading-spinner {
+  animation: modernSpin 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes modernSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Skeleton loading animation */
+.skeleton-loading {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes skeletonShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Enhanced loading overlay */
+.loading-overlay {
+  animation: overlayFadeIn 300ms ease-out;
+  backdrop-filter: blur(4px);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(4px);
+  }
+}
+
+/* ============================================
+   3. Micro-interactions and Feedback
+   ============================================ */
+
+/* Button press feedback */
+.btn-press-feedback {
+  transition: all 150ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.btn-press-feedback:active {
+  transform: scale(0.96);
+}
+
+/* Success animation */
+.success-animation {
+  animation: successPulse 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes successPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Error shake animation */
+.error-shake {
+  animation: errorShake 500ms cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes errorShake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-4px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(4px);
+  }
+}
+
+/* ============================================
+   4. Responsive Animations
+   ============================================ */
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .sortable-place-list [data-sortable-id],
+  .place-card,
+  .place-item-container,
+  .droppable-day-container,
+  .drag-handle,
+  .place-action-btn,
+  button[aria-label*="Edit"],
+  button[aria-label*="Delete"] {
+    transition: none;
+    animation: none;
+  }
+  
+  .place-card.dragging,
+  .place-item-container.dragging {
+    opacity: 0.7;
+    transform: none;
+  }
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .place-card.dragging,
+  .place-item-container.dragging {
+    transform: scale(1.02);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  .drag-handle {
+    padding: 12px;
+    opacity: 0.8;
+  }
+  
+  .droppable-day-container.drop-active {
+    transform: scale(1.01);
+  }
+}
+
+/* ============================================
+   5. Dark Mode Support
+   ============================================ */
+
+.dark .place-card.dragging,
+.dark .place-item-container.dragging {
+  background: #1f2937;
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.4),
+    0 10px 20px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(59, 130, 246, 0.4);
+}
+
+.dark .droppable-day-container.drop-active {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(99, 102, 241, 0.1));
+  border-color: rgba(59, 130, 246, 0.5);
+}
+
+.dark .loading-overlay {
+  background: rgba(31, 41, 55, 0.8);
+}
+
+.dark .skeleton-loading {
+  background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+  background-size: 200% 100%;
+}
+
+/* Skeleton loader shimmer */
+.skeleton-loader {
+  background: linear-gradient(
+    90deg,
+    #f3f4f6 0%,
+    #e5e7eb 50%,
+    #f3f4f6 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+.dark .skeleton-loader {
+  background: linear-gradient(
+    90deg,
+    #374151 0%,
+    #4b5563 50%,
+    #374151 100%
+  );
+  background-size: 200% 100%;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Progress bar animation */
+.progress-bar {
+  transition: width 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progress-bar-indeterminate {
+  animation: progressIndeterminate 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes progressIndeterminate {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* ============================================
+   3. Micro-interactions
+   ============================================ */
+
+/* Button hover effects */
+.action-button,
+.error-retry-button,
+button {
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.action-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.action-button:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Card hover effects */
+.place-card {
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.place-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+}
+
+.place-card:active {
+  transform: translateY(0);
+}
+
+/* Drag handle hover */
+.drag-handle {
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.drag-handle:hover {
+  color: #3b82f6;
+  transform: scale(1.1);
+}
+
+.drag-handle:active {
+  transform: scale(0.95);
+}
+
+/* Input focus effects */
+input:focus,
+textarea:focus,
+select:focus {
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* ============================================
+   4. Success/Error Animations
+   ============================================ */
+
+/* Success checkmark animation */
+.success-indicator {
+  animation: successPop 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes successPop {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Success checkmark draw */
+.success-checkmark {
+  animation: checkmarkDraw 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes checkmarkDraw {
+  0% {
+    stroke-dashoffset: 100;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Error shake animation */
+.error-shake {
+  animation: shake 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-4px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(4px);
+  }
+}
+
+/* Error overlay pulse */
+.error-overlay {
+  animation: errorPulse 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes errorPulse {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Success fade out */
+.success-fade-out {
+  animation: fadeOut 300ms ease-out forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* ============================================
+   5. Empty State Animations
+   ============================================ */
+
+/* Empty state fade in */
+.empty-state {
+  animation: emptyStateFadeIn 500ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes emptyStateFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Empty state illustration float */
+.empty-state-illustration {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Empty state pulse */
+.empty-state-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* ============================================
+   6. Toast/Notification Animations
+   ============================================ */
+
+/* Toast slide in from top */
+.toast-enter {
+  animation: toastSlideIn 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes toastSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Toast slide out */
+.toast-exit {
+  animation: toastSlideOut 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes toastSlideOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+}
+
+/* ============================================
+   7. Modal/Dialog Animations
+   ============================================ */
+
+/* Modal backdrop fade */
+.modal-backdrop {
+  animation: backdropFadeIn 200ms ease-out;
+}
+
+@keyframes backdropFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Modal content scale */
+.modal-content {
+  animation: modalScaleIn 250ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modalScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ============================================
+   8. List Item Animations
+   ============================================ */
+
+/* Staggered list item appearance */
+.list-item-stagger {
+  animation: listItemFadeIn 300ms cubic-bezier(0.4, 0, 0.2, 1) backwards;
+}
+
+.list-item-stagger:nth-child(1) { animation-delay: 0ms; }
+.list-item-stagger:nth-child(2) { animation-delay: 50ms; }
+.list-item-stagger:nth-child(3) { animation-delay: 100ms; }
+.list-item-stagger:nth-child(4) { animation-delay: 150ms; }
+.list-item-stagger:nth-child(5) { animation-delay: 200ms; }
+.list-item-stagger:nth-child(n+6) { animation-delay: 250ms; }
+
+@keyframes listItemFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ============================================
+   9. Collapse/Expand Animations
+   ============================================ */
+
+/* Day group expand */
+.day-group-expand {
+  animation: expandHeight 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+@keyframes expandHeight {
+  from {
+    max-height: 0;
+    opacity: 0;
+  }
+  to {
+    max-height: 2000px;
+    opacity: 1;
+  }
+}
+
+/* Day group collapse */
+.day-group-collapse {
+  animation: collapseHeight 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+@keyframes collapseHeight {
+  from {
+    max-height: 2000px;
+    opacity: 1;
+  }
+  to {
+    max-height: 0;
+    opacity: 0;
+  }
+}
+
+/* Chevron rotation */
+.chevron-rotate {
+  transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.chevron-rotate.expanded {
+  transform: rotate(180deg);
+}
+
+/* ============================================
+   10. Transport Segment Animations
+   ============================================ */
+
+/* Transport segment calculating pulse */
+.transport-calculating {
+  animation: transportPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes transportPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* Route line draw animation */
+.route-line-draw {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: routeLineDraw 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes routeLineDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ============================================
+   11. Focus Animations
+   ============================================ */
+
+/* Focus ring pulse */
+.focus-ring-pulse:focus-visible {
+  animation: focusRingPulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes focusRingPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 0 5px rgba(59, 130, 246, 0.2);
+  }
+}
+
+/* ============================================
+   12. Utility Classes
+   ============================================ */
+
+/* Smooth transitions */
+.transition-smooth {
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.transition-fast {
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.transition-slow {
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================
+   13. Performance Optimizations
+   ============================================ */
+
+/* GPU acceleration for animations */
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Optimize for animations */
+.animate-optimized {
+  backface-visibility: hidden;
+  perspective: 1000px;
+}

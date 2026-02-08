@@ -1,0 +1,73 @@
+{
+  "title": "Trip",
+  "trips": "Trips",
+  "myTrips": "My Trips",
+  "createTrip": "Create Trip",
+  "editTrip": "Edit Trip",
+  "deleteTrip": "Delete Trip",
+  "tripDetails": "Trip Details",
+  "noTrips": "No trips yet. Create your first trip!",
+  "fields": {
+    "title": "Title",
+    "destination": "Destination",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "coverImage": "Cover Image",
+    "theme": "Theme",
+    "budget": "Budget",
+    "currency": "Currency",
+    "description": "Description"
+  },
+  "themes": {
+    "default": "Default",
+    "adventure": "Adventure",
+    "romantic": "Romantic",
+    "foodie": "Foodie",
+    "chill": "Chill"
+  },
+  "visibility": {
+    "public": "Public",
+    "private": "Private",
+    "community": "Post to Community"
+  },
+  "stats": {
+    "days": "{{count}} day",
+    "days_plural": "{{count}} days",
+    "places": "{{count}} place",
+    "places_plural": "{{count}} places",
+    "views": "{{count}} view",
+    "views_plural": "{{count}} views",
+    "likes": "{{count}} like",
+    "likes_plural": "{{count}} likes"
+  },
+  "sharing": {
+    "shareTrip": "Share Trip",
+    "copyLink": "Copy Link",
+    "linkCopied": "Link copied to clipboard!",
+    "qrCode": "QR Code",
+    "shareVia": "Share via",
+    "whatsapp": "WhatsApp",
+    "email": "Email"
+  },
+  "collaboration": {
+    "collaborators": "Collaborators",
+    "addCollaborator": "Add Collaborator",
+    "inviteByEmail": "Invite by Email",
+    "role": "Role",
+    "roles": {
+      "owner": "Owner",
+      "editor": "Editor",
+      "viewer": "Viewer"
+    },
+    "permissions": {
+      "owner": "Full access",
+      "editor": "Can edit",
+      "viewer": "View only"
+    }
+  },
+  "versions": {
+    "versionHistory": "Version History",
+    "restore": "Restore",
+    "currentVersion": "Current Version"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "title": "Settings",
+  "account": {
+    "title": "Account",
+    "email": "Email",
+    "name": "Name",
+    "avatar": "Avatar",
+    "changePassword": "Change Password",
+    "logout": "Logout"
+  },
+  "preferences": {
+    "title": "Preferences",
+    "language": "Language",
+    "darkMode": "Dark Mode",
+    "notifications": "Notifications"
+  },
+  "languages": {
+    "en": "English",
+    "zh-TW": "繁體中文",
+    "zh-CN": "简体中文",
+    "ja": "日本語"
+  },
+  "privacy": {
+    "title": "Privacy",
+    "analytics": "Analytics",
+    "analyticsDescription": "Help us improve by sharing anonymous usage data"
+  },
+  "storage": {
+    "title": "Storage",
+    "offlineMaps": "Offline Maps",
+    "clearCache": "Clear Cache",
+    "storageUsed": "Storage Used"
+  },
+  "about": {
+    "title": "About",
+    "version": "Version",
+    "termsOfService": "Terms of Service",
+    "privacyPolicy": "Privacy Policy",
+    "support": "Support"
+  },
+  "experimental": {
+    "title": "Experimental Features",
+    "description": "Try out new features before they're released to everyone",
+    "newTripPlannerUI": {
+      "title": "New Trip Planner Interface",
+      "description": "Enhanced drag-and-drop interface with split-screen layout, automatic routing, and real-time time calculations",
+      "features": {
+        "splitScreen": "Split-screen timeline and map view",
+        "optimisticUI": "Optimistic UI updates for instant feedback",
+        "autoRouting": "Automatic transport routing between places",
+        "smartTime": "Smart time calculations"
+      }
+    },
+    "rollback": "Rollback to previous settings",
+    "rollbackConfirm": "This will restore your previous feature flag settings. Continue?",
+    "abTest": "A/B Test"
+  }
+}

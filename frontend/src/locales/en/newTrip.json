@@ -1,0 +1,155 @@
+{
+  "title": "Create New Trip",
+  "subtitle": "Plan your next adventure with AI assistance",
+  "optional": "(Optional)",
+  "back": "Back",
+  "next": "Next",
+  "cancel": "Cancel",
+  "create": "Create Trip",
+  "creating": "Creating...",
+  "steps": {
+    "template": "Template",
+    "info": "Details",
+    "theme": "Theme",
+    "ai": "AI Assist"
+  },
+  "errors": {
+    "notAuthenticated": "Please log in to create a trip",
+    "createFailed": "Failed to create trip. Please try again."
+  },
+  "tripTemplate": {
+    "title": "Choose Your Trip Style",
+    "subtitle": "Select a template to get started with personalized suggestions",
+    "beach": {
+      "name": "Beach Paradise",
+      "description": "Relax by the ocean with sun and sand"
+    },
+    "mountain": {
+      "name": "Mountain Adventure",
+      "description": "Explore peaks and scenic trails"
+    },
+    "city": {
+      "name": "City Explorer",
+      "description": "Discover urban culture and nightlife"
+    },
+    "cultural": {
+      "name": "Cultural Journey",
+      "description": "Immerse in history and traditions"
+    },
+    "custom": {
+      "name": "Custom Trip",
+      "description": "Create your own unique adventure"
+    }
+  },
+  "tripForm": {
+    "title": "Trip Details",
+    "subtitle": "Tell us about your upcoming adventure",
+    "fields": {
+      "title": "Trip Name",
+      "destination": "Destination",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "travelers": "Number of Travelers"
+    },
+    "placeholders": {
+      "title": "e.g., Tokyo Winter Adventure",
+      "destination": "e.g., Tokyo, Japan"
+    },
+    "errors": {
+      "titleRequired": "Trip name is required",
+      "titleTooLong": "Trip name must be less than 100 characters",
+      "destinationRequired": "Destination is required",
+      "startDateRequired": "Start date is required",
+      "endDateRequired": "End date is required",
+      "endDateBeforeStart": "End date must be after start date",
+      "tripTooLong": "Trip cannot be longer than 365 days",
+      "travelersMin": "At least 1 traveler is required",
+      "travelersMax": "Maximum 50 travelers allowed"
+    }
+  },
+  "tripTheme": {
+    "title": "Customize Your Trip",
+    "subtitle": "Make your trip planning experience unique and personal",
+    "colorLabel": "Theme Color",
+    "stickerStyleLabel": "Sticker Style",
+    "animationsLabel": "Background Animations",
+    "previewLabel": "Preview",
+    "previewTitle": "Your Trip",
+    "previewDescription": "This is how your trip will look with the selected theme",
+    "stickerStyle": {
+      "cute": {
+        "name": "Cute",
+        "description": "Adorable kawaii characters"
+      },
+      "minimal": {
+        "name": "Minimal",
+        "description": "Simple and clean icons"
+      },
+      "colorful": {
+        "name": "Colorful",
+        "description": "Vibrant and playful"
+      },
+      "vintage": {
+        "name": "Vintage",
+        "description": "Retro travel stamps"
+      }
+    },
+    "animations": {
+      "none": {
+        "name": "None",
+        "description": "No animations"
+      },
+      "snow": {
+        "name": "Snow",
+        "description": "Gentle snowfall"
+      },
+      "sakura": {
+        "name": "Sakura",
+        "description": "Cherry blossom petals"
+      }
+    }
+  },
+  "tripAI": {
+    "title": "AI Assistance",
+    "subtitle": "Let AI help plan your perfect trip",
+    "disabled": "AI assistance is disabled",
+    "enable": "Enable",
+    "disable": "Disable",
+    "generateItinerary": "Generate Itinerary",
+    "generateItineraryDesc": "AI will suggest attractions, restaurants, and daily schedules based on your preferences",
+    "generateStickers": "Generate Themed Stickers",
+    "generateStickersDesc": "AI will create custom kawaii stickers matching your destination and season",
+    "preferences": "Your Preferences",
+    "interests": "Interests",
+    "interest": {
+      "sightseeing": "Sightseeing",
+      "food": "Food",
+      "shopping": "Shopping",
+      "culture": "Culture",
+      "nature": "Nature",
+      "photography": "Photography",
+      "adventure": "Adventure",
+      "relaxation": "Relaxation",
+      "beach": "Beach",
+      "water-sports": "Water Sports",
+      "sunset": "Sunset",
+      "hiking": "Hiking",
+      "skiing": "Skiing",
+      "camping": "Camping",
+      "nightlife": "Nightlife",
+      "museums": "Museums",
+      "architecture": "Architecture",
+      "history": "History",
+      "temples": "Temples",
+      "local-cuisine": "Local Cuisine"
+    },
+    "travelStyle": "Travel Style",
+    "travelStyle.relaxed": "Relaxed",
+    "travelStyle.moderate": "Moderate",
+    "travelStyle.fast-paced": "Fast-Paced",
+    "budgetLevel": "Budget Level",
+    "budgetLevel.low": "Budget",
+    "budgetLevel.medium": "Moderate",
+    "budgetLevel.high": "Luxury"
+  }
+}

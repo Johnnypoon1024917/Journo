@@ -1,0 +1,46 @@
+{
+  "title": "地點",
+  "places": "地點",
+  "addPlace": "新增地點",
+  "editPlace": "編輯地點",
+  "deletePlace": "刪除地點",
+  "noPlaces": "尚未新增地點",
+  "fields": {
+    "name": "名稱",
+    "address": "地址",
+    "location": "位置",
+    "timeStart": "開始時間",
+    "timeEnd": "結束時間",
+    "notes": "備註",
+    "image": "圖片",
+    "type": "類型",
+    "sticker": "貼紙",
+    "cost": "費用",
+    "category": "類別"
+  },
+  "types": {
+    "attraction": "景點",
+    "food": "美食",
+    "hotel": "住宿",
+    "transport": "交通",
+    "other": "其他"
+  },
+  "transport": {
+    "mode": "交通方式",
+    "driving": "開車",
+    "walking": "步行",
+    "transit": "大眾運輸",
+    "flight": "飛行",
+    "travelTime": "旅行時間",
+    "distance": "距離"
+  },
+  "search": {
+    "placeholder": "搜尋地點...",
+    "searching": "搜尋中...",
+    "noResults": "找不到結果"
+  },
+  "stickers": {
+    "selectSticker": "選擇貼紙",
+    "noSticker": "無貼紙"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "title": "パッキングリスト",
+  "packingList": "パッキングリスト",
+  "addItem": "アイテムを追加",
+  "customItem": "カスタムアイテム",
+  "progress": "{{total}}個中{{checked}}個パック済み",
+  "categories": {
+    "essentials": "必需品",
+    "clothing": "衣類",
+    "toiletries": "洗面用具",
+    "electronics": "電子機器",
+    "documents": "書類",
+    "health": "健康",
+    "activities": "アクティビティ",
+    "misc": "その他"
+  },
+  "suggestions": {
+    "autoSuggested": "自動提案",
+    "custom": "カスタム",
+    "basedOn": "{{reason}}に基づく"
+  },
+  "export": {
+    "exportPDF": "PDFでエクスポート",
+    "print": "印刷",
+    "shareableList": "共有可能なパッキングリスト"
+  },
+  "travelers": {
+    "addTraveler": "旅行者を追加",
+    "travelers": "旅行者",
+    "specificList": "{{name}}のリスト"
+  },
+  "warnings": {
+    "tooManyItems": "{{count}}個のアイテムがあります。小さいバッグを検討してください！"
+  },
+  "checklist": {
+    "title": "チェックリスト",
+    "noItems": "アイテムがありません",
+    "emptyDescription": "旅行のチェックリストを作成しましょう",
+    "addItem": "アイテムを追加",
+    "editItem": "アイテムを編集",
+    "itemName": "アイテム名",
+    "itemNamePlaceholder": "アイテム名を入力...",
+    "category": "カテゴリー",
+    "itemAdded": "アイテムが追加されました",
+    "itemUpdated": "アイテムが更新されました",
+    "itemDeleted": "アイテムが削除されました",
+    "check": "アイテムをチェック",
+    "uncheck": "チェックを外す",
+    "totalItems": "合計アイテム",
+    "completed": "完了",
+    "progress": "進捗",
+    "allComplete": "すべてのアイテムが完了しました！"
+  }
+}

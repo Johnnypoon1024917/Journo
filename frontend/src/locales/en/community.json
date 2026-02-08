@@ -1,0 +1,29 @@
+{
+  "title": "Community",
+  "feed": "Community Feed",
+  "discover": "Discover Trips",
+  "noTrips": "No community trips yet",
+  "actions": {
+    "like": "Like",
+    "unlike": "Unlike",
+    "copyItinerary": "Copy Itinerary",
+    "viewTrip": "View Trip",
+    "postToCommunity": "Post to Community"
+  },
+  "search": {
+    "placeholder": "Search by destination, theme, or hashtag...",
+    "results": "{{count}} result found",
+    "results_plural": "{{count}} results found"
+  },
+  "filters": {
+    "all": "All",
+    "recent": "Recent",
+    "popular": "Popular",
+    "theme": "Theme"
+  },
+  "messages": {
+    "tripCopied": "Trip copied to your trips!",
+    "liked": "Trip liked!",
+    "unliked": "Like removed"
+  }
+}

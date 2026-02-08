@@ -1,0 +1,567 @@
+/**
+ * Kawaii DayCard Component
+ * 
+ * Displays all information for a single trip day with detailed layout:
+ * - Date + Illustration Header
+ * - Day Title (editable)
+ * - Checklist / Main Activity Items (drag-and-drop)
+ * - Hotel Info Section
+ * - Activity Schedule Timeline
+ * - Floating Add Button
+ * 
+ * Features:
+ * - Cute chibi cat illustration themed to the day
+ * - Inline day title editing
+ * - Checkbox items with strikethrough
+ * - Drag-and-drop reordering
+ * - Hotel card with check-in/out info
+ * - Timeline chips for scheduled activities
+ * - Google Maps integration
+ * - Sticker support
+ * 
+ * Requirements: 2.1, 2.4, 9.4, 9.5, 9.6
+ */
+
+import React, { useState, useEffect } from 'react';
+import { motion, Reorder } from 'framer-motion';
+import { format } from 'date-fns';
+import { cn } from '@/utils/cn';
+import { useTranslation } from 'react-i18next';
+import { TripDayWithPlaces, Place, DailyForecast } from '@/types/trip';
+import {
+  MapPinIcon,
+  SparklesIcon,
+  EllipsisVerticalIcon,
+  CheckCircleIcon,
+  PencilIcon,
+  Bars3Icon,
+} from '@heroicons/react/24/outline';
+import { CheckCircleIcon as CheckCircleIconSolid } from '@heroicons/react/24/solid';
+import { useStickerAttachment } from '@/hooks/useStickerAttachment';
+import { StickerModal } from './StickerModal';
+import { StickerDisplay } from './StickerDisplay';
+
+export interface DayCardProps {
+  day: TripDayWithPlaces;
+  tripId: string;
+  forecast?: DailyForecast; // Not used in current implementation but kept for future use
+  onActivityClick?: (activity: Place) => void;
+  onActivityReorder?: (activityId: string, newIndex: number) => void;
+  onDayTitleUpdate?: (dayId: string, newTitle: string) => void;
+  onActivityToggle?: (activityId: string, isChecked: boolean) => void;
+  enableStickers?: boolean;
+  className?: string;
+}
+
+/**
+ * Cute chibi cat illustration component
+ * Themed to the day with different accessories
+ */
+const ChibiCatIllustration: React.FC<{ dayNumber: number; className?: string }> = ({ 
+  dayNumber, 
+  className 
+}) => {
+  // Different cat themes based on day number
+  const catThemes = [
+    '🐱🎌', // Cat with Japanese flag
+    '🐱🍜', // Cat eating ramen
+    '🐱📖', // Cat with book
+    '🐱🎵', // Cat with music
+    '🐱🌸', // Cat with cherry blossom
+  ];
+  
+  const theme = catThemes[(dayNumber - 1) % catThemes.length];
+  
+  return (
+    <motion.div
+      className={cn('text-5xl flex items-center gap-1', className)}
+      animate={{
+        y: [0, -8, 0],
+      }}
+      transition={{
+        duration: 3,
+        repeat: Infinity,
+        ease: 'easeInOut',
+      }}
+    >
+      {theme}
+    </motion.div>
+  );
+};
+
+/**
+ * Date + Illustration Header
+ * Layout: Horizontal row with date on left, illustration on right
+ */
+const DateIllustrationHeader: React.FC<{
+  date: Date | null;
+  dayNumber: number;
+  onOptionsClick?: () => void;
+}> = ({ date, dayNumber, onOptionsClick }) => {
+  const dayOfWeek = date ? format(date, 'EEE') : 'Day';
+  const dayOfMonth = date ? format(date, 'd') : dayNumber.toString();
+  const month = date ? format(date, 'MMM') : '';
+
+  return (
+    <div className="flex items-center justify-between mb-4">
+      {/* Date text */}
+      <div className="flex items-baseline gap-2">
+        <span className="inline-block px-3 py-1 bg-kawaii-500 text-white text-sm font-medium rounded-full">
+          {dayOfWeek}
+        </span>
+        <span className="text-4xl font-extrabold text-neutral-900 dark:text-neutral-100">
+          {dayOfMonth}
+        </span>
+        <span className="text-base font-medium text-neutral-600 dark:text-neutral-400">
+          {month}
+        </span>
+      </div>
+
+      {/* Illustration + Options */}
+      <div className="flex items-center gap-2">
+        <ChibiCatIllustration dayNumber={dayNumber} />
+        <button
+          onClick={onOptionsClick}
+          className="min-w-[44px] min-h-[44px] p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors flex items-center justify-center"
+          aria-label="Day options"
+        >
+          <EllipsisVerticalIcon className="w-5 h-5 text-neutral-600 dark:text-neutral-400" />
+        </button>
+      </div>
+    </div>
+  );
+};
+
+/**
+ * Day Title (editable)
+ */
+const DayTitle: React.FC<{
+  dayNumber: number;
+  title?: string;
+  onTitleUpdate?: (newTitle: string) => void;
+}> = ({ dayNumber, title, onTitleUpdate }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedTitle, setEditedTitle] = useState(title || '');
+
+  const handleSave = () => {
+    if (onTitleUpdate && editedTitle.trim()) {
+      onTitleUpdate(editedTitle.trim());
+    }
+    setIsEditing(false);
+  };
+
+  const handleCancel = () => {
+    setEditedTitle(title || '');
+    setIsEditing(false);
+  };
+
+  if (isEditing) {
+    return (
+      <div className="flex items-center gap-2 mb-4">
+        <input
+          type="text"
+          value={editedTitle}
+          onChange={(e) => setEditedTitle(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') handleSave();
+            if (e.key === 'Escape') handleCancel();
+          }}
+          className="flex-1 px-3 py-2 text-xl font-bold rounded-lg border-2 border-kawaii-500 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-kawaii-500"
+          placeholder={`Day ${dayNumber}`}
+          autoFocus
+        />
+        <button
+          onClick={handleSave}
+          className="px-4 py-2 min-h-[44px] bg-kawaii-500 text-white rounded-lg hover:bg-kawaii-600 transition-colors"
+        >
+          ✓
+        </button>
+        <button
+          onClick={handleCancel}
+          className="px-4 py-2 min-h-[44px] bg-neutral-300 dark:bg-neutral-600 text-neutral-700 dark:text-neutral-200 rounded-lg hover:bg-neutral-400 dark:hover:bg-neutral-500 transition-colors"
+        >
+          ✕
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <button
+      onClick={() => setIsEditing(true)}
+      className="flex items-center gap-2 mb-4 group w-full text-left"
+    >
+      <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">
+        Day {dayNumber} {title || ''}
+      </h2>
+      <PencilIcon className="w-5 h-5 text-neutral-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+      <span className="text-xl">♪</span>
+    </button>
+  );
+};
+
+/**
+ * Checklist Item with checkbox and drag handle
+ */
+const ChecklistItem: React.FC<{
+  activity: Place;
+  isChecked: boolean;
+  onToggle: () => void;
+  onClick: () => void;
+  isDragging?: boolean;
+}> = ({ activity, isChecked, onToggle, onClick, isDragging }) => {
+  return (
+    <motion.div
+      className={cn(
+        'flex items-center gap-3 p-3 rounded-xl bg-white dark:bg-neutral-800 border-2 border-neutral-200 dark:border-neutral-700',
+        'hover:border-kawaii-300 dark:hover:border-kawaii-600 transition-colors cursor-pointer',
+        isDragging && 'shadow-lg scale-105',
+        isChecked && 'bg-green-50 dark:bg-green-900/20 border-green-300 dark:border-green-700'
+      )}
+      layout
+    >
+      {/* Drag handle */}
+      <div className="cursor-grab active:cursor-grabbing">
+        <Bars3Icon className="w-5 h-5 text-neutral-400" />
+      </div>
+
+      {/* Checkbox */}
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          onToggle();
+        }}
+        className="min-w-[44px] min-h-[44px] flex items-center justify-center"
+        aria-label={isChecked ? 'Uncheck' : 'Check'}
+      >
+        {isChecked ? (
+          <CheckCircleIconSolid className="w-6 h-6 text-green-500" />
+        ) : (
+          <CheckCircleIcon className="w-6 h-6 text-neutral-400" />
+        )}
+      </button>
+
+      {/* Activity content */}
+      <div className="flex-1" onClick={onClick}>
+        <div className={cn(
+          'text-base font-medium text-neutral-900 dark:text-neutral-100',
+          isChecked && 'line-through text-green-600 dark:text-green-400'
+        )}>
+          {activity.name}
+        </div>
+        {activity.time_start && (
+          <div className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">
+            {activity.time_start}
+          </div>
+        )}
+      </div>
+    </motion.div>
+  );
+};
+
+/**
+ * Timeline Chip for scheduled activities
+ */
+const TimelineChip: React.FC<{
+  time: string;
+  location: string;
+  onClick?: () => void;
+  onOptionsClick?: () => void;
+}> = ({ time, location, onClick, onOptionsClick }) => {
+  return (
+    <motion.div
+      className="flex items-center gap-3 p-3 rounded-xl bg-neutral-100 dark:bg-neutral-800 cursor-pointer hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
+      onClick={onClick}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+    >
+      {/* Timeline dot */}
+      <div className="w-2 h-2 rounded-full bg-red-500 flex-shrink-0" />
+
+      {/* Time */}
+      <span className="text-base font-bold text-kawaii-600 dark:text-kawaii-400">
+        {time}
+      </span>
+
+      {/* Location */}
+      <div className="flex items-center gap-1 flex-1">
+        <MapPinIcon className="w-4 h-4 text-kawaii-500" />
+        <span className="text-sm text-neutral-700 dark:text-neutral-300">
+          {location}
+        </span>
+      </div>
+
+      {/* Options */}
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          onOptionsClick?.();
+        }}
+        className="min-w-[44px] min-h-[44px] p-2 rounded-lg hover:bg-neutral-300 dark:hover:bg-neutral-600 transition-colors flex items-center justify-center"
+        aria-label="Options"
+      >
+        <EllipsisVerticalIcon className="w-4 h-4 text-neutral-600 dark:text-neutral-400" />
+      </button>
+    </motion.div>
+  );
+};
+
+/**
+ * Main DayCard component
+ */
+export const DayCard: React.FC<DayCardProps> = ({
+  day,
+  tripId,
+  // forecast is kept for future use but not currently implemented
+  onActivityClick,
+  onActivityReorder,
+  onDayTitleUpdate,
+  onActivityToggle,
+  enableStickers = true, // Sticker system is now fully implemented
+  className,
+}) => {
+  const { t } = useTranslation('kawaii');
+  const [activities, setActivities] = useState<Place[]>(day.places);
+
+  console.log('🎴 DayCard render:', { 
+    dayId: day.id, 
+    enableStickers, 
+    tripId,
+    placesCount: day.places.length 
+  });
+
+  // Update activities when day.places changes
+  useEffect(() => {
+    setActivities(day.places);
+  }, [day.places]);
+
+  // Sticker attachment hook
+  const {
+    isModalOpen,
+    openModal,
+    closeModal,
+    handleStickerSelect,
+  } = useStickerAttachment({
+    tripId,
+    elementId: day.id,
+    elementType: 'day',
+  });
+
+  // Parse date - handle timezone correctly for ISO date strings
+  // ISO date strings like "2026-03-03" are interpreted as UTC midnight
+  // We need to parse them as local dates to avoid timezone issues
+  const date = day.date ? (() => {
+    const [year, month, dayOfMonth] = day.date.split('-').map(Number);
+    return new Date(year, month - 1, dayOfMonth); // month is 0-indexed
+  })() : null;
+
+  // Extract hotel from places
+  const hotel = activities.find((p) => p.place_type === 'hotel');
+
+  // Extract activities (non-hotel, non-transport)
+  const checklistActivities = activities.filter(
+    (p) => p.place_type !== 'hotel' && p.place_type !== 'transport'
+  );
+
+  // Separate timed and untimed activities
+  const timedActivities = checklistActivities.filter((a) => a.time_start);
+  const untimedActivities = checklistActivities.filter((a) => !a.time_start);
+
+  // Handle checkbox toggle - call parent handler directly
+  const handleToggle = (activityId: string, currentStatus: boolean) => {
+    const newStatus = !currentStatus;
+    console.log('🔲 Checkbox toggled:', { activityId, currentStatus, newStatus });
+    onActivityToggle?.(activityId, newStatus);
+  };
+
+  // Handle day title update
+  const handleDayTitleUpdate = (newTitle: string) => {
+    onDayTitleUpdate?.(day.id, newTitle);
+  };
+
+  // Handle activity reorder
+  const handleReorder = (newOrder: Place[]) => {
+    // Find which activity was moved
+    const oldOrder = activities;
+    let movedActivityId: string | null = null;
+    let newIndex = -1;
+    
+    // Find the activity that changed position
+    for (let i = 0; i < newOrder.length; i++) {
+      if (oldOrder[i]?.id !== newOrder[i]?.id) {
+        movedActivityId = newOrder[i].id;
+        newIndex = i;
+        break;
+      }
+    }
+    
+    // Update local state immediately for smooth UI
+    setActivities(newOrder);
+    
+    // Notify parent only once with the moved activity
+    if (movedActivityId && newIndex !== -1) {
+      onActivityReorder?.(movedActivityId, newIndex);
+    }
+  };
+
+  return (
+    <>
+      <motion.div
+        className={cn(
+          'bg-kawaii-cream-50 dark:bg-neutral-900',
+          'rounded-3xl shadow-kawaii-lg',
+          'p-6',
+          'relative overflow-hidden',
+          className
+        )}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
+        {/* Sticker Display */}
+        {console.log('🎴 Checking enableStickers:', enableStickers)}
+        {enableStickers && (
+          <>
+            {console.log('🎴 Rendering StickerDisplay for day:', day.id)}
+            <StickerDisplay
+              tripId={tripId}
+              elementId={day.id}
+              elementType="day"
+              editable={true}
+            />
+          </>
+        )}
+
+        {/* Sticker Button */}
+        {enableStickers && (
+          <button
+            onClick={openModal}
+            className="absolute bottom-4 right-4 min-w-[44px] min-h-[44px] px-4 py-2 rounded-full bg-gradient-to-r from-kawaii-500 to-kawaii-600 text-white hover:from-kawaii-600 hover:to-kawaii-700 transition-all shadow-lg hover:shadow-xl z-20 flex items-center justify-center gap-2 font-medium text-sm"
+            aria-label={t('stickers.attach')}
+            title={t('stickers.attach')}
+          >
+            <SparklesIcon className="w-5 h-5" />
+            <span className="hidden sm:inline">貼上貼紙</span>
+          </button>
+        )}
+
+        {/* Date + Illustration Header */}
+        <DateIllustrationHeader
+          date={date}
+          dayNumber={day.day_number}
+          onOptionsClick={() => console.log('Day options clicked')}
+        />
+
+        {/* Day Title */}
+        <DayTitle
+          dayNumber={day.day_number}
+          title={undefined} // TODO: Add title field to TripDay type
+          onTitleUpdate={handleDayTitleUpdate}
+        />
+
+        {/* Checklist / Main Activity Items */}
+        {untimedActivities.length > 0 && (
+          <div className="mb-6">
+            <h3 className="text-base font-semibold text-neutral-700 dark:text-neutral-300 mb-3">
+              {t('dayCard.checklist')}
+            </h3>
+            <Reorder.Group
+              axis="y"
+              values={untimedActivities}
+              onReorder={handleReorder}
+              className="space-y-3"
+            >
+              {untimedActivities.map((activity) => (
+                <Reorder.Item key={activity.id} value={activity}>
+                  <ChecklistItem
+                    activity={activity}
+                    isChecked={activity.is_completed || false}
+                    onToggle={() => handleToggle(activity.id, activity.is_completed || false)}
+                    onClick={() => onActivityClick?.(activity)}
+                  />
+                </Reorder.Item>
+              ))}
+            </Reorder.Group>
+          </div>
+        )}
+
+        {/* Hotel Info Section */}
+        {hotel && (
+          <div className="mb-6">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-2xl">🛏️</span>
+              <h3 className="text-base font-semibold text-neutral-700 dark:text-neutral-300">
+                {t('dayCard.hotel')}
+              </h3>
+            </div>
+            <div
+              className="p-4 rounded-xl bg-white dark:bg-neutral-800 border-2 border-neutral-200 dark:border-neutral-700 cursor-pointer hover:border-kawaii-300 dark:hover:border-kawaii-600 transition-colors"
+              onClick={() => {
+                if (hotel.lat && hotel.lng) {
+                  window.open(
+                    `https://www.google.com/maps/search/?api=1&query=${hotel.lat},${hotel.lng}`,
+                    '_blank'
+                  );
+                }
+              }}
+            >
+              <div className="text-base font-medium text-kawaii-600 dark:text-kawaii-400 border-b border-dotted border-kawaii-300 dark:border-kawaii-600 inline-block mb-2">
+                {hotel.name}
+              </div>
+              <div className="text-sm text-neutral-600 dark:text-neutral-400 space-y-1">
+                <div>Check-in: 15:00 ~</div>
+                <div>Check-out: ~11:00</div>
+                {hotel.address && <div className="text-xs">{hotel.address}</div>}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* 活動安排 (Activity Schedule) Section */}
+        {timedActivities.length > 0 && (
+          <div className="mb-6">
+            <h3 className="text-base font-semibold text-neutral-700 dark:text-neutral-300 mb-3">
+              活動安排
+            </h3>
+            <div className="space-y-3">
+              {timedActivities
+                .sort((a, b) => (a.time_start || '').localeCompare(b.time_start || ''))
+                .map((activity) => (
+                  <TimelineChip
+                    key={activity.id}
+                    time={activity.time_start || ''}
+                    location={activity.name}
+                    onClick={() => onActivityClick?.(activity)}
+                    onOptionsClick={() => console.log('Activity options:', activity.id)}
+                  />
+                ))}
+            </div>
+          </div>
+        )}
+
+        {/* Empty state */}
+        {activities.length === 0 && (
+          <div className="text-center py-12">
+            <span className="text-6xl mb-4 block">📝</span>
+            <p className="text-neutral-500 dark:text-neutral-400 text-lg">
+              {t('dayCard.noActivities')}
+            </p>
+            <p className="text-neutral-400 dark:text-neutral-500 text-sm mt-2">
+              Tap the + button to add activities
+            </p>
+          </div>
+        )}
+      </motion.div>
+
+      {/* Sticker Modal */}
+      {enableStickers && (
+        <StickerModal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          onSelect={handleStickerSelect}
+          tripId={tripId}
+        />
+      )}
+    </>
+  );
+};

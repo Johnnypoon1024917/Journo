@@ -1,0 +1,46 @@
+{
+  "title": "地点",
+  "places": "地点",
+  "addPlace": "添加地点",
+  "editPlace": "编辑地点",
+  "deletePlace": "删除地点",
+  "noPlaces": "尚未添加地点",
+  "fields": {
+    "name": "名称",
+    "address": "地址",
+    "location": "位置",
+    "timeStart": "开始时间",
+    "timeEnd": "结束时间",
+    "notes": "备注",
+    "image": "图片",
+    "type": "类型",
+    "sticker": "贴纸",
+    "cost": "费用",
+    "category": "类别"
+  },
+  "types": {
+    "attraction": "景点",
+    "food": "美食",
+    "hotel": "住宿",
+    "transport": "交通",
+    "other": "其他"
+  },
+  "transport": {
+    "mode": "交通方式",
+    "driving": "开车",
+    "walking": "步行",
+    "transit": "公共交通",
+    "flight": "飞行",
+    "travelTime": "旅行时间",
+    "distance": "距离"
+  },
+  "search": {
+    "placeholder": "搜索地点...",
+    "searching": "搜索中...",
+    "noResults": "未找到结果"
+  },
+  "stickers": {
+    "selectSticker": "选择贴纸",
+    "noSticker": "无贴纸"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "title": "打包清单",
+  "packingList": "打包清单",
+  "addItem": "添加项目",
+  "customItem": "自定义项目",
+  "progress": "已打包 {{checked}} / {{total}} 项",
+  "categories": {
+    "clothing": "服饰",
+    "warm_layers": "保暖/内层",
+    "toiletries": "个人护理",
+    "electronics": "电子产品",
+    "documents": "文件/重要物品",
+    "health": "健康/药品",
+    "misc": "其他",
+    "snacks": "零食/饮食"
+  },
+  "suggestions": {
+    "autoSuggested": "自动建议",
+    "custom": "自定义",
+    "basedOn": "基于{{reason}}"
+  },
+  "export": {
+    "exportPDF": "导出为 PDF",
+    "print": "打印",
+    "shareableList": "可分享的打包清单"
+  },
+  "travelers": {
+    "addTraveler": "添加旅客",
+    "travelers": "旅客",
+    "specificList": "{{name}}的清单"
+  },
+  "warnings": {
+    "tooManyItems": "您有 {{count}} 项物品。考虑使用较小的行李箱！"
+  },
+  "checklist": {
+    "title": "准备清单",
+    "subtitle": "记录需要准备的东西",
+    "noItems": "清单是空的",
+    "emptyDescription": "开始添加你的准备清单吧！",
+    "addItem": "添加项目",
+    "editItem": "编辑项目",
+    "itemName": "项目名称",
+    "itemNamePlaceholder": "例如：保暖裤",
+    "category": "类别",
+    "itemAdded": "项目已添加",
+    "itemUpdated": "项目已更新",
+    "itemDeleted": "项目已删除",
+    "check": "标记为完成",
+    "uncheck": "标记为未完成",
+    "totalItems": "总项目",
+    "completed": "已完成",
+    "toPack": "待准备",
+    "packed": "已准备",
+    "progress": "进度",
+    "allComplete": "全部完成！",
+    "loadDefaults": "载入预设清单",
+    "defaultsLoaded": "预设清单已载入",
+    "expandAll": "全部展开",
+    "collapseAll": "全部收合",
+    "addCategory": "添加类别",
+    "categoryName": "类别名称",
+    "categoryNamePlaceholder": "例如：冬季装备",
+    "customCategory": "自定义类别",
+    "categoryAdded": "类别已添加",
+    "packedCount": "{{packed}}/{{total}} 已准备"
+  }
+}

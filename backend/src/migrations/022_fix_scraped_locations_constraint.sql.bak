@@ -1,0 +1,60 @@
+-- Fix scraped_locations table constraint issue
+-- The ON CONFLICT clause needs a unique constraint to work properly
+
+DO $
+BEGIN
+    -- Check if scraped_locations table exists
+    IF EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'scraped_locations') THEN
+        -- Check if the unique constraint exists
+        IF NOT EXISTS (
+            SELECT FROM information_schema.table_constraints 
+            WHERE table_name = 'scraped_locations' 
+            AND constraint_type = 'UNIQUE'
+            AND constraint_name = 'scraped_locations_name_source_unique'
+        ) THEN
+            -- Add the unique constraint that the ON CONFLICT clause expects
+            ALTER TABLE scraped_locations 
+            ADD CONSTRAINT scraped_locations_name_source_unique 
+            UNIQUE (location_name, source);
+            
+            RAISE NOTICE 'Added unique constraint to scraped_locations table';
+        ELSE
+            RAISE NOTICE 'Unique constraint already exists on scraped_locations table';
+        END IF;
+    ELSE
+        -- Create the scraped_locations table with proper constraints
+        CREATE TABLE scraped_locations (
+            id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+            location_name TEXT NOT NULL,
+            source TEXT NOT NULL,
+            visitor_count INTEGER,
+            rating DECIMAL(3,2),
+            tips TEXT,
+            lat DOUBLE PRECISION,
+            lng DOUBLE PRECISION,
+            cached_at TIMESTAMP DEFAULT NOW(),
+            place_type TEXT,
+            estimated_cost INTEGER,
+            estimated_duration INTEGER,
+            budget_category TEXT CHECK (budget_category IN ('low', 'medium', 'high')),
+            interest_match DECIMAL(3,2),
+            popularity_score DECIMAL(3,2),
+            weather_suitability TEXT CHECK (weather_suitability IN ('indoor', 'outdoor', 'flexible')),
+            opening_hours TEXT,
+            crowd_level TEXT CHECK (crowd_level IN ('low', 'medium', 'high')),
+            diversity_score DECIMAL(3,2),
+            created_at TIMESTAMP DEFAULT NOW(),
+            updated_at TIMESTAMP DEFAULT NOW(),
+            UNIQUE (location_name, source)
+        );
+        
+        -- Create indexes
+        CREATE INDEX idx_scraped_locations_cached_at ON scraped_locations(cached_at);
+        CREATE INDEX idx_scraped_locations_location_name ON scraped_locations(location_name);
+        CREATE INDEX idx_scraped_locations_source ON scraped_locations(source);
+        CREATE INDEX idx_scraped_locations_rating ON scraped_locations(rating DESC);
+        CREATE INDEX idx_scraped_locations_popularity ON scraped_locations(popularity_score DESC);
+        
+        RAISE NOTICE 'Created scraped_locations table with unique constraint';
+    END IF;
+END $;

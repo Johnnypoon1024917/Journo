@@ -1,0 +1,73 @@
+{
+  "title": "行程",
+  "trips": "行程",
+  "myTrips": "我的行程",
+  "createTrip": "创建行程",
+  "editTrip": "编辑行程",
+  "deleteTrip": "删除行程",
+  "tripDetails": "行程详情",
+  "noTrips": "暂无行程。创建您的第一个行程！",
+  "fields": {
+    "title": "标题",
+    "destination": "目的地",
+    "startDate": "开始日期",
+    "endDate": "结束日期",
+    "coverImage": "封面图片",
+    "theme": "主题",
+    "budget": "预算",
+    "currency": "货币",
+    "description": "描述"
+  },
+  "themes": {
+    "default": "默认",
+    "adventure": "冒险",
+    "romantic": "浪漫",
+    "foodie": "美食",
+    "chill": "悠闲"
+  },
+  "visibility": {
+    "public": "公开",
+    "private": "私密",
+    "community": "发布到社区"
+  },
+  "stats": {
+    "days": "{{count}} 天",
+    "days_plural": "{{count}} 天",
+    "places": "{{count}} 个地点",
+    "places_plural": "{{count}} 个地点",
+    "views": "{{count}} 次浏览",
+    "views_plural": "{{count}} 次浏览",
+    "likes": "{{count}} 个赞",
+    "likes_plural": "{{count}} 个赞"
+  },
+  "sharing": {
+    "shareTrip": "分享行程",
+    "copyLink": "复制链接",
+    "linkCopied": "链接已复制到剪贴板！",
+    "qrCode": "二维码",
+    "shareVia": "分享至",
+    "whatsapp": "WhatsApp",
+    "email": "电子邮件"
+  },
+  "collaboration": {
+    "collaborators": "协作者",
+    "addCollaborator": "添加协作者",
+    "inviteByEmail": "通过电子邮件邀请",
+    "role": "角色",
+    "roles": {
+      "owner": "拥有者",
+      "editor": "编辑者",
+      "viewer": "查看者"
+    },
+    "permissions": {
+      "owner": "完整访问权限",
+      "editor": "可编辑",
+      "viewer": "仅查看"
+    }
+  },
+  "versions": {
+    "versionHistory": "版本历史",
+    "restore": "恢复",
+    "currentVersion": "当前版本"
+  }
+}

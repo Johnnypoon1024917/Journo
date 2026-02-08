@@ -1,0 +1,46 @@
+{
+  "title": "Place",
+  "places": "Places",
+  "addPlace": "Add Place",
+  "editPlace": "Edit Place",
+  "deletePlace": "Delete Place",
+  "noPlaces": "No places added yet",
+  "fields": {
+    "name": "Name",
+    "address": "Address",
+    "location": "Location",
+    "timeStart": "Start Time",
+    "timeEnd": "End Time",
+    "notes": "Notes",
+    "image": "Image",
+    "type": "Type",
+    "sticker": "Sticker",
+    "cost": "Cost",
+    "category": "Category"
+  },
+  "types": {
+    "attraction": "Attraction",
+    "food": "Food",
+    "hotel": "Hotel",
+    "transport": "Transport",
+    "other": "Other"
+  },
+  "transport": {
+    "mode": "Transport Mode",
+    "driving": "Driving",
+    "walking": "Walking",
+    "transit": "Transit",
+    "flight": "Flight",
+    "travelTime": "Travel Time",
+    "distance": "Distance"
+  },
+  "search": {
+    "placeholder": "Search for a location...",
+    "searching": "Searching...",
+    "noResults": "No results found"
+  },
+  "stickers": {
+    "selectSticker": "Select a Sticker",
+    "noSticker": "No Sticker"
+  }
+}

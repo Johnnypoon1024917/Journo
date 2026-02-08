@@ -1,0 +1,477 @@
+/**
+ * Kawaii Design System CSS
+ * 
+ * Custom properties, utilities, and styles for the kawaii UI redesign.
+ */
+
+/* ============================================
+   CSS Custom Properties
+   ============================================ */
+
+:root {
+  /* Kawaii Primary Colors */
+  --kawaii-primary-50: #fff5f7;
+  --kawaii-primary-100: #ffe3e8;
+  --kawaii-primary-200: #ffc7d1;
+  --kawaii-primary-300: #ffaaba;
+  --kawaii-primary-400: #ff8ea3;
+  --kawaii-primary-500: #FFB3BA;
+  --kawaii-primary-600: #ff6b7f;
+  --kawaii-primary-700: #ff4d63;
+  --kawaii-primary-800: #ff2f47;
+  --kawaii-primary-900: #e6002b;
+  
+  /* Kawaii Cream Background */
+  --kawaii-cream: #FFF8F0;
+  
+  /* Kawaii Neutral Colors */
+  --kawaii-neutral-50: #fafaf9;
+  --kawaii-neutral-100: #f5f5f4;
+  --kawaii-neutral-200: #e7e5e4;
+  --kawaii-neutral-300: #d6d3d1;
+  --kawaii-neutral-400: #a8a29e;
+  --kawaii-neutral-500: #78716c;
+  --kawaii-neutral-600: #57534e;
+  --kawaii-neutral-700: #44403c;
+  --kawaii-neutral-800: #292524;
+  --kawaii-neutral-900: #1c1917;
+  
+  /* Dynamic Theme Variables (set by JS) */
+  --kawaii-primary: #FFB3BA;
+  --kawaii-font-size: 16px;
+  --kawaii-font-size-sm: 14px;
+  --kawaii-font-size-lg: 18px;
+  --kawaii-font-size-xl: 20px;
+  
+  /* Typography */
+  --kawaii-font-family: 'Noto Sans TC', 'Noto Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  --kawaii-font-family-display: 'Fredoka', 'Noto Sans TC', 'Noto Sans', sans-serif;
+  
+  /* Spacing */
+  --kawaii-spacing-xs: 0.5rem;
+  --kawaii-spacing-sm: 0.75rem;
+  --kawaii-spacing-md: 1rem;
+  --kawaii-spacing-lg: 1.5rem;
+  --kawaii-spacing-xl: 2rem;
+  --kawaii-spacing-2xl: 3rem;
+  --kawaii-spacing-3xl: 4rem;
+  
+  /* Touch Targets */
+  --kawaii-touch-min: 44px;
+  --kawaii-touch-comfortable: 48px;
+  --kawaii-touch-large: 56px;
+  
+  /* Animations */
+  --kawaii-duration-fast: 150ms;
+  --kawaii-duration-normal: 300ms;
+  --kawaii-duration-slow: 500ms;
+  --kawaii-easing-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --kawaii-easing-ease-out: cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Shadows */
+  --kawaii-shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.08);
+  --kawaii-shadow-md: 0 4px 8px -2px rgba(0, 0, 0, 0.1);
+  --kawaii-shadow-lg: 0 10px 20px -5px rgba(0, 0, 0, 0.12);
+  --kawaii-shadow-xl: 0 20px 30px -8px rgba(0, 0, 0, 0.15);
+  
+  /* Border Radius */
+  --kawaii-radius-sm: 0.5rem;
+  --kawaii-radius-md: 0.75rem;
+  --kawaii-radius-lg: 1rem;
+  --kawaii-radius-xl: 1.5rem;
+  --kawaii-radius-2xl: 2rem;
+  --kawaii-radius-full: 9999px;
+}
+
+/* Dark Mode Overrides - IMPROVED CONTRAST */
+.dark {
+  /* Darker background for better contrast */
+  --kawaii-cream: #1a1715;
+  
+  /* Improved neutral scale with better contrast ratios */
+  --kawaii-neutral-50: #0f0e0d;
+  --kawaii-neutral-100: #1c1917;
+  --kawaii-neutral-200: #292524;
+  --kawaii-neutral-300: #44403c;
+  --kawaii-neutral-400: #78716c;
+  --kawaii-neutral-500: #a8a29e;
+  --kawaii-neutral-600: #d6d3d1;
+  --kawaii-neutral-700: #e7e5e4;
+  --kawaii-neutral-800: #f5f5f4;
+  --kawaii-neutral-900: #fafaf9;
+  
+  /* Lighter primary colors for better visibility in dark mode */
+  --kawaii-primary-dark: #ffccd1;
+  --kawaii-primary-dark-hover: #ffe3e8;
+}
+
+/* ============================================
+   Kawaii Utility Classes
+   ============================================ */
+
+/* Kawaii Card */
+.kawaii-card {
+  background-color: var(--kawaii-cream);
+  border-radius: var(--kawaii-radius-xl);
+  box-shadow: var(--kawaii-shadow-md);
+  padding: var(--kawaii-spacing-lg);
+  transition: all var(--kawaii-duration-normal) var(--kawaii-easing-ease-out);
+}
+
+.kawaii-card:hover {
+  box-shadow: var(--kawaii-shadow-lg);
+  transform: translateY(-2px);
+}
+
+/* Kawaii Button */
+.kawaii-button {
+  min-height: var(--kawaii-touch-min);
+  min-width: var(--kawaii-touch-min);
+  padding: var(--kawaii-spacing-sm) var(--kawaii-spacing-lg);
+  border-radius: var(--kawaii-radius-full);
+  font-weight: 500;
+  font-size: var(--kawaii-font-size);
+  transition: all var(--kawaii-duration-fast) var(--kawaii-easing-spring);
+  cursor: pointer;
+  border: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.kawaii-button:active {
+  transform: scale(0.95);
+}
+
+.kawaii-button-primary {
+  background: linear-gradient(135deg, var(--kawaii-primary), var(--kawaii-primary-600));
+  color: white;
+  box-shadow: 0 4px 12px -3px var(--kawaii-primary);
+}
+
+.kawaii-button-primary:hover {
+  box-shadow: 0 6px 16px -3px var(--kawaii-primary);
+  transform: translateY(-1px);
+}
+
+.kawaii-button-secondary {
+  background-color: var(--kawaii-neutral-100);
+  color: var(--kawaii-neutral-800);
+}
+
+.kawaii-button-ghost {
+  background-color: transparent;
+  color: var(--kawaii-primary);
+}
+
+/* Kawaii Input */
+.kawaii-input {
+  min-height: var(--kawaii-touch-min);
+  padding: var(--kawaii-spacing-sm) var(--kawaii-spacing-md);
+  border-radius: var(--kawaii-radius-lg);
+  border: 2px solid var(--kawaii-neutral-200);
+  font-size: var(--kawaii-font-size);
+  font-family: var(--kawaii-font-family);
+  transition: all var(--kawaii-duration-fast) var(--kawaii-easing-ease-out);
+  outline: none;
+}
+
+.kawaii-input:focus {
+  border-color: var(--kawaii-primary);
+  box-shadow: 0 0 0 3px rgba(255, 179, 186, 0.1);
+}
+
+/* Kawaii FAB (Floating Action Button) */
+.kawaii-fab {
+  position: fixed;
+  bottom: calc(80px + var(--kawaii-spacing-lg));
+  right: var(--kawaii-spacing-lg);
+  width: var(--kawaii-touch-large);
+  height: var(--kawaii-touch-large);
+  border-radius: var(--kawaii-radius-full);
+  background: linear-gradient(135deg, var(--kawaii-primary), var(--kawaii-primary-600));
+  color: white;
+  box-shadow: var(--kawaii-shadow-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  z-index: 40;
+  transition: all var(--kawaii-duration-normal) var(--kawaii-easing-spring);
+  animation: pulse-gentle 2s ease-in-out infinite;
+}
+
+.kawaii-fab:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 24px -5px var(--kawaii-primary);
+}
+
+.kawaii-fab:active {
+  transform: scale(0.95);
+}
+
+@keyframes pulse-gentle {
+  0%, 100% {
+    box-shadow: var(--kawaii-shadow-xl);
+  }
+  50% {
+    box-shadow: 0 8px 24px -5px var(--kawaii-primary);
+  }
+}
+
+/* Kawaii Bottom Navigation */
+.kawaii-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background-color: white;
+  border-top: 1px solid var(--kawaii-neutral-200);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 50;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.dark .kawaii-bottom-nav {
+  background-color: var(--kawaii-neutral-900);
+  border-top-color: var(--kawaii-neutral-800);
+}
+
+.kawaii-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  min-width: var(--kawaii-touch-min);
+  min-height: var(--kawaii-touch-min);
+  color: var(--kawaii-neutral-500);
+  transition: all var(--kawaii-duration-fast) var(--kawaii-easing-ease-out);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.kawaii-nav-item.active {
+  color: var(--kawaii-primary);
+}
+
+.kawaii-nav-item:active {
+  transform: scale(0.9);
+}
+
+.kawaii-nav-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* Kawaii Day Card */
+.kawaii-day-card {
+  background-color: var(--kawaii-cream);
+  border-radius: var(--kawaii-radius-2xl);
+  padding: var(--kawaii-spacing-xl);
+  box-shadow: var(--kawaii-shadow-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Kawaii Boarding Pass Card */
+.kawaii-boarding-pass {
+  background: linear-gradient(135deg, #FFB3BA 0%, #FF8EA3 100%);
+  border-radius: var(--kawaii-radius-xl);
+  padding: var(--kawaii-spacing-lg);
+  color: white;
+  box-shadow: var(--kawaii-shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.kawaii-boarding-pass::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 10px,
+    rgba(255, 255, 255, 0.05) 10px,
+    rgba(255, 255, 255, 0.05) 20px
+  );
+  pointer-events: none;
+}
+
+/* Kawaii Checkbox */
+.kawaii-checkbox {
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--kawaii-neutral-300);
+  border-radius: var(--kawaii-radius-sm);
+  cursor: pointer;
+  transition: all var(--kawaii-duration-fast) var(--kawaii-easing-spring);
+  position: relative;
+}
+
+.kawaii-checkbox:checked {
+  background-color: var(--kawaii-primary);
+  border-color: var(--kawaii-primary);
+}
+
+.kawaii-checkbox:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* Kawaii Animations */
+@keyframes kawaii-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes kawaii-wiggle {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-5deg);
+  }
+  75% {
+    transform: rotate(5deg);
+  }
+}
+
+@keyframes kawaii-float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+.kawaii-bounce {
+  animation: kawaii-bounce 1s ease-in-out infinite;
+}
+
+.kawaii-wiggle {
+  animation: kawaii-wiggle 0.5s ease-in-out;
+}
+
+.kawaii-float {
+  animation: kawaii-float 3s ease-in-out infinite;
+}
+
+/* Responsive Font Sizes */
+@media (max-width: 640px) {
+  :root {
+    --kawaii-font-size-sm: calc(var(--kawaii-font-size) * 0.875);
+    --kawaii-font-size-lg: calc(var(--kawaii-font-size) * 1.125);
+    --kawaii-font-size-xl: calc(var(--kawaii-font-size) * 1.25);
+  }
+}
+
+/* ============================================
+   Contrast-Safe Utility Classes
+   ============================================ */
+
+/* High contrast text - for primary content */
+.text-contrast-high {
+  color: var(--kawaii-neutral-900);
+}
+
+.dark .text-contrast-high {
+  color: var(--kawaii-neutral-100);
+}
+
+/* Medium contrast text - for secondary content */
+.text-contrast-medium {
+  color: var(--kawaii-neutral-700);
+}
+
+.dark .text-contrast-medium {
+  color: var(--kawaii-neutral-300);
+}
+
+/* Low contrast text - for tertiary content */
+.text-contrast-low {
+  color: var(--kawaii-neutral-600);
+}
+
+.dark .text-contrast-low {
+  color: var(--kawaii-neutral-400);
+}
+
+/* Contrast-safe surface backgrounds */
+.bg-contrast-surface {
+  background-color: white;
+}
+
+.dark .bg-contrast-surface {
+  background-color: var(--kawaii-neutral-800);
+}
+
+/* Contrast-safe elevated backgrounds */
+.bg-contrast-elevated {
+  background-color: var(--kawaii-neutral-50);
+}
+
+.dark .bg-contrast-elevated {
+  background-color: var(--kawaii-neutral-700);
+}
+
+/* Contrast-safe card backgrounds */
+.bg-contrast-card {
+  background-color: white;
+}
+
+.dark .bg-contrast-card {
+  background-color: var(--kawaii-neutral-800);
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .kawaii-fab {
+    animation: none;
+  }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .kawaii-button,
+  .kawaii-nav-item,
+  .kawaii-fab {
+    min-height: var(--kawaii-touch-comfortable);
+    min-width: var(--kawaii-touch-comfortable);
+  }
+}
+
+/* Safe Area Support */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .kawaii-bottom-nav {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+}

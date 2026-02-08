@@ -1,0 +1,46 @@
+{
+  "general": {
+    "unknown": "发生未知错误",
+    "network": "网络错误。请检查您的连接。",
+    "timeout": "请求超时。请重试。",
+    "serverError": "服务器错误。请稍后再试。"
+  },
+  "auth": {
+    "invalidCredentials": "电子邮件或密码无效",
+    "emailInUse": "电子邮件已被使用",
+    "weakPassword": "密码强度不足",
+    "sessionExpired": "您的会话已过期。请重新登录。",
+    "unauthorized": "您无权执行此操作"
+  },
+  "validation": {
+    "required": "此字段为必填",
+    "invalidEmail": "电子邮件地址无效",
+    "invalidDate": "日期无效",
+    "dateRange": "结束日期必须在开始日期之后",
+    "minLength": "至少需要 {{min}} 个字符",
+    "maxLength": "最多 {{max}} 个字符",
+    "invalidNumber": "必须是有效的数字",
+    "positiveNumber": "必须是正数"
+  },
+  "trip": {
+    "notFound": "未找到行程",
+    "loadFailed": "加载行程失败",
+    "saveFailed": "保存行程失败",
+    "deleteFailed": "删除行程失败",
+    "noPermission": "您没有编辑此行程的权限"
+  },
+  "place": {
+    "notFound": "未找到地点",
+    "saveFailed": "保存地点失败",
+    "deleteFailed": "删除地点失败"
+  },
+  "upload": {
+    "failed": "上传失败",
+    "tooLarge": "文件太大（最大 {{max}}MB）",
+    "invalidType": "文件类型无效"
+  },
+  "offline": {
+    "syncFailed": "同步离线更改失败",
+    "notAvailableOffline": "此功能在离线时不可用"
+  }
+}

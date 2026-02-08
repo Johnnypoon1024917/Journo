@@ -1,0 +1,46 @@
+{
+  "title": "場所",
+  "places": "場所",
+  "addPlace": "場所を追加",
+  "editPlace": "場所を編集",
+  "deletePlace": "場所を削除",
+  "noPlaces": "まだ場所が追加されていません",
+  "fields": {
+    "name": "名前",
+    "address": "住所",
+    "location": "位置",
+    "timeStart": "開始時刻",
+    "timeEnd": "終了時刻",
+    "notes": "メモ",
+    "image": "画像",
+    "type": "タイプ",
+    "sticker": "ステッカー",
+    "cost": "費用",
+    "category": "カテゴリー"
+  },
+  "types": {
+    "attraction": "観光地",
+    "food": "飲食",
+    "hotel": "ホテル",
+    "transport": "交通",
+    "other": "その他"
+  },
+  "transport": {
+    "mode": "交通手段",
+    "driving": "車",
+    "walking": "徒歩",
+    "transit": "公共交通機関",
+    "flight": "飛行機",
+    "travelTime": "移動時間",
+    "distance": "距離"
+  },
+  "search": {
+    "placeholder": "場所を検索...",
+    "searching": "検索中...",
+    "noResults": "結果が見つかりません"
+  },
+  "stickers": {
+    "selectSticker": "ステッカーを選択",
+    "noSticker": "ステッカーなし"
+  }
+}

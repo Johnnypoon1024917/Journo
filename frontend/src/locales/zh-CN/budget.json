@@ -1,0 +1,39 @@
+{
+  "title": "预算",
+  "budgetTracker": "预算追踪",
+  "totalBudget": "总预算",
+  "totalSpent": "总支出",
+  "remaining": "剩余",
+  "overspent": "超支",
+  "dailyBudget": "每日预算",
+  "categories": {
+    "accommodation": "住宿",
+    "food": "餐饮",
+    "transport": "交通",
+    "activities": "活动",
+    "shopping": "购物",
+    "misc": "其他"
+  },
+  "breakdown": {
+    "title": "支出明细",
+    "byCategory": "按类别",
+    "byDay": "按日期"
+  },
+  "warnings": {
+    "approaching": "您即将达到预算上限（已使用 {{percent}}%）",
+    "exceeded": "您已超支 {{amount}}"
+  },
+  "export": {
+    "exportPDF": "导出为 PDF",
+    "exportCSV": "导出为 CSV",
+    "shareableBudget": "可分享的预算视图"
+  },
+  "tips": {
+    "addTip": "添加小费",
+    "tipPercent": "小费 {{percent}}%"
+  },
+  "split": {
+    "splitCost": "分摊费用",
+    "splitAmong": "由 {{count}} 位旅客分摊"
+  }
+}

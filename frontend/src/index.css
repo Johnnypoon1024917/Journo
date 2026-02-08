@@ -1,0 +1,472 @@
+/* Import accessibility styles */
+@import './styles/accessibility.css';
+
+/* Import animation styles */
+@import './styles/animations.css';
+
+/* Import centralized Kawaii theme system */
+@import './design-system/centralizedKawaiiTheme.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Responsive font scaling */
+  html {
+    font-size: 16px;
+  }
+  
+  @media (max-width: 640px) {
+    html {
+      font-size: 15px;
+    }
+  }
+  
+  @media (min-width: 1280px) {
+    html {
+      font-size: 17px;
+    }
+  }
+  
+  @media (min-width: 1920px) {
+    html {
+      font-size: 18px;
+    }
+  }
+
+  /* Smooth scrolling for better UX */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  /* Better text rendering */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+  
+  /* Prevent horizontal scrolling on html as well */
+  html {
+    overflow-x: hidden;
+  }
+  
+  /* Ensure box-sizing includes padding and border */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  /* Responsive images by default */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Better button defaults */
+  button {
+    touch-action: manipulation;
+  }
+}
+
+@layer components {
+  /* Responsive container utilities */
+  .container-responsive {
+    @apply mx-auto w-full;
+    @apply px-4 sm:px-6 lg:px-8;
+    @apply max-w-mobile sm:max-w-tablet lg:max-w-desktop xl:max-w-wide 2xl:max-w-ultra;
+  }
+
+  /* Touch-friendly button base */
+  .btn-touch {
+    @apply min-h-touch min-w-touch;
+    @apply flex items-center justify-center;
+    @apply touch-manipulation tap-highlight-transparent;
+    @apply transition-all duration-150 ease-in-out;
+  }
+
+  /* Responsive text utilities */
+  .text-responsive-xs {
+    @apply text-xs sm:text-sm;
+  }
+  
+  .text-responsive-sm {
+    @apply text-sm sm:text-base;
+  }
+  
+  .text-responsive-base {
+    @apply text-base sm:text-lg;
+  }
+  
+  .text-responsive-lg {
+    @apply text-lg sm:text-xl;
+  }
+  
+  .text-responsive-xl {
+    @apply text-xl sm:text-2xl;
+  }
+  
+  .text-responsive-2xl {
+    @apply text-2xl sm:text-3xl;
+  }
+  
+  .text-responsive-3xl {
+    @apply text-3xl sm:text-4xl;
+  }
+
+  /* Responsive spacing utilities */
+  .space-responsive-sm > * + * {
+    @apply mt-2 sm:mt-3;
+  }
+  
+  .space-responsive-md > * + * {
+    @apply mt-3 sm:mt-4 lg:mt-6;
+  }
+  
+  .space-responsive-lg > * + * {
+    @apply mt-4 sm:mt-6 lg:mt-8;
+  }
+
+  /* Grid utilities for responsive layouts */
+  .grid-responsive-1-2-3 {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3;
+  }
+  
+  .grid-responsive-1-2-4 {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4;
+  }
+  
+  .grid-responsive-auto {
+    @apply grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  /* Card component with responsive padding */
+  .card-responsive {
+    @apply bg-white dark:bg-gray-800;
+    @apply border border-gray-200 dark:border-gray-700;
+    @apply rounded-lg shadow-md;
+    @apply p-4 sm:p-6;
+  }
+
+  /* Form input with touch optimization */
+  .input-touch {
+    @apply min-h-touch;
+    @apply px-3 py-2;
+    @apply text-base; /* Prevent zoom on iOS */
+    @apply border border-gray-300 dark:border-gray-600;
+    @apply rounded-md;
+    @apply focus:ring-2 focus:ring-primary-500 focus:border-primary-500;
+    @apply transition-colors duration-200;
+  }
+
+  /* Navigation utilities */
+  .nav-mobile {
+    @apply fixed inset-x-0 top-0 z-50;
+    @apply bg-white dark:bg-gray-800;
+    @apply border-b border-gray-200 dark:border-gray-700;
+    @apply pt-safe;
+  }
+  
+  .nav-desktop {
+    @apply sticky top-0 z-40;
+    @apply bg-white dark:bg-gray-800;
+    @apply border-b border-gray-200 dark:border-gray-700;
+  }
+
+  /* Modal utilities for responsive design */
+  .modal-responsive {
+    @apply fixed inset-0 z-modal;
+    @apply flex items-center justify-center;
+    @apply p-4 sm:p-6;
+  }
+  
+  .modal-content-responsive {
+    @apply bg-white dark:bg-gray-800;
+    @apply rounded-lg shadow-xl;
+    @apply w-full max-w-mobile sm:max-w-tablet lg:max-w-desktop;
+    @apply max-h-screen overflow-y-auto;
+    @apply p-4 sm:p-6;
+  }
+
+  /* Drawer utilities for mobile */
+  .drawer-mobile {
+    @apply fixed inset-y-0 right-0 z-modal;
+    @apply w-80 max-w-full;
+    @apply bg-white dark:bg-gray-800;
+    @apply shadow-xl;
+    @apply transform transition-transform duration-300 ease-in-out;
+  }
+  
+  .drawer-mobile.open {
+    @apply translate-x-0;
+  }
+  
+  .drawer-mobile.closed {
+    @apply translate-x-full;
+  }
+}
+
+@layer utilities {
+  /* Touch-specific utilities */
+  .touch-only {
+    display: none;
+  }
+  
+  .no-touch-only {
+    display: block;
+  }
+  
+  @media (hover: none) and (pointer: coarse) {
+    .touch-only {
+      display: block !important;
+    }
+    
+    .no-touch-only {
+      display: none !important;
+    }
+    
+    /* Larger touch targets on touch devices */
+    .btn-touch-large {
+      @apply min-h-touch-lg min-w-touch-lg;
+    }
+  }
+
+  /* Responsive visibility utilities */
+  .mobile-only {
+    @apply block sm:hidden;
+  }
+  
+  .tablet-only {
+    @apply hidden sm:block lg:hidden;
+  }
+  
+  .desktop-only {
+    @apply hidden lg:block;
+  }
+  
+  .mobile-tablet-only {
+    @apply block lg:hidden;
+  }
+  
+  .tablet-desktop-only {
+    @apply hidden sm:block;
+  }
+
+  /* Aspect ratio utilities for responsive media */
+  .aspect-video-responsive {
+    aspect-ratio: 16 / 9;
+  }
+  
+  @media (max-width: 640px) {
+    .aspect-video-responsive {
+      aspect-ratio: 4 / 3;
+    }
+  }
+  
+  .aspect-square-responsive {
+    aspect-ratio: 1 / 1;
+  }
+  
+  @media (max-width: 640px) {
+    .aspect-square-responsive {
+      aspect-ratio: 4 / 5;
+    }
+  }
+
+  /* Safe area utilities */
+  .safe-area-inset {
+    padding-top: max(1rem, env(safe-area-inset-top));
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+
+  /* Scroll utilities */
+  .scroll-touch {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  /* Animation utilities with reduced motion support */
+  @keyframes slide-in-right {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  .animate-slide-in-right {
+    animation: slide-in-right 0.3s ease-out;
+  }
+
+  @keyframes slide-in-left {
+    from {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  .animate-slide-in-left {
+    animation: slide-in-left 0.3s ease-out;
+  }
+
+  @keyframes slide-up {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .animate-slide-up {
+    animation: slide-up 0.3s ease-out;
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.2s ease-out;
+  }
+
+  @keyframes scale-in {
+    from {
+      transform: scale(0.9);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .animate-scale-in {
+    animation: scale-in 0.2s ease-out;
+  }
+
+  /* Disable animations for users who prefer reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-slide-in-right,
+    .animate-slide-in-left,
+    .animate-slide-up,
+    .animate-fade-in,
+    .animate-scale-in {
+      animation: none;
+    }
+  }
+}
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Safe area insets for devices with notches - Requirements: 17.7 */
+  --safe-area-inset-top: env(safe-area-inset-top, 0px);
+  --safe-area-inset-right: env(safe-area-inset-right, 0px);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-inset-left: env(safe-area-inset-left, 0px);
+}
+
+/* Light mode defaults */
+:root {
+  color-scheme: light;
+  color: #1f2937;
+  background-color: #ffffff;
+}
+
+/* Dark mode */
+.dark {
+  color-scheme: dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #1f2937;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+#root {
+  width: 100%;
+}
+
+/* TipTap Editor Styles */
+.ProseMirror {
+  outline: none;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Task list styles */
+.ProseMirror ul[data-type="taskList"] {
+  list-style: none;
+  padding: 0;
+}
+
+.ProseMirror ul[data-type="taskList"] li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.ProseMirror ul[data-type="taskList"] li > label {
+  flex: 0 0 auto;
+  margin-right: 0.5rem;
+  user-select: none;
+}
+
+.ProseMirror ul[data-type="taskList"] li > div {
+  flex: 1 1 auto;
+}
+
+.ProseMirror ul[data-type="taskList"] input[type="checkbox"] {
+  cursor: pointer;
+  width: 1rem;
+  height: 1rem;
+  margin-top: 0.25rem;
+}
+
+/* Dark mode adjustments for checkboxes */
+.dark .ProseMirror ul[data-type="taskList"] input[type="checkbox"] {
+  accent-color: #3b82f6;
+}

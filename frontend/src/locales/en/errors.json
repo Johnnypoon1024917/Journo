@@ -1,0 +1,46 @@
+{
+  "general": {
+    "unknown": "An unknown error occurred",
+    "network": "Network error. Please check your connection.",
+    "timeout": "Request timed out. Please try again.",
+    "serverError": "Server error. Please try again later."
+  },
+  "auth": {
+    "invalidCredentials": "Invalid email or password",
+    "emailInUse": "Email already in use",
+    "weakPassword": "Password is too weak",
+    "sessionExpired": "Your session has expired. Please log in again.",
+    "unauthorized": "You are not authorized to perform this action"
+  },
+  "validation": {
+    "required": "This field is required",
+    "invalidEmail": "Invalid email address",
+    "invalidDate": "Invalid date",
+    "dateRange": "End date must be after start date",
+    "minLength": "Must be at least {{min}} characters",
+    "maxLength": "Must be at most {{max}} characters",
+    "invalidNumber": "Must be a valid number",
+    "positiveNumber": "Must be a positive number"
+  },
+  "trip": {
+    "notFound": "Trip not found",
+    "loadFailed": "Failed to load trip",
+    "saveFailed": "Failed to save trip",
+    "deleteFailed": "Failed to delete trip",
+    "noPermission": "You don't have permission to edit this trip"
+  },
+  "place": {
+    "notFound": "Place not found",
+    "saveFailed": "Failed to save place",
+    "deleteFailed": "Failed to delete place"
+  },
+  "upload": {
+    "failed": "Upload failed",
+    "tooLarge": "File is too large (max {{max}}MB)",
+    "invalidType": "Invalid file type"
+  },
+  "offline": {
+    "syncFailed": "Failed to sync offline changes",
+    "notAvailableOffline": "This feature is not available offline"
+  }
+}
