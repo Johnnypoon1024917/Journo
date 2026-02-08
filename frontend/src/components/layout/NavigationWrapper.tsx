@@ -4,8 +4,7 @@
  * Handles responsive navigation rendering:
  * - Side navigation for desktop/tablet
  * - Bottom navigation for mobile
- * - Consistent active tab handling
- * - Proper spacing for navigation elements
+ * - Proper spacing and overflow prevention
  */
 
 import React, { useState } from 'react';
@@ -31,12 +30,12 @@ export const NavigationWrapper: React.FC<NavigationWrapperProps> = ({
   const [sideNavCollapsed, setSideNavCollapsed] = useState(false);
 
   return (
-    <>
+    <div className="relative min-h-screen w-full overflow-x-hidden">
       {/* Desktop: Side Navigation */}
       {!isMobile && (
         <SideNavigation
           activeTab={activeTab}
-          onTabChange={onTabChange}
+          onTabChange={(tab) => onTabChange(tab as NavigationTab)}
           collapsed={sideNavCollapsed}
           onCollapsedChange={setSideNavCollapsed}
           className="fixed left-0 top-0 bottom-0 z-40"
@@ -46,25 +45,24 @@ export const NavigationWrapper: React.FC<NavigationWrapperProps> = ({
       {/* Page Content with proper spacing */}
       <div
         className={cn(
-          !isMobile && (sideNavCollapsed ? 'ml-20' : 'ml-60'), // 80px collapsed, 240px expanded
-          'transition-all duration-300', // Smooth transition when collapsing
-          'overflow-x-hidden', // Prevent horizontal scrolling
-          'max-w-full', // Ensure content doesn't exceed viewport width
-          'w-full' // Take full available width
+          'min-h-screen w-full',
+          !isMobile && (sideNavCollapsed ? 'pl-20' : 'pl-60'),
+          'transition-[padding] duration-300',
+          'overflow-x-hidden'
         )}
       >
         {children}
         {/* Spacer for bottom navigation on mobile */}
-        {isMobile && <div className="h-24" />}
+        {isMobile && <div className="h-24 shrink-0" />}
       </div>
       
       {/* Mobile: Bottom Navigation */}
       {isMobile && (
         <BottomNavigation
           activeTab={activeTab}
-          onTabChange={onTabChange}
+          onTabChange={(tab) => onTabChange(tab as NavigationTab)}
         />
       )}
-    </>
+    </div>
   );
 };

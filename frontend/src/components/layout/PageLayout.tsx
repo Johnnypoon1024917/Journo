@@ -3,10 +3,10 @@
  * 
  * Reusable page wrapper that provides:
  * - Consistent padding and spacing
- * - Responsive container
+ * - Responsive container with overflow protection
  * - Sticker display integration
  * - Loading and error states
- * - Proper spacing for navigation
+ * - Grid-based layout compatibility
  */
 
 import React from 'react';
@@ -50,7 +50,7 @@ export const PageLayout: React.FC<PageLayoutProps> = ({
   tripId,
   entityType = 'trip',
   entityId,
-  showStickers = false, // Changed default to false since pages handle their own stickers
+  showStickers = false,
   maxWidth = 'xl',
   noPadding = false,
   isLoading = false,
@@ -61,65 +61,83 @@ export const PageLayout: React.FC<PageLayoutProps> = ({
   return (
     <div 
       className={cn(
-        'relative min-h-screen',
+        'flex flex-col min-h-screen',
         'bg-kawaii-cream dark:bg-kawaii-neutral-900',
-        'overflow-x-hidden', // Prevent horizontal scrolling
-        'w-full max-w-full', // Ensure full width but not exceeding viewport
+        'overflow-x-hidden',
+        'w-full',
         className
       )}
     >
       {/* Sticker Display */}
       {showStickers && tripId && (
-        <StickerDisplay
-          tripId={tripId}
-          elementType={entityType === 'trip' ? 'trip' : entityType === 'trip_day' ? 'day' : 'activity'}
-          elementId={entityId || tripId}
-          editable={true}
-        />
+        <div className="relative z-10 pointer-events-none">
+          <StickerDisplay
+            tripId={tripId}
+            elementType={entityType === 'trip' ? 'trip' : entityType === 'trip_day' ? 'day' : 'activity'}
+            elementId={entityId || tripId}
+            editable={true}
+          />
+        </div>
       )}
       
       {/* Main Content */}
       <div
         className={cn(
-          'relative mx-auto',
-          'w-full max-w-full', // Ensure content fits viewport
-          maxWidthClasses[maxWidth],
-          !noPadding && 'px-4 md:px-8 pt-4 pb-8',
+          'flex-1 flex flex-col',
+          'overflow-x-hidden overflow-y-auto',
           contentClassName
         )}
-        style={{
-          zIndex: LAYOUT_CONSTANTS.Z_INDEX.CONTENT,
-        }}
       >
-        {/* Loading State */}
-        {isLoading && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="flex items-center justify-center py-12"
-          >
-            <div className="text-center">
+        <div
+          className={cn(
+            'mx-auto w-full',
+            maxWidthClasses[maxWidth],
+            !noPadding && 'px-4 sm:px-6 md:px-8',
+            !noPadding && 'py-6 md:py-8',
+            'box-border'
+          )}
+          style={{
+            zIndex: LAYOUT_CONSTANTS.Z_INDEX.CONTENT,
+          }}
+        >
+          {/* Loading State */}
+          {isLoading && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="flex flex-col items-center justify-center min-h-[60vh]"
+              role="status"
+              aria-live="polite"
+            >
               <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-kawaii-pink border-t-transparent" />
-              <p className="mt-4 text-kawaii-neutral-600 dark:text-kawaii-neutral-400">
+              <p className="mt-5 text-lg font-medium text-kawaii-neutral-600 dark:text-kawaii-neutral-400">
                 Loading...
               </p>
+            </motion.div>
+          )}
+          
+          {/* Error State */}
+          {error && !isLoading && (
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-red-50/90 dark:bg-red-950/40 border border-red-200 dark:border-red-800 rounded-xl p-5 mb-6 shadow-sm"
+              role="alert"
+            >
+              <p className="text-red-800 dark:text-red-200 font-medium leading-relaxed">
+                {error}
+              </p>
+            </motion.div>
+          )}
+          
+          {/* Page Content */}
+          {!isLoading && !error && (
+            <div className="overflow-x-hidden w-full">
+              {children}
             </div>
-          </motion.div>
-        )}
-        
-        {/* Error State */}
-        {error && !isLoading && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-4"
-          >
-            <p className="text-red-800 dark:text-red-200">{error}</p>
-          </motion.div>
-        )}
-        
-        {/* Page Content */}
-        {!isLoading && !error && children}
+          )}
+        </div>
       </div>
     </div>
   );

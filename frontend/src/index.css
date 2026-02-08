@@ -12,6 +12,23 @@
 @tailwind utilities;
 
 @layer base {
+  /* Prevent horizontal scrolling globally */
+  html, body {
+    @apply h-full overflow-x-hidden;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Root container should use grid */
+  #root {
+    @apply min-h-full;
+  }
+  
+  /* Ensure box-sizing includes padding and border */
+  * {
+    box-sizing: border-box;
+  }
+  
   /* Responsive font scaling */
   html {
     font-size: 16px;
@@ -51,17 +68,6 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    overflow-x: hidden;
-  }
-  
-  /* Prevent horizontal scrolling on html as well */
-  html {
-    overflow-x: hidden;
-  }
-  
-  /* Ensure box-sizing includes padding and border */
-  *, *::before, *::after {
-    box-sizing: border-box;
   }
 
   /* Responsive images by default */
