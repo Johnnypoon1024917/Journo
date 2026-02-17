@@ -114,7 +114,8 @@ async function fetchWeatherData(
     }
     
     // Adjust dates if they exceed the forecast limit
-    const adjustedStart = start < today ? today.toISOString().split('T')[0] : startDate;
+    // Open-Meteo supports historical data, so don't adjust start date unless it's too far in the past
+    const adjustedStart = startDate;
     const adjustedEnd = end > maxForecastDate ? maxForecastDate.toISOString().split('T')[0] : endDate;
     
     console.log('Adjusted dates for API call:', { adjustedStart, adjustedEnd });
@@ -237,24 +238,42 @@ function generateMockWeather(startDate: string, endDate: string): DailyForecast[
  */
 export async function getWeatherForecast(
   location: string,
-  startDate: Date,
-  endDate: Date
+  startDate: string | Date,
+  endDate: string | Date
 ): Promise<DailyForecast[]> {
   console.log('getWeatherForecast called for:', location, startDate, endDate);
+  
+  // Convert to date strings if Date objects are passed
+  let start: string;
+  let end: string;
+  
+  if (typeof startDate === 'string') {
+    start = startDate;
+  } else {
+    if (!startDate || isNaN(startDate.getTime())) {
+      console.error('Invalid start date:', startDate);
+      return [];
+    }
+    start = startDate.toISOString().split('T')[0];
+  }
+  
+  if (typeof endDate === 'string') {
+    end = endDate;
+  } else {
+    if (!endDate || isNaN(endDate.getTime())) {
+      console.error('Invalid end date:', endDate);
+      return [];
+    }
+    end = endDate.toISOString().split('T')[0];
+  }
   
   // Geocode location
   const coords = await geocodeLocation(location);
   if (!coords) {
     console.error('Could not geocode location:', location);
     // Return mock data as fallback
-    const start = startDate.toISOString().split('T')[0];
-    const end = endDate.toISOString().split('T')[0];
     return generateMockWeather(start, end);
   }
-  
-  // Format dates
-  const start = startDate.toISOString().split('T')[0];
-  const end = endDate.toISOString().split('T')[0];
   
   // Fetch weather
   const forecasts = await fetchWeatherData(coords.lat, coords.lng, start, end);
@@ -268,9 +287,10 @@ export async function getWeatherForecast(
  */
 export async function getWeatherForDate(
   location: string,
-  date: Date
+  date: string | Date
 ): Promise<DailyForecast | null> {
-  const forecasts = await getWeatherForecast(location, date, date);
+  const dateStr = typeof date === 'string' ? date : date.toISOString().split('T')[0];
+  const forecasts = await getWeatherForecast(location, dateStr, dateStr);
   return forecasts.length > 0 ? forecasts[0] : null;
 }
 

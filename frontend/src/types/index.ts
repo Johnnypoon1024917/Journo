@@ -42,6 +42,7 @@ export * from './maps';
 export * from './destination';
 
 // Budget and Currency types
+export * from './expense';
 export * from './currency';
 
 // Analytics and Admin types

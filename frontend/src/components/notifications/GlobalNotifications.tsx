@@ -8,6 +8,8 @@ import { Bell } from 'lucide-react';
 import { useNotifications } from '../../hooks/useNotifications';
 import { NotificationCenter } from '../kawaii/NotificationCenterWeb';
 import { useEnhancedAuthStore } from '../../stores/enhancedAuthStore';
+import { useFABPosition, getFABStyle } from '../../hooks/useFABPosition';
+import { useLocation } from 'react-router-dom';
 
 export const GlobalNotifications: React.FC = () => {
   const [showCenter, setShowCenter] = useState(false);
@@ -15,6 +17,17 @@ export const GlobalNotifications: React.FC = () => {
   const { notifications, unreadCount } = useNotifications();
   const isAuthenticated = useEnhancedAuthStore((state) => state.isAuthenticated);
   const accessToken = useEnhancedAuthStore((state) => state.accessToken);
+  const location = useLocation();
+  
+  // Check if we're on a page with bottom navigation
+  const hasBottomNav = location.pathname.includes('/trips/');
+  
+  // Get FAB position (notification is always top-most, index 0)
+  const fabPosition = useFABPosition({ 
+    type: 'notification', 
+    index: 0,
+    hasBottomNav 
+  });
 
   // Listen for new notifications and show toasts
   useEffect(() => {
@@ -104,7 +117,8 @@ export const GlobalNotifications: React.FC = () => {
       {/* Notification Bell Button */}
       <button
         onClick={() => setShowCenter(true)}
-        className="fixed bottom-6 right-6 z-[9998] bg-kawaii-primary-500 hover:bg-kawaii-primary-600 text-white rounded-full p-4 shadow-lg transition-all hover:scale-110"
+        style={getFABStyle(fabPosition)}
+        className="bg-kawaii-primary-500 hover:bg-kawaii-primary-600 text-white rounded-full p-4 shadow-lg transition-all hover:scale-110"
         aria-label="Open notifications"
       >
         <Bell className="w-6 h-6" />

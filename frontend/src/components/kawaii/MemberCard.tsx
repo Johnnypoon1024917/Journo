@@ -15,9 +15,10 @@
  * Requirements: 14.1, 14.3
  */
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { createPortal } from 'react-dom';
 import {
   EllipsisVerticalIcon,
   UserCircleIcon,
@@ -46,9 +47,9 @@ const ROLE_COLORS: Record<CollaboratorRole, { bg: string; text: string }> = {
 
 // Role translation keys
 const ROLE_LABELS: Record<CollaboratorRole, string> = {
-  owner: 'members.roles.owner',
-  editor: 'members.roles.editor',
-  viewer: 'members.roles.viewer',
+  owner: 'roles.owner',
+  editor: 'roles.editor',
+  viewer: 'roles.viewer',
 };
 
 /**
@@ -77,6 +78,19 @@ export const MemberCard: React.FC<MemberCardProps> = ({
   const { t: tCommon } = useTranslation('common');
   const [showMenu, setShowMenu] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+
+  // Update menu position when it opens
+  useEffect(() => {
+    if (showMenu && menuButtonRef.current) {
+      const rect = menuButtonRef.current.getBoundingClientRect();
+      setMenuPosition({
+        top: rect.bottom + window.scrollY + 8,
+        left: rect.right + window.scrollX - 160, // 160px is menu width
+      });
+    }
+  }, [showMenu]);
 
   const handleRemove = () => {
     if (onRemove && !isOwner) {
@@ -183,6 +197,7 @@ export const MemberCard: React.FC<MemberCardProps> = ({
           {canManage && !isOwner && (
             <div className="relative flex-shrink-0">
               <button
+                ref={menuButtonRef}
                 onClick={() => setShowMenu(!showMenu)}
                 className={cn(
                   'p-2 rounded-lg',
@@ -197,84 +212,90 @@ export const MemberCard: React.FC<MemberCardProps> = ({
               >
                 <EllipsisVerticalIcon className="w-5 h-5" />
               </button>
-
-              {/* Dropdown menu */}
-              {showMenu && (
-                <motion.div
-                  className={cn(
-                    'absolute right-0 top-full mt-2 z-10',
-                    'bg-white dark:bg-kawaii-neutral-800',
-                    'rounded-lg shadow-xl',
-                    'overflow-hidden',
-                    'min-w-[160px]',
-                    'border border-kawaii-neutral-200 dark:border-kawaii-neutral-700'
-                  )}
-                  initial={{ opacity: 0, scale: 0.95, y: -10 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                  transition={{ duration: 0.15 }}
-                >
-                  {/* Change role options */}
-                  {onRoleChange && member.role !== 'editor' && (
-                    <button
-                      onClick={() => handleRoleChange('editor')}
-                      className={cn(
-                        'w-full flex items-center gap-3 px-4 py-3',
-                        'text-left text-sm',
-                        'text-kawaii-neutral-700 dark:text-kawaii-neutral-200',
-                        'hover:bg-kawaii-neutral-100 dark:hover:bg-kawaii-neutral-700',
-                        'transition-colors duration-150'
-                      )}
-                    >
-                      <ArrowPathIcon className="w-4 h-4" />
-                      <span>{t('members.actions.makeEditor')}</span>
-                    </button>
-                  )}
-                  {onRoleChange && member.role !== 'viewer' && (
-                    <button
-                      onClick={() => handleRoleChange('viewer')}
-                      className={cn(
-                        'w-full flex items-center gap-3 px-4 py-3',
-                        'text-left text-sm',
-                        'text-kawaii-neutral-700 dark:text-kawaii-neutral-200',
-                        'hover:bg-kawaii-neutral-100 dark:hover:bg-kawaii-neutral-700',
-                        'transition-colors duration-150'
-                      )}
-                    >
-                      <ArrowPathIcon className="w-4 h-4" />
-                      <span>{t('members.actions.makeViewer')}</span>
-                    </button>
-                  )}
-                  
-                  {/* Remove member */}
-                  {onRemove && (
-                    <button
-                      onClick={handleRemove}
-                      className={cn(
-                        'w-full flex items-center gap-3 px-4 py-3',
-                        'text-left text-sm',
-                        'text-red-600 dark:text-red-400',
-                        'hover:bg-red-50 dark:hover:bg-red-900/20',
-                        'transition-colors duration-150'
-                      )}
-                    >
-                      <TrashIcon className="w-4 h-4" />
-                      <span>{t('members.actions.remove')}</span>
-                    </button>
-                  )}
-                </motion.div>
-              )}
             </div>
           )}
         </div>
       </motion.div>
 
-      {/* Click outside to close menu */}
-      {showMenu && (
-        <div
-          className="fixed inset-0 z-0"
-          onClick={() => setShowMenu(false)}
-        />
+      {/* Dropdown menu - rendered in portal */}
+      {showMenu && createPortal(
+        <>
+          {/* Click outside to close menu */}
+          <div
+            className="fixed inset-0 z-[9998]"
+            onClick={() => setShowMenu(false)}
+          />
+          
+          {/* Dropdown menu */}
+          <motion.div
+            className={cn(
+              'fixed z-[9999]',
+              'bg-white dark:bg-kawaii-neutral-800',
+              'rounded-lg shadow-xl',
+              'overflow-hidden',
+              'min-w-[160px]',
+              'border border-kawaii-neutral-200 dark:border-kawaii-neutral-700'
+            )}
+            style={{
+              top: `${menuPosition.top}px`,
+              left: `${menuPosition.left}px`,
+            }}
+            initial={{ opacity: 0, scale: 0.95, y: -10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: -10 }}
+            transition={{ duration: 0.15 }}
+          >
+            {/* Change role options */}
+            {onRoleChange && member.role !== 'editor' && (
+              <button
+                onClick={() => handleRoleChange('editor')}
+                className={cn(
+                  'w-full flex items-center gap-3 px-4 py-3',
+                  'text-left text-sm',
+                  'text-kawaii-neutral-700 dark:text-kawaii-neutral-200',
+                  'hover:bg-kawaii-neutral-100 dark:hover:bg-kawaii-neutral-700',
+                  'transition-colors duration-150'
+                )}
+              >
+                <ArrowPathIcon className="w-4 h-4" />
+                <span>{t('members.actions.makeEditor')}</span>
+              </button>
+            )}
+            {onRoleChange && member.role !== 'viewer' && (
+              <button
+                onClick={() => handleRoleChange('viewer')}
+                className={cn(
+                  'w-full flex items-center gap-3 px-4 py-3',
+                  'text-left text-sm',
+                  'text-kawaii-neutral-700 dark:text-kawaii-neutral-200',
+                  'hover:bg-kawaii-neutral-100 dark:hover:bg-kawaii-neutral-700',
+                  'transition-colors duration-150'
+                )}
+              >
+                <ArrowPathIcon className="w-4 h-4" />
+                <span>{t('members.actions.makeViewer')}</span>
+              </button>
+            )}
+            
+            {/* Remove member */}
+            {onRemove && (
+              <button
+                onClick={handleRemove}
+                className={cn(
+                  'w-full flex items-center gap-3 px-4 py-3',
+                  'text-left text-sm',
+                  'text-red-600 dark:text-red-400',
+                  'hover:bg-red-50 dark:hover:bg-red-900/20',
+                  'transition-colors duration-150'
+                )}
+              >
+                <TrashIcon className="w-4 h-4" />
+                <span>{t('members.actions.remove')}</span>
+              </button>
+            )}
+          </motion.div>
+        </>,
+        document.body
       )}
     </div>
   );

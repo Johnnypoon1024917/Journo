@@ -40,13 +40,14 @@ import { useEnhancedAuthStore } from '@/stores/enhancedAuthStore';
 
 // Hooks
 import { useToast } from '@/hooks/useToast';
-import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { useFABPosition, getFABStyle } from '@/hooks/useFABPosition';
+import { useScrollDirection } from '@/hooks/useScrollDirection';
 
 // Components
 import { CategorySection } from '@/components/kawaii/CategorySection';
 import { KawaiiModal } from '@/components/kawaii/KawaiiModal';
 import { DEFAULT_PACKING_ITEMS } from '@/services/defaultPackingItems';
-import { PageLayout, NavigationWrapper, FABContainer } from '@/components/layout';
+import { PageLayout, NavigationWrapper } from '@/components/layout';
 import type { NavigationTab } from '@/components/layout';
 
 // Icons
@@ -298,7 +299,7 @@ export const ChecklistScreen: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation('packing');
   const { accessToken, logout } = useEnhancedAuthStore();
-  const { success: showSuccess, error: showError } = useToast();
+  const { showSuccess, showError } = useToast();
 
   // State
   const [trip, setTrip] = useState<Trip | null>(null);
@@ -315,6 +316,13 @@ export const ChecklistScreen: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<PackingItem | null>(null);
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
+
+  // FAB positioning - primary action (add item) at index 1, secondary (add sticker) at index 2
+  const addItemFABPosition = useFABPosition({ type: 'primary', index: 1, hasBottomNav: true });
+  const addStickerFABPosition = useFABPosition({ type: 'secondary', index: 2, hasBottomNav: true });
+
+  // Scroll direction detection for collapsible FABs
+  const { isScrollingDown, isAtTop } = useScrollDirection({ threshold: 5 });
 
   /**
    * Group items by category
@@ -422,7 +430,7 @@ export const ChecklistScreen: React.FC = () => {
       // Handle authentication errors
       if (err.status === 401 || err.message?.includes('Invalid or expired token')) {
         await logout();
-        showError('Your session has expired. Please login again.');
+        showError('Session Expired', 'Your session has expired. Please login again.');
         navigate('/login', { replace: true });
         return;
       }
@@ -483,7 +491,7 @@ export const ChecklistScreen: React.FC = () => {
       await updateProgress();
     } catch (err: any) {
       console.error('Error toggling item:', err);
-      showError(err.message || 'Failed to update item');
+      showError('Error', err.message || 'Failed to update item');
     }
   };
 
@@ -510,10 +518,10 @@ export const ChecklistScreen: React.FC = () => {
       // Update progress
       await updateProgress();
 
-      showSuccess(t('checklist.itemDeleted'));
+      showSuccess('Success', t('checklist.itemDeleted'));
     } catch (err: any) {
       console.error('Error deleting item:', err);
-      showError(err.message || 'Failed to delete item');
+      showError('Error', err.message || 'Failed to delete item');
     }
   };
 
@@ -549,7 +557,7 @@ export const ChecklistScreen: React.FC = () => {
           prev.map((i) => (i.id === editingItem.id ? updatedItem : i))
         );
 
-        showSuccess(t('checklist.itemUpdated'));
+        showSuccess('Success', t('checklist.itemUpdated'));
       } else {
         // Add new item
         const createData: CreatePackingItemDto = {
@@ -562,14 +570,14 @@ export const ChecklistScreen: React.FC = () => {
         // Update local state
         setItems((prev) => [...prev, newItem]);
 
-        showSuccess(t('checklist.itemAdded'));
+        showSuccess('Success', t('checklist.itemAdded'));
       }
 
       // Update progress
       await updateProgress();
     } catch (err: any) {
       console.error('Error saving item:', err);
-      showError(err.message || 'Failed to save item');
+      showError('Error', err.message || 'Failed to save item');
     }
   };
 
@@ -597,10 +605,10 @@ export const ChecklistScreen: React.FC = () => {
       // Refresh data
       await fetchData();
       
-      showSuccess(t('checklist.defaultsLoaded'));
+      showSuccess('Success', t('checklist.defaultsLoaded'));
     } catch (err: any) {
       console.error('Error loading default items:', err);
-      showError(err.message || 'Failed to load default items');
+      showError('Error', err.message || 'Failed to load default items');
     } finally {
       setIsLoading(false);
     }
@@ -609,7 +617,7 @@ export const ChecklistScreen: React.FC = () => {
   /**
    * Handle tab change in navigation
    */
-  const handleNavTabChange = (tab: string) => {
+  const handleNavTabChange = (tab: NavigationTab) => {
     setNavActiveTab(tab);
 
     // Navigate to different sections based on tab
@@ -657,14 +665,14 @@ export const ChecklistScreen: React.FC = () => {
   }
 
   return (
-    <PageLayout tripId={tripId} showStickers maxWidth="xl">
-      <NavigationWrapper
-        activeTab={navActiveTab}
-        onTabChange={handleNavTabChange}
-      >
-        {/* Header Section - Matching Shopping Page Design */}
-        <div className="bg-white dark:bg-kawaii-neutral-800 border-b border-[#d5d0c2] dark:border-kawaii-neutral-700">
-          <div className="max-w-7xl mx-auto px-4 md:px-6 py-6">
+    <NavigationWrapper
+      activeTab={navActiveTab}
+      onTabChange={handleNavTabChange}
+    >
+      <PageLayout tripId={tripId} showStickers>
+        {/* Header Section */}
+        <div className="w-full bg-white dark:bg-kawaii-neutral-800 border-b border-[#d5d0c2] dark:border-kawaii-neutral-700">
+          <div className="max-w-7xl mx-auto px-4 py-6 w-full">
             {/* Title Row with Add Button */}
             <div className="flex items-start justify-between mb-2">
               <div className="flex-1">
@@ -675,9 +683,9 @@ export const ChecklistScreen: React.FC = () => {
                   {t('checklist.subtitle')}
                 </p>
               </div>
-              
+
               {/* Cat Illustration */}
-              <div className="flex-shrink-0 mx-4">
+              {/* <div className="flex-shrink-0 mx-4">
                 <motion.div
                   className="text-5xl md:text-6xl"
                   initial={{ scale: 0, rotate: -10 }}
@@ -686,10 +694,10 @@ export const ChecklistScreen: React.FC = () => {
                 >
                   🐱🎒
                 </motion.div>
-              </div>
+              </div> */}
               
               {/* Add Button - Pink Rounded */}
-              <motion.button
+              {/* <motion.button
                 onClick={handleAddItem}
                 className="flex-shrink-0 px-6 py-2.5 bg-gradient-to-r from-pink-400 to-pink-500 hover:from-pink-500 hover:to-pink-600 text-white rounded-full font-medium shadow-md hover:shadow-lg transition-all flex items-center gap-2"
                 whileHover={{ scale: 1.05 }}
@@ -697,7 +705,8 @@ export const ChecklistScreen: React.FC = () => {
               >
                 <PlusIcon className="w-5 h-5" />
                 <span>{t('checklist.addItem')}</span>
-              </motion.button>
+              </motion.button> */}
+
             </div>
 
             {/* Stats Cards Row */}
@@ -750,7 +759,7 @@ export const ChecklistScreen: React.FC = () => {
         </div>
 
         {/* Checklist Items Content Section */}
-        <div className="max-w-7xl mx-auto px-4 md:px-6 py-6">
+        <div className="max-w-7xl mx-auto px-4 py-6 w-full">
           {/* Section Header with Expand/Collapse All */}
           {items.length > 0 && (
             <motion.div
@@ -832,7 +841,7 @@ export const ChecklistScreen: React.FC = () => {
             )}
           </AnimatePresence>
         </div>
-      </NavigationWrapper>
+      </PageLayout>
 
       {/* Add/Edit Item Modal */}
       <ItemModal
@@ -845,22 +854,43 @@ export const ChecklistScreen: React.FC = () => {
         editItem={editingItem}
       />
 
-      {/* Floating Action Button */}
-      <FABContainer
-        primary={{
-          icon: <PlusIcon className="w-6 h-6" />,
-          onClick: handleAddItem,
-          label: t('checklist.addItem')
+      {/* Floating Action Buttons */}
+      <motion.button
+        onClick={handleAddItem}
+        style={getFABStyle(addItemFABPosition)}
+        className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-full shadow-lg flex items-center justify-center hover:shadow-xl transition-all text-white"
+        aria-label={t('checklist.addItem')}
+        initial={{ scale: 1, opacity: 1 }}
+        animate={{ 
+          scale: isScrollingDown ? 0 : 1,
+          opacity: isScrollingDown ? 0 : 1,
         }}
-        secondary={[
-          {
-            icon: <SparklesIcon className="w-5 h-5" />,
-            onClick: () => {}, // TODO: Add sticker functionality
-            label: 'Add Sticker'
-          }
-        ]}
-      />
-    </PageLayout>
+        transition={{ 
+          duration: 0.2,
+          ease: 'easeInOut'
+        }}
+      >
+        <PlusIcon className="w-6 h-6" />
+      </motion.button>
+
+      <motion.button
+        onClick={() => {}} // TODO: Add sticker functionality
+        style={getFABStyle(addStickerFABPosition)}
+        className="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 rounded-full shadow-lg flex items-center justify-center hover:shadow-xl transition-all text-white"
+        aria-label="Add Sticker"
+        initial={{ scale: 1, opacity: 1 }}
+        animate={{ 
+          scale: isScrollingDown ? 0 : 1,
+          opacity: isScrollingDown ? 0 : 1,
+        }}
+        transition={{ 
+          duration: 0.2,
+          ease: 'easeInOut'
+        }}
+      >
+        <SparklesIcon className="w-6 h-6" />
+      </motion.button>
+    </NavigationWrapper>
   );
 };
 

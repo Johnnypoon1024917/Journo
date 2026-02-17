@@ -38,16 +38,17 @@ import { useEnhancedAuthStore } from '@/stores/enhancedAuthStore';
 
 // Hooks
 import { useToast } from '@/hooks/useToast';
-import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { useFABPosition, getFABStyle } from '@/hooks/useFABPosition';
+import { useScrollDirection } from '@/hooks/useScrollDirection';
 
 // Components
 import { MemberCard } from '@/components/kawaii/MemberCard';
 import { KawaiiModal } from '@/components/kawaii/KawaiiModal';
-import { PageLayout, NavigationWrapper, FABContainer } from '@/components/layout';
+import { PageLayout, NavigationWrapper } from '@/components/layout';
 import type { NavigationTab } from '@/components/layout';
 
 // Icons
-import { PlusIcon, UserPlusIcon } from '@heroicons/react/24/outline';
+import { UserPlusIcon } from '@heroicons/react/24/outline';
 
 /**
  * Loading spinner component
@@ -70,6 +71,8 @@ const ErrorDisplay: React.FC<{ message: string; onRetry?: () => void; onGoHome?:
   onRetry,
   onGoHome,
 }) => {
+  const { t } = useTranslation('common');
+  
   return (
     <div className="flex items-center justify-center min-h-screen bg-[#f7f3eb] dark:bg-kawaii-neutral-900 p-4">
       <div className="text-center max-w-md">
@@ -83,7 +86,7 @@ const ErrorDisplay: React.FC<{ message: string; onRetry?: () => void; onGoHome?:
               onClick={onRetry}
               className="px-6 py-2 bg-kawaii-primary-500 text-white rounded-lg hover:bg-kawaii-primary-600 transition-colors focus:outline-none focus:ring-2 focus:ring-kawaii-primary-500 focus:ring-offset-2"
             >
-              Try Again
+              {t('actions.tryAgain')}
             </button>
           )}
           {onGoHome && (
@@ -91,7 +94,7 @@ const ErrorDisplay: React.FC<{ message: string; onRetry?: () => void; onGoHome?:
               onClick={onGoHome}
               className="px-6 py-2 bg-kawaii-neutral-200 dark:bg-kawaii-neutral-700 text-kawaii-neutral-700 dark:text-kawaii-neutral-300 rounded-lg hover:bg-kawaii-neutral-300 dark:hover:bg-kawaii-neutral-600 transition-colors focus:outline-none focus:ring-2 focus:ring-kawaii-neutral-500 focus:ring-offset-2"
             >
-              Go Home
+              {t('actions.goHome')}
             </button>
           )}
         </div>
@@ -115,7 +118,7 @@ const EmptyState: React.FC<{ onInvite: () => void; canManage: boolean }> = ({ on
     >
       <span className="text-8xl mb-6 block">👥</span>
       <h3 className="text-2xl font-semibold text-kawaii-neutral-700 dark:text-kawaii-neutral-300 mb-3">
-        {t('members.noMembers')}
+        {t('noMembers')}
       </h3>
       <p className="text-kawaii-neutral-600 dark:text-kawaii-neutral-400 mb-6 max-w-md mx-auto">
         Invite collaborators to plan this trip together
@@ -126,7 +129,7 @@ const EmptyState: React.FC<{ onInvite: () => void; canManage: boolean }> = ({ on
           className="px-6 py-3 bg-gradient-to-br from-primary-500 to-primary-600 text-white rounded-xl hover:shadow-lg transition-all focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
         >
           <UserPlusIcon className="w-5 h-5 inline-block mr-2" />
-          {t('members.invite')}
+          {t('invite')}
         </button>
       )}
     </motion.div>
@@ -168,7 +171,7 @@ const InviteModal: React.FC<InviteModalProps> = ({ isOpen, onClose, onInvite, is
     <KawaiiModal
       isOpen={isOpen}
       onClose={handleClose}
-      title={t('members.inviteByEmail')}
+      title={t('inviteByEmail')}
     >
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Email Input */}
@@ -221,9 +224,9 @@ const InviteModal: React.FC<InviteModalProps> = ({ isOpen, onClose, onInvite, is
                   : 'bg-kawaii-neutral-100 dark:bg-kawaii-neutral-700 text-kawaii-neutral-700 dark:text-kawaii-neutral-300 hover:bg-kawaii-neutral-200 dark:hover:bg-kawaii-neutral-600'
               )}
             >
-              <div className="font-semibold">{t('members.roles.editor')}</div>
+              <div className="font-semibold">{t('roles.editor')}</div>
               <div className="text-xs mt-1 opacity-80">
-                {t('members.permissions.canEdit')}
+                {t('permissions.canEdit')}
               </div>
             </button>
             <button
@@ -240,9 +243,9 @@ const InviteModal: React.FC<InviteModalProps> = ({ isOpen, onClose, onInvite, is
                   : 'bg-kawaii-neutral-100 dark:bg-kawaii-neutral-700 text-kawaii-neutral-700 dark:text-kawaii-neutral-300 hover:bg-kawaii-neutral-200 dark:hover:bg-kawaii-neutral-600'
               )}
             >
-              <div className="font-semibold">{t('members.roles.viewer')}</div>
+              <div className="font-semibold">{t('roles.viewer')}</div>
               <div className="text-xs mt-1 opacity-80">
-                {t('members.permissions.canView')}
+                {t('permissions.canView')}
               </div>
             </button>
           </div>
@@ -307,7 +310,7 @@ export const MembersScreen: React.FC = () => {
   const { id: tripId } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { t } = useTranslation('members');
-  const { accessToken, logout, user } = useEnhancedAuthStore();
+  const { accessToken, logout } = useEnhancedAuthStore();
   const { showSuccess, showError } = useToast();
 
   // State
@@ -320,6 +323,12 @@ export const MembersScreen: React.FC = () => {
   const [navActiveTab, setNavActiveTab] = useState<NavigationTab>('members');
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
   const [isInviting, setIsInviting] = useState(false);
+
+  // FAB positioning - primary action (invite member) at index 1
+  const inviteFABPosition = useFABPosition({ type: 'primary', index: 1, hasBottomNav: true });
+
+  // Scroll direction detection for collapsible FABs
+  const { isScrollingDown } = useScrollDirection({ threshold: 5 });
 
   /**
    * Fetch trip, members, and permissions data
@@ -351,7 +360,7 @@ export const MembersScreen: React.FC = () => {
       // Handle authentication errors
       if (err.status === 401 || err.message?.includes('Invalid or expired token')) {
         await logout();
-        showError('Your session has expired. Please login again.');
+        showError('Session Expired', 'Your session has expired. Please login again.');
         navigate('/login', { replace: true });
         return;
       }
@@ -419,11 +428,11 @@ export const MembersScreen: React.FC = () => {
       // Update local state
       setMembers((prev) => [...prev, newMember]);
 
-      showSuccess(`Invited ${email} as ${role}`);
+      showSuccess('Success', `Invited ${email} as ${role}`);
       setIsInviteModalOpen(false);
     } catch (err: any) {
       console.error('Error inviting member:', err);
-      showError(err.message || 'Failed to invite member');
+      showError('Error', err.message || 'Failed to invite member');
     } finally {
       setIsInviting(false);
     }
@@ -445,10 +454,10 @@ export const MembersScreen: React.FC = () => {
         )
       );
 
-      showSuccess(`Updated member role to ${newRole}`);
+      showSuccess('Success', `Updated member role to ${newRole}`);
     } catch (err: any) {
       console.error('Error updating role:', err);
-      showError(err.message || 'Failed to update role');
+      showError('Error', err.message || 'Failed to update role');
     }
   };
 
@@ -464,10 +473,10 @@ export const MembersScreen: React.FC = () => {
       // Update local state
       setMembers((prev) => prev.filter((member) => member.id !== memberId));
 
-      showSuccess('Member removed successfully');
+      showSuccess('Success', 'Member removed successfully');
     } catch (err: any) {
       console.error('Error removing member:', err);
-      showError(err.message || 'Failed to remove member');
+      showError('Error', err.message || 'Failed to remove member');
     }
   };
 
@@ -531,14 +540,14 @@ export const MembersScreen: React.FC = () => {
   const canManage = permissions?.can_manage_collaborators || false;
 
   return (
-    <PageLayout tripId={tripId} maxWidth="xl">
-      <NavigationWrapper
-        activeTab={navActiveTab}
-        onTabChange={handleNavTabChange}
-      >
+    <NavigationWrapper
+      activeTab={navActiveTab}
+      onTabChange={handleNavTabChange}
+    >
+      <PageLayout tripId={tripId}>
         {/* Header Section with Gradient Background */}
-        <div className="bg-gradient-to-br from-kawaii-primary-100 to-kawaii-primary-200 dark:from-kawaii-primary-900/30 dark:to-kawaii-primary-800/30 p-6 md:p-8">
-          <div className="max-w-7xl mx-auto">
+        <div className="w-full bg-gradient-to-br from-kawaii-primary-100 to-kawaii-primary-200 dark:from-kawaii-primary-900/30 dark:to-kawaii-primary-800/30">
+          <div className="max-w-7xl mx-auto px-4 py-6 w-full">
             {/* Trip Title */}
             <motion.div
               initial={{ opacity: 0, y: -20 }}
@@ -549,7 +558,7 @@ export const MembersScreen: React.FC = () => {
                 {trip.title}
               </h1>
               <p className="text-lg text-kawaii-neutral-600 dark:text-kawaii-neutral-400 mb-4">
-                {t('members.title')}
+                {t('title')}
               </p>
               <p className="text-sm text-kawaii-neutral-600 dark:text-kawaii-neutral-400">
                 {members.length} {members.length === 1 ? 'member' : 'members'}
@@ -559,7 +568,7 @@ export const MembersScreen: React.FC = () => {
         </div>
 
         {/* Members Content Section */}
-        <div className="max-w-7xl mx-auto p-4 md:p-8">
+        <div className="max-w-7xl mx-auto px-4 py-6 w-full">
           {/* Members List */}
           <AnimatePresence mode="wait">
             {members.length === 0 ? (
@@ -574,7 +583,6 @@ export const MembersScreen: React.FC = () => {
                 transition={{ duration: 0.3 }}
               >
                 {members.map((member, index) => {
-                  const isCurrentUserOwner = member.role === 'owner' && member.user_id === user?.id;
                   const isMemberOwner = member.role === 'owner';
                   const isOnline = onlineMembers.has(member.user_id);
 
@@ -600,7 +608,7 @@ export const MembersScreen: React.FC = () => {
             )}
           </AnimatePresence>
         </div>
-      </NavigationWrapper>
+      </PageLayout>
 
       {/* Invite Member Modal */}
       <InviteModal
@@ -611,15 +619,26 @@ export const MembersScreen: React.FC = () => {
       />
 
       {/* Floating Action Button (only show if can manage) */}
-      <FABContainer
-        primary={{
-          icon: <UserPlusIcon className="w-6 h-6" />,
-          onClick: handleInviteClick,
-          label: t('members.invite')
-        }}
-        show={canManage}
-      />
-    </PageLayout>
+      {canManage && (
+        <motion.button
+          onClick={handleInviteClick}
+          style={getFABStyle(inviteFABPosition)}
+          className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-full shadow-lg flex items-center justify-center hover:shadow-xl transition-all text-white"
+          aria-label={t('invite')}
+          initial={{ scale: 1, opacity: 1 }}
+          animate={{ 
+            scale: isScrollingDown ? 0 : 1,
+            opacity: isScrollingDown ? 0 : 1,
+          }}
+          transition={{ 
+            duration: 0.2,
+            ease: 'easeInOut'
+          }}
+        >
+          <UserPlusIcon className="w-6 h-6" />
+        </motion.button>
+      )}
+    </NavigationWrapper>
   );
 };
 

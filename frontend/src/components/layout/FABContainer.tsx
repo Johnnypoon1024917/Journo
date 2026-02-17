@@ -3,9 +3,11 @@
  * 
  * Standardized FAB positioning and management:
  * - Consistent position across pages
- * - Responsive positioning
+ * - Responsive positioning with safe area insets
  * - Z-index management
  * - Support for primary and secondary FABs
+ * 
+ * Requirements: 7.6
  */
 
 import React from 'react';
@@ -14,6 +16,7 @@ import { cn } from '@/utils/cn';
 import { FAB } from '@/components/kawaii/FAB';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { LAYOUT_CONSTANTS } from '@/styles/layout-constants';
+import { safeAreaService } from '@/services/safeAreaService';
 
 export interface FABAction {
   icon: React.ReactNode;
@@ -36,10 +39,27 @@ export const FABContainer: React.FC<FABContainerProps> = ({
 }) => {
   const isMobile = useMediaQuery('(max-width: 767px)');
   const [showSecondary, setShowSecondary] = React.useState(false);
+  const [safeAreaInsets, setSafeAreaInsets] = React.useState(safeAreaService.getInsets());
+
+  // Subscribe to safe area changes (for orientation changes)
+  React.useEffect(() => {
+    const unsubscribe = safeAreaService.subscribeToChanges((insets) => {
+      setSafeAreaInsets(insets);
+    });
+
+    return unsubscribe;
+  }, []);
+
+  // Parse the bottom value and add safe area inset
+  const baseBottom = isMobile 
+    ? parseFloat(LAYOUT_CONSTANTS.FAB_BOTTOM_MOBILE) * 16 // Convert rem to px (assuming 16px base)
+    : parseFloat(LAYOUT_CONSTANTS.FAB_BOTTOM_DESKTOP) * 16;
+  
+  const bottomWithSafeArea = baseBottom + safeAreaInsets.bottom;
 
   const fabStyle: React.CSSProperties = {
     position: 'fixed',
-    bottom: isMobile ? LAYOUT_CONSTANTS.FAB_BOTTOM_MOBILE : LAYOUT_CONSTANTS.FAB_BOTTOM_DESKTOP,
+    bottom: `${bottomWithSafeArea}px`,
     right: LAYOUT_CONSTANTS.FAB_RIGHT,
     zIndex: LAYOUT_CONSTANTS.Z_INDEX.FAB,
   };
@@ -109,8 +129,6 @@ export const FABContainer: React.FC<FABContainerProps> = ({
             }}
             icon={primary.icon}
             label={primary.label}
-            variant={primary.variant}
-            disabled={primary.disabled}
           />
         </div>
       )}

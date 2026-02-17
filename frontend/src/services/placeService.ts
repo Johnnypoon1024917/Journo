@@ -51,6 +51,16 @@ export const placeService = {
     return response.data;
   },
 
+  // Get a single place by ID
+  async getPlaceById(id: string): Promise<Place> {
+    const token = getAuthToken();
+    const response = await apiRequest<PlaceResponse>(`/places/${id}`, {
+      method: 'GET',
+      token: token || undefined,
+    });
+    return response.data;
+  },
+
   // Update a place
   async updatePlace(id: string, data: UpdatePlaceDto): Promise<Place> {
     const token = getAuthToken();

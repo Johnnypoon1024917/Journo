@@ -223,5 +223,16 @@ export function createEnhancedAuthRoutes(db: Pool): express.Router {
     authController.getSecurityEvents
   );
 
+  /**
+   * @route PATCH /api/auth/language
+   * @desc Update user language preference
+   * @access Private
+   */
+  router.patch('/language',
+    enhancedAuthMiddleware,
+    rateLimitMiddleware('api_general'),
+    authController.updateLanguage
+  );
+
   return router;
 }

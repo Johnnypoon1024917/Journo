@@ -46,7 +46,7 @@ export interface TripDay {
 }
 
 export type PlaceType = 'attraction' | 'food' | 'hotel' | 'transport' | 'other';
-export type BudgetCategory = 'accommodation' | 'food' | 'transport' | 'activities' | 'shopping' | 'misc';
+export type BudgetCategory = 'flights' | 'accommodation' | 'food' | 'transport' | 'activities' | 'shopping' | 'misc';
 export type TransportMode = 'driving' | 'walking' | 'transit' | 'flight';
 
 export interface Place {

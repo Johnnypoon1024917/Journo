@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { RateLimitService } from '../services/rateLimitService';
+import { RateLimitService } from '../services/rateLimitService.js';
 import { Pool } from 'pg';
 
 // Store rate limit service instance

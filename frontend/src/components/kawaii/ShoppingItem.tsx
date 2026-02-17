@@ -17,9 +17,10 @@
  * Requirements: 11.1, 11.6, 11.7
  */
 
-import React, { useState } from 'react';
-import { motion, PanInfo, useMotionValue, useTransform } from 'framer-motion';
+import React, { useState, useRef, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { createPortal } from 'react-dom';
 import {
   EllipsisVerticalIcon,
   PencilIcon,
@@ -57,21 +58,22 @@ export const ShoppingItem: React.FC<ShoppingItemProps> = ({
   const { t } = useTranslation();
   const [showMenu, setShowMenu] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-  
-  // Swipe to delete
-  const x = useMotionValue(0);
-  const opacity = useTransform(x, [-150, 0], [0, 1]);
-  const deleteOpacity = useTransform(x, [-150, -50, 0], [1, 0.5, 0]);
+  const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+
+  // Update menu position when it opens
+  useEffect(() => {
+    if (showMenu && menuButtonRef.current) {
+      const rect = menuButtonRef.current.getBoundingClientRect();
+      setMenuPosition({
+        top: rect.bottom + window.scrollY + 8,
+        left: rect.right + window.scrollX - 160, // 160px is menu width
+      });
+    }
+  }, [showMenu]);
 
   const handleDragEnd = (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    if (info.offset.x < -100 && onDelete) {
-      setIsDeleting(true);
-      setTimeout(() => {
-        onDelete();
-      }, 300);
-    } else {
-      x.set(0);
-    }
+    // Removed swipe to delete functionality
   };
 
   const handleDelete = () => {
@@ -98,29 +100,16 @@ export const ShoppingItem: React.FC<ShoppingItemProps> = ({
 
   return (
     <div className={cn('relative', className)}>
-      {/* Delete background */}
-      <motion.div
-        className="absolute inset-0 flex items-center justify-end px-6 bg-red-500 rounded-2xl"
-        style={{ opacity: deleteOpacity }}
-      >
-        <TrashIcon className="w-6 h-6 text-white" />
-      </motion.div>
-
       {/* Shopping item card */}
       <motion.div
         className={cn(
-          'relative overflow-hidden',
+          'relative',
           'bg-white dark:bg-kawaii-neutral-800',
           'rounded-2xl',
           'shadow-sm hover:shadow-md',
           'transition-shadow duration-200',
           'touch-manipulation'
         )}
-        style={{ x, opacity }}
-        drag="x"
-        dragConstraints={{ left: -150, right: 0 }}
-        dragElastic={0.2}
-        onDragEnd={handleDragEnd}
         animate={isDeleting ? { x: -400, opacity: 0 } : {}}
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
       >
@@ -231,6 +220,7 @@ export const ShoppingItem: React.FC<ShoppingItemProps> = ({
           {/* Three-dot menu */}
           <div className="relative flex-shrink-0">
             <button
+              ref={menuButtonRef}
               onClick={() => setShowMenu(!showMenu)}
               className={cn(
                 'p-2 rounded-lg',
@@ -245,65 +235,71 @@ export const ShoppingItem: React.FC<ShoppingItemProps> = ({
             >
               <EllipsisVerticalIcon className="w-5 h-5" />
             </button>
-
-            {/* Dropdown menu */}
-            {showMenu && (
-              <motion.div
-                className={cn(
-                  'absolute right-0 top-full mt-2 z-10',
-                  'bg-white dark:bg-kawaii-neutral-800',
-                  'rounded-lg shadow-xl',
-                  'overflow-hidden',
-                  'min-w-[160px]',
-                  'border border-kawaii-neutral-200 dark:border-kawaii-neutral-700'
-                )}
-                initial={{ opacity: 0, scale: 0.95, y: -10 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                transition={{ duration: 0.15 }}
-              >
-                {onEdit && (
-                  <button
-                    onClick={handleEdit}
-                    className={cn(
-                      'w-full flex items-center gap-3 px-4 py-3',
-                      'text-left text-sm',
-                      'text-kawaii-neutral-700 dark:text-kawaii-neutral-200',
-                      'hover:bg-kawaii-neutral-100 dark:hover:bg-kawaii-neutral-700',
-                      'transition-colors duration-150'
-                    )}
-                  >
-                    <PencilIcon className="w-4 h-4" />
-                    <span>{t('common.edit')}</span>
-                  </button>
-                )}
-                {onDelete && (
-                  <button
-                    onClick={handleDelete}
-                    className={cn(
-                      'w-full flex items-center gap-3 px-4 py-3',
-                      'text-left text-sm',
-                      'text-red-600 dark:text-red-400',
-                      'hover:bg-red-50 dark:hover:bg-red-900/20',
-                      'transition-colors duration-150'
-                    )}
-                  >
-                    <TrashIcon className="w-4 h-4" />
-                    <span>{t('common.delete')}</span>
-                  </button>
-                )}
-              </motion.div>
-            )}
           </div>
         </div>
       </motion.div>
 
-      {/* Click outside to close menu */}
-      {showMenu && (
-        <div
-          className="fixed inset-0 z-0"
-          onClick={() => setShowMenu(false)}
-        />
+      {/* Dropdown menu - rendered in portal */}
+      {showMenu && createPortal(
+        <>
+          {/* Click outside to close menu */}
+          <div
+            className="fixed inset-0 z-[9998]"
+            onClick={() => setShowMenu(false)}
+          />
+          
+          {/* Dropdown menu */}
+          <motion.div
+            className={cn(
+              'fixed z-[9999]',
+              'bg-white dark:bg-kawaii-neutral-800',
+              'rounded-lg shadow-xl',
+              'overflow-hidden',
+              'min-w-[160px]',
+              'border border-kawaii-neutral-200 dark:border-kawaii-neutral-700'
+            )}
+            style={{
+              top: `${menuPosition.top}px`,
+              left: `${menuPosition.left}px`,
+            }}
+            initial={{ opacity: 0, scale: 0.95, y: -10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: -10 }}
+            transition={{ duration: 0.15 }}
+          >
+            {onEdit && (
+              <button
+                onClick={handleEdit}
+                className={cn(
+                  'w-full flex items-center gap-3 px-4 py-3',
+                  'text-left text-sm',
+                  'text-kawaii-neutral-700 dark:text-kawaii-neutral-200',
+                  'hover:bg-kawaii-neutral-100 dark:hover:bg-kawaii-neutral-700',
+                  'transition-colors duration-150'
+                )}
+              >
+                <PencilIcon className="w-4 h-4" />
+                <span>{t('common.edit')}</span>
+              </button>
+            )}
+            {onDelete && (
+              <button
+                onClick={handleDelete}
+                className={cn(
+                  'w-full flex items-center gap-3 px-4 py-3',
+                  'text-left text-sm',
+                  'text-red-600 dark:text-red-400',
+                  'hover:bg-red-50 dark:hover:bg-red-900/20',
+                  'transition-colors duration-150'
+                )}
+              >
+                <TrashIcon className="w-4 h-4" />
+                <span>{t('common.delete')}</span>
+              </button>
+            )}
+          </motion.div>
+        </>,
+        document.body
       )}
     </div>
   );

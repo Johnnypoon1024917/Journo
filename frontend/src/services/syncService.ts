@@ -6,6 +6,7 @@ import { useOfflineStore } from '../stores/offlineStore';
 import { SyncQueueItem } from '../types/offline';
 import { calculateBackoffDelay, cleanOfflineMetadata } from '../utils/offlineUtils';
 import { analyticsService } from './analyticsService';
+import { syncConflictService } from './syncConflictService';
 
 const MAX_RETRIES = 3;
 const SYNC_BATCH_SIZE = 5;
@@ -203,10 +204,46 @@ class SyncService {
         });
       }
     } else if (operation === 'trip_update' || operation === 'UPDATE') {
+      // Check for conflicts before updating
+      const offlineTrip = await offlineStorage.getTrip(resourceId);
+      
+      if (offlineTrip && (offlineTrip._offline_modified || offlineTrip._offline_created)) {
+        // Fetch current server version to check for conflicts
+        try {
+          const serverTrip = await tripService.getTripById(resourceId, token);
+          
+          // Detect conflict
+          const hasConflict = syncConflictService.detectConflict(
+            offlineTrip,
+            serverTrip.data,
+            'trip'
+          );
+
+          if (hasConflict) {
+            // Create conflict for user resolution
+            syncConflictService.createConflict(
+              'trip',
+              resourceId,
+              offlineTrip,
+              serverTrip.data
+            );
+            
+            // Throw error to mark sync item as failed and wait for user resolution
+            throw new Error('Sync conflict detected - user resolution required');
+          }
+        } catch (error: any) {
+          // If error is not about conflict detection, rethrow
+          if (!error.message?.includes('conflict')) {
+            console.warn('Could not fetch server version for conflict check:', error);
+          } else {
+            throw error;
+          }
+        }
+      }
+
       await tripService.updateTrip(resourceId, cleanData, token);
       
       // Update offline storage
-      const offlineTrip = await offlineStorage.getTrip(resourceId);
       if (offlineTrip) {
         offlineTrip._offline_modified = false;
         offlineTrip._last_synced = new Date().toISOString();
@@ -258,10 +295,46 @@ class SyncService {
         });
       }
     } else if (operation === 'place_update' || operation === 'UPDATE') {
+      // Check for conflicts before updating
+      const offlinePlace = await offlineStorage.getPlace(resourceId);
+      
+      if (offlinePlace && (offlinePlace._offline_modified || offlinePlace._offline_created)) {
+        // Fetch current server version to check for conflicts
+        try {
+          const serverPlace = await placeService.getPlaceById(resourceId);
+          
+          // Detect conflict
+          const hasConflict = syncConflictService.detectConflict(
+            offlinePlace,
+            serverPlace,
+            'place'
+          );
+
+          if (hasConflict) {
+            // Create conflict for user resolution
+            syncConflictService.createConflict(
+              'place',
+              resourceId,
+              offlinePlace,
+              serverPlace
+            );
+            
+            // Throw error to mark sync item as failed and wait for user resolution
+            throw new Error('Sync conflict detected - user resolution required');
+          }
+        } catch (error: any) {
+          // If error is not about conflict detection, rethrow
+          if (!error.message?.includes('conflict')) {
+            console.warn('Could not fetch server version for conflict check:', error);
+          } else {
+            throw error;
+          }
+        }
+      }
+
       await placeService.updatePlace(resourceId, cleanData);
       
       // Update offline storage
-      const offlinePlace = await offlineStorage.getPlace(resourceId);
       if (offlinePlace) {
         offlinePlace._offline_modified = false;
         await offlineStorage.savePlace(offlinePlace);

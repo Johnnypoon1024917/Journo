@@ -1,0 +1,155 @@
+{
+  "title": "建立新旅程",
+  "subtitle": "透過AI協助規劃您的下一次冒險",
+  "optional": "（選填）",
+  "back": "返回",
+  "next": "下一步",
+  "cancel": "取消",
+  "create": "建立旅程",
+  "creating": "建立中...",
+  "steps": {
+    "template": "範本",
+    "info": "詳情",
+    "theme": "主題",
+    "ai": "AI協助"
+  },
+  "errors": {
+    "notAuthenticated": "請登入以建立旅程",
+    "createFailed": "建立旅程失敗，請重試。"
+  },
+  "tripTemplate": {
+    "title": "選擇您的旅行風格",
+    "subtitle": "選擇範本以獲得個人化建議",
+    "beach": {
+      "name": "海灘天堂",
+      "description": "在陽光和沙灘旁放鬆"
+    },
+    "mountain": {
+      "name": "山岳冒險",
+      "description": "探索山峰和風景優美的步道"
+    },
+    "city": {
+      "name": "城市探索",
+      "description": "發現都市文化和夜生活"
+    },
+    "cultural": {
+      "name": "文化之旅",
+      "description": "沉浸在歷史和傳統中"
+    },
+    "custom": {
+      "name": "自訂旅程",
+      "description": "創造您獨特的冒險"
+    }
+  },
+  "tripForm": {
+    "title": "旅程詳情",
+    "subtitle": "告訴我們您即將到來的冒險",
+    "fields": {
+      "title": "旅程名稱",
+      "destination": "目的地",
+      "startDate": "開始日期",
+      "endDate": "結束日期",
+      "travelers": "旅行人數"
+    },
+    "placeholders": {
+      "title": "例如：東京冬季冒險",
+      "destination": "例如：東京，日本"
+    },
+    "errors": {
+      "titleRequired": "旅程名稱為必填",
+      "titleTooLong": "旅程名稱必須少於100個字元",
+      "destinationRequired": "目的地為必填",
+      "startDateRequired": "開始日期為必填",
+      "endDateRequired": "結束日期為必填",
+      "endDateBeforeStart": "結束日期必須在開始日期之後",
+      "tripTooLong": "旅程不能超過365天",
+      "travelersMin": "至少需要1位旅行者",
+      "travelersMax": "最多允許50位旅行者"
+    }
+  },
+  "tripTheme": {
+    "title": "自訂您的旅程",
+    "subtitle": "讓您的旅程規劃體驗獨特且個人化",
+    "colorLabel": "主題顏色",
+    "stickerStyleLabel": "貼紙風格",
+    "animationsLabel": "背景動畫",
+    "previewLabel": "預覽",
+    "previewTitle": "您的旅程",
+    "previewDescription": "這是您的旅程在所選主題下的外觀",
+    "stickerStyle": {
+      "cute": {
+        "name": "可愛",
+        "description": "可愛的卡哇伊角色"
+      },
+      "minimal": {
+        "name": "簡約",
+        "description": "簡單乾淨的圖示"
+      },
+      "colorful": {
+        "name": "繽紛",
+        "description": "鮮豔且有趣"
+      },
+      "vintage": {
+        "name": "復古",
+        "description": "復古旅行印章"
+      }
+    },
+    "animations": {
+      "none": {
+        "name": "無",
+        "description": "無動畫"
+      },
+      "snow": {
+        "name": "雪",
+        "description": "輕柔的降雪"
+      },
+      "sakura": {
+        "name": "櫻花",
+        "description": "櫻花花瓣"
+      }
+    }
+  },
+  "tripAI": {
+    "title": "AI協助",
+    "subtitle": "讓AI幫助規劃您的完美旅程",
+    "disabled": "AI協助已停用",
+    "enable": "啟用",
+    "disable": "停用",
+    "generateItinerary": "生成行程",
+    "generateItineraryDesc": "AI將根據您的偏好建議景點、餐廳和每日行程",
+    "generateStickers": "生成主題貼紙",
+    "generateStickersDesc": "AI將創建符合您目的地和季節的自訂卡哇伊貼紙",
+    "preferences": "您的偏好",
+    "interests": "興趣",
+    "interest": {
+      "sightseeing": "觀光",
+      "food": "美食",
+      "shopping": "購物",
+      "culture": "文化",
+      "nature": "自然",
+      "photography": "攝影",
+      "adventure": "冒險",
+      "relaxation": "放鬆",
+      "beach": "海灘",
+      "water-sports": "水上運動",
+      "sunset": "日落",
+      "hiking": "健行",
+      "skiing": "滑雪",
+      "camping": "露營",
+      "nightlife": "夜生活",
+      "museums": "博物館",
+      "architecture": "建築",
+      "history": "歷史",
+      "temples": "寺廟",
+      "local-cuisine": "當地美食"
+    },
+    "travelStyle": "旅行風格",
+    "travelStyle.relaxed": "悠閒",
+    "travelStyle.moderate": "適中",
+    "travelStyle.fast-paced": "快節奏",
+    "budgetLevel": "預算等級",
+    "budgetLevel.low": "經濟",
+    "budgetLevel.medium": "適中",
+    "budgetLevel.high": "豪華"
+  }
+}

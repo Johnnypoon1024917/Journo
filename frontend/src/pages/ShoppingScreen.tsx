@@ -37,6 +37,8 @@ import { useEnhancedAuthStore } from '@/stores/enhancedAuthStore';
 
 // Hooks
 import { useToast } from '@/hooks/useToast';
+import { useFABPosition, getFABStyle } from '@/hooks/useFABPosition';
+import { useScrollDirection } from '@/hooks/useScrollDirection';
 
 // Components
 import { FilterDropdown } from '@/components/kawaii/FilterDropdown';
@@ -44,7 +46,7 @@ import { ShoppingItem } from '@/components/kawaii/ShoppingItem';
 import { StickerModal } from '@/components/kawaii/StickerModal';
 import { StickerDisplay } from '@/components/kawaii/StickerDisplay';
 import { AddShoppingItemModal, ShoppingItemFormData } from '@/components/kawaii/AddShoppingItemModal';
-import { PageLayout, NavigationWrapper, FABContainer } from '@/components/layout';
+import { PageLayout, NavigationWrapper } from '@/components/layout';
 import type { NavigationTab } from '@/components/layout';
 
 // Stores
@@ -159,6 +161,13 @@ export const ShoppingScreen: React.FC = () => {
   const [isAddItemModalOpen, setIsAddItemModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [editingItem, setEditingItem] = useState<ShoppingItemType | null>(null);
+
+  // FAB positioning - primary action (add item) at index 1, secondary (add sticker) at index 2
+  const addItemFABPosition = useFABPosition({ type: 'primary', index: 1, hasBottomNav: true });
+  const addStickerFABPosition = useFABPosition({ type: 'secondary', index: 2, hasBottomNav: true });
+
+  // Scroll direction detection for collapsible FABs
+  const { isScrollingDown } = useScrollDirection({ threshold: 5 });
 
   /**
    * Fetch trip and shopping data
@@ -469,14 +478,14 @@ export const ShoppingScreen: React.FC = () => {
   }
 
   return (
-    <PageLayout tripId={tripId} showStickers maxWidth="xl">
-      <NavigationWrapper
-        activeTab={navActiveTab}
-        onTabChange={handleNavTabChange}
-      >
+    <NavigationWrapper
+      activeTab={navActiveTab}
+      onTabChange={handleNavTabChange}
+    >
+      <PageLayout tripId={tripId} showStickers>
         {/* Header Section - Matching Screenshot Design */}
-        <div className="bg-white dark:bg-kawaii-neutral-800 border-b border-kawaii-neutral-200 dark:border-kawaii-neutral-700">
-          <div className="max-w-7xl mx-auto px-4 md:px-6 py-6">
+        <div className="sticky top-0 z-30 w-full bg-white dark:bg-kawaii-neutral-800 border-b border-kawaii-neutral-200 dark:border-kawaii-neutral-700 shadow-sm">
+          <div className="max-w-7xl mx-auto px-4 py-6 w-full bg-white dark:bg-kawaii-neutral-800">
             {/* Title Row with Add Button */}
             <div className="flex items-start justify-between mb-2">
               <div className="flex-1">
@@ -489,7 +498,7 @@ export const ShoppingScreen: React.FC = () => {
               </div>
               
               {/* Cat Illustration */}
-              <div className="flex-shrink-0 mx-4">
+              {/*<div className="flex-shrink-0 mx-4">
                 <motion.div
                   className="text-5xl md:text-6xl"
                   initial={{ scale: 0, rotate: -10 }}
@@ -498,10 +507,10 @@ export const ShoppingScreen: React.FC = () => {
                 >
                   🐱🛍️
                 </motion.div>
-              </div>
+              </div>*/}
               
               {/* Add Button - Pink Rounded */}
-              <motion.button
+              {/*<motion.button
                 onClick={handleAddItem}
                 className="flex-shrink-0 px-6 py-2.5 bg-gradient-to-r from-pink-400 to-pink-500 hover:from-pink-500 hover:to-pink-600 text-white rounded-full font-medium shadow-md hover:shadow-lg transition-all flex items-center gap-2"
                 whileHover={{ scale: 1.05 }}
@@ -509,7 +518,7 @@ export const ShoppingScreen: React.FC = () => {
               >
                 <PlusIcon className="w-5 h-5" />
                 <span>{t('shopping.addItem')}</span>
-              </motion.button>
+              </motion.button>*/}
             </div>
 
             {/* Stats Cards Row */}
@@ -562,7 +571,7 @@ export const ShoppingScreen: React.FC = () => {
         </div>
 
         {/* Shopping Items Content Section */}
-        <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 relative">
+        <div className="max-w-7xl mx-auto px-4 py-6 w-full relative">
           {/* Sticker Display - overlays on the shopping content */}
           {tripId && (
             <StickerDisplay
@@ -577,7 +586,7 @@ export const ShoppingScreen: React.FC = () => {
           {/* Section Header with Filter */}
           {items.length > 0 && (
             <motion.div
-              className="flex items-center justify-between mb-4 relative z-50"
+              className="flex items-center justify-between mb-4 relative z-20"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
@@ -596,7 +605,7 @@ export const ShoppingScreen: React.FC = () => {
                 >
                   <SparklesIcon className="w-5 h-5 text-purple-600 dark:text-purple-400" />
                 </motion.button>
-                <div className="relative z-50">
+                <div className="relative z-20">
                   <FilterDropdown
                     options={filterOptions}
                     selectedFilter={selectedFilter}
@@ -615,7 +624,7 @@ export const ShoppingScreen: React.FC = () => {
               ) : (
                 <motion.div
                   key="no-results"
-                  className="text-center py-16 relative z-10"
+                  className="text-center py-16 relative z-0"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
@@ -630,7 +639,7 @@ export const ShoppingScreen: React.FC = () => {
             ) : (
               <motion.div
                 key="items"
-                className="space-y-4 relative z-10"
+                className="space-y-4 relative z-0"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
@@ -655,7 +664,7 @@ export const ShoppingScreen: React.FC = () => {
             )}
           </AnimatePresence>
         </div>
-      </NavigationWrapper>
+      </PageLayout>
 
       {/* Add/Edit Shopping Item Modal */}
       <AddShoppingItemModal
@@ -684,22 +693,43 @@ export const ShoppingScreen: React.FC = () => {
         tripId={tripId || ''}
       />
 
-      {/* Floating Action Button */}
-      <FABContainer
-        primary={{
-          icon: <PlusIcon className="w-6 h-6" />,
-          onClick: handleAddItem,
-          label: t('shopping.addItem')
+      {/* Floating Action Buttons */}
+      <motion.button
+        onClick={handleAddItem}
+        style={getFABStyle(addItemFABPosition)}
+        className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 rounded-full shadow-lg flex items-center justify-center hover:shadow-xl transition-all text-white"
+        aria-label={t('shopping.addItem')}
+        initial={{ scale: 1, opacity: 1 }}
+        animate={{ 
+          scale: isScrollingDown ? 0 : 1,
+          opacity: isScrollingDown ? 0 : 1,
         }}
-        secondary={[
-          {
-            icon: <SparklesIcon className="w-5 h-5" />,
-            onClick: handleAddSticker,
-            label: 'Add Sticker'
-          }
-        ]}
-      />
-    </PageLayout>
+        transition={{ 
+          duration: 0.2,
+          ease: 'easeInOut'
+        }}
+      >
+        <PlusIcon className="w-6 h-6" />
+      </motion.button>
+
+      <motion.button
+        onClick={handleAddSticker}
+        style={getFABStyle(addStickerFABPosition)}
+        className="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 rounded-full shadow-lg flex items-center justify-center hover:shadow-xl transition-all text-white"
+        aria-label="Add Sticker"
+        initial={{ scale: 1, opacity: 1 }}
+        animate={{ 
+          scale: isScrollingDown ? 0 : 1,
+          opacity: isScrollingDown ? 0 : 1,
+        }}
+        transition={{ 
+          duration: 0.2,
+          ease: 'easeInOut'
+        }}
+      >
+        <SparklesIcon className="w-6 h-6" />
+      </motion.button>
+    </NavigationWrapper>
   );
 };
 

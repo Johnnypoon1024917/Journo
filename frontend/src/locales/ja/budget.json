@@ -6,34 +6,164 @@
   "remaining": "残高",
   "overspent": "超過",
   "dailyBudget": "1日の予算",
+  
+  "setup": {
+    "title": "予算設定",
+    "totalBudgetLabel": "総予算",
+    "totalBudgetPlaceholder": "総予算を入力",
+    "currencyLabel": "通貨",
+    "categoryAllocations": "カテゴリー配分",
+    "allocatePercentage": "各カテゴリーに割合を配分",
+    "percentageTotal": "合計: {{total}}%",
+    "mustEqual100": "合計は100%である必要があります",
+    "saveConfiguration": "設定を保存",
+    "editConfiguration": "設定を編集",
+    "collapse": "折りたたむ",
+    "expand": "展開"
+  },
+  
   "categories": {
     "accommodation": "宿泊",
-    "food": "食事",
+    "food": "食事・飲食",
     "transport": "交通",
     "activities": "アクティビティ",
     "shopping": "ショッピング",
     "misc": "その他"
   },
+  
+  "dashboard": {
+    "budgetOverview": "予算概要",
+    "spent": "支出",
+    "budget": "予算",
+    "burnRate": "消費率",
+    "perDay": "1日あたり",
+    "daysElapsed": "経過日数",
+    "daysRemaining": "残り日数",
+    "projectedTotal": "予測合計",
+    "status": {
+      "safe": "順調",
+      "warning": "注意",
+      "danger": "危険",
+      "over": "予算超過"
+    }
+  },
+  
+  "expenses": {
+    "title": "支出",
+    "addExpense": "支出を追加",
+    "editExpense": "支出を編集",
+    "deleteExpense": "支出を削除",
+    "noExpenses": "まだ支出がありません",
+    "noExpensesDescription": "最初の支出を追加して支出の追跡を開始しましょう",
+    "amount": "金額",
+    "category": "カテゴリー",
+    "date": "日付",
+    "note": "メモ",
+    "notePlaceholder": "メモを追加（任意）",
+    "paidBy": "支払者",
+    "splitWith": "分割相手",
+    "splitType": "分割タイプ",
+    "equal": "均等分割",
+    "custom": "カスタム分割",
+    "settled": "精算済み",
+    "pending": "未精算",
+    "confirmDelete": "この支出を削除してもよろしいですか？"
+  },
+  
+  "filters": {
+    "all": "すべて",
+    "byCategory": "カテゴリー別",
+    "byDate": "日付別",
+    "pending": "未精算",
+    "settled": "精算済み"
+  },
+  
+  "visualization": {
+    "title": "支出分析",
+    "categoryComparison": "カテゴリー比較",
+    "spendingOverTime": "時系列支出",
+    "categoryProgress": "カテゴリー進捗",
+    "noData": "表示するデータがありません",
+    "allocated": "配分済み",
+    "spent": "支出",
+    "remaining": "残高"
+  },
+  
+  "groupSplit": {
+    "title": "グループ支出",
+    "memberBalances": "メンバー残高",
+    "settlements": "精算提案",
+    "owes": "が",
+    "isOwed": "に支払う",
+    "settleUp": "精算する",
+    "allSettled": "すべての支出が精算されました！",
+    "noGroupExpenses": "まだグループ支出がありません"
+  },
+  
+  "alerts": {
+    "budgetWarning": "予算警告",
+    "budgetCritical": "予算危機",
+    "budgetExceeded": "予算超過",
+    "categoryOverBudget": "カテゴリー予算超過",
+    "burnRateHigh": "高消費率",
+    "approaching70": "予算の70%を使用しました",
+    "approaching90": "予算の90%を使用しました",
+    "exceeded100": "予算を超過しました",
+    "categoryExceeded": "{{category}}の支出が配分を超過しました",
+    "burnRateWarning": "消費率が予定より20%高くなっています",
+    "dismiss": "閉じる"
+  },
+  
   "breakdown": {
     "title": "支出内訳",
     "byCategory": "カテゴリー別",
     "byDay": "日別"
   },
+  
   "warnings": {
     "approaching": "予算の上限に近づいています（{{percent}}%使用）",
     "exceeded": "予算を{{amount}}超過しています"
   },
+  
   "export": {
     "exportPDF": "PDFでエクスポート",
     "exportCSV": "CSVでエクスポート",
     "shareableBudget": "共有可能な予算表示"
   },
+  
   "tips": {
     "addTip": "チップを追加",
     "tipPercent": "チップ{{percent}}%"
   },
+  
   "split": {
     "splitCost": "費用を分割",
     "splitAmong": "{{count}}人で分割"
+  },
+  
+  "form": {
+    "save": "保存",
+    "cancel": "キャンセル",
+    "saving": "保存中...",
+    "loading": "読み込み中...",
+    "success": "成功",
+    "error": "エラー",
+    "required": "この項目は必須です",
+    "invalidAmount": "有効な金額を入力してください",
+    "invalidDate": "有効な日付を入力してください"
+  },
+  
+  "empty": {
+    "noBudget": "予算が設定されていません",
+    "noBudgetDescription": "予算設定を行って旅行の支出管理を開始しましょう。総予算を設定し、各カテゴリーに配分してください。",
+    "getStarted": "始める"
+  },
+  
+  "sync": {
+    "online": "オンライン",
+    "offline": "オフライン",
+    "syncing": "同期中...",
+    "syncError": "同期エラー",
+    "retrySync": "再同期"
   }
 }

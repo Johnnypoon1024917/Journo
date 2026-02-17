@@ -1,27 +1,25 @@
 {
-  "members": {
-    "title": "成员",
-    "invite": "邀请成员",
-    "inviteByEmail": "通过电子邮件邀请",
-    "noMembers": "暂无成员",
-    "roles": {
-      "owner": "拥有者",
-      "editor": "编辑者",
-      "viewer": "查看者"
-    },
-    "status": {
-      "online": "在线",
-      "offline": "离线"
-    },
-    "actions": {
-      "makeEditor": "设为编辑者",
-      "makeViewer": "设为查看者",
-      "remove": "移除成员"
-    },
-    "permissions": {
-      "canEdit": "可编辑行程",
-      "canView": "可查看行程",
-      "canManage": "可管理成员"
-    }
+  "title": "成员",
+  "invite": "邀请成员",
+  "inviteByEmail": "通过电子邮件邀请",
+  "noMembers": "暂无成员",
+  "roles": {
+    "owner": "拥有者",
+    "editor": "编辑者",
+    "viewer": "查看者"
+  },
+  "status": {
+    "online": "在线",
+    "offline": "离线"
+  },
+  "actions": {
+    "makeEditor": "设为编辑者",
+    "makeViewer": "设为查看者",
+    "remove": "移除成员"
+  },
+  "permissions": {
+    "canEdit": "可编辑行程",
+    "canView": "可查看行程",
+    "canManage": "可管理成员"
   }
 }

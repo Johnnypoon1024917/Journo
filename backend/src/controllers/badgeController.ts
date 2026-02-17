@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { badgeService } from '../services/badgeService';
+import { badgeService } from '../services/badgeService.js';
 
 /**
  * Get all badges for the authenticated user

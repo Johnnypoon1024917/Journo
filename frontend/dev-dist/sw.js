@@ -67,7 +67,7 @@ if (!self.define) {
     });
   };
 }
-define(['./workbox-dac91ffc'], (function (workbox) { 'use strict';
+define(['./workbox-9e50c213'], (function (workbox) { 'use strict';
 
   self.skipWaiting();
   workbox.clientsClaim();
@@ -80,14 +80,8 @@ define(['./workbox-dac91ffc'], (function (workbox) { 'use strict';
   workbox.precacheAndRoute([{
     "url": "registerSW.js",
     "revision": "3ca0b8505b4bec776b69afdba2768812"
-  }, {
-    "url": "index.html",
-    "revision": "0.2l9aamr03b"
   }], {});
   workbox.cleanupOutdatedCaches();
-  workbox.registerRoute(new workbox.NavigationRoute(workbox.createHandlerBoundToURL("index.html"), {
-    allowlist: [/^\/$/]
-  }));
   workbox.registerRoute(/^https?:\/\/.*\/api\/trips.*/i, new workbox.NetworkFirst({
     "cacheName": "trip-data-cache",
     "networkTimeoutSeconds": 5,

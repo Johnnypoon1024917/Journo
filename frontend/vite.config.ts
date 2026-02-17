@@ -100,6 +100,8 @@ export default defineConfig({
       workbox: {
         maximumFileSizeToCacheInBytes: 3 * 1024 * 1024, // 3 MB
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+        globIgnores: ['**/node_modules/**', '**/src/**', '**/*.ts', '**/*.tsx'],
+        navigateFallback: null,
         runtimeCaching: [
           // Trip data - NetworkFirst for fresh data, fallback to cache
           {
@@ -238,7 +240,9 @@ export default defineConfig({
         ]
       },
       devOptions: {
-        enabled: true
+        enabled: true,
+        type: 'module',
+        navigateFallback: 'index.html'
       }
     })
   ],

@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { AdminController } from '../controllers/adminController';
-import { createEnhancedAuthMiddleware } from '../middleware/authMiddleware';
-import { pool } from '../config/database';
+import { AdminController } from '../controllers/adminController.js';
+import { createEnhancedAuthMiddleware } from '../middleware/authMiddleware.js';
+import { pool } from '../config/database.js';
 
 const router = Router();
 

@@ -25,7 +25,7 @@ export type BookingCategory = 'flights' | 'accommodation' | 'carRental' | 'ticke
 export interface BookingFormData {
   category: BookingCategory;
   // Flight/Train fields
-  type?: 'flight' | 'train';
+  type?: 'flight' | 'train' | 'car_rental' | 'bus' | 'ferry' | 'theme_park' | 'museum' | 'show' | 'tour' | 'other';
   origin?: {
     code: string;
     name: string;
@@ -46,6 +46,16 @@ export interface BookingFormData {
   location?: string;
   confirmationNumber?: string;
   notes?: string;
+  // Transportation fields
+  pickupLocation?: string;
+  dropoffLocation?: string;
+  pickupDate?: string;
+  pickupTime?: string;
+  dropoffDate?: string;
+  dropoffTime?: string;
+  // Attraction fields
+  time?: string;
+  quantity?: number;
 }
 
 export interface AddBookingModalProps {
@@ -339,6 +349,349 @@ export const AddBookingModal: React.FC<AddBookingModalProps> = ({
     </div>
   );
 
+  const renderTransportationForm = () => (
+    <div className="space-y-4">
+      {/* Type Selection */}
+      <div>
+        <label className="block text-sm font-medium text-kawaii-neutral-700 dark:text-kawaii-neutral-300 mb-2">
+          {t('booking.type')}
+        </label>
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            type="button"
+            onClick={() => handleChange('type', 'car_rental')}
+            className={`px-4 py-2 rounded-lg border-2 transition-colors ${
+              formData.type === 'car_rental'
+                ? 'border-kawaii-primary-500 bg-kawaii-primary-50 dark:bg-kawaii-primary-900/20 text-kawaii-primary-700 dark:text-kawaii-primary-300'
+                : 'border-kawaii-neutral-200 dark:border-kawaii-neutral-700 text-kawaii-neutral-600 dark:text-kawaii-neutral-400'
+            }`}
+          >
+            🚗 租車
+          </button>
+          <button
+            type="button"
+            onClick={() => handleChange('type', 'bus')}
+            className={`px-4 py-2 rounded-lg border-2 transition-colors ${
+              formData.type === 'bus'
+                ? 'border-kawaii-primary-500 bg-kawaii-primary-50 dark:bg-kawaii-primary-900/20 text-kawaii-primary-700 dark:text-kawaii-primary-300'
+                : 'border-kawaii-neutral-200 dark:border-kawaii-neutral-700 text-kawaii-neutral-600 dark:text-kawaii-neutral-400'
+            }`}
+          >
+            🚌 巴士
+          </button>
+          <button
+            type="button"
+            onClick={() => handleChange('type', 'ferry')}
+            className={`px-4 py-2 rounded-lg border-2 transition-colors ${
+              formData.type === 'ferry'
+                ? 'border-kawaii-primary-500 bg-kawaii-primary-50 dark:bg-kawaii-primary-900/20 text-kawaii-primary-700 dark:text-kawaii-primary-300'
+                : 'border-kawaii-neutral-200 dark:border-kawaii-neutral-700 text-kawaii-neutral-600 dark:text-kawaii-neutral-400'
+            }`}
+          >
+            ⛴️ 渡輪
+          </button>
+          <button
+            type="button"
+            onClick={() => handleChange('type', 'other')}
+            className={`px-4 py-2 rounded-lg border-2 transition-colors ${
+              formData.type === 'other'
+                ? 'border-kawaii-primary-500 bg-kawaii-primary-50 dark:bg-kawaii-primary-900/20 text-kawaii-primary-700 dark:text-kawaii-primary-300'
+                : 'border-kawaii-neutral-200 dark:border-kawaii-neutral-700 text-kawaii-neutral-600 dark:text-kawaii-neutral-400'
+            }`}
+          >
+            🚐 其他
+          </button>
+        </div>
+      </div>
+
+      {/* Name */}
+      <div>
+        <label className="block text-sm font-medium text-kawaii-neutral-700 dark:text-kawaii-neutral-300 mb-2">
+          名稱
+        </label>
+        <input
+          type="text"
+          value={formData.name || ''}
+          onChange={(e) => handleChange('name', e.target.value)}
+          placeholder="Toyota Camry"
+          className="w-full px-4 py-2 rounded-lg border border-kawaii-neutral-200 dark:border-kawaii-neutral-700 bg-white dark:bg-kawaii-neutral-800 text-kawaii-neutral-900 dark:text-kawaii-neutral-100 focus:outline-none focus:ring-2 focus:ring-kawaii-primary-500"
+        />
+      </div>
+
+      {/* Pickup Location */}
+      <div>
+        <label className="block text-sm font-medium text-kawaii-neutral-700 dark:text-kawaii-neutral-300 mb-2">
+          取車地點
+        </label>
+        <input
+          type="text"
+          value={formData.pickupLocation || ''}
+          onChange={(e) => handleChange('pickupLocation', e.target.value)}
+          placeholder="Osaka Airport"
+          className="w-full px-4 py-2 rounded-lg border border-kawaii-neutral-200 dark:border-kawaii-neutral-700 bg-white dark:bg-kawaii-neutral-800 text-kawaii-neutral-900 dark:text-kawaii-neutral-100 focus:outline-none focus:ring-2 focus:ring-kawaii-primary-500"
+        />
+      </div>
+
+      {/* Pickup Date & Time */}
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-kawaii-neutral-700 dark:text-kawaii-neutral-300 mb-2">
+            取車日期
+          </label>
+          <input
+            type="date"
+            value={formData.pickupDate || ''}
+            onChange={(e) => handleChange('pickupDate', e.target.value)}
+            className="w-full px-4 py-2 rounded-lg border border-kawaii-neutral-200 dark:border-kawaii-neutral-700 bg-white dark:bg-kawaii-neutral-800 text-kawaii-neutral-900 dark:text-kawaii-neutral-100 focus:outline-none focus:ring-2 focus:ring-kawaii-primary-500"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-kawaii-neutral-700 dark:text-kawaii-neutral-300 mb-2">
+            取車時間
+          </label>
+          <input
+            type="time"
+            value={formData.pickupTime || ''}
+            onChange={(e) => handleChange('pickupTime', e.target.value)}
+            className="w-full px-4 py-2 rounded-lg border border-kawaii-neutral-200 dark:border-kawaii-neutral-700 bg-white dark:bg-kawaii-neutral-800 text-kawaii-neutral-900 dark:text-kawaii-neutral-100 focus:outline-none focus:ring-2 focus:ring-kawaii-primary-500"
+          />
+        </div>
+      </div>
+
+      {/* Dropoff Location */}
+      <div>
+        <label className="block text-sm font-medium text-kawaii-neutral-700 dark:text-kawaii-neutral-300 mb-2">
+          還車地點
+        </label>
+        <input
+          type="text"
+          value={formData.dropoffLocation || ''}
+          onChange={(e) => handleChange('dropoffLocation', e.target.value)}
+          placeholder="Kyoto Station"
+          className="w-full px-4 py-2 rounded-lg border border-kawaii-neutral-200 dark:border-kawaii-neutral-700 bg-white dark:bg-kawaii-neutral-800 text-kawaii-neutral-900 dark:text-kawaii-neutral-100 focus:outline-none focus:ring-2 focus:ring-kawaii-primary-500"
+        />
+      </div>
+
+      {/* Dropoff Date & Time */}
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-kawaii-neutral-700 dark:text-kawaii-neutral-300 mb-2">
+            還車日期
+          </label>
+          <input
+            type="date"
+            value={formData.dropoffDate || ''}
+            onChange={(e) => handleChange('dropoffDate', e.target.value)}
+            className="w-full px-4 py-2 rounded-lg border border-kawaii-neutral-200 dark:border-kawaii-neutral-700 bg-white dark:bg-kawaii-neutral-800 text-kawaii-neutral-900 dark:text-kawaii-neutral-100 focus:outline-none focus:ring-2 focus:ring-kawaii-primary-500"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-kawaii-neutral-700 dark:text-kawaii-neutral-300 mb-2">
+            還車時間
+          </label>
+          <input
+            type="time"
+            value={formData.dropoffTime || ''}
+            onChange={(e) => handleChange('dropoffTime', e.target.value)}
+            className="w-full px-4 py-2 rounded-lg border border-kawaii-neutral-200 dark:border-kawaii-neutral-700 bg-white dark:bg-kawaii-neutral-800 text-kawaii-neutral-900 dark:text-kawaii-neutral-100 focus:outline-none focus:ring-2 focus:ring-kawaii-primary-500"
+          />
+        </div>
+      </div>
+
+      {/* Confirmation Number */}
+      <div>
+        <label className="block text-sm font-medium text-kawaii-neutral-700 dark:text-kawaii-neutral-300 mb-2">
+          確認編號
+        </label>
+        <input
+          type="text"
+          value={formData.confirmationNumber || ''}
+          onChange={(e) => handleChange('confirmationNumber', e.target.value)}
+          placeholder="ABC123"
+          className="w-full px-4 py-2 rounded-lg border border-kawaii-neutral-200 dark:border-kawaii-neutral-700 bg-white dark:bg-kawaii-neutral-800 text-kawaii-neutral-900 dark:text-kawaii-neutral-100 focus:outline-none focus:ring-2 focus:ring-kawaii-primary-500"
+        />
+      </div>
+
+      {/* Notes */}
+      <div>
+        <label className="block text-sm font-medium text-kawaii-neutral-700 dark:text-kawaii-neutral-300 mb-2">
+          {t('booking.notes')}
+        </label>
+        <textarea
+          value={formData.notes || ''}
+          onChange={(e) => handleChange('notes', e.target.value)}
+          rows={3}
+          placeholder="Additional notes..."
+          className="w-full px-4 py-2 rounded-lg border border-kawaii-neutral-200 dark:border-kawaii-neutral-700 bg-white dark:bg-kawaii-neutral-800 text-kawaii-neutral-900 dark:text-kawaii-neutral-100 focus:outline-none focus:ring-2 focus:ring-kawaii-primary-500 resize-none"
+        />
+      </div>
+    </div>
+  );
+
+  const renderAttractionForm = () => (
+    <div className="space-y-4">
+      {/* Type Selection */}
+      <div>
+        <label className="block text-sm font-medium text-kawaii-neutral-700 dark:text-kawaii-neutral-300 mb-2">
+          {t('booking.type')}
+        </label>
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            type="button"
+            onClick={() => handleChange('type', 'theme_park')}
+            className={`px-4 py-2 rounded-lg border-2 transition-colors ${
+              formData.type === 'theme_park'
+                ? 'border-kawaii-primary-500 bg-kawaii-primary-50 dark:bg-kawaii-primary-900/20 text-kawaii-primary-700 dark:text-kawaii-primary-300'
+                : 'border-kawaii-neutral-200 dark:border-kawaii-neutral-700 text-kawaii-neutral-600 dark:text-kawaii-neutral-400'
+            }`}
+          >
+            🎢 主題樂園
+          </button>
+          <button
+            type="button"
+            onClick={() => handleChange('type', 'museum')}
+            className={`px-4 py-2 rounded-lg border-2 transition-colors ${
+              formData.type === 'museum'
+                ? 'border-kawaii-primary-500 bg-kawaii-primary-50 dark:bg-kawaii-primary-900/20 text-kawaii-primary-700 dark:text-kawaii-primary-300'
+                : 'border-kawaii-neutral-200 dark:border-kawaii-neutral-700 text-kawaii-neutral-600 dark:text-kawaii-neutral-400'
+            }`}
+          >
+            🏛️ 博物館
+          </button>
+          <button
+            type="button"
+            onClick={() => handleChange('type', 'show')}
+            className={`px-4 py-2 rounded-lg border-2 transition-colors ${
+              formData.type === 'show'
+                ? 'border-kawaii-primary-500 bg-kawaii-primary-50 dark:bg-kawaii-primary-900/20 text-kawaii-primary-700 dark:text-kawaii-primary-300'
+                : 'border-kawaii-neutral-200 dark:border-kawaii-neutral-700 text-kawaii-neutral-600 dark:text-kawaii-neutral-400'
+            }`}
+          >
+            🎭 表演
+          </button>
+          <button
+            type="button"
+            onClick={() => handleChange('type', 'tour')}
+            className={`px-4 py-2 rounded-lg border-2 transition-colors ${
+              formData.type === 'tour'
+                ? 'border-kawaii-primary-500 bg-kawaii-primary-50 dark:bg-kawaii-primary-900/20 text-kawaii-primary-700 dark:text-kawaii-primary-300'
+                : 'border-kawaii-neutral-200 dark:border-kawaii-neutral-700 text-kawaii-neutral-600 dark:text-kawaii-neutral-400'
+            }`}
+          >
+            🗺️ 導覽
+          </button>
+          <button
+            type="button"
+            onClick={() => handleChange('type', 'other')}
+            className={`px-4 py-2 rounded-lg border-2 transition-colors col-span-2 ${
+              formData.type === 'other'
+                ? 'border-kawaii-primary-500 bg-kawaii-primary-50 dark:bg-kawaii-primary-900/20 text-kawaii-primary-700 dark:text-kawaii-primary-300'
+                : 'border-kawaii-neutral-200 dark:border-kawaii-neutral-700 text-kawaii-neutral-600 dark:text-kawaii-neutral-400'
+            }`}
+          >
+            🎫 其他
+          </button>
+        </div>
+      </div>
+
+      {/* Name */}
+      <div>
+        <label className="block text-sm font-medium text-kawaii-neutral-700 dark:text-kawaii-neutral-300 mb-2">
+          景點名稱
+        </label>
+        <input
+          type="text"
+          value={formData.name || ''}
+          onChange={(e) => handleChange('name', e.target.value)}
+          placeholder="Universal Studios Japan"
+          className="w-full px-4 py-2 rounded-lg border border-kawaii-neutral-200 dark:border-kawaii-neutral-700 bg-white dark:bg-kawaii-neutral-800 text-kawaii-neutral-900 dark:text-kawaii-neutral-100 focus:outline-none focus:ring-2 focus:ring-kawaii-primary-500"
+        />
+      </div>
+
+      {/* Location */}
+      <div>
+        <label className="block text-sm font-medium text-kawaii-neutral-700 dark:text-kawaii-neutral-300 mb-2">
+          {t('booking.location')}
+        </label>
+        <input
+          type="text"
+          value={formData.location || ''}
+          onChange={(e) => handleChange('location', e.target.value)}
+          placeholder="Osaka, Japan"
+          className="w-full px-4 py-2 rounded-lg border border-kawaii-neutral-200 dark:border-kawaii-neutral-700 bg-white dark:bg-kawaii-neutral-800 text-kawaii-neutral-900 dark:text-kawaii-neutral-100 focus:outline-none focus:ring-2 focus:ring-kawaii-primary-500"
+        />
+      </div>
+
+      {/* Date & Time */}
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-kawaii-neutral-700 dark:text-kawaii-neutral-300 mb-2">
+            {t('booking.date')}
+          </label>
+          <input
+            type="date"
+            value={formData.date || ''}
+            onChange={(e) => handleChange('date', e.target.value)}
+            className="w-full px-4 py-2 rounded-lg border border-kawaii-neutral-200 dark:border-kawaii-neutral-700 bg-white dark:bg-kawaii-neutral-800 text-kawaii-neutral-900 dark:text-kawaii-neutral-100 focus:outline-none focus:ring-2 focus:ring-kawaii-primary-500"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-kawaii-neutral-700 dark:text-kawaii-neutral-300 mb-2">
+            時間
+          </label>
+          <input
+            type="time"
+            value={formData.time || ''}
+            onChange={(e) => handleChange('time', e.target.value)}
+            className="w-full px-4 py-2 rounded-lg border border-kawaii-neutral-200 dark:border-kawaii-neutral-700 bg-white dark:bg-kawaii-neutral-800 text-kawaii-neutral-900 dark:text-kawaii-neutral-100 focus:outline-none focus:ring-2 focus:ring-kawaii-primary-500"
+          />
+        </div>
+      </div>
+
+      {/* Quantity */}
+      <div>
+        <label className="block text-sm font-medium text-kawaii-neutral-700 dark:text-kawaii-neutral-300 mb-2">
+          票數
+        </label>
+        <input
+          type="number"
+          min="1"
+          value={formData.quantity || 1}
+          onChange={(e) => handleChange('quantity', parseInt(e.target.value) || 1)}
+          className="w-full px-4 py-2 rounded-lg border border-kawaii-neutral-200 dark:border-kawaii-neutral-700 bg-white dark:bg-kawaii-neutral-800 text-kawaii-neutral-900 dark:text-kawaii-neutral-100 focus:outline-none focus:ring-2 focus:ring-kawaii-primary-500"
+        />
+      </div>
+
+      {/* Confirmation Number */}
+      <div>
+        <label className="block text-sm font-medium text-kawaii-neutral-700 dark:text-kawaii-neutral-300 mb-2">
+          {t('booking.confirmationNumber', { number: '' })}
+        </label>
+        <input
+          type="text"
+          value={formData.confirmationNumber || ''}
+          onChange={(e) => handleChange('confirmationNumber', e.target.value)}
+          placeholder="ABC123"
+          className="w-full px-4 py-2 rounded-lg border border-kawaii-neutral-200 dark:border-kawaii-neutral-700 bg-white dark:bg-kawaii-neutral-800 text-kawaii-neutral-900 dark:text-kawaii-neutral-100 focus:outline-none focus:ring-2 focus:ring-kawaii-primary-500"
+        />
+      </div>
+
+      {/* Notes */}
+      <div>
+        <label className="block text-sm font-medium text-kawaii-neutral-700 dark:text-kawaii-neutral-300 mb-2">
+          {t('booking.notes')}
+        </label>
+        <textarea
+          value={formData.notes || ''}
+          onChange={(e) => handleChange('notes', e.target.value)}
+          rows={3}
+          placeholder="Additional notes..."
+          className="w-full px-4 py-2 rounded-lg border border-kawaii-neutral-200 dark:border-kawaii-neutral-700 bg-white dark:bg-kawaii-neutral-800 text-kawaii-neutral-900 dark:text-kawaii-neutral-100 focus:outline-none focus:ring-2 focus:ring-kawaii-primary-500 resize-none"
+        />
+      </div>
+    </div>
+  );
+
   return (
     <KawaiiModal
       isOpen={isOpen}
@@ -388,33 +741,32 @@ export const AddBookingModal: React.FC<AddBookingModalProps> = ({
         <div className="min-h-[300px]">
           {category === 'flights' && renderFlightForm()}
           {category === 'accommodation' && renderAccommodationForm()}
-          {(category === 'carRental' || category === 'tickets') && renderComingSoon()}
+          {category === 'carRental' && renderTransportationForm()}
+          {category === 'tickets' && renderAttractionForm()}
         </div>
 
         {/* Action Buttons */}
-        {category !== 'carRental' && category !== 'tickets' && (
-          <div className="flex gap-3 justify-end pt-4 border-t border-kawaii-neutral-200 dark:border-kawaii-neutral-700">
-            <button
-              type="button"
-              onClick={onClose}
-              disabled={isSubmitting}
-              className="px-6 py-2 rounded-lg border border-kawaii-neutral-200 dark:border-kawaii-neutral-700 text-kawaii-neutral-700 dark:text-kawaii-neutral-300 hover:bg-kawaii-neutral-50 dark:hover:bg-kawaii-neutral-800 transition-colors disabled:opacity-50"
-            >
-              {t('common.cancel')}
-            </button>
-            <button
-              type="button"
-              onClick={handleSubmit}
-              disabled={isSubmitting}
-              className="px-6 py-2 rounded-lg bg-kawaii-primary-500 text-white hover:bg-kawaii-primary-600 transition-colors disabled:opacity-50 flex items-center gap-2"
-            >
-              {isSubmitting && (
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-              )}
-              {t('common.save')}
-            </button>
-          </div>
-        )}
+        <div className="flex gap-3 justify-end pt-4 border-t border-kawaii-neutral-200 dark:border-kawaii-neutral-700">
+          <button
+            type="button"
+            onClick={onClose}
+            disabled={isSubmitting}
+            className="px-6 py-2 rounded-lg border border-kawaii-neutral-200 dark:border-kawaii-neutral-700 text-kawaii-neutral-700 dark:text-kawaii-neutral-300 hover:bg-kawaii-neutral-50 dark:hover:bg-kawaii-neutral-800 transition-colors disabled:opacity-50"
+          >
+            {t('common.cancel')}
+          </button>
+          <button
+            type="button"
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+            className="px-6 py-2 rounded-lg bg-kawaii-primary-500 text-white hover:bg-kawaii-primary-600 transition-colors disabled:opacity-50 flex items-center gap-2"
+          >
+            {isSubmitting && (
+              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            )}
+            {t('common.save')}
+          </button>
+        </div>
       </div>
     </KawaiiModal>
   );

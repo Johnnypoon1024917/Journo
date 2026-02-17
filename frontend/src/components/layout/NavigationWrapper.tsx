@@ -1,68 +1,112 @@
 /**
- * NavigationWrapper Component
- * 
- * Handles responsive navigation rendering:
- * - Side navigation for desktop/tablet
- * - Bottom navigation for mobile
- * - Proper spacing and overflow prevention
+ * NavigationWrapper - ABSOLUTE MINIMAL
+ * NO grid, NO complex layout, just simple divs
+ * CONTROLS GLOBAL BACKGROUND COLOR FOR ALL PAGES
  */
 
-import React, { useState } from 'react';
-import { cn } from '@/utils/cn';
-import { useMediaQuery } from '@/hooks/useMediaQuery';
-import { BottomNavigation } from '@/components/kawaii/BottomNavigation';
+import React, { useState, useEffect } from 'react';
 import { SideNavigation } from '@/components/kawaii/SideNavigation';
+import { BottomNavigation } from '@/components/kawaii/BottomNavigation';
+import { SkipLinks } from '@/components/common/SkipLinks';
+import { safeAreaService } from '@/services/safeAreaService';
 
-export type NavigationTab = 'schedule' | 'checklist' | 'booking' | 'shopping' | 'members' | 'settings';
+export type NavigationTab = 'schedule' | 'booking' | 'budget' | 'shopping' | 'checklist' | 'members' | 'settings';
 
-interface NavigationWrapperProps {
-  activeTab: NavigationTab;
-  onTabChange: (tab: NavigationTab) => void;
+export interface NavigationWrapperProps {
   children: React.ReactNode;
+  activeTab?: NavigationTab;
+  onTabChange?: (tab: NavigationTab) => void;
 }
 
 export const NavigationWrapper: React.FC<NavigationWrapperProps> = ({
+  children,
   activeTab,
   onTabChange,
-  children,
 }) => {
-  const isMobile = useMediaQuery('(max-width: 767px)');
   const [sideNavCollapsed, setSideNavCollapsed] = useState(false);
+  const [safeAreaInsets, setSafeAreaInsets] = useState(safeAreaService.getInsets());
+
+  // Subscribe to safe area changes (for orientation changes)
+  useEffect(() => {
+    const unsubscribe = safeAreaService.subscribeToChanges((insets) => {
+      setSafeAreaInsets(insets);
+    });
+
+    return unsubscribe;
+  }, []);
+
+  const handleTabChange = (tab: string) => {
+    if (onTabChange) {
+      onTabChange(tab as NavigationTab);
+    }
+  };
+
+  const sidebarWidth = sideNavCollapsed ? 80 : 240;
 
   return (
-    <div className="relative min-h-screen w-full overflow-x-hidden">
-      {/* Desktop: Side Navigation */}
-      {!isMobile && (
-        <SideNavigation
-          activeTab={activeTab}
-          onTabChange={(tab) => onTabChange(tab as NavigationTab)}
-          collapsed={sideNavCollapsed}
-          onCollapsedChange={setSideNavCollapsed}
-          className="fixed left-0 top-0 bottom-0 z-40"
-        />
-      )}
-      
-      {/* Page Content with proper spacing */}
-      <div
-        className={cn(
-          'min-h-screen w-full',
-          !isMobile && (sideNavCollapsed ? 'pl-20' : 'pl-60'),
-          'transition-[padding] duration-300',
-          'overflow-x-hidden'
-        )}
-      >
-        {children}
-        {/* Spacer for bottom navigation on mobile */}
-        {isMobile && <div className="h-24 shrink-0" />}
+    <>
+      {/* Skip Links - Always first for keyboard navigation */}
+      <SkipLinks mainContentId="main-content" />
+
+      {/* Desktop: Sidebar + Content side by side */}
+      <div className="hidden md:block min-h-screen bg-[#f7f3eb] dark:bg-gray-900">
+        {/* Sidebar - ABSOLUTE positioned on left with safe area insets */}
+        <div 
+          style={{ 
+            position: 'fixed', 
+            left: 0, 
+            top: 0, 
+            bottom: 0, 
+            width: `${sidebarWidth}px`, 
+            zIndex: 10,
+            paddingTop: `${safeAreaInsets.top}px`,
+            paddingLeft: `${safeAreaInsets.left}px`,
+          }}
+          role="navigation"
+          aria-label="Main navigation"
+        >
+          <SideNavigation
+            activeTab={activeTab}
+            onTabChange={handleTabChange}
+            collapsed={sideNavCollapsed}
+            onCollapsedChange={setSideNavCollapsed}
+            useFixedPosition={false}
+          />
+        </div>
+
+        {/* Content - with LEFT MARGIN to avoid sidebar and safe area padding */}
+        <main 
+          id="main-content"
+          style={{ 
+            marginLeft: `${sidebarWidth}px`,
+            paddingTop: `${safeAreaInsets.top}px`,
+            paddingRight: `${safeAreaInsets.right}px`,
+          }}
+        >
+          {children}
+        </main>
       </div>
-      
-      {/* Mobile: Bottom Navigation */}
-      {isMobile && (
-        <BottomNavigation
-          activeTab={activeTab}
-          onTabChange={(tab) => onTabChange(tab as NavigationTab)}
-        />
-      )}
-    </div>
+
+      {/* Mobile: Just content with bottom nav and safe area insets */}
+      <div className="md:hidden min-h-screen bg-[#f7f3eb] dark:bg-gray-900">
+        <main 
+          id="main-content"
+          style={{ 
+            paddingTop: `${safeAreaInsets.top}px`,
+            paddingLeft: `${safeAreaInsets.left}px`,
+            paddingRight: `${safeAreaInsets.right}px`,
+            paddingBottom: '96px', // Space for bottom nav
+          }}
+        >
+          {children}
+        </main>
+        <nav role="navigation" aria-label="Main navigation">
+          <BottomNavigation
+            activeTab={activeTab}
+            onTabChange={handleTabChange}
+          />
+        </nav>
+      </div>
+    </>
   );
 };

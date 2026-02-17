@@ -1,27 +1,25 @@
 {
-  "members": {
-    "title": "Members",
-    "invite": "Invite Member",
-    "inviteByEmail": "Invite by Email",
-    "noMembers": "No members yet",
-    "roles": {
-      "owner": "Owner",
-      "editor": "Editor",
-      "viewer": "Viewer"
-    },
-    "status": {
-      "online": "Online",
-      "offline": "Offline"
-    },
-    "actions": {
-      "makeEditor": "Make Editor",
-      "makeViewer": "Make Viewer",
-      "remove": "Remove Member"
-    },
-    "permissions": {
-      "canEdit": "Can edit trip",
-      "canView": "Can view trip",
-      "canManage": "Can manage members"
-    }
+  "title": "Members",
+  "invite": "Invite Member",
+  "inviteByEmail": "Invite by Email",
+  "noMembers": "No members yet",
+  "roles": {
+    "owner": "Owner",
+    "editor": "Editor",
+    "viewer": "Viewer"
+  },
+  "status": {
+    "online": "Online",
+    "offline": "Offline"
+  },
+  "actions": {
+    "makeEditor": "Make Editor",
+    "makeViewer": "Make Viewer",
+    "remove": "Remove Member"
+  },
+  "permissions": {
+    "canEdit": "Can edit trip",
+    "canView": "Can view trip",
+    "canManage": "Can manage members"
   }
 }

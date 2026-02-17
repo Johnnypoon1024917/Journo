@@ -111,33 +111,57 @@ export const DesignSystemShowcase: React.FC = () => {
       <section className="space-y-6">
         <Text variant="heading">Form Elements</Text>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl">
-          <Input
-            placeholder="Enter your name"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-          />
-          <Input
-            type="email"
-            placeholder="Enter your email"
-            variant="default"
-          />
-          <Input
-            placeholder="Success state"
-            variant="success"
-          />
-          <Input
-            placeholder="Error state"
-            variant="error"
-          />
-          <Input
-            placeholder="Disabled input"
-            disabled
-          />
-          <Input
-            placeholder="Read-only input"
-            readOnly
-            value="Read-only value"
-          />
+          <div>
+            <label htmlFor="showcase-name-input" className="block text-sm font-medium mb-2">Name</label>
+            <Input
+              id="showcase-name-input"
+              placeholder="Enter your name"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+            />
+          </div>
+          <div>
+            <label htmlFor="showcase-email-input" className="block text-sm font-medium mb-2">Email</label>
+            <Input
+              id="showcase-email-input"
+              type="email"
+              placeholder="Enter your email"
+              variant="default"
+            />
+          </div>
+          <div>
+            <label htmlFor="showcase-success-input" className="block text-sm font-medium mb-2">Success State</label>
+            <Input
+              id="showcase-success-input"
+              placeholder="Success state"
+              variant="success"
+            />
+          </div>
+          <div>
+            <label htmlFor="showcase-error-input" className="block text-sm font-medium mb-2">Error State</label>
+            <Input
+              id="showcase-error-input"
+              placeholder="Error state"
+              variant="error"
+            />
+          </div>
+          <div>
+            <label htmlFor="showcase-disabled-input" className="block text-sm font-medium mb-2">Disabled Input</label>
+            <Input
+              id="showcase-disabled-input"
+              placeholder="Disabled input"
+              disabled
+            />
+          </div>
+          <div>
+            <label htmlFor="showcase-readonly-input" className="block text-sm font-medium mb-2">Read-only Input</label>
+            <Input
+              id="showcase-readonly-input"
+              placeholder="Read-only input"
+              readOnly
+              value="Read-only value"
+            />
+          </div>
         </div>
       </section>
 

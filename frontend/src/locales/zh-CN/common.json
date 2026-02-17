@@ -28,7 +28,10 @@
     "view": "查看",
     "copy": "复制",
     "undo": "撤销",
-    "redo": "重做"
+    "redo": "重做",
+    "invite": "邀请",
+    "tryAgain": "重试",
+    "goHome": "返回首页"
   },
   "status": {
     "loading": "加载中...",
@@ -39,7 +42,9 @@
     "offline": "离线",
     "online": "在线",
     "syncing": "同步中...",
-    "synced": "已同步"
+    "synced": "已同步",
+    "loadingBudget": "加载预算中...",
+    "loadingTrip": "加载行程中..."
   },
   "time": {
     "today": "今天",
@@ -65,6 +70,7 @@
     },
     "account": {
       "title": "账户",
+      "accountSettings": "账户设置",
       "profile": "个人资料",
       "edit": "编辑",
       "name": "姓名",
@@ -80,8 +86,52 @@
       "passwordDescription": "更改您的密码以保护账户安全",
       "logout": "登出",
       "logoutDescription": "从此设备登出您的账户",
-      "logoutButton": "登出"
+      "logoutButton": "登出",
+      "pleaseSignIn": "请登录",
+      "needLogin": "您需要登录才能访问设置",
+      "deleteAccount": "删除账户",
+      "deleteConfirmation": "确定要删除您的账户吗？此操作无法撤销。",
+      "deleteWarning": "一旦删除您的账户，就无法恢复。请确认。",
+      "dangerZone": "危险区域",
+      "saveSettings": "保存设置"
+    },
+    "notifications": {
+      "title": "通知",
+      "emailNotifications": "电子邮件通知",
+      "emailNotificationsDesc": "通过电子邮件接收通知",
+      "pushNotifications": "推送通知",
+      "pushNotificationsDesc": "在浏览器中接收推送通知",
+      "tripUpdates": "行程更新",
+      "tripUpdatesDesc": "当协作者更新行程时收到通知",
+      "collaborationInvites": "协作邀请",
+      "collaborationInvitesDesc": "当被邀请协作行程时收到通知",
+      "marketingEmails": "营销电子邮件",
+      "marketingEmailsDesc": "接收新功能和提示的更新"
+    },
+    "privacy": {
+      "title": "隐私",
+      "publicProfile": "公开个人资料",
+      "publicProfileDesc": "允许其他人查找和查看您的个人资料",
+      "showEmail": "显示电子邮件地址",
+      "showEmailDesc": "在您的公开个人资料上显示电子邮件",
+      "allowCollaborations": "允许协作",
+      "allowCollaborationsDesc": "让其他人邀请您协作行程"
     },
     "info": "所有设置都会自动保存并立即应用。您的偏好设置会存储在您的设备上。"
+  },
+  "auth": {
+    "pleaseSignIn": "请登录",
+    "needLogin": "您需要登录才能访问此功能",
+    "sessionExpired": "会话已过期",
+    "sessionExpiredMessage": "您的会话已过期。请重新登录。"
+  },
+  "errors": {
+    "tryAgain": "重试",
+    "goHome": "返回首页",
+    "missingTripId": "缺少行程 ID 或验证",
+    "failedToLoadData": "加载数据失败",
+    "tripNotFound": "找不到行程",
+    "tripNotFoundDeleted": "找不到行程。可能已被删除。",
+    "failedToLoadTrip": "加载行程失败"
   }
 }

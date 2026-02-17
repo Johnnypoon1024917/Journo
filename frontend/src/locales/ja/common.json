@@ -28,7 +28,10 @@
     "view": "表示",
     "copy": "コピー",
     "undo": "元に戻す",
-    "redo": "やり直す"
+    "redo": "やり直す",
+    "invite": "招待",
+    "tryAgain": "再試行",
+    "goHome": "ホームに戻る"
   },
   "status": {
     "loading": "読み込み中...",
@@ -39,7 +42,9 @@
     "offline": "オフライン",
     "online": "オンライン",
     "syncing": "同期中...",
-    "synced": "同期完了"
+    "synced": "同期完了",
+    "loadingBudget": "予算を読み込み中...",
+    "loadingTrip": "旅行を読み込み中..."
   },
   "time": {
     "today": "今日",
@@ -65,6 +70,7 @@
     },
     "account": {
       "title": "アカウント",
+      "accountSettings": "アカウント設定",
       "profile": "プロフィール",
       "edit": "編集",
       "name": "名前",
@@ -80,8 +86,52 @@
       "passwordDescription": "アカウントを安全に保つためにパスワードを変更してください",
       "logout": "ログアウト",
       "logoutDescription": "このデバイスからアカウントをログアウトします",
-      "logoutButton": "ログアウト"
+      "logoutButton": "ログアウト",
+      "pleaseSignIn": "ログインしてください",
+      "needLogin": "設定にアクセスするにはログインが必要です",
+      "deleteAccount": "アカウントを削除",
+      "deleteConfirmation": "アカウントを削除してもよろしいですか？この操作は取り消せません。",
+      "deleteWarning": "アカウントを削除すると、元に戻すことはできません。ご確認ください。",
+      "dangerZone": "危険ゾーン",
+      "saveSettings": "設定を保存"
+    },
+    "notifications": {
+      "title": "通知",
+      "emailNotifications": "メール通知",
+      "emailNotificationsDesc": "メールで通知を受け取る",
+      "pushNotifications": "プッシュ通知",
+      "pushNotificationsDesc": "ブラウザでプッシュ通知を受け取る",
+      "tripUpdates": "旅行の更新",
+      "tripUpdatesDesc": "共同編集者が旅行を更新したときに通知を受け取る",
+      "collaborationInvites": "共同編集の招待",
+      "collaborationInvitesDesc": "旅行の共同編集に招待されたときに通知を受け取る",
+      "marketingEmails": "マーケティングメール",
+      "marketingEmailsDesc": "新機能やヒントに関する更新を受け取る"
+    },
+    "privacy": {
+      "title": "プライバシー",
+      "publicProfile": "公開プロフィール",
+      "publicProfileDesc": "他のユーザーがプロフィールを検索・表示できるようにする",
+      "showEmail": "メールアドレスを表示",
+      "showEmailDesc": "公開プロフィールにメールアドレスを表示する",
+      "allowCollaborations": "共同編集を許可",
+      "allowCollaborationsDesc": "他のユーザーが旅行の共同編集に招待できるようにする"
     },
     "info": "すべての設定は自動的に保存され、すぐに適用されます。設定はデバイスにローカルに保存されます。"
+  },
+  "auth": {
+    "pleaseSignIn": "ログインしてください",
+    "needLogin": "この機能にアクセスするにはログインが必要です",
+    "sessionExpired": "セッションが期限切れです",
+    "sessionExpiredMessage": "セッションが期限切れです。再度ログインしてください。"
+  },
+  "errors": {
+    "tryAgain": "再試行",
+    "goHome": "ホームに戻る",
+    "missingTripId": "旅行IDまたは認証が不足しています",
+    "failedToLoadData": "データの読み込みに失敗しました",
+    "tripNotFound": "旅行が見つかりません",
+    "tripNotFoundDeleted": "旅行が見つかりません。削除された可能性があります。",
+    "failedToLoadTrip": "旅行の読み込みに失敗しました"
   }
 }

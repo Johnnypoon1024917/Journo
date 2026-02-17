@@ -95,16 +95,18 @@ const KawaiiDemoContent: React.FC = () => {
 
             {/* Font Size */}
             <div>
-              <label className="block text-sm font-medium mb-2">
+              <label htmlFor="font-size-slider" className="block text-sm font-medium mb-2">
                 Font Size: {fontSize}px
               </label>
               <input
+                id="font-size-slider"
                 type="range"
                 min="12"
                 max="24"
                 value={fontSize}
                 onChange={(e) => setFontSize(Number(e.target.value))}
                 className="w-full"
+                aria-label={`Font size: ${fontSize} pixels`}
               />
             </div>
 

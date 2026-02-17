@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { activityLogService, ActivityActionType } from '../services/activityLogService';
+import { activityLogService, ActivityActionType } from '../services/activityLogService.js';
 
 /**
  * Middleware to automatically log activities for trip-related operations

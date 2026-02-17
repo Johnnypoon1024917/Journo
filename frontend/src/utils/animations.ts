@@ -304,7 +304,14 @@ export const createTransition = (
   easing: keyof typeof easings = 'standard'
 ): string => {
   const props = Array.isArray(properties) ? properties.join(', ') : properties;
-  return `${props} ${durations[duration]}ms ${easings[easing]}`;
+  const durationMs = durations[duration];
+  
+  // Check for reduced motion preference
+  if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return `${props} 1ms ${easings[easing]}`;
+  }
+  
+  return `${props} ${durationMs}ms ${easings[easing]}`;
 };
 
 export const createAnimation = (
@@ -313,7 +320,34 @@ export const createAnimation = (
   easing: keyof typeof easings = 'standard',
   fillMode: 'forwards' | 'backwards' | 'both' | 'none' = 'forwards'
 ): string => {
-  return `${name} ${durations[duration]}ms ${easings[easing]} ${fillMode}`;
+  const durationMs = durations[duration];
+  
+  // Check for reduced motion preference
+  if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return `${name} 0ms ${easings[easing]} ${fillMode}`;
+  }
+  
+  return `${name} ${durationMs}ms ${easings[easing]} ${fillMode}`;
+};
+
+/**
+ * Get animation duration respecting reduce motion preference
+ */
+export const getAnimationDuration = (duration: keyof typeof durations): number => {
+  if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return 0;
+  }
+  return durations[duration];
+};
+
+/**
+ * Get transition duration respecting reduce motion preference
+ */
+export const getTransitionDuration = (duration: keyof typeof durations): number => {
+  if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return 1; // 1ms to ensure transitions still fire
+  }
+  return durations[duration];
 };
 
 // Haptic feedback utility (for mobile)

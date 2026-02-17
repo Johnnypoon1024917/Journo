@@ -32,6 +32,7 @@ export interface StickerPlacement {
   position: { x: number; y: number };
   rotation: number; // degrees
   scale: number; // 0.5 to 2.0
+  value?: number; // Optional value (0-200%) for progress, discount, etc.
   created_at: string;
 }
 

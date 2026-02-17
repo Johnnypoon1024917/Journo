@@ -29,6 +29,7 @@ vi.mock('framer-motion', () => ({
       </span>
     ),
   },
+  AnimatePresence: ({ children }: any) => <>{children}</>,
 }));
 
 const renderWithRouter = (component: React.ReactElement) => {

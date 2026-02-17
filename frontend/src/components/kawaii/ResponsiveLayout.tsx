@@ -86,33 +86,17 @@ export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
         className={cn(
           // Base styles
           'transition-all duration-300',
+          'overflow-x-hidden w-full max-w-full',
           // Mobile layout (320px-767px)
           'min-h-screen',
           // Add padding for bottom navigation on mobile/tablet
           showBottomNav && 'pb-20',
           // Desktop layout with side navigation
-          showSideNav && 'ml-[240px]',
-          // Safe area insets
-          'pt-safe',
+          showSideNav && 'pl-60',
           contentClassName
         )}
       >
-        {/* Content wrapper with responsive padding */}
-        <div
-          className={cn(
-            // Mobile padding (320px-767px)
-            'px-4 py-4',
-            // Tablet padding (768px-1023px)
-            'md:px-6 md:py-6',
-            // Desktop padding (1024px+)
-            'lg:px-8 lg:py-8',
-            // Max width constraints
-            'max-w-mobile md:max-w-tablet lg:max-w-desktop xl:max-w-wide',
-            'mx-auto'
-          )}
-        >
-          {children}
-        </div>
+        {children}
       </main>
 
       {/* Bottom Navigation for Mobile/Tablet */}

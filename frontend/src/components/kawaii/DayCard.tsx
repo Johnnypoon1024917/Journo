@@ -20,7 +20,7 @@ import {
   Bars3Icon,
 } from '@heroicons/react/24/outline';
 import { CheckCircleIcon as CheckCircleIconSolid } from '@heroicons/react/24/solid';
-import { StickerDisplay } from './StickerDisplay';
+import { StickerCanvas } from '../stickers/organisms/StickerCanvas';
 
 export interface DayCardProps {
   day: TripDayWithPlaces;
@@ -42,6 +42,26 @@ export const DayCard: React.FC<DayCardProps> = ({
   className = '',
 }) => {
   const [activities, setActivities] = useState(day.places || []);
+  const [isDragging, setIsDragging] = useState(false);
+
+  // Update activities when day prop changes, but only if not dragging
+  React.useEffect(() => {
+    if (!isDragging) {
+      setActivities(day.places || []);
+    }
+  }, [day.places, isDragging]);
+  
+  // Prevent body scroll during drag
+  React.useEffect(() => {
+    if (isDragging) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isDragging]);
 
   // Parse date
   const dayDate = day.date ? new Date(day.date) : null;
@@ -68,14 +88,20 @@ export const DayCard: React.FC<DayCardProps> = ({
     .join('→');
 
   const handleReorder = (newOrder: Place[]) => {
+    // Update local state immediately for smooth UI
     setActivities(newOrder);
     
-    // Notify parent of reorder
-    newOrder.forEach((activity, index) => {
-      if (activity.display_order !== index) {
-        onActivityReorder?.(activity.id, index);
-      }
+    // Find the activity that actually moved
+    const movedActivity = newOrder.find((activity, index) => {
+      const oldIndex = activities.findIndex(a => a.id === activity.id);
+      return oldIndex !== index;
     });
+    
+    if (movedActivity) {
+      const newIndex = newOrder.findIndex(a => a.id === movedActivity.id);
+      // Only notify parent once for the moved activity
+      onActivityReorder?.(movedActivity.id, newIndex);
+    }
   };
 
   return (
@@ -105,15 +131,15 @@ export const DayCard: React.FC<DayCardProps> = ({
 
         {/* Sticker Display Layer - Above content but below modals */}
         {enableStickers && (
-          <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 50 }}>
-            <StickerDisplay
-              elementId={day.id}
-              elementType="day"
-              tripId={tripId}
-              editable={true}
-              className="pointer-events-auto"
-            />
-          </div>
+          <StickerCanvas
+            key={day.id}
+            elementId={day.id}
+            elementType="day"
+            tripId={tripId}
+            editable={true}
+            hasValues={true}
+            className="absolute inset-0"
+          />
         )}
       </div>
 
@@ -163,18 +189,15 @@ export const DayCard: React.FC<DayCardProps> = ({
             <Reorder.Item
               key={activity.id}
               value={activity}
-              className="cursor-grab active:cursor-grabbing"
+              onDragStart={() => setIsDragging(true)}
+              onDragEnd={() => setIsDragging(false)}
             >
-              <motion.div
-                className="bg-white rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow"
-                whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.99 }}
-              >
+              <div className="bg-white rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow">
                 <div className="flex items-center gap-3">
                   {/* Drag Handle */}
-                  <button className="p-1 hover:bg-gray-100 rounded">
+                  <div className="p-1 hover:bg-gray-100 rounded cursor-grab active:cursor-grabbing touch-none">
                     <Bars3Icon className="w-4 h-4 text-gray-400" />
-                  </button>
+                  </div>
 
                   {/* Time */}
                   <div className="flex-shrink-0">
@@ -214,7 +237,7 @@ export const DayCard: React.FC<DayCardProps> = ({
                     <EllipsisVerticalIcon className="w-5 h-5 text-gray-400" />
                   </button>
                 </div>
-              </motion.div>
+              </div>
             </Reorder.Item>
           ))}
         </Reorder.Group>

@@ -29,7 +29,9 @@
     "copy": "Copy",
     "undo": "Undo",
     "redo": "Redo",
-    "invite": "Invite"
+    "invite": "Invite",
+    "tryAgain": "Try Again",
+    "goHome": "Go Home"
   },
   "status": {
     "loading": "Loading...",
@@ -40,7 +42,9 @@
     "offline": "Offline",
     "online": "Online",
     "syncing": "Syncing...",
-    "synced": "Synced"
+    "synced": "Synced",
+    "loadingBudget": "Loading budget...",
+    "loadingTrip": "Loading trip..."
   },
   "connection": {
     "connected": "Connected",
@@ -134,6 +138,7 @@
     },
     "account": {
       "title": "Account",
+      "accountSettings": "Account Settings",
       "profile": "Profile",
       "edit": "Edit",
       "name": "Name",
@@ -149,8 +154,52 @@
       "passwordDescription": "Change your password to keep your account secure",
       "logout": "Logout",
       "logoutDescription": "Sign out of your account on this device",
-      "logoutButton": "Logout"
+      "logoutButton": "Logout",
+      "pleaseSignIn": "Please sign in",
+      "needLogin": "You need to be logged in to access settings",
+      "deleteAccount": "Delete Account",
+      "deleteConfirmation": "Are you sure you want to delete your account? This action cannot be undone.",
+      "deleteWarning": "Once you delete your account, there is no going back. Please be certain.",
+      "dangerZone": "Danger Zone",
+      "saveSettings": "Save Settings"
+    },
+    "notifications": {
+      "title": "Notifications",
+      "emailNotifications": "Email Notifications",
+      "emailNotificationsDesc": "Receive notifications via email",
+      "pushNotifications": "Push Notifications",
+      "pushNotificationsDesc": "Receive push notifications in your browser",
+      "tripUpdates": "Trip Updates",
+      "tripUpdatesDesc": "Get notified when collaborators update trips",
+      "collaborationInvites": "Collaboration Invites",
+      "collaborationInvitesDesc": "Get notified when invited to collaborate on trips",
+      "marketingEmails": "Marketing Emails",
+      "marketingEmailsDesc": "Receive updates about new features and tips"
+    },
+    "privacy": {
+      "title": "Privacy",
+      "publicProfile": "Public Profile",
+      "publicProfileDesc": "Allow others to find and view your profile",
+      "showEmail": "Show Email Address",
+      "showEmailDesc": "Display your email on your public profile",
+      "allowCollaborations": "Allow Collaborations",
+      "allowCollaborationsDesc": "Let others invite you to collaborate on trips"
     },
     "info": "All settings are saved automatically and will be applied immediately. Your preferences are stored locally on your device."
+  },
+  "auth": {
+    "pleaseSignIn": "Please sign in",
+    "needLogin": "You need to be logged in to access this feature",
+    "sessionExpired": "Session Expired",
+    "sessionExpiredMessage": "Your session has expired. Please login again."
+  },
+  "errors": {
+    "tryAgain": "Try Again",
+    "goHome": "Go Home",
+    "missingTripId": "Missing trip ID or authentication",
+    "failedToLoadData": "Failed to load data",
+    "tripNotFound": "Trip not found",
+    "tripNotFoundDeleted": "Trip not found. It may have been deleted.",
+    "failedToLoadTrip": "Failed to load trip"
   }
 }

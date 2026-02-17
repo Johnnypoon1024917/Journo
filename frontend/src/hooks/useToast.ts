@@ -1,10 +1,19 @@
 import { useState, useCallback } from 'react';
 import { ToastNotification } from '../components/kawaii/NotificationToast';
+import { useAriaAnnouncer } from '../providers/AriaAnnouncerProvider';
 
 let toastId = 0;
 
 export const useToast = () => {
   const [toasts, setToasts] = useState<ToastNotification[]>([]);
+  
+  // Get ARIA announcer - wrapped in try-catch for backward compatibility
+  let ariaAnnouncer: ReturnType<typeof useAriaAnnouncer> | null = null;
+  try {
+    ariaAnnouncer = useAriaAnnouncer();
+  } catch (e) {
+    // AriaAnnouncerProvider not available - continue without it
+  }
 
   const showToast = useCallback(
     (
@@ -27,8 +36,20 @@ export const useToast = () => {
       };
 
       setToasts((prev) => [...prev, newToast]);
+      
+      // Also announce via ARIA live region
+      if (ariaAnnouncer) {
+        const announcement = `${title}: ${message}`;
+        if (type === 'error') {
+          ariaAnnouncer.announceError(announcement);
+        } else if (type === 'success') {
+          ariaAnnouncer.announceSuccess(announcement);
+        } else {
+          ariaAnnouncer.announceInfo(announcement);
+        }
+      }
     },
-    []
+    [ariaAnnouncer]
   );
 
   const dismissToast = useCallback((id: string) => {

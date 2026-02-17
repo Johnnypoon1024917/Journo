@@ -4,6 +4,7 @@ import { TripCard } from './TripCard';
 import { tripService } from '../../services/tripService';
 import { useEnhancedAuthStore } from '../../stores/enhancedAuthStore';
 import { Button } from '../common/Button';
+import { PullToRefresh } from '../common/PullToRefresh';
 import {
   DndContext,
   closestCenter,
@@ -75,6 +76,12 @@ export const TripList: React.FC<TripListProps> = ({ onTripDeleted }) => {
       setIsLoading(false);
       setIsLoadingMore(false);
     }
+  };
+
+  // Handle pull-to-refresh
+  const handleRefresh = async () => {
+    setPage(1);
+    await fetchTrips(1, false);
   };
 
   useEffect(() => {
@@ -187,64 +194,66 @@ export const TripList: React.FC<TripListProps> = ({ onTripDeleted }) => {
   }
 
   return (
-    <div className="space-y-8">
-      {/* Error message if reordering failed */}
-      {error && trips.length > 0 && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <p className="text-red-800 text-sm">{error}</p>
+    <PullToRefresh onRefresh={handleRefresh}>
+      <div className="space-y-8">
+        {/* Error message if reordering failed */}
+        {error && trips.length > 0 && (
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <p className="text-red-800 text-sm">{error}</p>
+            </div>
+            <button
+              onClick={() => setError(null)}
+              className="text-red-600 hover:text-red-800"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
           </div>
-          <button
-            onClick={() => setError(null)}
-            className="text-red-600 hover:text-red-800"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-      )}
+        )}
 
-      {/* Trip Grid with Drag and Drop */}
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={handleDragEnd}
-      >
-        <SortableContext items={trips.map((trip) => trip.id)} strategy={rectSortingStrategy}>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {trips.map((trip) => (
-              <TripCard key={trip.id} trip={trip} onDelete={handleTripDelete} />
-            ))}
+        {/* Trip Grid with Drag and Drop */}
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext items={trips.map((trip) => trip.id)} strategy={rectSortingStrategy}>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {trips.map((trip) => (
+                <TripCard key={trip.id} trip={trip} onDelete={handleTripDelete} />
+              ))}
+            </div>
+          </SortableContext>
+        </DndContext>
+
+        {/* Reordering indicator */}
+        {isReordering && (
+          <div className="fixed bottom-4 right-4 bg-black text-white px-4 py-2 rounded-lg shadow-lg flex items-center space-x-2">
+            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            <span>Saving order...</span>
           </div>
-        </SortableContext>
-      </DndContext>
+        )}
 
-      {/* Reordering indicator */}
-      {isReordering && (
-        <div className="fixed bottom-4 right-4 bg-black text-white px-4 py-2 rounded-lg shadow-lg flex items-center space-x-2">
-          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-          <span>Saving order...</span>
-        </div>
-      )}
-
-      {/* Load More Button */}
-      {hasMore && (
-        <div className="flex justify-center pt-4">
-          <Button
-            onClick={handleLoadMore}
-            variant="secondary"
-            isLoading={isLoadingMore}
-            disabled={isLoadingMore}
-            className="border-2 border-black text-black hover:bg-black hover:text-white px-8 py-3 rounded-lg font-medium"
-          >
-            {isLoadingMore ? 'Loading...' : 'Load More Trips'}
-          </Button>
-        </div>
-      )}
-    </div>
+        {/* Load More Button */}
+        {hasMore && (
+          <div className="flex justify-center pt-4">
+            <Button
+              onClick={handleLoadMore}
+              variant="secondary"
+              isLoading={isLoadingMore}
+              disabled={isLoadingMore}
+              className="border-2 border-black text-black hover:bg-black hover:text-white px-8 py-3 rounded-lg font-medium"
+            >
+              {isLoadingMore ? 'Loading...' : 'Load More Trips'}
+            </Button>
+          </div>
+        )}
+      </div>
+    </PullToRefresh>
   );
 };

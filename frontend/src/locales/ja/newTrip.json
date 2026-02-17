@@ -1,0 +1,155 @@
+{
+  "title": "新しい旅行を作成",
+  "subtitle": "AIアシスタンスで次の冒険を計画しましょう",
+  "optional": "（オプション）",
+  "back": "戻る",
+  "next": "次へ",
+  "cancel": "キャンセル",
+  "create": "旅行を作成",
+  "creating": "作成中...",
+  "steps": {
+    "template": "テンプレート",
+    "info": "詳細",
+    "theme": "テーマ",
+    "ai": "AIアシスト"
+  },
+  "errors": {
+    "notAuthenticated": "旅行を作成するにはログインしてください",
+    "createFailed": "旅行の作成に失敗しました。もう一度お試しください。"
+  },
+  "tripTemplate": {
+    "title": "旅行スタイルを選択",
+    "subtitle": "テンプレートを選択してパーソナライズされた提案を受け取りましょう",
+    "beach": {
+      "name": "ビーチパラダイス",
+      "description": "太陽と砂浜で海辺でリラックス"
+    },
+    "mountain": {
+      "name": "山の冒険",
+      "description": "山頂と景色の良いトレイルを探索"
+    },
+    "city": {
+      "name": "シティエクスプローラー",
+      "description": "都市文化とナイトライフを発見"
+    },
+    "cultural": {
+      "name": "文化の旅",
+      "description": "歴史と伝統に浸る"
+    },
+    "custom": {
+      "name": "カスタム旅行",
+      "description": "独自の冒険を作成"
+    }
+  },
+  "tripForm": {
+    "title": "旅行の詳細",
+    "subtitle": "今後の冒険について教えてください",
+    "fields": {
+      "title": "旅行名",
+      "destination": "目的地",
+      "startDate": "開始日",
+      "endDate": "終了日",
+      "travelers": "旅行者数"
+    },
+    "placeholders": {
+      "title": "例：東京冬の冒険",
+      "destination": "例：東京、日本"
+    },
+    "errors": {
+      "titleRequired": "旅行名は必須です",
+      "titleTooLong": "旅行名は100文字未満である必要があります",
+      "destinationRequired": "目的地は必須です",
+      "startDateRequired": "開始日は必須です",
+      "endDateRequired": "終了日は必須です",
+      "endDateBeforeStart": "終了日は開始日より後である必要があります",
+      "tripTooLong": "旅行は365日を超えることはできません",
+      "travelersMin": "少なくとも1人の旅行者が必要です",
+      "travelersMax": "最大50人の旅行者が許可されています"
+    }
+  },
+  "tripTheme": {
+    "title": "旅行をカスタマイズ",
+    "subtitle": "旅行計画体験をユニークでパーソナルにしましょう",
+    "colorLabel": "テーマカラー",
+    "stickerStyleLabel": "ステッカースタイル",
+    "animationsLabel": "背景アニメーション",
+    "previewLabel": "プレビュー",
+    "previewTitle": "あなたの旅行",
+    "previewDescription": "選択したテーマで旅行がどのように見えるか",
+    "stickerStyle": {
+      "cute": {
+        "name": "かわいい",
+        "description": "愛らしいカワイイキャラクター"
+      },
+      "minimal": {
+        "name": "ミニマル",
+        "description": "シンプルでクリーンなアイコン"
+      },
+      "colorful": {
+        "name": "カラフル",
+        "description": "鮮やかで遊び心のある"
+      },
+      "vintage": {
+        "name": "ヴィンテージ",
+        "description": "レトロな旅行スタンプ"
+      }
+    },
+    "animations": {
+      "none": {
+        "name": "なし",
+        "description": "アニメーションなし"
+      },
+      "snow": {
+        "name": "雪",
+        "description": "穏やかな降雪"
+      },
+      "sakura": {
+        "name": "桜",
+        "description": "桜の花びら"
+      }
+    }
+  },
+  "tripAI": {
+    "title": "AIアシスタンス",
+    "subtitle": "AIに完璧な旅行の計画を手伝ってもらいましょう",
+    "disabled": "AIアシスタンスは無効です",
+    "enable": "有効にする",
+    "disable": "無効にする",
+    "generateItinerary": "旅程を生成",
+    "generateItineraryDesc": "AIがあなたの好みに基づいて観光スポット、レストラン、毎日のスケジュールを提案します",
+    "generateStickers": "テーマステッカーを生成",
+    "generateStickersDesc": "AIがあなたの目的地と季節に合わせたカスタムカワイイステッカーを作成します",
+    "preferences": "あなたの好み",
+    "interests": "興味",
+    "interest": {
+      "sightseeing": "観光",
+      "food": "食べ物",
+      "shopping": "ショッピング",
+      "culture": "文化",
+      "nature": "自然",
+      "photography": "写真撮影",
+      "adventure": "冒険",
+      "relaxation": "リラクゼーション",
+      "beach": "ビーチ",
+      "water-sports": "ウォータースポーツ",
+      "sunset": "夕日",
+      "hiking": "ハイキング",
+      "skiing": "スキー",
+      "camping": "キャンプ",
+      "nightlife": "ナイトライフ",
+      "museums": "博物館",
+      "architecture": "建築",
+      "history": "歴史",
+      "temples": "寺院",
+      "local-cuisine": "地元料理"
+    },
+    "travelStyle": "旅行スタイル",
+    "travelStyle.relaxed": "リラックス",
+    "travelStyle.moderate": "適度",
+    "travelStyle.fast-paced": "ペースが速い",
+    "budgetLevel": "予算レベル",
+    "budgetLevel.low": "予算",
+    "budgetLevel.medium": "適度",
+    "budgetLevel.high": "高級"
+  }
+}

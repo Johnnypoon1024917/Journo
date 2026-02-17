@@ -63,6 +63,12 @@ export type { BoardingPassCardProps, FlightBooking, LocationInfo } from './Board
 export { AccommodationCard } from './AccommodationCard';
 export type { AccommodationCardProps, AccommodationBooking } from './AccommodationCard';
 
+export { TransportationTicketCard } from './TransportationTicketCard';
+export type { TransportationTicketCardProps, TransportationTicket } from './TransportationTicketCard';
+
+export { AttractionTicketCard } from './AttractionTicketCard';
+export type { AttractionTicketCardProps, AttractionTicket } from './AttractionTicketCard';
+
 export { BookingTabs } from './BookingTabs';
 export type { BookingTabsProps, BookingTabType } from './BookingTabs';
 

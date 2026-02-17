@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import pool from '../config/database';
+import pool from '../config/database.js';
 import { NotificationService } from '../services/notificationService.js';
 import { socketService } from '../services/socketService.js';
 

@@ -6,6 +6,22 @@
   "remaining": "剩余",
   "overspent": "超支",
   "dailyBudget": "每日预算",
+  
+  "setup": {
+    "title": "预算设置",
+    "totalBudgetLabel": "总预算",
+    "totalBudgetPlaceholder": "输入总预算",
+    "currencyLabel": "货币",
+    "categoryAllocations": "类别分配",
+    "allocatePercentage": "为每个类别分配百分比",
+    "percentageTotal": "总计：{{total}}%",
+    "mustEqual100": "总计必须等于 100%",
+    "saveConfiguration": "保存设置",
+    "editConfiguration": "编辑设置",
+    "collapse": "收起",
+    "expand": "展开"
+  },
+  
   "categories": {
     "accommodation": "住宿",
     "food": "餐饮",
@@ -14,26 +30,140 @@
     "shopping": "购物",
     "misc": "其他"
   },
+  
+  "dashboard": {
+    "budgetOverview": "预算总览",
+    "spent": "已支出",
+    "budget": "预算",
+    "burnRate": "消费速度",
+    "perDay": "每日",
+    "daysElapsed": "已过天数",
+    "daysRemaining": "剩余天数",
+    "projectedTotal": "预计总额",
+    "status": {
+      "safe": "正常",
+      "warning": "警告",
+      "danger": "危险",
+      "over": "超支"
+    }
+  },
+  
+  "expenses": {
+    "title": "支出",
+    "addExpense": "添加支出",
+    "editExpense": "编辑支出",
+    "deleteExpense": "删除支出",
+    "noExpenses": "尚无支出记录",
+    "noExpensesDescription": "开始追踪您的消费，添加第一笔支出",
+    "amount": "金额",
+    "category": "类别",
+    "date": "日期",
+    "note": "备注",
+    "notePlaceholder": "添加备注（选填）",
+    "paidBy": "付款人",
+    "splitWith": "分摊对象",
+    "splitType": "分摊方式",
+    "equal": "平均分摊",
+    "custom": "自定义分摊",
+    "settled": "已结清",
+    "pending": "待结清",
+    "confirmDelete": "确定要删除此支出吗？"
+  },
+  
+  "filters": {
+    "all": "全部",
+    "byCategory": "按类别",
+    "byDate": "按日期",
+    "pending": "待结清",
+    "settled": "已结清"
+  },
+  
+  "visualization": {
+    "title": "消费分析",
+    "categoryComparison": "类别比较",
+    "spendingOverTime": "消费趋势",
+    "categoryProgress": "类别进度",
+    "noData": "无数据可显示",
+    "allocated": "已分配",
+    "spent": "已支出",
+    "remaining": "剩余"
+  },
+  
+  "groupSplit": {
+    "title": "团体支出",
+    "memberBalances": "成员余额",
+    "settlements": "建议结算",
+    "owes": "欠",
+    "isOwed": "应收",
+    "settleUp": "结清",
+    "allSettled": "所有支出已结清！",
+    "noGroupExpenses": "尚无团体支出"
+  },
+  
+  "alerts": {
+    "budgetWarning": "预算警告",
+    "budgetCritical": "预算危险",
+    "budgetExceeded": "预算超支",
+    "categoryOverBudget": "类别超支",
+    "burnRateHigh": "消费速度过快",
+    "approaching70": "您已使用 70% 的预算",
+    "approaching90": "您已使用 90% 的预算",
+    "exceeded100": "您已超出预算",
+    "categoryExceeded": "{{category}} 支出已超过分配",
+    "burnRateWarning": "您的消费速度比计划高 20%",
+    "dismiss": "关闭"
+  },
+  
   "breakdown": {
     "title": "支出明细",
     "byCategory": "按类别",
     "byDay": "按日期"
   },
+  
   "warnings": {
     "approaching": "您即将达到预算上限（已使用 {{percent}}%）",
     "exceeded": "您已超支 {{amount}}"
   },
+  
   "export": {
     "exportPDF": "导出为 PDF",
     "exportCSV": "导出为 CSV",
     "shareableBudget": "可分享的预算视图"
   },
+  
   "tips": {
     "addTip": "添加小费",
     "tipPercent": "小费 {{percent}}%"
   },
+  
   "split": {
     "splitCost": "分摊费用",
     "splitAmong": "由 {{count}} 位旅客分摊"
+  },
+  
+  "form": {
+    "save": "保存",
+    "cancel": "取消",
+    "saving": "保存中...",
+    "loading": "加载中...",
+    "success": "成功",
+    "error": "错误",
+    "required": "此字段为必填",
+    "invalidAmount": "请输入有效金额",
+    "invalidDate": "请输入有效日期"
+  },
+  
+  "empty": {
+    "noBudget": "尚未设置预算",
+    "noBudgetDescription": "开始管理您的旅行支出，设置预算配置。定义总预算并在不同类别中分配。",
+    "getStarted": "开始设置"
+  },
+  
+  "sync": {
+    "online": "在线",
+    "offline": "离线",
+    "syncing": "同步中...",
+    "syncError": "同步错误",
+    "retrySync": "重试同步"
   }
 }

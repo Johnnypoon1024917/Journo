@@ -4,6 +4,7 @@ import { Trip } from '../../types/trip';
 import { StoryItem } from '../../types/story';
 import { communityService } from '../../services/communityService';
 import { useEnhancedAuthStore } from '../../stores/enhancedAuthStore';
+import { PullToRefresh } from '../common/PullToRefresh';
 
 export function CommunityFeed() {
   const [trips, setTrips] = useState<Trip[]>([]);
@@ -50,6 +51,11 @@ export function CommunityFeed() {
     } finally {
       setLoading(false);
     }
+  };
+
+  // Handle pull-to-refresh
+  const handleRefresh = async () => {
+    await loadCommunityTrips();
   };
 
   const handleLike = async (tripId: string) => {
@@ -133,69 +139,71 @@ export function CommunityFeed() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            Community Feed
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            Discover amazing trips shared by travelers around the world
-          </p>
-        </div>
-
-        {/* Search Bar */}
-        <div className="mb-6">
-          <div className="relative">
-            <svg
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
-            <input
-              type="text"
-              placeholder="Search by destination, theme, or title..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-        </div>
-
-        {/* Trip Grid */}
-        {filteredTrips.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-600 dark:text-gray-400 text-lg">
-              {searchQuery
-                ? 'No trips found matching your search'
-                : 'No community trips yet. Be the first to share!'}
+    <PullToRefresh onRefresh={handleRefresh}>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Header */}
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+              Community Feed
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400">
+              Discover amazing trips shared by travelers around the world
             </p>
           </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredTrips.map((trip) => (
-              <CommunityCard
-                key={trip.id}
-                trip={trip}
-                storyItems={storyItemsMap[trip.id] || []}
-                onLike={handleLike}
-                onCopy={handleCopy}
-                isLiked={likedTrips.has(trip.id)}
-                isAuthenticated={isAuthenticated}
+
+          {/* Search Bar */}
+          <div className="mb-6">
+            <div className="relative">
+              <svg
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+              <input
+                type="text"
+                placeholder="Search by destination, theme, or title..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-            ))}
+            </div>
           </div>
-        )}
+
+          {/* Trip Grid */}
+          {filteredTrips.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-gray-600 dark:text-gray-400 text-lg">
+                {searchQuery
+                  ? 'No trips found matching your search'
+                  : 'No community trips yet. Be the first to share!'}
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredTrips.map((trip) => (
+                <CommunityCard
+                  key={trip.id}
+                  trip={trip}
+                  storyItems={storyItemsMap[trip.id] || []}
+                  onLike={handleLike}
+                  onCopy={handleCopy}
+                  isLiked={likedTrips.has(trip.id)}
+                  isAuthenticated={isAuthenticated}
+                />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </PullToRefresh>
   );
 }

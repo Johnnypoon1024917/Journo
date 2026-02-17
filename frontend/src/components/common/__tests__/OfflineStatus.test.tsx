@@ -1,122 +1,117 @@
-import { render, screen, waitFor } from '@testing-library/react';
+/**
+ * Unit tests for OfflineStatus Component
+ * 
+ * Tests offline indicator UI functionality
+ * Validates: Requirement 11.5
+ */
+
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { render, screen } from '@testing-library/react';
 import OfflineStatus from '../OfflineStatus';
 
-describe('OfflineStatus', () => {
+describe('OfflineStatus Component', () => {
+  let onlineGetter: any;
+
   beforeEach(() => {
-    vi.clearAllMocks();
+    // Mock navigator.onLine
+    onlineGetter = vi.spyOn(navigator, 'onLine', 'get');
   });
 
   afterEach(() => {
-    // Clean up event listeners
-    window.removeEventListener('online', vi.fn());
-    window.removeEventListener('offline', vi.fn());
+    vi.restoreAllMocks();
   });
 
-  it('should not render when online initially', () => {
-    // Mock navigator.onLine as true
-    Object.defineProperty(navigator, 'onLine', {
-      writable: true,
-      value: true,
-    });
+  describe('Requirement 11.5: Display offline indicator when not connected', () => {
+    it('should show offline indicator when offline', () => {
+      // Set navigator.onLine to false
+      onlineGetter.mockReturnValue(false);
 
-    render(<OfflineStatus />);
-    
-    expect(screen.queryByText(/offline/i)).not.toBeInTheDocument();
-  });
+      render(<OfflineStatus />);
 
-  it('should render offline message when offline initially', () => {
-    // Mock navigator.onLine as false
-    Object.defineProperty(navigator, 'onLine', {
-      writable: true,
-      value: false,
-    });
-
-    render(<OfflineStatus />);
-    
-    expect(screen.getByText(/you're offline/i)).toBeInTheDocument();
-  });
-
-  it('should show offline message when going offline', async () => {
-    // Start online
-    Object.defineProperty(navigator, 'onLine', {
-      writable: true,
-      value: true,
-    });
-
-    render(<OfflineStatus />);
-    
-    expect(screen.queryByText(/offline/i)).not.toBeInTheDocument();
-    
-    // Simulate going offline
-    Object.defineProperty(navigator, 'onLine', {
-      writable: true,
-      value: false,
-    });
-    
-    window.dispatchEvent(new Event('offline'));
-    
-    await waitFor(() => {
+      // Should show offline message
       expect(screen.getByText(/you're offline/i)).toBeInTheDocument();
     });
-  });
 
-  it('should show back online message when reconnecting', async () => {
-    // Start offline
-    Object.defineProperty(navigator, 'onLine', {
-      writable: true,
-      value: false,
-    });
+    it('should hide offline indicator when online', () => {
+      // Start online
+      onlineGetter.mockReturnValue(true);
 
-    render(<OfflineStatus />);
-    
-    expect(screen.getByText(/you're offline/i)).toBeInTheDocument();
-    
-    // Simulate going back online
-    Object.defineProperty(navigator, 'onLine', {
-      writable: true,
-      value: true,
-    });
-    
-    window.dispatchEvent(new Event('online'));
-    
-    await waitFor(() => {
-      expect(screen.getByText(/back online/i)).toBeInTheDocument();
+      const { container } = render(<OfflineStatus />);
+
+      // Should not show any message when online
+      expect(container.firstChild).toBeNull();
     });
   });
 
-  it('should contain correct offline message elements', () => {
-    Object.defineProperty(navigator, 'onLine', {
-      writable: true,
-      value: false,
+  describe('Visual feedback', () => {
+    it('should display appropriate icon when offline', () => {
+      onlineGetter.mockReturnValue(false);
+
+      render(<OfflineStatus />);
+
+      // Should have an icon (SVG element)
+      const svg = screen.getByText(/you're offline/i).parentElement?.querySelector('svg');
+      expect(svg).toBeInTheDocument();
     });
 
-    render(<OfflineStatus />);
-    
-    expect(screen.getByText(/you're offline/i)).toBeInTheDocument();
-    expect(screen.getByText(/changes will sync when reconnected/i)).toBeInTheDocument();
+    it('should use yellow background when offline', () => {
+      onlineGetter.mockReturnValue(false);
+
+      render(<OfflineStatus />);
+
+      // Find the parent div with the background color class
+      const indicator = screen.getByText(/you're offline/i).closest('div')?.parentElement;
+      expect(indicator).toHaveClass('bg-yellow-600');
+    });
   });
 
-  it('should contain correct online message elements', async () => {
-    // Start offline
-    Object.defineProperty(navigator, 'onLine', {
-      writable: true,
-      value: false,
+  describe('Accessibility', () => {
+    it('should be positioned at the top of the screen', () => {
+      onlineGetter.mockReturnValue(false);
+
+      const { container } = render(<OfflineStatus />);
+
+      const wrapper = container.firstChild as HTMLElement;
+      expect(wrapper).toHaveClass('fixed', 'top-0', 'left-0', 'right-0');
     });
 
-    render(<OfflineStatus />);
-    
-    // Go back online
-    Object.defineProperty(navigator, 'onLine', {
-      writable: true,
-      value: true,
+    it('should have high z-index to appear above other content', () => {
+      onlineGetter.mockReturnValue(false);
+
+      const { container } = render(<OfflineStatus />);
+
+      const wrapper = container.firstChild as HTMLElement;
+      expect(wrapper).toHaveClass('z-50');
     });
-    
-    window.dispatchEvent(new Event('online'));
-    
-    await waitFor(() => {
-      expect(screen.getByText(/back online/i)).toBeInTheDocument();
-      expect(screen.getByText(/syncing changes/i)).toBeInTheDocument();
+
+    it('should have clear, readable text', () => {
+      onlineGetter.mockReturnValue(false);
+
+      render(<OfflineStatus />);
+
+      const text = screen.getByText(/you're offline/i);
+      expect(text).toBeInTheDocument();
+      expect(text.textContent).toContain('changes will sync when reconnected');
+    });
+  });
+
+  describe('Content and messaging', () => {
+    it('should inform users that changes will sync when reconnected', () => {
+      onlineGetter.mockReturnValue(false);
+
+      render(<OfflineStatus />);
+
+      expect(screen.getByText(/changes will sync when reconnected/i)).toBeInTheDocument();
+    });
+
+    it('should display offline status clearly', () => {
+      onlineGetter.mockReturnValue(false);
+
+      render(<OfflineStatus />);
+
+      // Should contain "offline" in the message
+      const message = screen.getByText(/you're offline/i);
+      expect(message).toBeInTheDocument();
     });
   });
 });

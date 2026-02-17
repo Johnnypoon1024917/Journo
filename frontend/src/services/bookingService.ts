@@ -7,16 +7,18 @@
 
 import { FlightBooking } from '@/components/kawaii/BoardingPassCard';
 import { AccommodationBooking } from '@/components/kawaii/AccommodationCard';
+import { TransportationTicket } from '@/components/kawaii/TransportationTicketCard';
+import { AttractionTicket } from '@/components/kawaii/AttractionTicketCard';
 import api from './api';
 import { getAuthToken } from '@/utils/auth';
 
-export type BookingType = 'flight' | 'train' | 'accommodation';
+export type BookingType = 'flight' | 'train' | 'accommodation' | 'car_rental' | 'bus' | 'ferry' | 'theme_park' | 'museum' | 'show' | 'tour' | 'other';
 
 export interface Booking {
   id: string;
   tripId: string;
   type: BookingType;
-  data: FlightBooking | AccommodationBooking;
+  data: FlightBooking | AccommodationBooking | TransportationTicket | AttractionTicket;
   createdAt: string;
   updatedAt: string;
 }
@@ -87,13 +89,13 @@ export const bookingService = {
   async createBooking(
     tripId: string,
     type: BookingType,
-    data: FlightBooking | AccommodationBooking
+    data: any
   ): Promise<BookingResponse> {
     const token = getAuthToken();
     const response = await api.post<{ booking: any }>('/bookings', {
+      ...data,
       tripId,
       type,
-      ...data, // Spread the data fields directly
     }, { token: token || undefined });
     const b = response.booking;
     return {
@@ -115,7 +117,7 @@ export const bookingService = {
   async updateBooking(
     tripId: string,
     bookingId: string,
-    data: Partial<FlightBooking | AccommodationBooking>
+    data: Partial<FlightBooking | AccommodationBooking | TransportationTicket | AttractionTicket>
   ): Promise<BookingResponse | null> {
     try {
       const token = getAuthToken();

@@ -166,7 +166,29 @@ class StickerService {
         scale: position?.scale,
         zIndex: position?.zIndex
       }, { token: token || undefined });
-      return response.attachment;
+      
+      //console.log('📦 at  tachSticker API response:', response.attachment);
+      //console.log('📦 attachment.elementId:', response.attachment.elementId);
+      //console.log('📦 attachment.entity_id:', (response.attachment as any).entity_id);
+      
+      // Map the response to ensure elementId is set correctly
+      const placement: StickerPlacement = {
+        id: response.attachment.id || (response.attachment as any).id,
+        stickerId: response.attachment.stickerId || (response.attachment as any).emoji_sticker || (response.attachment as any).sticker_id || '',
+        elementId: response.attachment.elementId || (response.attachment as any).entity_id || entityId,
+        elementType: response.attachment.elementType || this.mapEntityTypeToElementType(entityType),
+        position: response.attachment.position || {
+          x: parseFloat((response.attachment as any).position_x) || position?.x || 50,
+          y: parseFloat((response.attachment as any).position_y) || position?.y || 50,
+        },
+        rotation: response.attachment.rotation || parseFloat((response.attachment as any).rotation) || 0,
+        scale: response.attachment.scale || parseFloat((response.attachment as any).scale) || 1,
+        created_at: response.attachment.created_at || (response.attachment as any).created_at || new Date().toISOString(),
+      };
+      
+      console.log('✅ Mapped placement:', placement);
+      
+      return placement;
     } catch (error) {
       console.error('Error attaching sticker:', error);
       throw error;

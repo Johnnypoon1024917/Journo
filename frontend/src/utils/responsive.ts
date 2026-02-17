@@ -30,9 +30,15 @@ export const DEVICE_RANGES = {
 
 /**
  * Minimum touch target size (44px) for accessibility
- * Requirements: 17.6
+ * Requirements: 4.1, 17.6
  */
 export const MIN_TOUCH_TARGET = 44;
+
+/**
+ * Minimum spacing between touch targets (8px)
+ * Requirements: 4.2
+ */
+export const MIN_TOUCH_SPACING = 8;
 
 /**
  * Check if current viewport width matches a device type
@@ -74,15 +80,20 @@ export function isTouchDevice(): boolean {
 }
 
 /**
- * Get safe area insets for devices with notches
- * Requirements: 17.7
+ * Safe area inset type
  */
-export function getSafeAreaInsets(): {
+export interface SafeAreaInsets {
   top: number;
   right: number;
   bottom: number;
   left: number;
-} {
+}
+
+/**
+ * Get safe area insets for devices with notches
+ * Requirements: 3.4, 7.1, 7.2, 7.3, 7.4
+ */
+export function getSafeAreaInsets(): SafeAreaInsets {
   if (typeof window === 'undefined' || !CSS.supports('padding-top', 'env(safe-area-inset-top)')) {
     return { top: 0, right: 0, bottom: 0, left: 0 };
   }
@@ -94,6 +105,96 @@ export function getSafeAreaInsets(): {
     right: parseInt(computedStyle.getPropertyValue('--safe-area-inset-right') || '0', 10),
     bottom: parseInt(computedStyle.getPropertyValue('--safe-area-inset-bottom') || '0', 10),
     left: parseInt(computedStyle.getPropertyValue('--safe-area-inset-left') || '0', 10),
+  };
+}
+
+/**
+ * Apply safe area insets to an element's style
+ * Requirements: 3.4, 7.1, 7.2, 7.3
+ */
+export function applySafeAreaInsets(
+  element: HTMLElement,
+  options: {
+    top?: boolean;
+    right?: boolean;
+    bottom?: boolean;
+    left?: boolean;
+  } = { top: true, right: true, bottom: true, left: true }
+): void {
+  if (options.top) {
+    element.style.paddingTop = 'max(env(safe-area-inset-top), var(--padding-top, 0px))';
+  }
+  if (options.right) {
+    element.style.paddingRight = 'max(env(safe-area-inset-right), var(--padding-right, 0px))';
+  }
+  if (options.bottom) {
+    element.style.paddingBottom = 'max(env(safe-area-inset-bottom), var(--padding-bottom, 0px))';
+  }
+  if (options.left) {
+    element.style.paddingLeft = 'max(env(safe-area-inset-left), var(--padding-left, 0px))';
+  }
+}
+
+/**
+ * Generate CSS safe area padding string
+ * Requirements: 3.4, 7.1, 7.2, 7.3
+ */
+export function getSafeAreaPadding(
+  side: 'top' | 'right' | 'bottom' | 'left',
+  fallback: string = '0px'
+): string {
+  return `max(env(safe-area-inset-${side}), ${fallback})`;
+}
+
+/**
+ * Generate CSS safe area inset variable
+ * Requirements: 7.9
+ */
+export function getSafeAreaInsetVar(side: 'top' | 'right' | 'bottom' | 'left'): string {
+  return `env(safe-area-inset-${side})`;
+}
+
+/**
+ * Check if device has safe area insets (notch/home indicator)
+ * Requirements: 7.7
+ */
+export function hasSafeAreaInsets(): boolean {
+  const insets = getSafeAreaInsets();
+  return insets.top > 0 || insets.bottom > 0 || insets.left > 0 || insets.right > 0;
+}
+
+/**
+ * Subscribe to safe area inset changes
+ * Requirements: 3.4
+ */
+export function subscribeSafeAreaChanges(
+  callback: (insets: SafeAreaInsets) => void
+): () => void {
+  if (typeof window === 'undefined') {
+    return () => {};
+  }
+
+  const handleResize = () => {
+    callback(getSafeAreaInsets());
+  };
+
+  const handleOrientationChange = () => {
+    // Delay to allow browser to update safe area insets
+    setTimeout(() => {
+      callback(getSafeAreaInsets());
+    }, 100);
+  };
+
+  window.addEventListener('resize', handleResize);
+  window.addEventListener('orientationchange', handleOrientationChange);
+
+  // Initial call
+  callback(getSafeAreaInsets());
+
+  // Return cleanup function
+  return () => {
+    window.removeEventListener('resize', handleResize);
+    window.removeEventListener('orientationchange', handleOrientationChange);
   };
 }
 
@@ -141,6 +242,7 @@ export function getResponsiveGap(size: 'sm' | 'md' | 'lg' = 'md'): string {
 
 /**
  * Get responsive columns for grid layouts
+ * Requirements: 3.5
  */
 export function getResponsiveColumns(options: {
   mobile?: number;
@@ -157,8 +259,74 @@ export function getResponsiveColumns(options: {
 }
 
 /**
+ * Calculate responsive column count based on viewport width
+ * Requirements: 3.5
+ */
+export function calculateResponsiveColumns(
+  viewportWidth?: number
+): number {
+  const width = viewportWidth ?? (typeof window !== 'undefined' ? window.innerWidth : 0);
+
+  if (width < DEVICE_RANGES.tablet.min) {
+    return 1; // Mobile: 1 column
+  } else if (width < DEVICE_RANGES.desktop.min) {
+    return 2; // Tablet: 2 columns
+  } else {
+    return 3; // Desktop: 3+ columns
+  }
+}
+
+/**
+ * Get responsive column count with custom breakpoints
+ * Requirements: 3.5
+ */
+export function getResponsiveColumnCount(
+  containerWidth: number,
+  options: {
+    minColumnWidth?: number;
+    maxColumns?: number;
+    minColumns?: number;
+  } = {}
+): number {
+  const {
+    minColumnWidth = 250,
+    maxColumns = 6,
+    minColumns = 1,
+  } = options;
+
+  const calculatedColumns = Math.floor(containerWidth / minColumnWidth);
+  return Math.max(minColumns, Math.min(maxColumns, calculatedColumns));
+}
+
+/**
+ * Generate responsive grid columns CSS class
+ * Requirements: 3.5
+ */
+export function getResponsiveGridClass(options: {
+  mobile?: number;
+  tablet?: number;
+  desktop?: number;
+} = {}): string {
+  const { mobile = 1, tablet = 2, desktop = 3 } = options;
+  
+  const classes: string[] = [];
+  
+  classes.push(`grid-cols-${mobile}`);
+  
+  if (tablet !== mobile) {
+    classes.push(`md:grid-cols-${tablet}`);
+  }
+  
+  if (desktop !== tablet) {
+    classes.push(`lg:grid-cols-${desktop}`);
+  }
+  
+  return classes.join(' ');
+}
+
+/**
  * Check if element meets minimum touch target size
- * Requirements: 17.6
+ * Requirements: 4.1, 17.6
  */
 export function meetsMinTouchTarget(element: HTMLElement): boolean {
   const rect = element.getBoundingClientRect();
@@ -166,9 +334,64 @@ export function meetsMinTouchTarget(element: HTMLElement): boolean {
 }
 
 /**
+ * Validate touch target size and return validation result
+ * Requirements: 4.1
+ */
+export function validateTouchTargetSize(element: HTMLElement): {
+  valid: boolean;
+  width: number;
+  height: number;
+  minWidth: number;
+  minHeight: number;
+} {
+  const rect = element.getBoundingClientRect();
+  return {
+    valid: rect.width >= MIN_TOUCH_TARGET && rect.height >= MIN_TOUCH_TARGET,
+    width: rect.width,
+    height: rect.height,
+    minWidth: MIN_TOUCH_TARGET,
+    minHeight: MIN_TOUCH_TARGET,
+  };
+}
+
+/**
+ * Validate spacing between two touch targets
+ * Requirements: 4.2
+ */
+export function validateTouchTargetSpacing(
+  element1: HTMLElement,
+  element2: HTMLElement
+): {
+  valid: boolean;
+  spacing: number;
+  minSpacing: number;
+} {
+  const rect1 = element1.getBoundingClientRect();
+  const rect2 = element2.getBoundingClientRect();
+
+  // Calculate minimum distance between rectangles
+  const horizontalSpacing = Math.max(
+    0,
+    Math.max(rect1.left, rect2.left) - Math.min(rect1.right, rect2.right)
+  );
+  const verticalSpacing = Math.max(
+    0,
+    Math.max(rect1.top, rect2.top) - Math.min(rect1.bottom, rect2.bottom)
+  );
+
+  const spacing = Math.min(horizontalSpacing, verticalSpacing);
+
+  return {
+    valid: spacing >= MIN_TOUCH_SPACING,
+    spacing,
+    minSpacing: MIN_TOUCH_SPACING,
+  };
+}
+
+/**
  * Ensure element meets minimum touch target size
  * Returns adjusted dimensions if needed
- * Requirements: 17.6
+ * Requirements: 4.1, 17.6
  */
 export function ensureMinTouchTarget(
   width: number,
@@ -177,6 +400,26 @@ export function ensureMinTouchTarget(
   return {
     width: Math.max(width, MIN_TOUCH_TARGET),
     height: Math.max(height, MIN_TOUCH_TARGET),
+  };
+}
+
+/**
+ * Get touch target padding needed to meet minimum size
+ * Requirements: 4.1
+ */
+export function getTouchTargetPadding(
+  currentWidth: number,
+  currentHeight: number
+): {
+  horizontal: number;
+  vertical: number;
+} {
+  const widthDiff = Math.max(0, MIN_TOUCH_TARGET - currentWidth);
+  const heightDiff = Math.max(0, MIN_TOUCH_TARGET - currentHeight);
+
+  return {
+    horizontal: widthDiff / 2,
+    vertical: heightDiff / 2,
   };
 }
 

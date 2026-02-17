@@ -165,9 +165,14 @@ export const useStickerStore = create<StickerStore>((set, get) => ({
   loadPlacements: async (tripId: string) => {
     set({ isLoading: true, error: null });
     try {
-      // Get placements for the trip
-      const placements = await stickerService.getEntityStickers('trip', tripId);
-      set({ placements: placements || [], isLoading: false });
+      // Get placements for the trip entity itself
+      const tripPlacements = await stickerService.getEntityStickers('trip', tripId);
+      
+      // Note: We only load trip-level placements here
+      // Individual components (DayCard, ActivityCard, etc.) should load their own placements
+      // when they mount by calling stickerService.getEntityStickers directly
+      
+      set({ placements: tripPlacements || [], isLoading: false });
     } catch (error) {
       console.error('Error loading placements:', error);
       set({ 

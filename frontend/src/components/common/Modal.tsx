@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { useA11yId, useFocusTrap } from '../../hooks/useAccessibility';
 
 interface ModalProps {
   isOpen: boolean;
@@ -7,6 +8,8 @@ interface ModalProps {
   title?: string;
   children: React.ReactNode;
   size?: 'sm' | 'md' | 'lg' | 'xl';
+  ariaLabel?: string;
+  ariaDescribedBy?: string;
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -15,9 +18,13 @@ export const Modal: React.FC<ModalProps> = ({
   title,
   children,
   size = 'md',
+  ariaLabel,
+  ariaDescribedBy,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [shouldRender, setShouldRender] = useState(false);
+  const titleId = useA11yId('modal-title');
+  const focusTrapRef = useFocusTrap(isOpen);
 
   useEffect(() => {
     if (isOpen) {
@@ -37,6 +44,18 @@ export const Modal: React.FC<ModalProps> = ({
     };
   }, [isOpen]);
 
+  // Handle Escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+    
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [isOpen, onClose]);
+
   if (!shouldRender) return null;
 
   const sizeStyles = {
@@ -52,6 +71,11 @@ export const Modal: React.FC<ModalProps> = ({
         isVisible ? 'opacity-100' : 'opacity-0'
       }`}
       style={{ zIndex: 99999 }}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={title ? titleId : undefined}
+      aria-label={ariaLabel || (title ? undefined : 'Dialog')}
+      aria-describedby={ariaDescribedBy}
     >
       <div className="flex min-h-screen items-center justify-center p-4">
         {/* Backdrop */}
@@ -60,10 +84,12 @@ export const Modal: React.FC<ModalProps> = ({
             isVisible ? 'bg-opacity-50' : 'bg-opacity-0'
           }`}
           onClick={onClose}
+          aria-hidden="true"
         />
 
         {/* Modal */}
         <div
+          ref={focusTrapRef as React.RefObject<HTMLDivElement>}
           className={`relative bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full ${sizeStyles[size]} transform transition-all duration-300 ${
             isVisible ? 'scale-100 opacity-100 translate-y-0' : 'scale-95 opacity-0 translate-y-4'
           }`}
@@ -71,12 +97,16 @@ export const Modal: React.FC<ModalProps> = ({
           {/* Header */}
           {title && (
             <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+              <h3 
+                id={titleId}
+                className="text-lg font-semibold text-gray-900 dark:text-white"
+              >
                 {title}
               </h3>
               <button
                 onClick={onClose}
-                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors min-h-touch min-w-touch flex items-center justify-center"
+                aria-label="Close dialog"
               >
                 <svg
                   className="w-6 h-6"
@@ -86,6 +116,7 @@ export const Modal: React.FC<ModalProps> = ({
                   strokeWidth="2"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
+                  aria-hidden="true"
                 >
                   <path d="M6 18L18 6M6 6l12 12"></path>
                 </svg>

@@ -62,36 +62,42 @@ export const ManualDestinationEntry: React.FC<ManualDestinationEntryProps> = ({
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          <label htmlFor="destination-name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
             Destination Name
           </label>
           <Input
+            id="destination-name"
             type="text"
             value={destinationName}
             onChange={(e) => setDestinationName(e.target.value)}
             placeholder="e.g., Paris, Tokyo, New York"
             className="w-full"
+            aria-invalid={!!errors.destination}
+            aria-describedby={errors.destination ? "destination-error" : undefined}
           />
           {errors.destination && (
-            <Text variant="caption" className="text-red-600 mt-1">
+            <Text id="destination-error" variant="caption" className="text-red-600 mt-1" role="alert">
               {errors.destination}
             </Text>
           )}
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          <label htmlFor="destination-country" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
             Country
           </label>
           <Input
+            id="destination-country"
             type="text"
             value={country}
             onChange={(e) => setCountry(e.target.value)}
             placeholder="e.g., France, Japan, USA"
             className="w-full"
+            aria-invalid={!!errors.country}
+            aria-describedby={errors.country ? "country-error" : undefined}
           />
           {errors.country && (
-            <Text variant="caption" className="text-red-600 mt-1">
+            <Text id="country-error" variant="caption" className="text-red-600 mt-1" role="alert">
               {errors.country}
             </Text>
           )}

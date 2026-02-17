@@ -17,10 +17,11 @@
  * Requirements: 17.5
  */
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { changeLanguage } from '../../utils/languageUtils';
 import {
   CalendarDaysIcon,
   TicketIcon,
@@ -31,6 +32,7 @@ import {
   Cog6ToothIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  LanguageIcon,
 } from '@heroicons/react/24/outline';
 import {
   CalendarDaysIcon as CalendarDaysSolidIcon,
@@ -58,6 +60,7 @@ export interface SideNavigationProps {
   collapsed?: boolean;
   onCollapsedChange?: (collapsed: boolean) => void;
   className?: string;
+  useFixedPosition?: boolean; // New prop to control positioning
 }
 
 // Navigation items configuration (paths are relative to /trips/:id)
@@ -119,12 +122,53 @@ export const SideNavigation: React.FC<SideNavigationProps> = ({
   collapsed: controlledCollapsed,
   onCollapsedChange,
   className,
+  useFixedPosition = true, // Default to true for backward compatibility
 }) => {
-  const { t } = useTranslation('kawaii');
+  const { t, i18n } = useTranslation('kawaii');
   const navigate = useNavigate();
   const location = useLocation();
   const { id: tripId } = useParams<{ id: string }>();
   const [internalCollapsed, setInternalCollapsed] = useState(false);
+  const [showLanguageMenu, setShowLanguageMenu] = useState(false);
+  const languageMenuRef = useRef<HTMLDivElement>(null);
+
+  // Language options
+  const languages = [
+    { code: 'en', name: 'English', flag: '🇺🇸' },
+    { code: 'zh-TW', name: '繁體中文', flag: '🇹🇼' },
+    { code: 'zh-CN', name: '简体中文', flag: '🇨🇳' },
+    { code: 'ja', name: '日本語', flag: '🇯🇵' },
+  ];
+
+  const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];
+
+  // Close language menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (languageMenuRef.current && !languageMenuRef.current.contains(event.target as Node)) {
+        setShowLanguageMenu(false);
+      }
+    };
+
+    if (showLanguageMenu) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showLanguageMenu]);
+
+  const handleLanguageChange = async (languageCode: string) => {
+    try {
+      await changeLanguage(languageCode);
+      setShowLanguageMenu(false);
+    } catch (error) {
+      console.error('Failed to change language:', error);
+      // Still close the menu even if backend save fails
+      setShowLanguageMenu(false);
+    }
+  };
 
   // Use controlled or internal collapsed state
   const collapsed = controlledCollapsed !== undefined ? controlledCollapsed : internalCollapsed;
@@ -163,199 +207,249 @@ export const SideNavigation: React.FC<SideNavigationProps> = ({
   };
 
   return (
-    <motion.nav
-      className={cn(
-        // Fixed positioning on left side
-        'fixed left-0 top-0 bottom-0 z-40',
-        // Background and border
-        'bg-white border-r border-kawaii-neutral-200',
-        'dark:bg-kawaii-neutral-900 dark:border-kawaii-neutral-800',
-        // Shadow
-        'shadow-lg',
-        className
-      )}
-      initial={false}
-      animate={{
+    <nav
+      style={{
+        height: '100vh',
         width: collapsed ? '80px' : '240px',
-      }}
-      transition={{
-        type: 'spring',
-        stiffness: 300,
-        damping: 30,
+        backgroundColor: 'white',
+        borderRight: '1px solid #e5e7eb',
       }}
       role="navigation"
       aria-label="Side navigation"
     >
-      <div className="flex flex-col h-full">
+      <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
         {/* Logo/Brand area */}
-        <div className="flex items-center justify-between h-16 px-4 border-b border-kawaii-neutral-200 dark:border-kawaii-neutral-800">
-          <AnimatePresence mode="wait">
-            {!collapsed && (
-              <motion.div
-                key="logo-text"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.2 }}
-                className="text-lg font-bold text-kawaii-primary-600 dark:text-kawaii-primary-400"
-              >
-                Journo
-              </motion.div>
-            )}
-          </AnimatePresence>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '64px', padding: '0 16px', borderBottom: '1px solid #e5e7eb' }}>
+          {!collapsed && (
+            <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#3b82f6' }}>
+              Journo
+            </div>
+          )}
           
           {/* Collapse toggle button */}
-          <motion.button
+          <button
             onClick={toggleCollapsed}
-            className={cn(
-              'flex items-center justify-center',
-              'w-8 h-8 rounded-lg',
-              'text-kawaii-neutral-500 hover:text-kawaii-primary-600',
-              'dark:text-kawaii-neutral-400 dark:hover:text-kawaii-primary-400',
-              'hover:bg-kawaii-neutral-100 dark:hover:bg-kawaii-neutral-800',
-              'transition-colors duration-200',
-              'focus:outline-none focus:ring-2 focus:ring-kawaii-primary-500 focus:ring-offset-2',
-              collapsed && 'mx-auto'
-            )}
-            whileTap={{ scale: 0.95 }}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '32px',
+              height: '32px',
+              border: 'none',
+              backgroundColor: 'transparent',
+              cursor: 'pointer',
+              margin: collapsed ? '0 auto' : '0',
+            }}
             aria-label={collapsed ? 'Expand navigation' : 'Collapse navigation'}
           >
             {collapsed ? (
-              <ChevronRightIcon className="w-5 h-5" />
+              <ChevronRightIcon style={{ width: '20px', height: '20px' }} />
             ) : (
-              <ChevronLeftIcon className="w-5 h-5" />
+              <ChevronLeftIcon style={{ width: '20px', height: '20px' }} />
             )}
-          </motion.button>
+          </button>
         </div>
 
         {/* Navigation items */}
-        <div className="flex-1 py-4 overflow-y-auto">
-          <div className="space-y-1 px-2">
+        <div style={{ flex: 1, padding: '16px 0', overflowY: 'auto' }}>
+          <div style={{ padding: '0 8px' }}>
             {navItemsConfig.map((item) => {
               const isActive = activeTab === item.id;
               const Icon = isActive ? item.activeIcon : item.icon;
 
               return (
-                <motion.button
+                <button
                   key={item.id}
                   onClick={() => handleTabClick(item)}
-                  className={cn(
-                    // Layout
-                    'flex items-center w-full',
-                    'px-3 py-3 rounded-lg',
-                    'transition-all duration-200',
-                    // Active state
-                    isActive
-                      ? 'bg-kawaii-primary-50 text-kawaii-primary-700 dark:bg-kawaii-primary-900/20 dark:text-kawaii-primary-300'
-                      : 'text-kawaii-neutral-700 hover:bg-kawaii-neutral-100 dark:text-kawaii-neutral-300 dark:hover:bg-kawaii-neutral-800',
-                    // Focus states
-                    'focus:outline-none focus:ring-2 focus:ring-kawaii-primary-500 focus:ring-offset-2'
-                  )}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  transition={{
-                    type: 'spring',
-                    stiffness: 400,
-                    damping: 17,
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    width: '100%',
+                    padding: '12px',
+                    marginBottom: '4px',
+                    border: 'none',
+                    borderRadius: '8px',
+                    backgroundColor: isActive ? '#eff6ff' : 'transparent',
+                    color: isActive ? '#3b82f6' : '#6b7280',
+                    cursor: 'pointer',
+                    position: 'relative',
                   }}
                   aria-label={t(item.labelKey)}
                   aria-current={isActive ? 'page' : undefined}
                 >
                   {/* Icon */}
-                  <div className="relative flex-shrink-0">
+                  <div style={{ position: 'relative', flexShrink: 0 }}>
                     <Icon
-                      className={cn(
-                        'w-6 h-6',
-                        isActive
-                          ? 'text-kawaii-primary-600 dark:text-kawaii-primary-400'
-                          : 'text-kawaii-neutral-500 dark:text-kawaii-neutral-400'
-                      )}
+                      style={{ width: '24px', height: '24px' }}
                       aria-hidden="true"
                     />
                     
                     {/* Badge indicator */}
                     {item.badge !== undefined && item.badge > 0 && (
-                      <motion.span
-                        className={cn(
-                          'absolute -top-1 -right-1',
-                          'flex items-center justify-center',
-                          'min-w-[18px] h-[18px] px-1',
-                          'text-[10px] font-bold text-white',
-                          'bg-red-500 rounded-full',
-                          'shadow-sm'
-                        )}
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        transition={{
-                          type: 'spring',
-                          stiffness: 500,
-                          damping: 15,
+                      <span
+                        style={{
+                          position: 'absolute',
+                          top: '-4px',
+                          right: '-4px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          minWidth: '18px',
+                          height: '18px',
+                          padding: '0 4px',
+                          fontSize: '10px',
+                          fontWeight: 'bold',
+                          color: 'white',
+                          backgroundColor: '#ef4444',
+                          borderRadius: '9999px',
                         }}
                       >
                         {item.badge > 99 ? '99+' : item.badge}
-                      </motion.span>
+                      </span>
                     )}
                   </div>
 
                   {/* Label */}
-                  <AnimatePresence mode="wait">
-                    {!collapsed && (
-                      <motion.span
-                        key="label"
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -10 }}
-                        transition={{ duration: 0.2 }}
-                        className={cn(
-                          'ml-3 text-sm font-medium whitespace-nowrap',
-                          isActive
-                            ? 'text-kawaii-primary-700 dark:text-kawaii-primary-300'
-                            : 'text-kawaii-neutral-700 dark:text-kawaii-neutral-300'
-                        )}
-                      >
-                        {t(item.labelKey)}
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
+                  {!collapsed && (
+                    <span
+                      style={{
+                        marginLeft: '12px',
+                        fontSize: '14px',
+                        fontWeight: 500,
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      {t(item.labelKey)}
+                    </span>
+                  )}
 
                   {/* Active indicator */}
                   {isActive && (
-                    <motion.div
-                      className="absolute left-0 top-1/2 w-1 h-8 bg-kawaii-primary-600 dark:bg-kawaii-primary-400 rounded-r-full"
-                      layoutId="activeSideTab"
-                      initial={false}
-                      transition={{
-                        type: 'spring',
-                        stiffness: 500,
-                        damping: 30,
+                    <div
+                      style={{
+                        position: 'absolute',
+                        left: 0,
+                        top: '50%',
+                        width: '4px',
+                        height: '32px',
+                        backgroundColor: '#3b82f6',
+                        borderRadius: '0 9999px 9999px 0',
+                        transform: 'translateY(-50%)',
                       }}
-                      style={{ y: '-50%' }}
                     />
                   )}
-                </motion.button>
+                </button>
               );
             })}
           </div>
         </div>
 
-        {/* Footer area (optional) */}
-        <div className="border-t border-kawaii-neutral-200 dark:border-kawaii-neutral-800 p-4">
-          <AnimatePresence mode="wait">
+        {/* Footer area */}
+        <div style={{ borderTop: '1px solid #e5e7eb', padding: '16px', position: 'relative' }} ref={languageMenuRef}>
+          {/* Language Selector */}
+          <button
+            onClick={() => setShowLanguageMenu(!showLanguageMenu)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: collapsed ? 'center' : 'flex-start',
+              width: '100%',
+              padding: '8px',
+              marginBottom: '8px',
+              border: 'none',
+              borderRadius: '8px',
+              backgroundColor: 'transparent',
+              color: '#6b7280',
+              cursor: 'pointer',
+            }}
+            aria-label="Change language"
+          >
+            <LanguageIcon style={{ width: '20px', height: '20px', flexShrink: 0 }} />
             {!collapsed && (
+              <span style={{ marginLeft: '8px', fontSize: '14px' }}>
+                {currentLanguage.flag} {currentLanguage.name}
+              </span>
+            )}
+          </button>
+
+          {/* Language Dropdown Menu */}
+          <AnimatePresence>
+            {showLanguageMenu && (
               <motion.div
-                key="footer-text"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
-                className="text-xs text-kawaii-neutral-500 dark:text-kawaii-neutral-400 text-center"
+                style={{
+                  position: 'absolute',
+                  bottom: '100%',
+                  left: collapsed ? '80px' : '16px',
+                  marginBottom: '8px',
+                  width: collapsed ? '200px' : 'calc(100% - 32px)',
+                  backgroundColor: 'white',
+                  border: '2px solid #d5d0c2',
+                  borderRadius: '12px',
+                  boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+                  overflow: 'hidden',
+                  zIndex: 50,
+                }}
               >
-                Kawaii UI v1.0
+                {languages.map((language, index) => {
+                  const isSelected = language.code === i18n.language;
+                  
+                  return (
+                    <button
+                      key={language.code}
+                      onClick={() => handleLanguageChange(language.code)}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '12px',
+                        width: '100%',
+                        padding: '12px 16px',
+                        border: 'none',
+                        borderBottom: index !== languages.length - 1 ? '1px solid #e5e7eb' : 'none',
+                        backgroundColor: isSelected ? '#eff6ff' : 'transparent',
+                        color: isSelected ? '#3b82f6' : '#1f2937',
+                        cursor: 'pointer',
+                        textAlign: 'left',
+                      }}
+                    >
+                      <span style={{ fontSize: '24px' }} role="img" aria-label={language.name}>
+                        {language.flag}
+                      </span>
+                      <span style={{ fontSize: '14px', fontWeight: 500, flex: 1 }}>
+                        {language.name}
+                      </span>
+                      {isSelected && (
+                        <svg
+                          style={{ width: '20px', height: '20px', color: '#3b82f6' }}
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={3}
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                      )}
+                    </button>
+                  );
+                })}
               </motion.div>
             )}
           </AnimatePresence>
+
+          {!collapsed && (
+            <div style={{ fontSize: '12px', color: '#9ca3af', textAlign: 'center', marginTop: '8px' }}>
+              Kawaii UI v1.0
+            </div>
+          )}
         </div>
       </div>
-    </motion.nav>
+    </nav>
   );
 };

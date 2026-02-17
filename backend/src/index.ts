@@ -30,6 +30,7 @@ import badgeRoutes from './routes/badges.js';
 import destinationRoutes from './routes/destinationRoutes.js';
 import bookingRoutes from './routes/bookingRoutes.js';
 import shoppingRoutes from './routes/shoppingRoutes.js';
+import budgetRoutes from './routes/budgetRoutes.js';
 import destinationAutocompleteRoutes from './routes/destinationAutocomplete.js';
 import scrapingRoutes from './routes/scraping.js';
 import analyticsRoutes from './routes/analytics.js';
@@ -314,6 +315,9 @@ app.use('/api/bookings', bookingRoutes);
 // Shopping routes
 app.use('/api/shopping', shoppingRoutes);
 
+// Budget routes
+app.use('/api/budget', budgetRoutes);
+
 // 404 handler
 app.use((_req, res) => {
   res.status(404).json({ error: 'Route not found' });
@@ -406,10 +410,35 @@ async function startServer() {
     // console.log('🐍 Python scraper service started');
 
     // Start server
-    httpServer.listen(PORT, () => {
+    // Listen on 0.0.0.0 to accept connections from iOS devices on local network
+    httpServer.listen(PORT as number, '0.0.0.0', () => {
       console.log(`🚀 Server is running on port ${PORT}`);
       console.log(`📡 Socket.IO is ready for connections`);
-      console.log(`🔗 API available at http://localhost:${PORT}/api`);
+      console.log(`🔗 API available at:`);
+      console.log(`   - Local: http://localhost:${PORT}/api`);
+      
+      // Get local IP addresses for iOS development
+      import('os').then((os) => {
+        const networkInterfaces = os.networkInterfaces();
+        const addresses: string[] = [];
+        
+        Object.keys(networkInterfaces).forEach((interfaceName) => {
+          const interfaces = networkInterfaces[interfaceName];
+          if (interfaces) {
+            interfaces.forEach((iface: any) => {
+              // Skip internal and non-IPv4 addresses
+              if (iface.family === 'IPv4' && !iface.internal) {
+                addresses.push(iface.address);
+              }
+            });
+          }
+        });
+        
+        if (addresses.length > 0) {
+          console.log(`   - Network: http://${addresses[0]}:${PORT}/api`);
+          console.log(`   📱 Use this URL for iOS development`);
+        }
+      });
     });
   } catch (error) {
     console.error('Failed to start server:', error);

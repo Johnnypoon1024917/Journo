@@ -1,27 +1,25 @@
 {
-  "members": {
-    "title": "成員",
-    "invite": "邀請成員",
-    "inviteByEmail": "透過電子郵件邀請",
-    "noMembers": "尚無成員",
-    "roles": {
-      "owner": "擁有者",
-      "editor": "編輯者",
-      "viewer": "檢視者"
-    },
-    "status": {
-      "online": "在線",
-      "offline": "離線"
-    },
-    "actions": {
-      "makeEditor": "設為編輯者",
-      "makeViewer": "設為檢視者",
-      "remove": "移除成員"
-    },
-    "permissions": {
-      "canEdit": "可編輯行程",
-      "canView": "可檢視行程",
-      "canManage": "可管理成員"
-    }
+  "title": "成員",
+  "invite": "邀請成員",
+  "inviteByEmail": "透過電子郵件邀請",
+  "noMembers": "尚無成員",
+  "roles": {
+    "owner": "擁有者",
+    "editor": "編輯者",
+    "viewer": "檢視者"
+  },
+  "status": {
+    "online": "在線",
+    "offline": "離線"
+  },
+  "actions": {
+    "makeEditor": "設為編輯者",
+    "makeViewer": "設為檢視者",
+    "remove": "移除成員"
+  },
+  "permissions": {
+    "canEdit": "可編輯行程",
+    "canView": "可檢視行程",
+    "canManage": "可管理成員"
   }
 }

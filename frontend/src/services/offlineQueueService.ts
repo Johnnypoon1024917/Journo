@@ -3,7 +3,9 @@
  * 
  * This service provides offline support for collaboration-related actions
  * such as activity logging, notifications, and member management.
- * It wraps the existing syncQueueService with collaboration-specific functionality.
+ * Uses IndexedDB for persistent storage of queued changes.
+ * 
+ * Validates Requirement 11.3: Queue all data modifications when offline
  */
 
 import { v4 as uuidv4 } from 'uuid';
@@ -11,6 +13,7 @@ import { offlineStorage } from './offlineStorage';
 import { syncQueueService } from './syncQueueService';
 import { SyncQueueItem } from '../types/offline';
 import { SyncOperationType, SyncResourceType } from '../types/trip';
+import localforage from 'localforage';
 
 export interface OfflineQueueItem {
   id: string;
@@ -31,19 +34,29 @@ export interface QueueStatus {
   failedCount: number;
 }
 
+// Configure IndexedDB store for offline queue
+const offlineQueueStore = localforage.createInstance({
+  name: 'journo',
+  storeName: 'offline_queue',
+  description: 'Offline queue for data modifications'
+});
+
 /**
  * OfflineQueueService class
  * Manages offline queue for collaboration actions with IndexedDB persistence
+ * Validates Requirement 11.3: Store queue in IndexedDB
  */
 export class OfflineQueueService {
   private queue: OfflineQueueItem[] = [];
   private isOnline: boolean = navigator.onLine;
   private isSyncing: boolean = false;
   private syncInProgress: boolean = false;
+  private initialized: boolean = false;
+  private initPromise: Promise<void> | null = null;
 
   constructor() {
-    // Load queue from localStorage on initialization
-    this.loadQueue();
+    // Initialize asynchronously
+    this.initPromise = this.initialize();
 
     // Listen for online/offline events
     window.addEventListener('online', () => this.handleOnline());
@@ -58,10 +71,37 @@ export class OfflineQueueService {
   }
 
   /**
+   * Initialize the service by loading queue from IndexedDB
+   */
+  private async initialize(): Promise<void> {
+    if (this.initialized) return;
+    
+    try {
+      await this.loadQueue();
+      this.initialized = true;
+    } catch (error) {
+      console.error('Failed to initialize offline queue service:', error);
+      this.initialized = true; // Mark as initialized even on error to prevent blocking
+    }
+  }
+
+  /**
+   * Ensure service is initialized before operations
+   */
+  private async ensureInitialized(): Promise<void> {
+    if (this.initPromise) {
+      await this.initPromise;
+    }
+  }
+
+  /**
    * Queue an action for later sync
+   * Validates Requirement 11.3: Queue all data modifications when offline
    * @param item - The action to queue (without id, timestamp, retryCount, status)
    */
-  queueAction(item: Omit<OfflineQueueItem, 'id' | 'timestamp' | 'retryCount' | 'status'>): OfflineQueueItem {
+  async queueAction(item: Omit<OfflineQueueItem, 'id' | 'timestamp' | 'retryCount' | 'status'>): Promise<OfflineQueueItem> {
+    await this.ensureInitialized();
+    
     const queueItem: OfflineQueueItem = {
       ...item,
       id: uuidv4(),
@@ -71,7 +111,7 @@ export class OfflineQueueService {
     };
 
     this.queue.push(queueItem);
-    this.saveQueue();
+    await this.saveQueue();
 
     // Try to sync immediately if online
     if (this.isOnline && !this.syncInProgress) {
@@ -87,6 +127,8 @@ export class OfflineQueueService {
    * Processes items in order with retry logic and conflict resolution
    */
   async syncQueue(): Promise<void> {
+    await this.ensureInitialized();
+    
     if (this.syncInProgress || !this.isOnline || this.queue.length === 0) {
       return;
     }
@@ -104,14 +146,14 @@ export class OfflineQueueService {
         try {
           // Update status to syncing
           item.status = 'syncing';
-          this.saveQueue();
+          await this.saveQueue();
 
           // Execute the queued request
           await this.executeRequest(item);
 
           // Mark as synced
           item.status = 'synced';
-          this.saveQueue();
+          await this.saveQueue();
         } catch (error) {
           console.error('Failed to sync queue item:', error);
           item.retryCount++;
@@ -124,13 +166,13 @@ export class OfflineQueueService {
             item.status = 'pending';
           }
 
-          this.saveQueue();
+          await this.saveQueue();
         }
       }
 
       // Remove synced items from queue
       this.queue = this.queue.filter(item => item.status !== 'synced');
-      this.saveQueue();
+      await this.saveQueue();
 
       console.log(`Sync complete. ${itemsToSync.length} items processed.`);
     } finally {
@@ -186,16 +228,18 @@ export class OfflineQueueService {
    * Clear all items from the queue
    * Use with caution - this will remove all pending changes
    */
-  clearQueue(): void {
+  async clearQueue(): Promise<void> {
+    await this.ensureInitialized();
     this.queue = [];
-    this.saveQueue();
+    await this.saveQueue();
     console.log('Queue cleared');
   }
 
   /**
    * Get the current queue status
    */
-  getQueueStatus(): QueueStatus {
+  async getQueueStatus(): Promise<QueueStatus> {
+    await this.ensureInitialized();
     return {
       isOnline: this.isOnline,
       isSyncing: this.isSyncing,
@@ -207,14 +251,16 @@ export class OfflineQueueService {
   /**
    * Get all queue items
    */
-  getQueue(): OfflineQueueItem[] {
+  async getQueue(): Promise<OfflineQueueItem[]> {
+    await this.ensureInitialized();
     return [...this.queue];
   }
 
   /**
    * Get failed queue items
    */
-  getFailedItems(): OfflineQueueItem[] {
+  async getFailedItems(): Promise<OfflineQueueItem[]> {
+    await this.ensureInitialized();
     return this.queue.filter(item => item.status === 'failed');
   }
 
@@ -222,6 +268,8 @@ export class OfflineQueueService {
    * Retry a specific failed item
    */
   async retryItem(itemId: string): Promise<void> {
+    await this.ensureInitialized();
+    
     const item = this.queue.find(q => q.id === itemId);
     if (!item) {
       throw new Error(`Queue item ${itemId} not found`);
@@ -234,7 +282,7 @@ export class OfflineQueueService {
     // Reset retry count and status
     item.retryCount = 0;
     item.status = 'pending';
-    this.saveQueue();
+    await this.saveQueue();
 
     // Trigger sync
     await this.syncQueue();
@@ -243,9 +291,10 @@ export class OfflineQueueService {
   /**
    * Remove a specific item from the queue
    */
-  removeItem(itemId: string): void {
+  async removeItem(itemId: string): Promise<void> {
+    await this.ensureInitialized();
     this.queue = this.queue.filter(item => item.id !== itemId);
-    this.saveQueue();
+    await this.saveQueue();
   }
 
   /**
@@ -268,15 +317,39 @@ export class OfflineQueueService {
   }
 
   /**
-   * Load queue from localStorage
+   * Load queue from IndexedDB
+   * Validates Requirement 11.3: Store queue in IndexedDB
    */
-  private loadQueue(): void {
+  private async loadQueue(): Promise<void> {
     try {
-      const stored = localStorage.getItem('collaboration_offline_queue');
-      if (stored) {
-        this.queue = JSON.parse(stored);
-        console.log(`Loaded ${this.queue.length} items from offline queue`);
+      // Try to load from IndexedDB first
+      const stored = await offlineQueueStore.getItem<OfflineQueueItem[]>('queue');
+      if (stored && Array.isArray(stored)) {
+        this.queue = stored;
+        console.log(`Loaded ${this.queue.length} items from offline queue (IndexedDB)`);
+        return;
       }
+
+      // Fallback: migrate from localStorage if exists
+      const localStorageData = localStorage.getItem('collaboration_offline_queue');
+      if (localStorageData) {
+        try {
+          const parsed = JSON.parse(localStorageData);
+          if (Array.isArray(parsed)) {
+            this.queue = parsed;
+            // Save to IndexedDB and remove from localStorage
+            await this.saveQueue();
+            localStorage.removeItem('collaboration_offline_queue');
+            console.log(`Migrated ${this.queue.length} items from localStorage to IndexedDB`);
+            return;
+          }
+        } catch (parseError) {
+          console.error('Failed to parse localStorage queue data:', parseError);
+        }
+      }
+
+      // No data found, start with empty queue
+      this.queue = [];
     } catch (error) {
       console.error('Failed to load offline queue:', error);
       this.queue = [];
@@ -284,20 +357,21 @@ export class OfflineQueueService {
   }
 
   /**
-   * Save queue to localStorage
+   * Save queue to IndexedDB
+   * Validates Requirement 11.3: Store queue in IndexedDB
    */
-  private saveQueue(): void {
+  private async saveQueue(): Promise<void> {
     try {
-      localStorage.setItem('collaboration_offline_queue', JSON.stringify(this.queue));
+      await offlineQueueStore.setItem('queue', this.queue);
     } catch (error) {
       console.error('Failed to save offline queue:', error);
       
-      // If localStorage is full, try to clear old synced items
+      // If IndexedDB fails, try to handle quota exceeded
       if (error instanceof Error && error.name === 'QuotaExceededError') {
-        console.warn('localStorage quota exceeded, clearing synced items');
+        console.warn('IndexedDB quota exceeded, clearing synced items');
         this.queue = this.queue.filter(item => item.status !== 'synced');
         try {
-          localStorage.setItem('collaboration_offline_queue', JSON.stringify(this.queue));
+          await offlineQueueStore.setItem('queue', this.queue);
         } catch (retryError) {
           console.error('Failed to save queue even after cleanup:', retryError);
         }

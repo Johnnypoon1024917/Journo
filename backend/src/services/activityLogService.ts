@@ -1,5 +1,5 @@
-import pool from '../config/database';
-import { socketService } from './socketService';
+import pool from '../config/database.js';
+import { socketService } from './socketService.js';
 import { v4 as uuidv4 } from 'uuid';
 
 /**

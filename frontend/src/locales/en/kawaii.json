@@ -2,6 +2,15 @@
   "common": {
     "more": "More options"
   },
+  "navigation": {
+    "schedule": "Schedule",
+    "booking": "Booking",
+    "budget": "Budget",
+    "shopping": "Shopping",
+    "checklist": "Checklist",
+    "members": "Members",
+    "settings": "Settings"
+  },
   "booking": {
     "title": "Booking Management",
     "subtitle": "Manage your flights, accommodation, car rentals, and tickets in one place",

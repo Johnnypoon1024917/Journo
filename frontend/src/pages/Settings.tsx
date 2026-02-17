@@ -1,12 +1,17 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useToast } from '../hooks/useToast';
+import { useTranslation } from 'react-i18next';
 import { Button } from '../components/common/Button';
+import { NavigationWrapper, PageLayout } from '../components/layout';
+import { changeLanguage } from '../utils/languageUtils';
+import type { NavigationTab } from '../components/layout';
 
 export function Settings() {
   const { user, logout } = useAuth();
-  const { success, error } = useToast();
+  const { showSuccess, showError } = useToast();
+  const { t, i18n } = useTranslation('common');
+  const [activeTab, setActiveTab] = useState<NavigationTab>('settings');
   
   const [settings, setSettings] = useState({
     emailNotifications: true,
@@ -28,240 +33,216 @@ export function Settings() {
   const handleSaveSettings = async () => {
     setIsLoading(true);
     try {
-      // TODO: Implement API call to save settings
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
-      success('Settings saved successfully');
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      showSuccess(t('status.success'), t('settings.account.saveSettings'));
     } catch (err) {
-      error('Failed to save settings');
+      showError(t('status.error'), t('errors.failedToLoadData'));
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleDeleteAccount = async () => {
-    if (!confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+    if (!confirm(t('settings.account.deleteConfirmation'))) {
       return;
     }
 
     try {
-      // TODO: Implement account deletion API
       await logout();
-      success('Account deleted successfully');
+      showSuccess(t('status.success'), t('settings.account.deleteAccount'));
     } catch (err) {
-      error('Failed to delete account');
+      showError(t('status.error'), t('errors.failedToLoadData'));
     }
   };
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Please sign in</h2>
-          <Link to="/login" className="text-blue-600 hover:text-blue-500">
-            Go to login
-          </Link>
-        </div>
-      </div>
+      <NavigationWrapper activeTab={activeTab} onTabChange={setActiveTab}>
+        <PageLayout>
+          <div className="flex items-center justify-center" style={{ minHeight: '100vh' }}>
+            <div className="text-center">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">{t('auth.pleaseSignIn')}</h2>
+              <p className="text-gray-600 dark:text-gray-400">{t('settings.account.needLogin')}</p>
+            </div>
+          </div>
+        </PageLayout>
+      </NavigationWrapper>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-4xl mx-auto px-6 py-4">
-          <div className="flex items-center space-x-4">
-            <Link to="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">J</span>
-              </div>
-              <span className="text-xl font-bold text-black">journo</span>
-            </Link>
-            <span className="text-gray-400">/</span>
-            <Link to="/profile" className="text-gray-600 hover:text-gray-900">Profile</Link>
-            <span className="text-gray-400">/</span>
-            <h1 className="text-xl font-semibold text-gray-900">Settings</h1>
-          </div>
-        </div>
-      </header>
+    <NavigationWrapper activeTab={activeTab} onTabChange={setActiveTab}>
+      <PageLayout>
+        {/* Simple container with proper spacing */}
+        <div className="w-full py-8">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border-2 border-[#d5d0c2] dark:border-gray-700">
+              <div className="p-6 sm:p-8">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">{t('settings.account.accountSettings')}</h2>
 
-      {/* Main Content */}
-      <div className="max-w-4xl mx-auto px-6 py-8">
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-          <div className="p-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-8">Account Settings</h2>
-
-            {/* Notifications */}
-            <div className="mb-8">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Notifications</h3>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between py-3">
-                  <div>
-                    <h4 className="font-medium text-gray-900">Email Notifications</h4>
-                    <p className="text-sm text-gray-500">Receive notifications via email</p>
+                {/* Language Selector */}
+                <div className="mb-8">
+                  <div className="bg-white dark:bg-gray-800 rounded-xl border-2 border-[#d5d0c2] dark:border-gray-700 p-6">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                      Language / 語言
+                    </h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                      Choose your preferred language for the app interface
+                    </p>
+                    
+                    {/* Dropdown */}
+                    <div className="relative">
+                      <select
+                        value={i18n.language}
+                        onChange={(e) => changeLanguage(e.target.value)}
+                        className="w-full px-4 py-3 pr-10 rounded-lg border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white font-medium focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all cursor-pointer appearance-none"
+                        style={{ backgroundImage: 'none' }}
+                      >
+                        <option value="en">🇺🇸 English</option>
+                        <option value="zh-TW">🇹🇼 繁體中文 (Traditional Chinese)</option>
+                        <option value="zh-CN">🇨🇳 简体中文 (Simplified Chinese)</option>
+                        <option value="ja">🇯🇵 日本語 (Japanese)</option>
+                      </select>
+                      
+                      {/* Custom dropdown arrow */}
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                        <svg className="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </div>
+                    </div>
+                    
+                    {/* Info text */}
+                    <p className="mt-4 text-xs text-gray-500 dark:text-gray-400">
+                      Language changes are applied immediately across the app
+                    </p>
                   </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
+                </div>
+
+                {/* Notifications Section */}
+                <div className="mb-8">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">{t('settings.notifications.title')}</h3>
+                  <div className="space-y-4">
+                    <SettingToggle
+                      title={t('settings.notifications.emailNotifications')}
+                      description={t('settings.notifications.emailNotificationsDesc')}
                       checked={settings.emailNotifications}
-                      onChange={(e) => handleSettingChange('emailNotifications', e.target.checked)}
-                      className="sr-only peer"
+                      onChange={(checked) => handleSettingChange('emailNotifications', checked)}
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                  </label>
-                </div>
-
-                <div className="flex items-center justify-between py-3">
-                  <div>
-                    <h4 className="font-medium text-gray-900">Push Notifications</h4>
-                    <p className="text-sm text-gray-500">Receive push notifications in your browser</p>
-                  </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
+                    <SettingToggle
+                      title={t('settings.notifications.pushNotifications')}
+                      description={t('settings.notifications.pushNotificationsDesc')}
                       checked={settings.pushNotifications}
-                      onChange={(e) => handleSettingChange('pushNotifications', e.target.checked)}
-                      className="sr-only peer"
+                      onChange={(checked) => handleSettingChange('pushNotifications', checked)}
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                  </label>
-                </div>
-
-                <div className="flex items-center justify-between py-3">
-                  <div>
-                    <h4 className="font-medium text-gray-900">Trip Updates</h4>
-                    <p className="text-sm text-gray-500">Get notified when collaborators update trips</p>
-                  </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
+                    <SettingToggle
+                      title={t('settings.notifications.tripUpdates')}
+                      description={t('settings.notifications.tripUpdatesDesc')}
                       checked={settings.tripUpdates}
-                      onChange={(e) => handleSettingChange('tripUpdates', e.target.checked)}
-                      className="sr-only peer"
+                      onChange={(checked) => handleSettingChange('tripUpdates', checked)}
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                  </label>
-                </div>
-
-                <div className="flex items-center justify-between py-3">
-                  <div>
-                    <h4 className="font-medium text-gray-900">Collaboration Invites</h4>
-                    <p className="text-sm text-gray-500">Get notified when invited to collaborate on trips</p>
-                  </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
+                    <SettingToggle
+                      title={t('settings.notifications.collaborationInvites')}
+                      description={t('settings.notifications.collaborationInvitesDesc')}
                       checked={settings.collaborationInvites}
-                      onChange={(e) => handleSettingChange('collaborationInvites', e.target.checked)}
-                      className="sr-only peer"
+                      onChange={(checked) => handleSettingChange('collaborationInvites', checked)}
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                  </label>
-                </div>
-
-                <div className="flex items-center justify-between py-3">
-                  <div>
-                    <h4 className="font-medium text-gray-900">Marketing Emails</h4>
-                    <p className="text-sm text-gray-500">Receive updates about new features and tips</p>
-                  </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
+                    <SettingToggle
+                      title={t('settings.notifications.marketingEmails')}
+                      description={t('settings.notifications.marketingEmailsDesc')}
                       checked={settings.marketingEmails}
-                      onChange={(e) => handleSettingChange('marketingEmails', e.target.checked)}
-                      className="sr-only peer"
+                      onChange={(checked) => handleSettingChange('marketingEmails', checked)}
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            {/* Privacy */}
-            <div className="border-t border-gray-200 pt-8 mb-8">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Privacy</h3>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between py-3">
-                  <div>
-                    <h4 className="font-medium text-gray-900">Public Profile</h4>
-                    <p className="text-sm text-gray-500">Allow others to find and view your profile</p>
                   </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
+                </div>
+
+                {/* Privacy Section */}
+                <div className="border-t border-gray-200 dark:border-gray-700 pt-8 mb-8">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">{t('settings.privacy.title')}</h3>
+                  <div className="space-y-4">
+                    <SettingToggle
+                      title={t('settings.privacy.publicProfile')}
+                      description={t('settings.privacy.publicProfileDesc')}
                       checked={settings.publicProfile}
-                      onChange={(e) => handleSettingChange('publicProfile', e.target.checked)}
-                      className="sr-only peer"
+                      onChange={(checked) => handleSettingChange('publicProfile', checked)}
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                  </label>
-                </div>
-
-                <div className="flex items-center justify-between py-3">
-                  <div>
-                    <h4 className="font-medium text-gray-900">Show Email Address</h4>
-                    <p className="text-sm text-gray-500">Display your email on your public profile</p>
-                  </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
+                    <SettingToggle
+                      title={t('settings.privacy.showEmail')}
+                      description={t('settings.privacy.showEmailDesc')}
                       checked={settings.showEmail}
-                      onChange={(e) => handleSettingChange('showEmail', e.target.checked)}
-                      className="sr-only peer"
+                      onChange={(checked) => handleSettingChange('showEmail', checked)}
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                  </label>
-                </div>
-
-                <div className="flex items-center justify-between py-3">
-                  <div>
-                    <h4 className="font-medium text-gray-900">Allow Collaborations</h4>
-                    <p className="text-sm text-gray-500">Let others invite you to collaborate on trips</p>
-                  </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
+                    <SettingToggle
+                      title={t('settings.privacy.allowCollaborations')}
+                      description={t('settings.privacy.allowCollaborationsDesc')}
                       checked={settings.allowCollaborations}
-                      onChange={(e) => handleSettingChange('allowCollaborations', e.target.checked)}
-                      className="sr-only peer"
+                      onChange={(checked) => handleSettingChange('allowCollaborations', checked)}
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                  </label>
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            {/* Save Button */}
-            <div className="border-t border-gray-200 pt-8 mb-8">
-              <Button
-                onClick={handleSaveSettings}
-                isLoading={isLoading}
-                className="bg-blue-600 hover:bg-blue-700 text-white"
-              >
-                Save Settings
-              </Button>
-            </div>
+                {/* Save Button */}
+                <div className="border-t border-gray-200 dark:border-gray-700 pt-8 mb-8">
+                  <Button
+                    onClick={handleSaveSettings}
+                    isLoading={isLoading}
+                    className="bg-blue-600 hover:bg-blue-700 text-white"
+                  >
+                    {t('settings.account.saveSettings')}
+                  </Button>
+                </div>
 
-            {/* Danger Zone */}
-            <div className="border-t border-gray-200 pt-8">
-              <h3 className="text-lg font-semibold text-red-600 mb-4">Danger Zone</h3>
-              <div className="bg-red-50 border border-red-200 rounded-xl p-6">
-                <h4 className="font-medium text-red-900 mb-2">Delete Account</h4>
-                <p className="text-sm text-red-700 mb-4">
-                  Once you delete your account, there is no going back. Please be certain.
-                </p>
-                <Button
-                  onClick={handleDeleteAccount}
-                  variant="danger"
-                  className="bg-red-600 hover:bg-red-700 text-white"
-                >
-                  Delete Account
-                </Button>
+                {/* Danger Zone */}
+                <div className="border-t border-gray-200 dark:border-gray-700 pt-8">
+                  <h3 className="text-lg font-semibold text-red-600 mb-4">{t('settings.account.dangerZone')}</h3>
+                  <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-6">
+                    <h4 className="font-medium text-red-900 dark:text-red-400 mb-2">{t('settings.account.deleteAccount')}</h4>
+                    <p className="text-sm text-red-700 dark:text-red-300 mb-4">
+                      {t('settings.account.deleteWarning')}
+                    </p>
+                    <Button
+                      onClick={handleDeleteAccount}
+                      variant="danger"
+                      className="bg-red-600 hover:bg-red-700 text-white"
+                    >
+                      {t('settings.account.deleteAccount')}
+                    </Button>
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>
         </div>
+      </PageLayout>
+    </NavigationWrapper>
+  );
+}
+
+// Toggle Component
+interface SettingToggleProps {
+  title: string;
+  description: string;
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+}
+
+function SettingToggle({ title, description, checked, onChange }: SettingToggleProps) {
+  return (
+    <div className="flex items-center justify-between py-3">
+      <div className="flex-1">
+        <h4 className="font-medium text-gray-900 dark:text-white">{title}</h4>
+        <p className="text-sm text-gray-500 dark:text-gray-400">{description}</p>
       </div>
+      <label className="relative inline-flex items-center cursor-pointer ml-4">
+        <input
+          type="checkbox"
+          checked={checked}
+          onChange={(e) => onChange(e.target.checked)}
+          className="sr-only peer"
+        />
+        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+      </label>
     </div>
   );
 }

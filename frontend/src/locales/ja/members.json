@@ -1,27 +1,25 @@
 {
-  "members": {
-    "title": "メンバー",
-    "invite": "メンバーを招待",
-    "inviteByEmail": "メールで招待",
-    "noMembers": "メンバーがいません",
-    "roles": {
-      "owner": "オーナー",
-      "editor": "編集者",
-      "viewer": "閲覧者"
-    },
-    "status": {
-      "online": "オンライン",
-      "offline": "オフライン"
-    },
-    "actions": {
-      "makeEditor": "編集者にする",
-      "makeViewer": "閲覧者にする",
-      "remove": "メンバーを削除"
-    },
-    "permissions": {
-      "canEdit": "旅程を編集できます",
-      "canView": "旅程を閲覧できます",
-      "canManage": "メンバーを管理できます"
-    }
+  "title": "メンバー",
+  "invite": "メンバーを招待",
+  "inviteByEmail": "メールで招待",
+  "noMembers": "メンバーがいません",
+  "roles": {
+    "owner": "オーナー",
+    "editor": "編集者",
+    "viewer": "閲覧者"
+  },
+  "status": {
+    "online": "オンライン",
+    "offline": "オフライン"
+  },
+  "actions": {
+    "makeEditor": "編集者にする",
+    "makeViewer": "閲覧者にする",
+    "remove": "メンバーを削除"
+  },
+  "permissions": {
+    "canEdit": "旅程を編集できます",
+    "canView": "旅程を閲覧できます",
+    "canManage": "メンバーを管理できます"
   }
 }

@@ -1,0 +1,155 @@
+{
+  "title": "创建新旅程",
+  "subtitle": "通过AI协助规划您的下一次冒险",
+  "optional": "（选填）",
+  "back": "返回",
+  "next": "下一步",
+  "cancel": "取消",
+  "create": "创建旅程",
+  "creating": "创建中...",
+  "steps": {
+    "template": "模板",
+    "info": "详情",
+    "theme": "主题",
+    "ai": "AI协助"
+  },
+  "errors": {
+    "notAuthenticated": "请登录以创建旅程",
+    "createFailed": "创建旅程失败，请重试。"
+  },
+  "tripTemplate": {
+    "title": "选择您的旅行风格",
+    "subtitle": "选择模板以获得个性化建议",
+    "beach": {
+      "name": "海滩天堂",
+      "description": "在阳光和沙滩旁放松"
+    },
+    "mountain": {
+      "name": "山岳冒险",
+      "description": "探索山峰和风景优美的步道"
+    },
+    "city": {
+      "name": "城市探索",
+      "description": "发现都市文化和夜生活"
+    },
+    "cultural": {
+      "name": "文化之旅",
+      "description": "沉浸在历史和传统中"
+    },
+    "custom": {
+      "name": "自定义旅程",
+      "description": "创造您独特的冒险"
+    }
+  },
+  "tripForm": {
+    "title": "旅程详情",
+    "subtitle": "告诉我们您即将到来的冒险",
+    "fields": {
+      "title": "旅程名称",
+      "destination": "目的地",
+      "startDate": "开始日期",
+      "endDate": "结束日期",
+      "travelers": "旅行人数"
+    },
+    "placeholders": {
+      "title": "例如：东京冬季冒险",
+      "destination": "例如：东京，日本"
+    },
+    "errors": {
+      "titleRequired": "旅程名称为必填",
+      "titleTooLong": "旅程名称必须少于100个字符",
+      "destinationRequired": "目的地为必填",
+      "startDateRequired": "开始日期为必填",
+      "endDateRequired": "结束日期为必填",
+      "endDateBeforeStart": "结束日期必须在开始日期之后",
+      "tripTooLong": "旅程不能超过365天",
+      "travelersMin": "至少需要1位旅行者",
+      "travelersMax": "最多允许50位旅行者"
+    }
+  },
+  "tripTheme": {
+    "title": "自定义您的旅程",
+    "subtitle": "让您的旅程规划体验独特且个性化",
+    "colorLabel": "主题颜色",
+    "stickerStyleLabel": "贴纸风格",
+    "animationsLabel": "背景动画",
+    "previewLabel": "预览",
+    "previewTitle": "您的旅程",
+    "previewDescription": "这是您的旅程在所选主题下的外观",
+    "stickerStyle": {
+      "cute": {
+        "name": "可爱",
+        "description": "可爱的卡哇伊角色"
+      },
+      "minimal": {
+        "name": "简约",
+        "description": "简单干净的图标"
+      },
+      "colorful": {
+        "name": "缤纷",
+        "description": "鲜艳且有趣"
+      },
+      "vintage": {
+        "name": "复古",
+        "description": "复古旅行印章"
+      }
+    },
+    "animations": {
+      "none": {
+        "name": "无",
+        "description": "无动画"
+      },
+      "snow": {
+        "name": "雪",
+        "description": "轻柔的降雪"
+      },
+      "sakura": {
+        "name": "樱花",
+        "description": "樱花花瓣"
+      }
+    }
+  },
+  "tripAI": {
+    "title": "AI协助",
+    "subtitle": "让AI帮助规划您的完美旅程",
+    "disabled": "AI协助已停用",
+    "enable": "启用",
+    "disable": "停用",
+    "generateItinerary": "生成行程",
+    "generateItineraryDesc": "AI将根据您的偏好建议景点、餐厅和每日行程",
+    "generateStickers": "生成主题贴纸",
+    "generateStickersDesc": "AI将创建符合您目的地和季节的自定义卡哇伊贴纸",
+    "preferences": "您的偏好",
+    "interests": "兴趣",
+    "interest": {
+      "sightseeing": "观光",
+      "food": "美食",
+      "shopping": "购物",
+      "culture": "文化",
+      "nature": "自然",
+      "photography": "摄影",
+      "adventure": "冒险",
+      "relaxation": "放松",
+      "beach": "海滩",
+      "water-sports": "水上运动",
+      "sunset": "日落",
+      "hiking": "健行",
+      "skiing": "滑雪",
+      "camping": "露营",
+      "nightlife": "夜生活",
+      "museums": "博物馆",
+      "architecture": "建筑",
+      "history": "历史",
+      "temples": "寺庙",
+      "local-cuisine": "当地美食"
+    },
+    "travelStyle": "旅行风格",
+    "travelStyle.relaxed": "悠闲",
+    "travelStyle.moderate": "适中",
+    "travelStyle.fast-paced": "快节奏",
+    "budgetLevel": "预算等级",
+    "budgetLevel.low": "经济",
+    "budgetLevel.medium": "适中",
+    "budgetLevel.high": "豪华"
+  }
+}

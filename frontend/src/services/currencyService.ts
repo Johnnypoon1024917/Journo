@@ -205,6 +205,189 @@ class CurrencyService {
   clearCache(): void {
     this.cache.clear();
   }
+
+  // ============================================================================
+  // Budget-Specific Methods (Requirements 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7)
+  // ============================================================================
+
+  /**
+   * Convert expense to home currency
+   * Requirements: 3.1, 3.6
+   */
+  async convertExpenseToHomeCurrency(
+    expenseAmount: number,
+    expenseCurrency: string,
+    homeCurrency: string
+  ): Promise<ConversionResult> {
+    return this.convertCurrency(expenseAmount, expenseCurrency, homeCurrency);
+  }
+
+  /**
+   * Batch convert expenses to home currency
+   * Requirements: 3.2, 3.6
+   */
+  async convertExpensesToHomeCurrency(
+    expenses: Array<{ amount: number; currency: string }>,
+    homeCurrency: string
+  ): Promise<ConversionResult[]> {
+    const conversions = expenses.map(expense => ({
+      amount: expense.amount,
+      from: expense.currency,
+      to: homeCurrency,
+    }));
+    
+    return this.convertMultiple(conversions);
+  }
+
+  /**
+   * Get exchange rate with cache info
+   * Returns rate and whether it's from cache
+   * Requirements: 3.3, 3.4, 3.5
+   */
+  async getExchangeRateWithCacheInfo(
+    fromCurrency: string,
+    toCurrency: string
+  ): Promise<{
+    rate: number;
+    isCached: boolean;
+    cachedAt?: Date;
+    isStale: boolean;
+  }> {
+    // Check memory cache
+    const cacheKey = `${fromCurrency}_${toCurrency}`;
+    const cached = this.cache.get(cacheKey);
+    const now = Date.now();
+    
+    if (cached) {
+      const age = now - cached.timestamp;
+      const isStale = age >= this.CACHE_DURATION;
+      
+      return {
+        rate: cached.rate,
+        isCached: true,
+        cachedAt: new Date(cached.timestamp),
+        isStale,
+      };
+    }
+
+    // Try to get from database
+    try {
+      const dbRate = await this.getCachedRateFromDB(fromCurrency, toCurrency);
+      
+      if (dbRate) {
+        const cachedAt = new Date(dbRate.cached_at);
+        const age = now - cachedAt.getTime();
+        const isStale = age >= this.CACHE_DURATION;
+        
+        // Update memory cache
+        this.cache.set(cacheKey, {
+          rate: dbRate.rate,
+          timestamp: cachedAt.getTime(),
+        });
+        
+        return {
+          rate: dbRate.rate,
+          isCached: true,
+          cachedAt,
+          isStale,
+        };
+      }
+    } catch (error) {
+      console.error('Error checking cache:', error);
+    }
+
+    // Fetch fresh rate
+    try {
+      const rate = await this.fetchLiveRate(fromCurrency, toCurrency);
+      
+      // Cache in memory
+      this.cache.set(cacheKey, {
+        rate,
+        timestamp: now,
+      });
+
+      // Cache in database
+      await this.cacheRateInDB(fromCurrency, toCurrency, rate);
+
+      return {
+        rate,
+        isCached: false,
+        isStale: false,
+      };
+    } catch (error) {
+      console.error('Error fetching live rate:', error);
+      
+      // Try to use stale cache as fallback
+      const staleCache = this.cache.get(cacheKey);
+      if (staleCache) {
+        console.warn('Using stale exchange rate from cache');
+        return {
+          rate: staleCache.rate,
+          isCached: true,
+          cachedAt: new Date(staleCache.timestamp),
+          isStale: true,
+        };
+      }
+
+      // If all else fails, return 1 (no conversion)
+      console.warn('Could not get exchange rate, using 1:1 conversion');
+      return {
+        rate: 1,
+        isCached: false,
+        isStale: false,
+      };
+    }
+  }
+
+  /**
+   * Get last update timestamp for exchange rate
+   * Requirements: 3.7
+   */
+  getLastUpdateTimestamp(fromCurrency: string, toCurrency: string): Date | null {
+    const cacheKey = `${fromCurrency}_${toCurrency}`;
+    const cached = this.cache.get(cacheKey);
+    
+    if (cached) {
+      return new Date(cached.timestamp);
+    }
+    
+    return null;
+  }
+
+  /**
+   * Check if exchange rate is available (not using fallback)
+   * Requirements: 3.4
+   */
+  async isExchangeRateAvailable(
+    fromCurrency: string,
+    toCurrency: string
+  ): Promise<boolean> {
+    try {
+      const rateInfo = await this.getExchangeRateWithCacheInfo(fromCurrency, toCurrency);
+      // Consider rate available if it's not stale or if it's a fresh fetch
+      return !rateInfo.isStale || !rateInfo.isCached;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  /**
+   * Prefetch exchange rates for multiple currency pairs
+   * Useful for preloading rates when opening budget page
+   * Requirements: 3.3
+   */
+  async prefetchExchangeRates(
+    currencyPairs: Array<{ from: string; to: string }>
+  ): Promise<void> {
+    const promises = currencyPairs.map(pair =>
+      this.getExchangeRate(pair.from, pair.to).catch(error => {
+        console.error(`Failed to prefetch rate for ${pair.from} to ${pair.to}:`, error);
+        return 1; // Return fallback rate
+      })
+    );
+    
+    await Promise.all(promises);
+  }
 }
 
 export const currencyService = new CurrencyService();

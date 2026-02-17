@@ -1,9 +1,9 @@
 import { Pool } from 'pg';
 import dotenv from 'dotenv';
-import { EnhancedAuthService } from '../services/enhancedAuthService';
-import { EmailService } from '../services/emailService';
-import { AuditService } from '../services/auditService';
-import { RateLimitService } from '../services/rateLimitService';
+import { EnhancedAuthService } from '../services/enhancedAuthService.js';
+import { EmailService } from '../services/emailService.js';
+import { AuditService } from '../services/auditService.js';
+import { RateLimitService } from '../services/rateLimitService.js';
 
 // Load environment variables
 dotenv.config();

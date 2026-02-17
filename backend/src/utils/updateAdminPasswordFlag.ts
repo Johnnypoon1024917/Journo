@@ -1,4 +1,4 @@
-import { pool } from '../config/database';
+import { pool } from '../config/database.js';
 
 async function updateAdminPasswordFlag() {
   const client = await pool.connect();

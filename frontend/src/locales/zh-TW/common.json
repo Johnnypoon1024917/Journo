@@ -28,7 +28,10 @@
     "view": "檢視",
     "copy": "複製",
     "undo": "復原",
-    "redo": "重做"
+    "redo": "重做",
+    "invite": "邀請",
+    "tryAgain": "重試",
+    "goHome": "返回首頁"
   },
   "status": {
     "loading": "載入中...",
@@ -39,7 +42,9 @@
     "offline": "離線",
     "online": "線上",
     "syncing": "同步中...",
-    "synced": "已同步"
+    "synced": "已同步",
+    "loadingBudget": "載入預算中...",
+    "loadingTrip": "載入行程中..."
   },
   "time": {
     "today": "今天",
@@ -65,6 +70,7 @@
     },
     "account": {
       "title": "帳戶",
+      "accountSettings": "帳戶設定",
       "profile": "個人檔案",
       "edit": "編輯",
       "name": "姓名",
@@ -80,8 +86,52 @@
       "passwordDescription": "變更您的密碼以保護帳戶安全",
       "logout": "登出",
       "logoutDescription": "從此裝置登出您的帳戶",
-      "logoutButton": "登出"
+      "logoutButton": "登出",
+      "pleaseSignIn": "請登入",
+      "needLogin": "您需要登入才能存取設定",
+      "deleteAccount": "刪除帳戶",
+      "deleteConfirmation": "確定要刪除您的帳戶嗎？此操作無法復原。",
+      "deleteWarning": "一旦刪除您的帳戶，就無法恢復。請確認。",
+      "dangerZone": "危險區域",
+      "saveSettings": "儲存設定"
+    },
+    "notifications": {
+      "title": "通知",
+      "emailNotifications": "電子郵件通知",
+      "emailNotificationsDesc": "透過電子郵件接收通知",
+      "pushNotifications": "推播通知",
+      "pushNotificationsDesc": "在瀏覽器中接收推播通知",
+      "tripUpdates": "行程更新",
+      "tripUpdatesDesc": "當協作者更新行程時收到通知",
+      "collaborationInvites": "協作邀請",
+      "collaborationInvitesDesc": "當被邀請協作行程時收到通知",
+      "marketingEmails": "行銷電子郵件",
+      "marketingEmailsDesc": "接收新功能和提示的更新"
+    },
+    "privacy": {
+      "title": "隱私",
+      "publicProfile": "公開個人檔案",
+      "publicProfileDesc": "允許其他人尋找和查看您的個人檔案",
+      "showEmail": "顯示電子郵件地址",
+      "showEmailDesc": "在您的公開個人檔案上顯示電子郵件",
+      "allowCollaborations": "允許協作",
+      "allowCollaborationsDesc": "讓其他人邀請您協作行程"
     },
     "info": "所有設定都會自動儲存並立即套用。您的偏好設定會儲存在您的裝置上。"
+  },
+  "auth": {
+    "pleaseSignIn": "請登入",
+    "needLogin": "您需要登入才能存取此功能",
+    "sessionExpired": "工作階段已過期",
+    "sessionExpiredMessage": "您的工作階段已過期。請重新登入。"
+  },
+  "errors": {
+    "tryAgain": "重試",
+    "goHome": "返回首頁",
+    "missingTripId": "缺少行程 ID 或驗證",
+    "failedToLoadData": "載入資料失敗",
+    "tripNotFound": "找不到行程",
+    "tripNotFoundDeleted": "找不到行程。可能已被刪除。",
+    "failedToLoadTrip": "載入行程失敗"
   }
 }

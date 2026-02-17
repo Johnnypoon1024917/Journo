@@ -10,6 +10,7 @@ import {
   NetworkStatus,
 } from '../types/offline';
 import { SyncOperationType, SyncResourceType } from '../types/trip';
+import { storageSizeManager } from './storageSizeManager';
 
 // Configure localforage instances for different data types
 const tripsStore = localforage.createInstance({
@@ -60,6 +61,14 @@ class OfflineStorageService {
   // ============ TRIPS ============
   
   async saveTrip(trip: OfflineTrip): Promise<void> {
+    // Check storage limit before saving
+    const tripSize = new Blob([JSON.stringify(trip)]).size;
+    const hasSpace = await storageSizeManager.ensureSpaceAvailable(tripSize);
+    
+    if (!hasSpace) {
+      throw new Error('Storage limit exceeded. Unable to save trip.');
+    }
+    
     await tripsStore.setItem(trip.id, trip);
   }
 
@@ -88,6 +97,14 @@ class OfflineStorageService {
   // ============ TRIP DAYS ============
   
   async saveTripDay(tripDay: OfflineTripDay): Promise<void> {
+    // Check storage limit before saving
+    const tripDaySize = new Blob([JSON.stringify(tripDay)]).size;
+    const hasSpace = await storageSizeManager.ensureSpaceAvailable(tripDaySize);
+    
+    if (!hasSpace) {
+      throw new Error('Storage limit exceeded. Unable to save trip day.');
+    }
+    
     await tripDaysStore.setItem(tripDay.id, tripDay);
   }
 
@@ -121,6 +138,14 @@ class OfflineStorageService {
   // ============ PLACES ============
   
   async savePlace(place: OfflinePlace): Promise<void> {
+    // Check storage limit before saving
+    const placeSize = new Blob([JSON.stringify(place)]).size;
+    const hasSpace = await storageSizeManager.ensureSpaceAvailable(placeSize);
+    
+    if (!hasSpace) {
+      throw new Error('Storage limit exceeded. Unable to save place.');
+    }
+    
     await placesStore.setItem(place.id, place);
   }
 
@@ -340,27 +365,13 @@ class OfflineStorageService {
   }
 
   async getStorageSize(): Promise<number> {
-    // Estimate storage size (not exact, but gives an idea)
-    let size = 0;
-    
-    const stores = [
-      tripsStore,
-      tripDaysStore,
-      placesStore,
-      storyItemsStore,
-      packingItemsStore,
-      syncQueueStore,
-      pendingUploadsStore,
-      metadataStore,
-    ];
-    
-    for (const store of stores) {
-      await store.iterate((value) => {
-        size += JSON.stringify(value).length;
-      });
-    }
-    
-    return size;
+    // Use the storage size manager for accurate size calculation
+    const stats = await storageSizeManager.getStorageStats();
+    return stats.totalSize;
+  }
+  
+  async getStorageStats() {
+    return storageSizeManager.getStorageStats();
   }
 }
 

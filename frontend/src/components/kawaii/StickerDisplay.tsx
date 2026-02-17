@@ -29,7 +29,7 @@ export const StickerDisplay: React.FC<StickerDisplayProps> = ({
 }) => {
   const { stickers, placements, getElementPlacements, updatePlacement, removePlacement } =
     useStickerStore();
-
+/*
   console.log('🎨 StickerDisplay render:', { 
     elementId, 
     elementType, 
@@ -38,7 +38,7 @@ export const StickerDisplay: React.FC<StickerDisplayProps> = ({
     stickersCount: stickers.length,
     placementsCount: placements.length
   });
-
+*/
   // Load placements when component mounts or when placements in store change
   React.useEffect(() => {
     // Map elementType to entityType
@@ -103,13 +103,13 @@ export const StickerDisplay: React.FC<StickerDisplayProps> = ({
   }, [elementId, elementType, placements.length]); // Re-run when placements count changes
 
   const elementPlacements = getElementPlacements(elementId);
-
+/*
   console.log('🎨 StickerDisplay placements:', { 
     elementId,
     placementsCount: elementPlacements.length,
     placements: elementPlacements 
   });
-
+*/
   const getStickerById = (stickerId: string): Sticker | undefined => {
     // First try to find by ID
     const found = stickers.find((s) => s.id === stickerId);
@@ -207,7 +207,7 @@ export const StickerDisplay: React.FC<StickerDisplayProps> = ({
     return (
       <div 
         className={`relative w-full h-full ${className}`}
-        style={{ minHeight: '100px', pointerEvents: 'none' }}
+        style={{ pointerEvents: 'none' }}
       >
         {/* Empty - waiting for stickers */}
       </div>

@@ -1,8 +1,8 @@
-import { pool } from '../config/database';
-import { EnhancedAuthService } from '../services/enhancedAuthService';
-import { EmailService } from '../services/emailService';
-import { AuditService } from '../services/auditService';
-import { RateLimitService } from '../services/rateLimitService';
+import { pool } from '../config/database.js';
+import { EnhancedAuthService } from '../services/enhancedAuthService.js';
+import { EmailService } from '../services/emailService.js';
+import { AuditService } from '../services/auditService.js';
+import { RateLimitService } from '../services/rateLimitService.js';
 import fetch from 'node-fetch';
 
 async function testAdminEndpoints() {

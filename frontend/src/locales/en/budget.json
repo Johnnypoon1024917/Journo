@@ -6,34 +6,164 @@
   "remaining": "Remaining",
   "overspent": "Overspent",
   "dailyBudget": "Daily Budget",
+  
+  "setup": {
+    "title": "Budget Setup",
+    "totalBudgetLabel": "Total Budget",
+    "totalBudgetPlaceholder": "Enter total budget",
+    "currencyLabel": "Currency",
+    "categoryAllocations": "Category Allocations",
+    "allocatePercentage": "Allocate percentage to each category",
+    "percentageTotal": "Total: {{total}}%",
+    "mustEqual100": "Total must equal 100%",
+    "saveConfiguration": "Save Configuration",
+    "editConfiguration": "Edit Configuration",
+    "collapse": "Collapse",
+    "expand": "Expand"
+  },
+  
   "categories": {
     "accommodation": "Accommodation",
-    "food": "Food",
-    "transport": "Transport",
+    "food": "Food & Dining",
+    "transport": "Transportation",
     "activities": "Activities",
     "shopping": "Shopping",
     "misc": "Miscellaneous"
   },
+  
+  "dashboard": {
+    "budgetOverview": "Budget Overview",
+    "spent": "Spent",
+    "budget": "Budget",
+    "burnRate": "Burn Rate",
+    "perDay": "per day",
+    "daysElapsed": "Days Elapsed",
+    "daysRemaining": "Days Remaining",
+    "projectedTotal": "Projected Total",
+    "status": {
+      "safe": "On Track",
+      "warning": "Warning",
+      "danger": "Critical",
+      "over": "Over Budget"
+    }
+  },
+  
+  "expenses": {
+    "title": "Expenses",
+    "addExpense": "Add Expense",
+    "editExpense": "Edit Expense",
+    "deleteExpense": "Delete Expense",
+    "noExpenses": "No expenses yet",
+    "noExpensesDescription": "Start tracking your spending by adding your first expense",
+    "amount": "Amount",
+    "category": "Category",
+    "date": "Date",
+    "note": "Note",
+    "notePlaceholder": "Add a note (optional)",
+    "paidBy": "Paid By",
+    "splitWith": "Split With",
+    "splitType": "Split Type",
+    "equal": "Equal Split",
+    "custom": "Custom Split",
+    "settled": "Settled",
+    "pending": "Pending",
+    "confirmDelete": "Are you sure you want to delete this expense?"
+  },
+  
+  "filters": {
+    "all": "All",
+    "byCategory": "By Category",
+    "byDate": "By Date",
+    "pending": "Pending",
+    "settled": "Settled"
+  },
+  
+  "visualization": {
+    "title": "Spending Analysis",
+    "categoryComparison": "Category Comparison",
+    "spendingOverTime": "Spending Over Time",
+    "categoryProgress": "Category Progress",
+    "noData": "No data to display",
+    "allocated": "Allocated",
+    "spent": "Spent",
+    "remaining": "Remaining"
+  },
+  
+  "groupSplit": {
+    "title": "Group Expenses",
+    "memberBalances": "Member Balances",
+    "settlements": "Suggested Settlements",
+    "owes": "owes",
+    "isOwed": "is owed",
+    "settleUp": "Settle Up",
+    "allSettled": "All expenses are settled!",
+    "noGroupExpenses": "No group expenses yet"
+  },
+  
+  "alerts": {
+    "budgetWarning": "Budget Warning",
+    "budgetCritical": "Budget Critical",
+    "budgetExceeded": "Budget Exceeded",
+    "categoryOverBudget": "Category Over Budget",
+    "burnRateHigh": "High Burn Rate",
+    "approaching70": "You've spent 70% of your budget",
+    "approaching90": "You've spent 90% of your budget",
+    "exceeded100": "You've exceeded your budget",
+    "categoryExceeded": "{{category}} spending has exceeded allocation",
+    "burnRateWarning": "Your burn rate is 20% higher than planned",
+    "dismiss": "Dismiss"
+  },
+  
   "breakdown": {
     "title": "Spending Breakdown",
     "byCategory": "By Category",
     "byDay": "By Day"
   },
+  
   "warnings": {
     "approaching": "You're approaching your budget limit ({{percent}}% spent)",
     "exceeded": "You've exceeded your budget by {{amount}}"
   },
+  
   "export": {
     "exportPDF": "Export as PDF",
     "exportCSV": "Export as CSV",
     "shareableBudget": "Shareable Budget View"
   },
+  
   "tips": {
     "addTip": "Add Tip",
     "tipPercent": "Tip {{percent}}%"
   },
+  
   "split": {
     "splitCost": "Split Cost",
     "splitAmong": "Split among {{count}} travelers"
+  },
+  
+  "form": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "saving": "Saving...",
+    "loading": "Loading...",
+    "success": "Success",
+    "error": "Error",
+    "required": "This field is required",
+    "invalidAmount": "Please enter a valid amount",
+    "invalidDate": "Please enter a valid date"
+  },
+  
+  "empty": {
+    "noBudget": "No Budget Configured",
+    "noBudgetDescription": "Start managing your trip expenses by setting up your budget configuration. Define your total budget and allocate it across different categories.",
+    "getStarted": "Get Started"
+  },
+  
+  "sync": {
+    "online": "Online",
+    "offline": "Offline",
+    "syncing": "Syncing...",
+    "syncError": "Sync Error",
+    "retrySync": "Retry Sync"
   }
 }

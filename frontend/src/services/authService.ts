@@ -164,6 +164,20 @@ export class AuthService {
       token,
     });
   }
+
+
+    // Update user language preference
+    static async updateLanguage(
+      token: string,
+      language: string
+    ): Promise<{ user: User; message: string }> {
+      return apiRequest<{ user: User; message: string }>('/auth/language', {
+        method: 'PATCH',
+        token,
+        body: JSON.stringify({ language }),
+      });
+    }
+
 }
 
 export default AuthService;

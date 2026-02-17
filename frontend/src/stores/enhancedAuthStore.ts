@@ -12,6 +12,7 @@ export interface User {
   emailVerified: boolean;
   lastLogin?: string;
   createdAt: string;
+  language?: string; // User's preferred language
 }
 
 export interface AuthState {

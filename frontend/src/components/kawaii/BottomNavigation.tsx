@@ -13,11 +13,11 @@
  * - i18n support for tab labels
  * - Routing integration
  * 
- * Requirements: 8.1, 8.2, 8.3, 8.4, 8.5
+ * Requirements: 7.5, 8.1, 8.2, 8.3, 8.4, 8.5
  */
 
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
@@ -28,6 +28,7 @@ import {
   ClipboardDocumentCheckIcon,
   UsersIcon,
   Cog6ToothIcon,
+  LanguageIcon,
 } from '@heroicons/react/24/outline';
 import {
   CalendarDaysIcon as CalendarDaysSolidIcon,
@@ -39,6 +40,8 @@ import {
   Cog6ToothIcon as Cog6ToothSolidIcon,
 } from '@heroicons/react/24/solid';
 import { cn } from '@/utils/cn';
+import { useResponsive } from '@/hooks/useResponsive';
+import { safeAreaService } from '@/services/safeAreaService';
 
 export interface NavItem {
   id: string;
@@ -113,10 +116,55 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
   onTabChange,
   className,
 }) => {
-  const { t } = useTranslation('kawaii');
+  const { t, i18n } = useTranslation('kawaii');
   const navigate = useNavigate();
   const location = useLocation();
   const { id: tripId } = useParams<{ id: string }>();
+  const { isMobile } = useResponsive();
+  const [showLanguageMenu, setShowLanguageMenu] = useState(false);
+  const [safeAreaInsets, setSafeAreaInsets] = useState(safeAreaService.getInsets());
+  const languageMenuRef = useRef<HTMLDivElement>(null);
+
+  // Subscribe to safe area changes (for orientation changes)
+  useEffect(() => {
+    const unsubscribe = safeAreaService.subscribeToChanges((insets) => {
+      setSafeAreaInsets(insets);
+    });
+
+    return unsubscribe;
+  }, []);
+
+  // Language options
+  const languages = [
+    { code: 'en', name: 'English', flag: '🇺🇸' },
+    { code: 'zh-TW', name: '繁體中文', flag: '🇹🇼' },
+    { code: 'zh-CN', name: '简体中文', flag: '🇨🇳' },
+    { code: 'ja', name: '日本語', flag: '🇯🇵' },
+  ];
+
+  const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];
+
+  // Close language menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (languageMenuRef.current && !languageMenuRef.current.contains(event.target as Node)) {
+        setShowLanguageMenu(false);
+      }
+    };
+
+    if (showLanguageMenu) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showLanguageMenu]);
+
+  const handleLanguageChange = (languageCode: string) => {
+    i18n.changeLanguage(languageCode);
+    setShowLanguageMenu(false);
+  };
 
   // Determine active tab from location if not controlled
   const getActiveTabFromLocation = () => {
@@ -154,16 +202,18 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
         // Background and border
         'bg-white border-t border-kawaii-neutral-200',
         'dark:bg-kawaii-neutral-900 dark:border-kawaii-neutral-800',
-        // Safe area insets for devices with notches
-        'pb-safe',
         // Shadow
         'shadow-lg',
         className
       )}
+      style={{
+        // Apply safe area bottom padding for devices with home indicators
+        paddingBottom: `${safeAreaInsets.bottom}px`,
+      }}
       role="navigation"
       aria-label="Bottom navigation"
     >
-      <div className="flex items-center justify-around h-16 px-2">
+      <div className="flex items-center h-16 px-2" style={{ justifyContent: 'space-around' }}>
         {navItemsConfig.map((item) => {
           const isActive = activeTab === item.id;
           const Icon = isActive ? item.activeIcon : item.icon;
@@ -273,6 +323,112 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
             </motion.button>
           );
         })}
+
+        {/* Language Selector - Desktop Only */}
+        {!isMobile && (
+          <div className="relative" ref={languageMenuRef}>
+            <motion.button
+              onClick={() => setShowLanguageMenu(!showLanguageMenu)}
+              className={cn(
+                'flex flex-col items-center justify-center',
+                'min-w-[44px] min-h-[44px]',
+                'px-2 py-1',
+                'rounded-lg',
+                'touch-manipulation',
+                'focus:outline-none focus:ring-2 focus:ring-kawaii-primary-500 focus:ring-offset-2',
+                'transition-colors duration-200'
+              )}
+              whileTap={{ scale: 0.95 }}
+              transition={{
+                type: 'spring',
+                stiffness: 400,
+                damping: 17,
+              }}
+              aria-label="Change language"
+            >
+              <LanguageIcon
+                className={cn(
+                  'w-6 h-6',
+                  'text-kawaii-neutral-500 dark:text-kawaii-neutral-400'
+                )}
+                aria-hidden="true"
+              />
+              <span className="text-[10px] font-medium mt-0.5 whitespace-nowrap text-kawaii-neutral-500 dark:text-kawaii-neutral-400">
+                {currentLanguage.flag}
+              </span>
+            </motion.button>
+
+            {/* Language Dropdown Menu */}
+            <AnimatePresence>
+              {showLanguageMenu && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  transition={{ duration: 0.2 }}
+                  className={cn(
+                    'absolute bottom-full right-0 mb-2',
+                    'w-48',
+                    'bg-white dark:bg-kawaii-neutral-800',
+                    'border-2 border-[#d5d0c2] dark:border-kawaii-neutral-700',
+                    'rounded-xl shadow-lg overflow-hidden'
+                  )}
+                >
+                  {languages.map((language, index) => {
+                    const isSelected = language.code === i18n.language;
+                    
+                    return (
+                      <motion.button
+                        key={language.code}
+                        onClick={() => handleLanguageChange(language.code)}
+                        whileHover={{ backgroundColor: 'rgba(0, 0, 0, 0.02)' }}
+                        className={cn(
+                          'w-full flex items-center gap-3',
+                          'px-4 py-3 transition-colors',
+                          'min-h-[44px]',
+                          'focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-kawaii-primary-500/20',
+                          isSelected && 'bg-kawaii-primary-50 dark:bg-kawaii-primary-900/20',
+                          index !== languages.length - 1 && 'border-b border-kawaii-neutral-100 dark:border-kawaii-neutral-700'
+                        )}
+                      >
+                        <span className="text-2xl" role="img" aria-label={language.name}>
+                          {language.flag}
+                        </span>
+                        <span
+                          className={cn(
+                            'text-sm font-medium',
+                            isSelected
+                              ? 'text-kawaii-primary-700 dark:text-kawaii-primary-300'
+                              : 'text-kawaii-neutral-800 dark:text-kawaii-neutral-100'
+                          )}
+                        >
+                          {language.name}
+                        </span>
+                        {isSelected && (
+                          <motion.svg
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            className="w-5 h-5 text-kawaii-primary-600 dark:text-kawaii-primary-400 ml-auto"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={3}
+                              d="M5 13l4 4L19 7"
+                            />
+                          </motion.svg>
+                        )}
+                      </motion.button>
+                    );
+                  })}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        )}
       </div>
     </nav>
   );

@@ -45,8 +45,8 @@ const DatePill: React.FC<{
       className={cn(
         'flex-shrink-0 flex flex-col items-center justify-center',
         'relative',
-        'min-w-[88px] min-h-[100px]',
-        'rounded-[32px]', // Fully rounded corners for pill shape
+        'min-w-[72px] sm:min-w-[88px] min-h-[84px] sm:min-h-[100px]',
+        'rounded-[24px] sm:rounded-[32px]', // Slightly less rounded on mobile
         'transition-all duration-200',
         'focus:outline-none',
         'touch-manipulation',
@@ -75,8 +75,8 @@ const DatePill: React.FC<{
       {/* Day of week pill at top */}
       <div
         className={cn(
-          'rounded-2xl px-3 py-1 mb-2',
-          'text-xs font-semibold uppercase tracking-wide',
+          'rounded-xl sm:rounded-2xl px-2 sm:px-3 py-0.5 sm:py-1 mb-1.5 sm:mb-2',
+          'text-[10px] sm:text-xs font-semibold uppercase tracking-wide',
           isSelected
             ? 'bg-pink-400 text-white' // Solid pink background with white text
             : isPastDay
@@ -90,7 +90,7 @@ const DatePill: React.FC<{
       {/* Date number */}
       <div
         className={cn(
-          'text-4xl font-black leading-none',
+          'text-3xl sm:text-4xl font-black leading-none',
           isSelected
             ? 'text-pink-500' // Pink for selected
             : isPastDay
@@ -103,7 +103,7 @@ const DatePill: React.FC<{
 
       {/* Today indicator */}
       {isTodayDate && !isSelected && (
-        <div className="absolute bottom-2 w-1.5 h-1.5 rounded-full bg-pink-400" />
+        <div className="absolute bottom-1.5 sm:bottom-2 w-1.5 h-1.5 rounded-full bg-pink-400" />
       )}
     </motion.button>
   );
@@ -153,8 +153,8 @@ export const DateSelector: React.FC<DateSelectorProps> = ({
       <div
         ref={scrollContainerRef}
         className={cn(
-          'flex gap-3 overflow-x-auto',
-          'px-5 py-3', // 16-20dp padding from edges
+          'flex gap-2 sm:gap-3 overflow-x-auto',
+          'px-3 sm:px-5 py-2 sm:py-3', // Reduced padding on mobile
           // Hide scrollbar
           '[&::-webkit-scrollbar]:hidden',
           '[-ms-overflow-style:none]',

@@ -2,9 +2,9 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import { Pool } from 'pg';
-import { EmailService } from './emailService';
-import { AuditService } from './auditService';
-import { RateLimitService } from './rateLimitService';
+import { EmailService } from './emailService.js';
+import { AuditService } from './auditService.js';
+import { RateLimitService } from './rateLimitService.js';
 
 export interface User {
   id: string; // UUID as string

@@ -191,6 +191,38 @@ export class AuthController {
       res.status(500).json({ error: 'Failed to update profile' });
     }
   }
+
+
+  // Update user language preference
+  static async updateLanguage(req: Request, res: Response): Promise<void> {
+    try {
+      if (!req.user) {
+        res.status(401).json({ error: 'Authentication required' });
+        return;
+      }
+
+      const { language } = req.body;
+
+      // Validate language
+      const validLanguages = ['en', 'zh-TW', 'zh-CN', 'ja'];
+      if (!language || !validLanguages.includes(language)) {
+        res.status(400).json({ error: 'Invalid language. Must be one of: en, zh-TW, zh-CN, ja' });
+        return;
+      }
+
+      // Update user language
+      const user = await UserModel.update(req.user.userId, { language });
+
+      res.status(200).json({
+        message: 'Language preference updated successfully',
+        user,
+      });
+    } catch (error) {
+      console.error('Update language error:', error);
+      res.status(500).json({ error: 'Failed to update language preference' });
+    }
+  }
+
 }
 
 export default AuthController;

@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { EnhancedAuthService } from '../services/enhancedAuthService';
-import { EmailService } from '../services/emailService';
-import { AuditService } from '../services/auditService';
-import { RateLimitService } from '../services/rateLimitService';
+import { EnhancedAuthService } from '../services/enhancedAuthService.js';
+import { EmailService } from '../services/emailService.js';
+import { AuditService } from '../services/auditService.js';
+import { RateLimitService } from '../services/rateLimitService.js';
 import { Pool } from 'pg';
 
 export class EnhancedAuthController {
@@ -10,8 +10,10 @@ export class EnhancedAuthController {
   private emailService: EmailService;
   private auditService: AuditService;
   private rateLimitService: RateLimitService;
+  private db: Pool;
 
   constructor(db: Pool) {
+    this.db = db;
     this.emailService = new EmailService(db);
     this.auditService = new AuditService(db);
     this.rateLimitService = new RateLimitService(db);
@@ -580,4 +582,82 @@ export class EnhancedAuthController {
       'unknown'
     );
   }
+
+
+    /**
+     * Update user language preference
+     */
+    updateLanguage = async (req: Request, res: Response): Promise<void> => {
+      console.log('🌐 updateLanguage called!');
+      try {
+        const userId = (req as any).user?.id;
+        console.log('🌐 userId:', userId);
+        
+        if (!userId) {
+          console.log('❌ No userId found in request');
+          res.status(401).json({
+            success: false,
+            message: 'Authentication required'
+          });
+          return;
+        }
+        
+        const { language } = req.body;
+        console.log('🌐 language:', language);
+
+        // Validate language
+        const validLanguages = ['en', 'zh-TW', 'zh-CN', 'ja'];
+        if (!language || !validLanguages.includes(language)) {
+          console.log('❌ Invalid language:', language);
+          res.status(400).json({
+            success: false,
+            message: 'Invalid language. Must be one of: en, zh-TW, zh-CN, ja'
+          });
+          return;
+        }
+
+        // Update user language in database
+        console.log('🌐 Updating language in database...');
+        const result = await this.db.query(
+          `UPDATE users
+           SET language = $1, updated_at = NOW()
+           WHERE id = $2
+           RETURNING id, email, first_name, last_name, role, language, created_at`,
+          [language, userId]
+        );
+
+        if (result.rows.length === 0) {
+          console.log('❌ User not found');
+          res.status(404).json({
+            success: false,
+            message: 'User not found'
+          });
+          return;
+        }
+
+        const user = result.rows[0];
+        console.log('✅ Language updated successfully:', user.language);
+
+        res.status(200).json({
+          success: true,
+          message: 'Language preference updated successfully',
+          user: {
+            id: user.id,
+            email: user.email,
+            firstName: user.first_name,
+            lastName: user.last_name,
+            role: user.role,
+            language: user.language,
+            createdAt: user.created_at
+          }
+        });
+      } catch (error) {
+        console.error('❌ Update language error:', error);
+        res.status(500).json({
+          success: false,
+          message: 'Failed to update language preference'
+        });
+      }
+    };
+
 }

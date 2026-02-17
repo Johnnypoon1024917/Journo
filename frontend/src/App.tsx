@@ -17,18 +17,22 @@ import { TripSettingsScreen } from './pages/TripSettingsScreen';
 import { BadgeDemo } from './pages/BadgeDemo';
 import { KawaiiDemo } from './pages/KawaiiDemo';
 import { KawaiiTripDetail } from './pages/KawaiiTripDetail';
+import { StickerCanvasDemo } from './components/stickers/examples/StickerCanvasDemo';
 import { ScheduleScreen } from './pages/ScheduleScreen';
 import { BookingScreen } from './pages/BookingScreen';
 import { ShoppingScreen } from './pages/ShoppingScreen';
 import { ChecklistScreen } from './pages/ChecklistScreen';
 import { MembersScreen } from './pages/MembersScreen';
+import { BudgetPage } from './pages/BudgetPage';
 import { Admin } from './pages/Admin';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { SyncStatus } from './components/common/SyncStatus';
+import { ScrollToTop } from './components/common/ScrollToTop';
 import PWAInstallPrompt from './components/common/PWAInstallPrompt';
 import PWAUpdateNotification from './components/common/PWAUpdateNotification';
 import OfflineStatus from './components/common/OfflineStatus';
 import { GlobalNotifications } from './components/notifications/GlobalNotifications';
+import { SyncConflictManager } from './components/common/SyncConflictManager';
 // Enhanced Auth Components
 import { EnhancedLogin } from './components/auth/EnhancedLogin';
 import { EnhancedRegister } from './components/auth/EnhancedRegister';
@@ -39,6 +43,7 @@ import { EnhancedErrorBoundary } from './components/common/EnhancedErrorBoundary
 import { useOfflineStore } from './stores/offlineStore';
 import { useOfflineSync } from './hooks/useOfflineSync';
 import { offlineSyncService } from './services/offlineSyncService';
+import { networkReconnectionService } from './services/networkReconnectionService';
 import { socketService } from './services/socketService';
 import { useDarkMode } from './hooks/useDarkMode';
 import { useFeatureFlagStore } from './stores/featureFlagStore';
@@ -47,6 +52,8 @@ import { useCentralizedThemeStore } from './stores/centralizedThemeStore';
 import { useEnhancedAuthStore } from './stores/enhancedAuthStore';
 import AnimationProvider from './components/kawaii/AnimationProvider';
 import TouchTargetValidator from './components/kawaii/TouchTargetValidator';
+import { DynamicTypeProvider } from './providers/DynamicTypeProvider';
+import { AriaAnnouncerProvider } from './providers/AriaAnnouncerProvider';
 import './i18n/config';
 
 // Component to track page views
@@ -147,13 +154,18 @@ function App() {
         console.error('App-level error caught:', error, errorInfo);
       }}
     >
-      <AnimationProvider>
-        <Suspense fallback={
-          <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
-            <div className="text-gray-900 dark:text-white">Loading...</div>
-          </div>
-        }>
-          <Router>
+      <AriaAnnouncerProvider>
+        <DynamicTypeProvider minScale={0.82} maxScale={2.0}>
+          <AnimationProvider>
+          <Suspense fallback={
+            <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+              <div className="text-gray-900 dark:text-white">Loading...</div>
+            </div>
+          }>
+            <Router>
+            {/* Scroll to top on route change */}
+            <ScrollToTop />
+            
             {/* Skip links for keyboard navigation */}
             <a href="#main-content" className="skip-link">
               Skip to main content
@@ -167,6 +179,9 @@ function App() {
             
             {/* Global Notifications */}
             <GlobalNotifications />
+            
+            {/* Sync Conflict Resolution */}
+            <SyncConflictManager />
             
             {/* Touch Target Validator (Development Only) - DISABLED */}
             {/* <TouchTargetValidator /> */}
@@ -190,6 +205,7 @@ function App() {
             <Route path="/t/:token" element={<SharedTrip />} />
             <Route path="/badge-demo" element={<BadgeDemo />} />
             <Route path="/kawaii-demo" element={<KawaiiDemo />} />
+            <Route path="/sticker-demo" element={<StickerCanvasDemo />} />
             <Route path="/help" element={<Help />} />
             <Route path="/feedback" element={<Feedback />} />
             
@@ -269,6 +285,16 @@ function App() {
               element={
                 <ProtectedRoute>
                   <MembersScreen />
+                </ProtectedRoute>
+              }
+            />
+            
+            {/* Trip Budget Screen - Kawaii-style */}
+            <Route
+              path="/trips/:id/budget"
+              element={
+                <ProtectedRoute>
+                  <BudgetPage />
                 </ProtectedRoute>
               }
             />
@@ -381,7 +407,9 @@ function App() {
           </Routes>
         </Router>
       </Suspense>
-      </AnimationProvider>
+          </AnimationProvider>
+        </DynamicTypeProvider>
+      </AriaAnnouncerProvider>
     </EnhancedErrorBoundary>
   );
 }

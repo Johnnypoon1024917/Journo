@@ -7,6 +7,7 @@ export interface User {
   name: string;
   password_hash: string;
   role: 'user' | 'admin' | 'moderator';
+  language?: string;
   created_at: Date;
   updated_at: Date;
 }
@@ -22,6 +23,7 @@ export interface UserResponse {
   email: string;
   name: string;
   role: string;
+  language?: string;
   created_at: Date;
 }
 
@@ -38,7 +40,7 @@ export class UserModel {
     const result = await query(
       `INSERT INTO users (email, name, password_hash, role)
        VALUES ($1, $2, $3, $4)
-       RETURNING id, email, name, role, created_at`,
+       RETURNING id, email, name, role, language, created_at`,
       [email, name, password_hash, 'user']
     );
 
@@ -58,7 +60,7 @@ export class UserModel {
   // Find user by ID
   static async findById(id: string): Promise<UserResponse | null> {
     const result = await query(
-      'SELECT id, email, name, role, created_at FROM users WHERE id = $1',
+      'SELECT id, email, name, role, language, created_at FROM users WHERE id = $1',
       [id]
     );
 
@@ -71,7 +73,7 @@ export class UserModel {
   }
 
   // Update user
-  static async update(id: string, updates: Partial<UserCreateInput>): Promise<UserResponse> {
+  static async update(id: string, updates: Partial<UserCreateInput & { language?: string }>): Promise<UserResponse> {
     const fields: string[] = [];
     const values: any[] = [];
     let paramCount = 1;
@@ -92,13 +94,18 @@ export class UserModel {
       values.push(password_hash);
     }
 
+    if (updates.language !== undefined) {
+      fields.push(`language = $${paramCount++}`);
+      values.push(updates.language);
+    }
+
     fields.push(`updated_at = NOW()`);
     values.push(id);
 
     const result = await query(
       `UPDATE users SET ${fields.join(', ')}
        WHERE id = $${paramCount}
-       RETURNING id, email, name, role, created_at`,
+       RETURNING id, email, name, role, language, created_at`,
       values
     );
 

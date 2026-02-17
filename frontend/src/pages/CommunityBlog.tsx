@@ -215,11 +215,15 @@ export function CommunityBlog() {
         <div className="mb-6 space-y-4">
           {/* Search Bar */}
           <div className="relative">
+            <label htmlFor="community-search" className="sr-only">
+              Search travel stories by destination, theme, or title
+            </label>
             <svg
               className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
+              aria-hidden="true"
             >
               <path
                 strokeLinecap="round"
@@ -229,11 +233,13 @@ export function CommunityBlog() {
               />
             </svg>
             <input
+              id="community-search"
               type="text"
               placeholder="Search by destination, theme, or title..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              aria-label="Search travel stories"
             />
           </div>
 

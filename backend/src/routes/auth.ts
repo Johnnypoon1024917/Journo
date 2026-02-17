@@ -13,5 +13,6 @@ router.post('/logout', AuthController.logout);
 // Protected routes
 router.get('/profile', authenticate, AuthController.getProfile);
 router.put('/profile', authenticate, AuthController.updateProfile);
+router.patch('/language', authenticate, AuthController.updateLanguage);
 
 export default router;

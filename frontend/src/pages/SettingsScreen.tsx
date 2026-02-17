@@ -22,7 +22,8 @@ import { AnimationSelector } from '@/components/kawaii/AnimationSelector';
 import { LanguageSelector } from '@/components/kawaii/LanguageSelector';
 import { Card } from '@/components/kawaii/Card';
 import { Button } from '@/components/kawaii/Button';
-import { PageLayout } from '@/components/layout';
+import { PageLayout, NavigationWrapper } from '@/components/layout';
+import type { NavigationTab } from '@/components/layout';
 import { cn } from '@/utils/cn';
 import AuthService from '@/services/authService';
 
@@ -31,6 +32,7 @@ export const SettingsScreen: React.FC = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const { showSuccess, showError } = useToast();
+  const [activeTab, setActiveTab] = useState<NavigationTab>('settings');
   
   // Debug log to verify if this component is rendering
   console.log('⚠️ SettingsScreen (USER settings) is rendering - this should NOT be on /trips/:id/settings!');
@@ -47,12 +49,12 @@ export const SettingsScreen: React.FC = () => {
     e.preventDefault();
     
     if (passwordForm.newPassword !== passwordForm.confirmPassword) {
-      showError('New passwords do not match');
+      showError('Error', 'New passwords do not match');
       return;
     }
 
     if (passwordForm.newPassword.length < 8) {
-      showError('Password must be at least 8 characters long');
+      showError('Error', 'Password must be at least 8 characters long');
       return;
     }
 
@@ -73,7 +75,7 @@ export const SettingsScreen: React.FC = () => {
         confirmPassword: '',
       });
     } catch (err: any) {
-      showError(err.message || 'Failed to change password');
+      showError('Error', err.message || 'Failed to change password');
     } finally {
       setIsLoading(false);
     }
@@ -85,7 +87,7 @@ export const SettingsScreen: React.FC = () => {
       showSuccess('Success', 'Logged out successfully');
       navigate('/login');
     } catch (err: any) {
-      showError(err.message || 'Failed to logout');
+      showError('Error', err.message || 'Failed to logout');
     }
   };
 
@@ -94,14 +96,15 @@ export const SettingsScreen: React.FC = () => {
   };
 
   return (
-    <PageLayout maxWidth="lg">
-      {/* Header with Back Button */}
-      <div className="bg-gradient-to-r from-kawaii-primary-400 to-kawaii-primary-600 text-white px-6 py-8 shadow-lg">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="max-w-4xl mx-auto"
-        >
+    <NavigationWrapper activeTab={activeTab} onTabChange={setActiveTab}>
+      <PageLayout>
+        {/* Header with Back Button */}
+        <div className="bg-gradient-to-r from-kawaii-primary-400 to-kawaii-primary-600 text-white px-6 py-8 shadow-lg">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="max-w-4xl mx-auto"
+          >
           <div className="flex items-center gap-4 mb-2">
             <button
               onClick={() => navigate(-1)}
@@ -200,7 +203,7 @@ export const SettingsScreen: React.FC = () => {
                       {t('settings.account.name', 'Name')}
                     </label>
                     <p className="text-kawaii-neutral-800 dark:text-kawaii-neutral-100 font-medium">
-                      {user.username || user.email}
+                      {user.email?.split('@')[0] || user.email}
                     </p>
                   </div>
                   <div>
@@ -403,6 +406,7 @@ export const SettingsScreen: React.FC = () => {
           </Card>
         </motion.section>
       </div>
-    </PageLayout>
+      </PageLayout>
+    </NavigationWrapper>
   );
 };

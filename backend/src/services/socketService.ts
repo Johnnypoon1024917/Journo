@@ -1,6 +1,6 @@
 import { Server } from 'socket.io';
 import { AuthenticatedSocket } from '../middleware/socketAuth.js';
-import { pool } from '../config/database';
+import { pool } from '../config/database.js';
 
 interface TripRoom {
   tripId: string;
