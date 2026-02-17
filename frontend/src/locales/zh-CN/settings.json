@@ -37,5 +37,22 @@
     "termsOfService": "服务条款",
     "privacyPolicy": "隐私政策",
     "support": "支持"
+  },
+  "experimental": {
+    "title": "Experimental Features",
+    "description": "Try out new features before they're released to everyone",
+    "newTripPlannerUI": {
+      "title": "New Trip Planner Interface",
+      "description": "Enhanced drag-and-drop interface with split-screen layout, automatic routing, and real-time time calculations",
+      "features": {
+        "splitScreen": "Split-screen timeline and map view",
+        "optimisticUI": "Optimistic UI updates for instant feedback",
+        "autoRouting": "Automatic transport routing between places",
+        "smartTime": "Smart time calculations"
+      }
+    },
+    "rollback": "Rollback to previous settings",
+    "rollbackConfirm": "This will restore your previous feature flag settings. Continue?",
+    "abTest": "A/B Test"
   }
 }

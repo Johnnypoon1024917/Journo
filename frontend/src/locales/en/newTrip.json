@@ -143,13 +143,17 @@
       "temples": "Temples",
       "local-cuisine": "Local Cuisine"
     },
-    "travelStyle": "Travel Style",
-    "travelStyle.relaxed": "Relaxed",
-    "travelStyle.moderate": "Moderate",
-    "travelStyle.fast-paced": "Fast-Paced",
-    "budgetLevel": "Budget Level",
-    "budgetLevel.low": "Budget",
-    "budgetLevel.medium": "Moderate",
-    "budgetLevel.high": "Luxury"
+    "travelStyle": {
+      "label": "Travel Style",
+      "relaxed": "Relaxed",
+      "moderate": "Moderate",
+      "fast-paced": "Fast-Paced"
+    },
+    "budgetLevel": {
+      "label": "Budget Level",
+      "low": "Budget",
+      "medium": "Moderate",
+      "high": "Luxury"
+    }
   }
 }

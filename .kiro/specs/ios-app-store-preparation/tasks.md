@@ -338,11 +338,11 @@ This implementation plan outlines the tasks for preparing the Journo travel plan
     - **Property 22: Offline Storage Size Limit**
     - **Validates: Requirements 11.10**
 
-- [-] 11. Checkpoint - Ensure offline functionality works
+- [x] 11. Checkpoint - Ensure offline functionality works
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 12. Implement localization enhancements
-  - [~] 12.1 Audit and complete translation files
+  - [x] 12.1 Audit and complete translation files
     - Verify all translation keys exist in all languages
     - Add missing translations for new features
     - Ensure no hardcoded strings in components
@@ -352,7 +352,7 @@ This implementation plan outlines the tasks for preparing the Journo travel plan
     - **Property 30: Translation Completeness**
     - **Validates: Requirements 15.4**
   
-  - [~] 12.3 Implement locale-specific formatting
+  - [x] 12.3 Implement locale-specific formatting
     - Update date formatting to use locale
     - Update time formatting to use locale
     - Update number formatting to use locale

@@ -8,6 +8,7 @@
  */
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { X } from 'lucide-react';
 
 export interface SyncConflict {
@@ -38,6 +39,8 @@ export const SyncConflictDialog: React.FC<SyncConflictDialogProps> = ({
   onResolve,
   onCancel,
 }) => {
+  const { t } = useTranslation('common');
+  
   const formatDate = (dateString: string) => {
     try {
       const date = new Date(dateString);
@@ -48,18 +51,11 @@ export const SyncConflictDialog: React.FC<SyncConflictDialogProps> = ({
   };
 
   const getResourceTypeLabel = (type: string) => {
-    const labels: Record<string, string> = {
-      trip: 'Trip',
-      trip_day: 'Trip Day',
-      place: 'Place',
-      story_item: 'Story Item',
-      packing_item: 'Packing Item',
-    };
-    return labels[type] || type;
+    return t(`syncConflict.types.${type}`, type);
   };
 
   const renderDataPreview = (data: any) => {
-    if (!data) return <p className="text-gray-500">No data</p>;
+    if (!data) return <p className="text-gray-500">{t('syncConflict.noData')}</p>;
 
     // Show relevant fields based on resource type
     const fields: Record<string, string[]> = {
@@ -101,12 +97,12 @@ export const SyncConflictDialog: React.FC<SyncConflictDialogProps> = ({
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-200">
           <h2 id="conflict-dialog-title" className="text-xl font-semibold text-gray-900">
-            Sync Conflict Detected
+            {t('syncConflict.title')}
           </h2>
           <button
             onClick={onCancel}
             className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-            aria-label="Close dialog"
+            aria-label={t('actions.close')}
           >
             <X className="w-5 h-5 text-gray-500" />
           </button>
@@ -115,13 +111,12 @@ export const SyncConflictDialog: React.FC<SyncConflictDialogProps> = ({
         {/* Content */}
         <div className="flex-1 overflow-y-auto p-4">
           <p id="conflict-dialog-description" className="text-gray-700 mb-4">
-            Changes were made to this {getResourceTypeLabel(conflict.resourceType).toLowerCase()}{' '}
-            both locally and on the server. Please choose which version to keep.
+            {t('syncConflict.description', { type: getResourceTypeLabel(conflict.resourceType).toLowerCase() })}
           </p>
 
           <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
             <p className="text-sm text-blue-900">
-              <strong>Resource:</strong> {conflict.resourceName}
+              <strong>{t('syncConflict.resource')}:</strong> {conflict.resourceName}
             </p>
           </div>
 
@@ -129,7 +124,7 @@ export const SyncConflictDialog: React.FC<SyncConflictDialogProps> = ({
             {/* Local Version */}
             <div className="border border-gray-300 rounded-lg p-4 bg-gray-50">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="font-semibold text-gray-900">Your Local Changes</h3>
+                <h3 className="font-semibold text-gray-900">{t('syncConflict.localChanges')}</h3>
                 <span className="text-xs text-gray-500">
                   {formatDate(conflict.localModifiedAt)}
                 </span>
@@ -140,7 +135,7 @@ export const SyncConflictDialog: React.FC<SyncConflictDialogProps> = ({
             {/* Server Version */}
             <div className="border border-gray-300 rounded-lg p-4 bg-gray-50">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="font-semibold text-gray-900">Server Version</h3>
+                <h3 className="font-semibold text-gray-900">{t('syncConflict.serverVersion')}</h3>
                 <span className="text-xs text-gray-500">
                   {formatDate(conflict.serverModifiedAt)}
                 </span>
@@ -156,19 +151,19 @@ export const SyncConflictDialog: React.FC<SyncConflictDialogProps> = ({
             onClick={onCancel}
             className="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
           >
-            Cancel
+            {t('syncConflict.cancel')}
           </button>
           <button
             onClick={() => onResolve(conflict.id, 'server')}
             className="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
           >
-            Keep Server Version
+            {t('syncConflict.keepServer')}
           </button>
           <button
             onClick={() => onResolve(conflict.id, 'local')}
             className="px-4 py-2 text-white bg-green-600 rounded-lg hover:bg-green-700 transition-colors"
           >
-            Keep My Changes
+            {t('syncConflict.keepLocal')}
           </button>
         </div>
       </div>

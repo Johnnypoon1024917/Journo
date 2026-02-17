@@ -29,7 +29,7 @@ export function KawaiiHome() {
   const authStore = useEnhancedAuthStore();
   const { isOnline } = useOfflineStore();
   const navigate = useNavigate();
-  const { toasts, removeToast, success, error } = useToast();
+  const { toasts, showSuccess, showError, dismissToast } = useToast();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   // Get access token from auth store - if null, try to get from enhanced auth store
@@ -100,14 +100,14 @@ export function KawaiiHome() {
 
     if (!accessToken) {
       console.error('❌ No access token available');
-      error('Please log in to create a trip');
+      showError('Authentication Required', 'Please log in to create a trip');
       navigate('/login');
       return;
     }
 
     if (!isAuthenticated) {
       console.error('❌ User not authenticated');
-      error('Please log in to create a trip');
+      showError('Authentication Required', 'Please log in to create a trip');
       navigate('/login');
       return;
     }
@@ -120,9 +120,9 @@ export function KawaiiHome() {
       setIsCreateModalOpen(false);
       
       if (isOnline) {
-        success('Trip created successfully! 🎉');
+        showSuccess('Success', 'Trip created successfully! 🎉');
       } else {
-        success('Trip created offline. Will sync when online. 📱');
+        showSuccess('Offline Mode', 'Trip created offline. Will sync when online. 📱');
       }
       
       // Redirect to schedule page
@@ -141,12 +141,12 @@ export function KawaiiHome() {
       
       // Show user-friendly error message
       if (err.status === 401) {
-        error('Your session has expired. Please log in again. 🔐');
+        showError('Session Expired', 'Your session has expired. Please log in again. 🔐');
         setTimeout(() => navigate('/login'), 2000);
       } else if (err.code === 'NETWORK_ERROR') {
-        error('No internet connection. Trip will be created offline. 📱');
+        showError('Network Error', 'No internet connection. Trip will be created offline. 📱');
       } else {
-        error(err.message || 'Failed to create trip. Please try again. ❌');
+        showError('Error', err.message || 'Failed to create trip. Please try again. ❌');
       }
       
       throw err;
@@ -411,7 +411,7 @@ export function KawaiiHome() {
   // Authenticated user view
   return (
     <>
-      <ToastContainer toasts={toasts} onRemove={removeToast} />
+      <ToastContainer toasts={toasts} onRemove={dismissToast} />
       <div className="min-h-screen bg-gradient-to-br from-kawaii-cream-50 via-kawaii-primary-50/30 to-kawaii-secondary-50/30 dark:from-kawaii-neutral-900 dark:via-kawaii-neutral-800 dark:to-kawaii-neutral-900">
         {/* Header */}
         <header className="sticky top-0 z-50 bg-white/80 dark:bg-kawaii-neutral-900/80 backdrop-blur-md border-b border-kawaii-primary-100 dark:border-kawaii-neutral-700 shadow-sm">

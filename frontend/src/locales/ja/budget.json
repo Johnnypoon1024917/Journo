@@ -6,7 +6,6 @@
   "remaining": "残高",
   "overspent": "超過",
   "dailyBudget": "1日の予算",
-  
   "setup": {
     "title": "予算設定",
     "totalBudgetLabel": "総予算",
@@ -21,7 +20,6 @@
     "collapse": "折りたたむ",
     "expand": "展開"
   },
-  
   "categories": {
     "accommodation": "宿泊",
     "food": "食事・飲食",
@@ -30,7 +28,6 @@
     "shopping": "ショッピング",
     "misc": "その他"
   },
-  
   "dashboard": {
     "budgetOverview": "予算概要",
     "spent": "支出",
@@ -47,7 +44,6 @@
       "over": "予算超過"
     }
   },
-  
   "expenses": {
     "title": "支出",
     "addExpense": "支出を追加",
@@ -69,7 +65,6 @@
     "pending": "未精算",
     "confirmDelete": "この支出を削除してもよろしいですか？"
   },
-  
   "filters": {
     "all": "すべて",
     "byCategory": "カテゴリー別",
@@ -77,7 +72,6 @@
     "pending": "未精算",
     "settled": "精算済み"
   },
-  
   "visualization": {
     "title": "支出分析",
     "categoryComparison": "カテゴリー比較",
@@ -88,7 +82,6 @@
     "spent": "支出",
     "remaining": "残高"
   },
-  
   "groupSplit": {
     "title": "グループ支出",
     "memberBalances": "メンバー残高",
@@ -99,7 +92,6 @@
     "allSettled": "すべての支出が精算されました！",
     "noGroupExpenses": "まだグループ支出がありません"
   },
-  
   "alerts": {
     "budgetWarning": "予算警告",
     "budgetCritical": "予算危機",
@@ -113,34 +105,28 @@
     "burnRateWarning": "消費率が予定より20%高くなっています",
     "dismiss": "閉じる"
   },
-  
   "breakdown": {
     "title": "支出内訳",
     "byCategory": "カテゴリー別",
     "byDay": "日別"
   },
-  
   "warnings": {
     "approaching": "予算の上限に近づいています（{{percent}}%使用）",
     "exceeded": "予算を{{amount}}超過しています"
   },
-  
   "export": {
     "exportPDF": "PDFでエクスポート",
     "exportCSV": "CSVでエクスポート",
     "shareableBudget": "共有可能な予算表示"
   },
-  
   "tips": {
     "addTip": "チップを追加",
     "tipPercent": "チップ{{percent}}%"
   },
-  
   "split": {
     "splitCost": "費用を分割",
     "splitAmong": "{{count}}人で分割"
   },
-  
   "form": {
     "save": "保存",
     "cancel": "キャンセル",
@@ -152,13 +138,11 @@
     "invalidAmount": "有効な金額を入力してください",
     "invalidDate": "有効な日付を入力してください"
   },
-  
   "empty": {
     "noBudget": "予算が設定されていません",
     "noBudgetDescription": "予算設定を行って旅行の支出管理を開始しましょう。総予算を設定し、各カテゴリーに配分してください。",
     "getStarted": "始める"
   },
-  
   "sync": {
     "online": "オンライン",
     "offline": "オフライン",

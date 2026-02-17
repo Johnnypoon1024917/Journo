@@ -143,13 +143,17 @@
       "temples": "寺庙",
       "local-cuisine": "当地美食"
     },
-    "travelStyle": "旅行风格",
-    "travelStyle.relaxed": "悠闲",
-    "travelStyle.moderate": "适中",
-    "travelStyle.fast-paced": "快节奏",
-    "budgetLevel": "预算等级",
-    "budgetLevel.low": "经济",
-    "budgetLevel.medium": "适中",
-    "budgetLevel.high": "豪华"
+    "travelStyle": {
+      "label": "Travel Style",
+      "relaxed": "Relaxed",
+      "moderate": "Moderate",
+      "fast-paced": "Fast-Paced"
+    },
+    "budgetLevel": {
+      "label": "Budget Level",
+      "low": "Budget",
+      "medium": "Moderate",
+      "high": "Luxury"
+    }
   }
 }

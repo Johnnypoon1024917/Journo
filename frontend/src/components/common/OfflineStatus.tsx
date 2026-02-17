@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { WifiIcon, SignalSlashIcon } from '@heroicons/react/24/outline';
 
 const OfflineStatus: React.FC = () => {
+  const { t } = useTranslation('common');
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const [showOfflineMessage, setShowOfflineMessage] = useState(false);
 
@@ -57,12 +59,12 @@ const OfflineStatus: React.FC = () => {
           {isOnline ? (
             <>
               <WifiIcon className="h-4 w-4" />
-              <span>Back online - syncing changes...</span>
+              <span>{t('offline.indicator.backOnline')}</span>
             </>
           ) : (
             <>
               <SignalSlashIcon className="h-4 w-4" />
-              <span>You're offline - changes will sync when reconnected</span>
+              <span>{t('offline.indicator.offlineMessage')}</span>
             </>
           )}
         </div>

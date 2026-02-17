@@ -6,7 +6,6 @@
   "remaining": "剩餘",
   "overspent": "超支",
   "dailyBudget": "每日預算",
-  
   "setup": {
     "title": "預算設定",
     "totalBudgetLabel": "總預算",
@@ -21,7 +20,6 @@
     "collapse": "收起",
     "expand": "展開"
   },
-  
   "categories": {
     "accommodation": "住宿",
     "food": "餐飲",
@@ -30,7 +28,6 @@
     "shopping": "購物",
     "misc": "其他"
   },
-  
   "dashboard": {
     "budgetOverview": "預算總覽",
     "spent": "已支出",
@@ -47,7 +44,6 @@
       "over": "超支"
     }
   },
-  
   "expenses": {
     "title": "支出",
     "addExpense": "新增支出",
@@ -69,7 +65,6 @@
     "pending": "待結清",
     "confirmDelete": "確定要刪除此支出嗎？"
   },
-  
   "filters": {
     "all": "全部",
     "byCategory": "依類別",
@@ -77,7 +72,6 @@
     "pending": "待結清",
     "settled": "已結清"
   },
-  
   "visualization": {
     "title": "消費分析",
     "categoryComparison": "類別比較",
@@ -88,7 +82,6 @@
     "spent": "已支出",
     "remaining": "剩餘"
   },
-  
   "groupSplit": {
     "title": "團體支出",
     "memberBalances": "成員餘額",
@@ -99,7 +92,6 @@
     "allSettled": "所有支出已結清！",
     "noGroupExpenses": "尚無團體支出"
   },
-  
   "alerts": {
     "budgetWarning": "預算警告",
     "budgetCritical": "預算危險",
@@ -113,34 +105,28 @@
     "burnRateWarning": "您的消費速度比計劃高 20%",
     "dismiss": "關閉"
   },
-  
   "breakdown": {
     "title": "支出明細",
     "byCategory": "依類別",
     "byDay": "依日期"
   },
-  
   "warnings": {
     "approaching": "您即將達到預算上限（已使用 {{percent}}%）",
     "exceeded": "您已超支 {{amount}}"
   },
-  
   "export": {
     "exportPDF": "匯出為 PDF",
     "exportCSV": "匯出為 CSV",
     "shareableBudget": "可分享的預算檢視"
   },
-  
   "tips": {
     "addTip": "新增小費",
     "tipPercent": "小費 {{percent}}%"
   },
-  
   "split": {
     "splitCost": "分攤費用",
     "splitAmong": "由 {{count}} 位旅客分攤"
   },
-  
   "form": {
     "save": "儲存",
     "cancel": "取消",
@@ -152,13 +138,11 @@
     "invalidAmount": "請輸入有效金額",
     "invalidDate": "請輸入有效日期"
   },
-  
   "empty": {
     "noBudget": "尚未設定預算",
     "noBudgetDescription": "開始管理您的旅行支出，設定預算配置。定義總預算並在不同類別中分配。",
     "getStarted": "開始設定"
   },
-  
   "sync": {
     "online": "線上",
     "offline": "離線",

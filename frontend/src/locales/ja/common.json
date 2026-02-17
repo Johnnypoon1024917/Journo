@@ -46,6 +46,101 @@
     "loadingBudget": "予算を読み込み中...",
     "loadingTrip": "旅行を読み込み中..."
   },
+  "connection": {
+    "connected": "Connected",
+    "connecting": "Connecting...",
+    "reconnecting": "Reconnecting...",
+    "disconnected": "Disconnected",
+    "retry": "Retry"
+  },
+  "presence": {
+    "oneViewer": "1 viewer",
+    "multipleViewers": "{{count}} viewers",
+    "online": "Online",
+    "offline": "Offline"
+  },
+  "editing": {
+    "userEditing": "{{name}} is editing",
+    "someoneEditing": "Someone is editing this item",
+    "cannotEdit": "Cannot edit while someone else is editing",
+    "editingConflict": "Editing Conflict",
+    "conflictMessage": "{{name}} is currently editing this item. Please wait until they're done."
+  },
+  "collaboration": {
+    "userJoined": "{{name}} joined the trip",
+    "userLeft": "{{name}} left the trip",
+    "itemEdited": "{{name}} edited {{item}}",
+    "itemAdded": "{{name}} added {{item}}",
+    "itemDeleted": "{{name}} deleted {{item}}",
+    "viewingTrip": "Viewing trip",
+    "activeCollaborators": "Active collaborators"
+  },
+  "offline": {
+    "indicator": {
+      "offline": "You're offline",
+      "viewingCached": "Viewing cached data",
+      "pendingChanges": "{{count}} change(s) pending",
+      "syncing": "Syncing...",
+      "syncProgress": "{{progress}}% complete",
+      "syncingChanges": "Syncing your changes",
+      "syncError": "Sync failed",
+      "pendingSync": "Changes pending",
+      "synced": "All changes synced",
+      "lastSync": "Last synced at {{time}}",
+      "backOnline": "Back online - syncing changes...",
+      "offlineMessage": "You're offline - changes will sync when reconnected"
+    },
+    "banner": {
+      "title": "Offline Mode",
+      "message": "You're currently offline. Your changes will be saved and synced when you're back online.",
+      "dismiss": "Got it"
+    },
+    "dataDisplay": {
+      "cachedData": "Cached Data",
+      "lastUpdated": "Last updated: {{time}}",
+      "refreshWhenOnline": "Will refresh when online",
+      "noDataCached": "No data available offline",
+      "cacheData": "Save for offline"
+    },
+    "sync": {
+      "offline": "Offline",
+      "syncing": "Syncing...",
+      "synced": "All synced",
+      "pending": "{{count}} pending",
+      "error": "Sync error",
+      "lastSynced": "Last synced",
+      "neverSynced": "Never synced",
+      "justNow": "Just now",
+      "minutesAgo": "{{count}}m ago",
+      "hoursAgo": "{{count}}h ago",
+      "syncNow": "Sync now"
+    }
+  },
+  "storage": {
+    "offlineStorage": "Offline Storage",
+    "used": "{{used}} of {{max}} used",
+    "limitExceeded": "Storage limit exceeded. Some data may not be saved.",
+    "nearLimit": "Storage nearly full. Old data will be automatically removed.",
+    "breakdown": "Storage Breakdown"
+  },
+  "syncConflict": {
+    "title": "Sync Conflict Detected",
+    "description": "Changes were made to this {{type}} both locally and on the server. Please choose which version to keep.",
+    "resource": "Resource",
+    "localChanges": "Your Local Changes",
+    "serverVersion": "Server Version",
+    "noData": "No data",
+    "cancel": "Cancel",
+    "keepServer": "Keep Server Version",
+    "keepLocal": "Keep My Changes",
+    "types": {
+      "trip": "Trip",
+      "trip_day": "Trip Day",
+      "place": "Place",
+      "story_item": "Story Item",
+      "packing_item": "Packing Item"
+    }
+  },
   "time": {
     "today": "今日",
     "yesterday": "昨日",

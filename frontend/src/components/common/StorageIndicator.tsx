@@ -6,6 +6,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { storageSizeManager, StorageStats } from '../../services/storageSizeManager';
 
 interface StorageIndicatorProps {
@@ -17,6 +18,7 @@ export const StorageIndicator: React.FC<StorageIndicatorProps> = ({
   showDetails = false,
   className = '',
 }) => {
+  const { t } = useTranslation('common');
   const [stats, setStats] = useState<StorageStats | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -78,7 +80,7 @@ export const StorageIndicator: React.FC<StorageIndicatorProps> = ({
               d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"
             />
           </svg>
-          <span className="font-medium text-sm">Offline Storage</span>
+          <span className="font-medium text-sm">{t('storage.offlineStorage')}</span>
         </div>
         <span className="text-xs font-semibold">
           {stats.percentUsed.toFixed(1)}%
@@ -94,26 +96,28 @@ export const StorageIndicator: React.FC<StorageIndicatorProps> = ({
       </div>
 
       <div className="text-xs">
-        {storageSizeManager.formatBytes(stats.totalSize)} of{' '}
-        {storageSizeManager.formatBytes(stats.maxSize)} used
+        {t('storage.used', {
+          used: storageSizeManager.formatBytes(stats.totalSize),
+          max: storageSizeManager.formatBytes(stats.maxSize)
+        })}
       </div>
 
       {stats.isOverLimit && (
         <div className="mt-2 text-xs font-medium">
-          ⚠️ Storage limit exceeded. Some data may not be saved.
+          ⚠️ {t('storage.limitExceeded')}
         </div>
       )}
 
       {stats.isNearLimit && !stats.isOverLimit && (
         <div className="mt-2 text-xs">
-          ⚠️ Storage nearly full. Old data will be automatically removed.
+          ⚠️ {t('storage.nearLimit')}
         </div>
       )}
 
       {showDetails && (
         <details className="mt-3">
           <summary className="text-xs font-medium cursor-pointer">
-            Storage Breakdown
+            {t('storage.breakdown')}
           </summary>
           <div className="mt-2 space-y-1 text-xs">
             {Object.entries(stats.breakdown).map(([key, size]) => (

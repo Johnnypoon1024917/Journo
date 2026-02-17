@@ -86,7 +86,9 @@
       "syncError": "Sync failed",
       "pendingSync": "Changes pending",
       "synced": "All changes synced",
-      "lastSync": "Last synced at {{time}}"
+      "lastSync": "Last synced at {{time}}",
+      "backOnline": "Back online - syncing changes...",
+      "offlineMessage": "You're offline - changes will sync when reconnected"
     },
     "banner": {
       "title": "Offline Mode",
@@ -112,6 +114,31 @@
       "minutesAgo": "{{count}}m ago",
       "hoursAgo": "{{count}}h ago",
       "syncNow": "Sync now"
+    }
+  },
+  "storage": {
+    "offlineStorage": "Offline Storage",
+    "used": "{{used}} of {{max}} used",
+    "limitExceeded": "Storage limit exceeded. Some data may not be saved.",
+    "nearLimit": "Storage nearly full. Old data will be automatically removed.",
+    "breakdown": "Storage Breakdown"
+  },
+  "syncConflict": {
+    "title": "Sync Conflict Detected",
+    "description": "Changes were made to this {{type}} both locally and on the server. Please choose which version to keep.",
+    "resource": "Resource",
+    "localChanges": "Your Local Changes",
+    "serverVersion": "Server Version",
+    "noData": "No data",
+    "cancel": "Cancel",
+    "keepServer": "Keep Server Version",
+    "keepLocal": "Keep My Changes",
+    "types": {
+      "trip": "Trip",
+      "trip_day": "Trip Day",
+      "place": "Place",
+      "story_item": "Story Item",
+      "packing_item": "Packing Item"
     }
   },
   "time": {

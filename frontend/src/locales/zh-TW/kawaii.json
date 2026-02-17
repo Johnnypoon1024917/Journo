@@ -1,10 +1,6 @@
 {
   "common": {
-    "save": "儲存",
-    "cancel": "取消",
-    "edit": "編輯",
-    "delete": "刪除",
-    "close": "關閉"
+    "more": "More options"
   },
   "navigation": {
     "schedule": "行程",
@@ -15,61 +11,12 @@
     "members": "成員",
     "settings": "設置"
   },
-  "countdown": {
-    "title": "出發倒數",
-    "days_one": "{{count}} 天",
-    "days_other": "{{count}} 天",
-    "hours_one": "{{count}} 小時",
-    "hours_other": "{{count}} 小時",
-    "minutes_one": "{{count}} 分鐘",
-    "minutes_other": "{{count}} 分鐘",
-    "seconds_one": "{{count}} 秒",
-    "seconds_other": "{{count}} 秒",
-    "departed": "旅程已開始！🎉",
-    "departedMessage": "祝你旅途愉快！",
-    "completed": "旅程已完成！"
-  },
-  "weather": {
-    "title": "天氣",
-    "temperature": "{{temp}}°",
-    "conditions": {
-      "sunny": "晴天",
-      "cloudy": "多雲",
-      "rainy": "下雨",
-      "snowy": "下雪",
-      "windy": "有風",
-      "foggy": "有霧",
-      "stormy": "暴風雨",
-      "partlyCloudy": "局部多雲"
-    },
-    "forecast": "預報"
-  },
-  "schedule": {
-    "title": "行程",
-    "dayCard": "第 {{number}} 天",
-    "addActivity": "新增活動",
-    "noActivities": "這天還沒有安排活動",
-    "noDays": "還沒有安排行程",
-    "hotel": "酒店",
-    "flight": "航班",
-    "activities": "活動",
-    "completed": "已完成",
-    "pending": "待完成"
-  },
-  "dayCard": {
-    "day": "第",
-    "hotel": "酒店",
-    "flights": "航班",
-    "activities": "活動",
-    "noActivities": "還沒有安排活動"
-  },
   "booking": {
     "title": "預約管理",
     "subtitle": "集中管理您的航班、住宿、租車和門票預約",
     "tickets": "機票",
     "accommodation": "住宿",
     "addBooking": "新增預約",
-    "editBooking": "編輯預約",
     "add": "新增",
     "addTicket": "新增機票",
     "addAccommodation": "新增住宿",
@@ -84,22 +31,6 @@
     "checkOut": "退房",
     "confirmationNumber": "確認號碼 #{{number}}",
     "boardingPass": "登機證",
-    "type": "類型",
-    "date": "日期",
-    "hotelName": "酒店名稱",
-    "location": "地點",
-    "notes": "備註",
-    "comingSoon": "即將推出",
-    "origin": {
-      "code": "出發代碼",
-      "name": "出發地",
-      "time": "出發時間"
-    },
-    "destination": {
-      "code": "目的地代碼",
-      "name": "目的地",
-      "time": "抵達時間"
-    },
     "sections": {
       "flights": "機票",
       "accommodation": "住宿",
@@ -113,6 +44,32 @@
       "car": "租車",
       "other": "其他"
     }
+  },
+  "weather": {
+    "noData": "Weather data unavailable",
+    "refresh": "Refresh weather",
+    "feelsLike": "Feels like",
+    "location": "Location",
+    "precipitation": "Precipitation"
+  },
+  "schedule": {
+    "noActivities": "這天還沒有安排活動",
+    "addActivity": "新增活動",
+    "hotel": "酒店",
+    "checkIn": "Check-in",
+    "checkOut": "Check-out",
+    "noDates": "No dates available for this trip. Please set start and end dates."
+  },
+  "dayCard": {
+    "day": "第",
+    "hotel": "酒店",
+    "flights": "航班",
+    "activities": "活動",
+    "checklist": "Checklist",
+    "activitySchedule": "Activity Schedule",
+    "noActivities": "還沒有安排活動",
+    "editTitle": "Edit day title",
+    "dayOptions": "Day options"
   },
   "shopping": {
     "title": "購物清單",
@@ -154,24 +111,8 @@
     },
     "noResults": "沒有符合此篩選條件的項目"
   },
-  "budget": {
-    "title": "記帳",
-    "addExpense": "新增支出",
-    "noExpenses": "還沒有記錄支出",
-    "totalExpenses": "總支出",
-    "categoryBreakdown": "類別明細",
-    "amount": "金額",
-    "category": "類別",
-    "date": "日期",
-    "notes": "備註",
-    "categories": {
-      "accommodation": "住宿",
-      "food": "餐飲",
-      "transport": "交通",
-      "activities": "活動",
-      "shopping": "購物",
-      "misc": "其他"
-    }
+  "stickers": {
+    "attach": "貼上貼紙"
   },
   "checklist": {
     "title": "準備清單",
@@ -214,154 +155,5 @@
       "misc": "其他",
       "snacks": "零食/飲食"
     }
-  },
-  "members": {
-    "title": "成員",
-    "invite": "邀請",
-    "inviteByEmail": "透過電郵邀請",
-    "noMembers": "還沒有其他成員",
-    "you": "你",
-    "owner": "擁有者",
-    "editor": "編輯者",
-    "viewer": "檢視者",
-    "online": "在線",
-    "offline": "離線",
-    "remove": "移除成員",
-    "changeRole": "更改角色"
-  },
-  "theme": {
-    "title": "主題自訂",
-    "primaryColor": "主要顏色",
-    "presetColors": "預設顏色",
-    "customColor": "自訂顏色",
-    "colors": {
-      "pink": "粉紅",
-      "orange": "橙色",
-      "blue": "藍色",
-      "teal": "青色",
-      "purple": "紫色",
-      "yellow": "黃色"
-    },
-    "fontSize": "字體大小",
-    "fontSizeSmall": "小",
-    "fontSizeMedium": "中",
-    "fontSizeLarge": "大",
-    "darkMode": "深色模式",
-    "animations": "動畫效果",
-    "animationTypes": {
-      "none": "無",
-      "snow": "雪花",
-      "sakura": "櫻花"
-    },
-    "preview": "預覽",
-    "reset": "重設為預設"
-  },
-  "stickers": {
-    "title": "貼紙",
-    "selectSticker": "選擇貼紙",
-    "categories": {
-      "all": "全部",
-      "characters": "角色",
-      "activities": "活動",
-      "transportation": "交通",
-      "food": "美食",
-      "landmarks": "地標",
-      "emotions": "表情",
-      "weather": "天氣",
-      "seasonal": "季節"
-    },
-    "attach": "貼上貼紙",
-    "remove": "移除貼紙",
-    "aiGenerated": "AI 生成",
-    "seasonal": {
-      "spring": "春天",
-      "summer": "夏天",
-      "fall": "秋天",
-      "winter": "冬天"
-    }
-  },
-  "documents": {
-    "title": "文件",
-    "upload": "上傳文件",
-    "uploadPDF": "上傳 PDF",
-    "noDocuments": "還沒有上傳文件",
-    "types": {
-      "flight": "航班",
-      "hotel": "酒店",
-      "car": "租車",
-      "ticket": "門票",
-      "insurance": "保險",
-      "visa": "簽證",
-      "other": "其他"
-    },
-    "extractedData": "提取的資訊",
-    "processing": "處理中...",
-    "viewDocument": "查看文件",
-    "downloadDocument": "下載文件",
-    "deleteDocument": "刪除文件"
-  },
-  "newTrip": {
-    "title": "建立新旅程",
-    "selectTemplate": "選擇範本",
-    "templates": {
-      "beach": "海灘",
-      "mountain": "山區",
-      "city": "城市",
-      "cultural": "文化",
-      "custom": "自訂"
-    },
-    "basicInfo": "基本資訊",
-    "tripName": "旅程名稱",
-    "destination": "目的地",
-    "dates": "日期",
-    "travelers": "旅客人數",
-    "customization": "自訂設定",
-    "chooseTheme": "選擇主題",
-    "chooseStickerStyle": "選擇貼紙風格",
-    "chooseAnimations": "選擇動畫效果",
-    "aiAssistance": "AI 協助",
-    "generateItinerary": "生成建議行程",
-    "generateStickers": "生成主題貼紙",
-    "creating": "正在建立旅程...",
-    "success": "旅程建立成功！"
-  },
-  "fab": {
-    "add": "新增",
-    "addActivity": "新增活動",
-    "addBooking": "新增預約",
-    "addExpense": "新增支出",
-    "addItem": "新增項目",
-    "addMember": "新增成員"
-  },
-  "googleMaps": {
-    "openInMaps": "在 Google 地圖中開啟",
-    "getDirections": "取得路線",
-    "viewLocation": "查看位置"
-  },
-  "offline": {
-    "indicator": "離線",
-    "message": "你目前處於離線狀態。變更將在重新連線後同步。",
-    "queuedChanges_one": "{{count}} 個變更待同步",
-    "queuedChanges_other": "{{count}} 個變更待同步"
-  },
-  "collaboration": {
-    "userJoined": "{{name}} 加入了",
-    "userLeft": "{{name}} 離開了",
-    "userEditing": "{{name}} 正在編輯",
-    "conflictDetected": "其他人正在編輯此項目",
-    "changesSynced": "變更已同步"
-  },
-  "dateFormat": {
-    "short": "M月d日",
-    "medium": "yyyy年M月d日",
-    "long": "yyyy年M月d日",
-    "full": "yyyy年M月d日 EEEE",
-    "time": "ah:mm",
-    "dateTime": "yyyy年M月d日 ah:mm"
-  },
-  "numberFormat": {
-    "decimal": ".",
-    "thousands": ",",
-    "currency": "${{amount}}"
   }
 }

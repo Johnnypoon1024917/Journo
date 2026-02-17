@@ -5,14 +5,14 @@
   "customItem": "カスタムアイテム",
   "progress": "{{total}}個中{{checked}}個パック済み",
   "categories": {
-    "essentials": "必需品",
     "clothing": "衣類",
+    "warm_layers": "Warm Layers",
     "toiletries": "洗面用具",
     "electronics": "電子機器",
     "documents": "書類",
     "health": "健康",
-    "activities": "アクティビティ",
-    "misc": "その他"
+    "misc": "その他",
+    "snacks": "Snacks/Food"
   },
   "suggestions": {
     "autoSuggested": "自動提案",
@@ -34,6 +34,7 @@
   },
   "checklist": {
     "title": "チェックリスト",
+    "subtitle": "Keep track of things you need to prepare",
     "noItems": "アイテムがありません",
     "emptyDescription": "旅行のチェックリストを作成しましょう",
     "addItem": "アイテムを追加",
@@ -48,7 +49,19 @@
     "uncheck": "チェックを外す",
     "totalItems": "合計アイテム",
     "completed": "完了",
+    "toPack": "To Pack",
+    "packed": "Packed",
     "progress": "進捗",
-    "allComplete": "すべてのアイテムが完了しました！"
+    "allComplete": "すべてのアイテムが完了しました！",
+    "loadDefaults": "Load Default List",
+    "defaultsLoaded": "Default list loaded",
+    "expandAll": "Expand All",
+    "collapseAll": "Collapse All",
+    "addCategory": "Add Category",
+    "categoryName": "Category Name",
+    "categoryNamePlaceholder": "e.g., Winter Gear",
+    "customCategory": "Custom Category",
+    "categoryAdded": "Category added",
+    "packedCount": "{{packed}}/{{total}} packed"
   }
 }
