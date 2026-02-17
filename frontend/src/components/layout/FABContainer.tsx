@@ -13,7 +13,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/utils/cn';
-import { FAB } from '@/components/kawaii/FAB';
+import { FAB } from '@/components/bubblequest/FAB';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { LAYOUT_CONSTANTS } from '@/styles/layout-constants';
 import { safeAreaService } from '@/services/safeAreaService';
@@ -103,8 +103,8 @@ export const FABContainer: React.FC<FABContainerProps> = ({
                         'transition-all duration-200',
                         'hover:scale-110 active:scale-95',
                         action.variant === 'primary' 
-                          ? 'bg-kawaii-pink text-white hover:bg-kawaii-pink-dark'
-                          : 'bg-white dark:bg-kawaii-neutral-800 text-kawaii-neutral-700 dark:text-kawaii-neutral-300',
+                          ? 'bg-bubblequest-pink text-white hover:bg-bubblequest-pink-dark'
+                          : 'bg-white dark:bg-bubblequest-neutral-800 text-bubblequest-neutral-700 dark:text-bubblequest-neutral-300',
                         action.disabled && 'opacity-50 cursor-not-allowed'
                       )}
                       aria-label={action.label}

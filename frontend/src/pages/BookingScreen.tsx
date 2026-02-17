@@ -1,7 +1,7 @@
 /**
- * Kawaii BookingScreen Page Component
+ * BubbleQuest BookingScreen Page Component
  * 
- * Main booking screen that integrates all kawaii booking components.
+ * Main booking screen that integrates all BubbleQuest booking components.
  * Displays reservations in a cute, cat-themed interface with expandable sections.
  * 
  * Features:
@@ -25,10 +25,10 @@ import { cn } from '@/utils/cn';
 
 // Types
 import { Trip } from '@/types/trip';
-import { FlightBooking } from '@/components/kawaii/BoardingPassCard';
-import { AccommodationBooking } from '@/components/kawaii/AccommodationCard';
-import { TransportationTicket } from '@/components/kawaii/TransportationTicketCard';
-import { AttractionTicket } from '@/components/kawaii/AttractionTicketCard';
+import { FlightBooking } from '@/components/bubblequest/BoardingPassCard';
+import { AccommodationBooking } from '@/components/bubblequest/AccommodationCard';
+import { TransportationTicket } from '@/components/bubblequest/TransportationTicketCard';
+import { AttractionTicket } from '@/components/bubblequest/AttractionTicketCard';
 
 // Services
 import { tripService } from '@/services/tripService';
@@ -43,12 +43,12 @@ import { useFABPosition, getFABStyle } from '@/hooks/useFABPosition';
 import { useScrollDirection } from '@/hooks/useScrollDirection';
 
 // Components
-import { BoardingPassCard } from '@/components/kawaii/BoardingPassCard';
-import { AccommodationCard } from '@/components/kawaii/AccommodationCard';
-import { TransportationTicketCard } from '@/components/kawaii/TransportationTicketCard';
-import { AttractionTicketCard } from '@/components/kawaii/AttractionTicketCard';
-import { AddBookingModal, BookingFormData, BookingCategory } from '@/components/kawaii/AddBookingModal';
-import { StickerModal } from '@/components/kawaii/StickerModal';
+import { BoardingPassCard } from '@/components/bubblequest/BoardingPassCard';
+import { AccommodationCard } from '@/components/bubblequest/AccommodationCard';
+import { TransportationTicketCard } from '@/components/bubblequest/TransportationTicketCard';
+import { AttractionTicketCard } from '@/components/bubblequest/AttractionTicketCard';
+import { AddBookingModal, BookingFormData, BookingCategory } from '@/components/bubblequest/AddBookingModal';
+import { StickerModal } from '@/components/bubblequest/StickerModal';
 import { StickerCanvas } from '@/components/stickers/organisms/StickerCanvas';
 import { PageLayout, NavigationWrapper } from '@/components/layout';
 import type { NavigationTab } from '@/components/layout';
@@ -114,9 +114,9 @@ const bookingSections: BookingSection[] = [
  * Loading spinner component
  */
 const LoadingSpinner: React.FC = () => (
-  <div className="flex items-center justify-center min-h-screen bg-[#f7f3eb] dark:bg-kawaii-neutral-900">
+  <div className="flex items-center justify-center min-h-screen bg-[#f7f3eb] dark:bg-bubblequest-neutral-900">
     <motion.div
-      className="w-16 h-16 border-4 border-kawaii-primary-200 border-t-kawaii-primary-600 rounded-full"
+      className="w-16 h-16 border-4 border-bubblequest-primary-200 border-t-bubblequest-primary-600 rounded-full"
       animate={{ rotate: 360 }}
       transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
     />
@@ -132,17 +132,17 @@ const ErrorDisplay: React.FC<{ message: string; onRetry?: () => void; onGoHome?:
   onGoHome,
 }) => {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[#f7f3eb] dark:bg-kawaii-neutral-900 p-4">
+    <div className="flex items-center justify-center min-h-screen bg-[#f7f3eb] dark:bg-bubblequest-neutral-900 p-4">
       <div className="text-center max-w-md">
         <span className="text-6xl mb-4 block">😢</span>
-        <p className="text-xl text-kawaii-neutral-700 dark:text-kawaii-neutral-300 mb-6">
+        <p className="text-xl text-bubblequest-neutral-700 dark:text-bubblequest-neutral-300 mb-6">
           {message}
         </p>
         <div className="flex gap-3 justify-center">
           {onRetry && (
             <button
               onClick={onRetry}
-              className="px-6 py-2 bg-kawaii-primary-500 text-white rounded-lg hover:bg-kawaii-primary-600 transition-colors focus:outline-none focus:ring-2 focus:ring-kawaii-primary-500 focus:ring-offset-2"
+              className="px-6 py-2 bg-bubblequest-primary-500 text-white rounded-lg hover:bg-bubblequest-primary-600 transition-colors focus:outline-none focus:ring-2 focus:ring-bubblequest-primary-500 focus:ring-offset-2"
             >
               Try Again
             </button>
@@ -150,7 +150,7 @@ const ErrorDisplay: React.FC<{ message: string; onRetry?: () => void; onGoHome?:
           {onGoHome && (
             <button
               onClick={onGoHome}
-              className="px-6 py-2 bg-kawaii-neutral-200 dark:bg-kawaii-neutral-700 text-kawaii-neutral-700 dark:text-kawaii-neutral-300 rounded-lg hover:bg-kawaii-neutral-300 dark:hover:bg-kawaii-neutral-600 transition-colors focus:outline-none focus:ring-2 focus:ring-kawaii-neutral-500 focus:ring-offset-2"
+              className="px-6 py-2 bg-bubblequest-neutral-200 dark:bg-bubblequest-neutral-700 text-bubblequest-neutral-700 dark:text-bubblequest-neutral-300 rounded-lg hover:bg-bubblequest-neutral-300 dark:hover:bg-bubblequest-neutral-600 transition-colors focus:outline-none focus:ring-2 focus:ring-bubblequest-neutral-500 focus:ring-offset-2"
             >
               Go Home
             </button>
@@ -168,7 +168,7 @@ const SectionEmptyState: React.FC<{
   section: BookingSection; 
   onAdd: () => void;
 }> = ({ section, onAdd }) => {
-  const { t } = useTranslation('kawaii');
+  const { t } = useTranslation('bubbleQuest');
 
   return (
     <motion.div
@@ -178,12 +178,12 @@ const SectionEmptyState: React.FC<{
       transition={{ duration: 0.3 }}
     >
       <span className="text-5xl mb-3 block">{section.catEmoji}</span>
-      <p className="text-sm text-kawaii-neutral-500 dark:text-kawaii-neutral-400 mb-4">
+      <p className="text-sm text-bubblequest-neutral-500 dark:text-bubblequest-neutral-400 mb-4">
         {t('booking.noItemsInSection')}
       </p>
       <button
         onClick={onAdd}
-        className="px-4 py-2 text-sm bg-kawaii-primary-500 text-white rounded-lg hover:bg-kawaii-primary-600 transition-colors focus:outline-none focus:ring-2 focus:ring-kawaii-primary-500 focus:ring-offset-2"
+        className="px-4 py-2 text-sm bg-bubblequest-primary-500 text-white rounded-lg hover:bg-bubblequest-primary-600 transition-colors focus:outline-none focus:ring-2 focus:ring-bubblequest-primary-500 focus:ring-offset-2"
       >
         <PlusIcon className="w-4 h-4 inline-block mr-1" />
         {t('booking.add')}
@@ -204,12 +204,12 @@ const BookingSectionCard: React.FC<{
   onDelete: (bookingId: string) => void;
   onAdd: () => void;
 }> = ({ section, bookings, isExpanded, onToggle, onEdit, onDelete, onAdd }) => {
-  const { t } = useTranslation('kawaii');
+  const { t } = useTranslation('bubbleQuest');
   const Icon = section.icon;
 
   return (
     <motion.div
-      className="bg-white dark:bg-kawaii-neutral-800 rounded-2xl shadow-md overflow-hidden"
+      className="bg-white dark:bg-bubblequest-neutral-800 rounded-2xl shadow-md overflow-hidden"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
@@ -219,21 +219,21 @@ const BookingSectionCard: React.FC<{
         onClick={onToggle}
         className={cn(
           'w-full flex items-center justify-between p-5',
-          'hover:bg-kawaii-neutral-50 dark:hover:bg-kawaii-neutral-700/50',
+          'hover:bg-bubblequest-neutral-50 dark:hover:bg-bubblequest-neutral-700/50',
           'transition-colors duration-200',
-          'focus:outline-none focus:ring-2 focus:ring-inset focus:ring-kawaii-primary-500'
+          'focus:outline-none focus:ring-2 focus:ring-inset focus:ring-bubblequest-primary-500'
         )}
       >
         <div className="flex items-center gap-3">
-          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-kawaii-primary-100 dark:bg-kawaii-primary-900/30">
-            <Icon className="w-5 h-5 text-kawaii-primary-600 dark:text-kawaii-primary-400" />
+          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-bubblequest-primary-100 dark:bg-bubblequest-primary-900/30">
+            <Icon className="w-5 h-5 text-bubblequest-primary-600 dark:text-bubblequest-primary-400" />
           </div>
           <div className="text-left">
-            <h3 className="text-lg font-bold text-kawaii-neutral-900 dark:text-kawaii-neutral-100">
+            <h3 className="text-lg font-bold text-bubblequest-neutral-900 dark:text-bubblequest-neutral-100">
               {t(section.titleKey)}
             </h3>
             {bookings.length > 0 && (
-              <p className="text-xs text-kawaii-neutral-500 dark:text-kawaii-neutral-400">
+              <p className="text-xs text-bubblequest-neutral-500 dark:text-bubblequest-neutral-400">
                 {t('booking.itemCount', { count: bookings.length })}
               </p>
             )}
@@ -244,7 +244,7 @@ const BookingSectionCard: React.FC<{
           {/* Count Badge */}
           {bookings.length > 0 && (
             <motion.span
-              className="flex items-center justify-center min-w-[28px] h-7 px-2 text-sm font-bold text-kawaii-primary-700 dark:text-kawaii-primary-300 bg-kawaii-primary-100 dark:bg-kawaii-primary-900/30 rounded-full"
+              className="flex items-center justify-center min-w-[28px] h-7 px-2 text-sm font-bold text-bubblequest-primary-700 dark:text-bubblequest-primary-300 bg-bubblequest-primary-100 dark:bg-bubblequest-primary-900/30 rounded-full"
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ type: 'spring', stiffness: 500, damping: 15 }}
@@ -258,7 +258,7 @@ const BookingSectionCard: React.FC<{
             animate={{ rotate: isExpanded ? 180 : 0 }}
             transition={{ duration: 0.2 }}
           >
-            <ChevronDownIcon className="w-5 h-5 text-kawaii-neutral-400 dark:text-kawaii-neutral-500" />
+            <ChevronDownIcon className="w-5 h-5 text-bubblequest-neutral-400 dark:text-bubblequest-neutral-500" />
           </motion.div>
         </div>
       </button>
@@ -273,7 +273,7 @@ const BookingSectionCard: React.FC<{
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="overflow-hidden"
           >
-            <div className="px-5 pb-5 space-y-4 border-t border-kawaii-neutral-100 dark:border-kawaii-neutral-700 pt-4">
+            <div className="px-5 pb-5 space-y-4 border-t border-bubblequest-neutral-100 dark:border-bubblequest-neutral-700 pt-4">
               {bookings.length === 0 ? (
                 <SectionEmptyState section={section} onAdd={onAdd} />
               ) : (
@@ -329,7 +329,7 @@ const BookingSectionCard: React.FC<{
 export const BookingScreen: React.FC = () => {
   const { id: tripId } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { t } = useTranslation('kawaii');
+  const { t } = useTranslation('bubbleQuest');
   const { accessToken, logout } = useEnhancedAuthStore();
   const { showSuccess, showError } = useToast();
 
@@ -731,7 +731,7 @@ export const BookingScreen: React.FC = () => {
     >
       <PageLayout tripId={tripId} showStickers={false}>
         {/* Header Section with Gradient Background and Cat Decorations */}
-        <div className="relative w-full bg-gradient-to-br from-kawaii-primary-100 via-pink-100 to-kawaii-primary-200 dark:from-kawaii-primary-900/30 dark:via-pink-900/30 dark:to-kawaii-primary-800/30">
+        <div className="relative w-full bg-gradient-to-br from-bubblequest-primary-100 via-pink-100 to-bubblequest-primary-200 dark:from-bubblequest-primary-900/30 dark:via-pink-900/30 dark:to-bubblequest-primary-800/30">
           {/* Decorative elements */}
 
           <div className="max-w-7xl mx-auto px-4 py-6 w-full relative z-10">
@@ -741,13 +741,13 @@ export const BookingScreen: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <h1 className="text-3xl md:text-4xl font-bold text-kawaii-neutral-900 dark:text-kawaii-neutral-100 mb-2">
+              <h1 className="text-3xl md:text-4xl font-bold text-bubblequest-neutral-900 dark:text-bubblequest-neutral-100 mb-2">
                 {trip.title}
               </h1>
-              <p className="text-lg text-kawaii-neutral-700 dark:text-kawaii-neutral-300 mb-4">
+              <p className="text-lg text-bubblequest-neutral-700 dark:text-bubblequest-neutral-300 mb-4">
                 {t('booking.title')} {/* 預約管理 */}
               </p>
-              <p className="text-sm text-kawaii-neutral-600 dark:text-kawaii-neutral-400">
+              <p className="text-sm text-bubblequest-neutral-600 dark:text-bubblequest-neutral-400">
                 {t('booking.subtitle')}
               </p>
             </motion.div>

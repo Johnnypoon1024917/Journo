@@ -23,7 +23,7 @@ const NAMESPACES = [
   'community',
   'settings',
   'errors',
-  'kawaii',
+  'bubbleQuest',
   'members',
   'activity',
   'collaboration',

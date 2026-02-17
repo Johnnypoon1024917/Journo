@@ -93,11 +93,11 @@ export const APP_COLOR_PAIRS: ColorPair[] = [
   { foreground: '#1e40af', background: '#dbeafe', location: 'Info status', element: '.status-info' },
   { foreground: '#dbeafe', background: '#1e3a8a', location: 'Info status dark', element: '.dark .status-info' },
   
-  // Kawaii theme colors
-  { foreground: '#1f2937', background: '#fef3e2', location: 'Kawaii cream background', element: '.kawaii-bg' },
-  { foreground: '#ec4899', background: '#ffffff', location: 'Kawaii pink accent', element: '.kawaii-pink' },
-  { foreground: '#8b5cf6', background: '#ffffff', location: 'Kawaii purple accent', element: '.kawaii-purple' },
-  { foreground: '#3b82f6', background: '#ffffff', location: 'Kawaii blue accent', element: '.kawaii-blue' },
+  // BubbleQuest theme colors
+  { foreground: '#1f2937', background: '#fef3e2', location: 'BubbleQuest cream background', element: '.bubblequest-bg' },
+  { foreground: '#ec4899', background: '#ffffff', location: 'BubbleQuest pink accent', element: '.bubblequest-pink' },
+  { foreground: '#8b5cf6', background: '#ffffff', location: 'BubbleQuest purple accent', element: '.bubblequest-purple' },
+  { foreground: '#3b82f6', background: '#ffffff', location: 'BubbleQuest blue accent', element: '.bubblequest-blue' },
 ];
 
 /**

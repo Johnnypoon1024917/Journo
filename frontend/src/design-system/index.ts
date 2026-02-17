@@ -9,7 +9,7 @@
 export * from './tokens';
 export * from './types';
 export * from './animations';
-export * from './kawaii-tokens';
+export * from './bubblequest-tokens';
 
 // Atomic components
 export * from './atoms';
@@ -25,7 +25,7 @@ export { cn } from '../utils/cn';
 // Theme configuration
 export { defaultTheme, cssVariables } from './tokens';
 export { animationSystem } from './animations';
-export { defaultKawaiiTheme, kawaiiThemePresets } from './kawaii-tokens';
+export { defaultBubbleQuestTheme, bubbleQuestThemePresets } from './bubblequest-tokens';
 
 // Re-export commonly used types
 export type {

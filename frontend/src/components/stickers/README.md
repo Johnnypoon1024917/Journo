@@ -210,7 +210,7 @@ All animations use `framer-motion` for smooth, spring-based physics:
 
 ## Theme Integration
 
-Uses Kawaii theme colors:
+Uses BubbleQuest theme colors:
 - Pink gradients: `from-pink-400 to-pink-500`
 - Pastel backgrounds: `bg-gray-100` / `bg-gray-800` (dark mode)
 - Soft shadows: `shadow-2xl`

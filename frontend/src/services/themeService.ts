@@ -6,7 +6,7 @@
 
 import axios from 'axios';
 import { getAuthToken } from '@/utils/auth';
-import type { KawaiiColorTheme } from '@/types/theme';
+import type { BubbleQuestColorTheme } from '@/types/theme';
 
 // Use the same base URL as other services (already includes /api)
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
@@ -31,9 +31,9 @@ class ThemeService {
   /**
    * Get active system color theme
    */
-  async getSystemTheme(): Promise<KawaiiColorTheme> {
+  async getSystemTheme(): Promise<BubbleQuestColorTheme> {
     try {
-      const response = await axios.get<KawaiiColorTheme>(
+      const response = await axios.get<BubbleQuestColorTheme>(
         `${API_BASE_URL}/theme/system`,
         {
           ...getAxiosConfig(),
@@ -55,12 +55,12 @@ class ThemeService {
   }
 
   /**
-   * Get default Kawaii pink theme
+   * Get default BubbleQuest pink theme
    */
-  private getDefaultTheme(): KawaiiColorTheme {
+  private getDefaultTheme(): BubbleQuestColorTheme {
     return {
       id: 'default',
-      theme_name: 'Default Kawaii Pink',
+      theme_name: 'Default BubbleQuest Pink',
       primary_50: '#fef1f7',
       primary_100: '#fee5f0',
       primary_200: '#ffcce3',
@@ -92,8 +92,8 @@ class ThemeService {
   /**
    * Update system color theme (Admin only)
    */
-  async updateSystemTheme(updates: Partial<KawaiiColorTheme>): Promise<KawaiiColorTheme> {
-    const response = await axios.put<KawaiiColorTheme>(
+  async updateSystemTheme(updates: Partial<BubbleQuestColorTheme>): Promise<BubbleQuestColorTheme> {
+    const response = await axios.put<BubbleQuestColorTheme>(
       `${API_BASE_URL}/theme/system`,
       updates,
       getAxiosConfig()
@@ -141,10 +141,10 @@ class ThemeService {
   }
 
   /**
-   * Reset system theme to default Kawaii pink (Admin only)
+   * Reset system theme to default BubbleQuest pink (Admin only)
    */
-  async resetSystemTheme(): Promise<KawaiiColorTheme> {
-    const response = await axios.post<KawaiiColorTheme>(
+  async resetSystemTheme(): Promise<BubbleQuestColorTheme> {
+    const response = await axios.post<BubbleQuestColorTheme>(
       `${API_BASE_URL}/theme/system/reset`,
       {},
       getAxiosConfig()
@@ -156,9 +156,9 @@ class ThemeService {
    * Get trip-specific color theme
    * Falls back to system theme if no trip theme exists
    */
-  async getTripTheme(tripId: string): Promise<KawaiiColorTheme> {
+  async getTripTheme(tripId: string): Promise<BubbleQuestColorTheme> {
     try {
-      const response = await axios.get<KawaiiColorTheme>(
+      const response = await axios.get<BubbleQuestColorTheme>(
         `${API_BASE_URL}/theme/trip/${tripId}`,
         {
           ...getAxiosConfig(),
@@ -182,8 +182,8 @@ class ThemeService {
   /**
    * Update trip-specific color theme (Trip owner only)
    */
-  async updateTripTheme(tripId: string, updates: Partial<KawaiiColorTheme>): Promise<KawaiiColorTheme> {
-    const response = await axios.put<KawaiiColorTheme>(
+  async updateTripTheme(tripId: string, updates: Partial<BubbleQuestColorTheme>): Promise<BubbleQuestColorTheme> {
+    const response = await axios.put<BubbleQuestColorTheme>(
       `${API_BASE_URL}/theme/trip/${tripId}`,
       updates,
       getAxiosConfig()

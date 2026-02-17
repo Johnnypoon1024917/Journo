@@ -65,10 +65,10 @@ export function PackingPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#f7f3eb] dark:bg-kawaii-neutral-900 flex items-center justify-center">
+      <div className="min-h-screen bg-[#f7f3eb] dark:bg-bubblequest-neutral-900 flex items-center justify-center">
         <div className="text-center">
           <Spinner size="large" />
-          <p className="text-kawaii-neutral-600 dark:text-kawaii-neutral-400 mt-4">Loading trip...</p>
+          <p className="text-bubblequest-neutral-600 dark:text-bubblequest-neutral-400 mt-4">Loading trip...</p>
         </div>
       </div>
     );
@@ -76,12 +76,12 @@ export function PackingPage() {
 
   if (error || !trip) {
     return (
-      <div className="min-h-screen bg-[#f7f3eb] dark:bg-kawaii-neutral-900 flex items-center justify-center">
+      <div className="min-h-screen bg-[#f7f3eb] dark:bg-bubblequest-neutral-900 flex items-center justify-center">
         <div className="text-center">
           <p className="text-red-600 dark:text-red-400 mb-4">{error || 'Trip not found'}</p>
           <button
             onClick={() => navigate('/')}
-            className="px-4 py-2 bg-kawaii-primary-600 hover:bg-kawaii-primary-700 text-white rounded-lg transition-colors"
+            className="px-4 py-2 bg-bubblequest-primary-600 hover:bg-bubblequest-primary-700 text-white rounded-lg transition-colors"
           >
             Back to Home
           </button>
@@ -91,9 +91,9 @@ export function PackingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f7f3eb] dark:bg-kawaii-neutral-900">
+    <div className="min-h-screen bg-[#f7f3eb] dark:bg-bubblequest-neutral-900">
       {/* Header */}
-      <div className="bg-white dark:bg-kawaii-neutral-800 shadow-sm border-b border-kawaii-neutral-200 dark:border-kawaii-neutral-700">
+      <div className="bg-white dark:bg-bubblequest-neutral-800 shadow-sm border-b border-bubblequest-neutral-200 dark:border-bubblequest-neutral-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-4">

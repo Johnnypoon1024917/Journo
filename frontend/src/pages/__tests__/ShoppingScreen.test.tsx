@@ -1,7 +1,7 @@
 /**
  * ShoppingScreen Component Tests
  * 
- * Tests for the kawaii shopping screen page component.
+ * Tests for the BubbleQuest shopping screen page component.
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';

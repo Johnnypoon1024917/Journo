@@ -24,13 +24,13 @@ import { useStickerStore } from '@/stores/stickerStore';
 import { useToast } from '@/hooks/useToast';
 
 // Components
-import { CountdownTimer } from '@/components/kawaii/CountdownTimer';
-import { DateSelector } from '@/components/kawaii/DateSelector';
-import { WeatherWidget } from '@/components/kawaii/WeatherWidget';
-import { DayCard } from '@/components/kawaii/DayCard';
-import { AddActivityModal, ActivityFormData } from '@/components/kawaii/AddActivityModal';
-import { EditActivityModal } from '@/components/kawaii/EditActivityModal';
-import { StickerModal } from '@/components/kawaii/StickerModal';
+import { CountdownTimer } from '@/components/bubblequest/CountdownTimer';
+import { DateSelector } from '@/components/bubblequest/DateSelector';
+import { WeatherWidget } from '@/components/bubblequest/WeatherWidget';
+import { DayCard } from '@/components/bubblequest/DayCard';
+import { AddActivityModal, ActivityFormData } from '@/components/bubblequest/AddActivityModal';
+import { EditActivityModal } from '@/components/bubblequest/EditActivityModal';
+import { StickerModal } from '@/components/bubblequest/StickerModal';
 import { PageLayout, NavigationWrapper } from '@/components/layout';
 import type { NavigationTab } from '@/components/layout';
 
@@ -81,7 +81,7 @@ const ErrorDisplay: React.FC<{ message: string; onRetry?: () => void; onGoHome?:
 };
 
 const EmptyState: React.FC<{ onAddActivity: () => void }> = ({ onAddActivity }) => {
-  const { t } = useTranslation('kawaii');
+  const { t } = useTranslation('bubbleQuest');
   
   return (
     <div className="text-center py-16">
@@ -106,7 +106,7 @@ const EmptyState: React.FC<{ onAddActivity: () => void }> = ({ onAddActivity }) 
 export const ScheduleScreen: React.FC = () => {
   const { id: tripId } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { t } = useTranslation('kawaii');
+  const { t } = useTranslation('bubbleQuest');
   const { accessToken, logout } = useEnhancedAuthStore();
   const { showError, showSuccess } = useToast();
 

@@ -12,7 +12,7 @@ import React from 'react';
  * Maps translation keys to their English values
  */
 export const translations = {
-  // Navigation (kawaii namespace)
+  // Navigation (BubbleQuest namespace)
   'navigation.schedule': 'Schedule',
   'navigation.booking': 'Booking',
   'navigation.budget': 'Budget',

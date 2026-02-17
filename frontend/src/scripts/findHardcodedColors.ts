@@ -23,22 +23,22 @@ const rgbColorRegex = /rgba?\([^)]+\)/g;
 
 const colorMatches: ColorMatch[] = [];
 
-// Kawaii color mappings
+// BubbleQuest color mappings
 const COLOR_MAPPINGS: Record<string, string> = {
-  '#FFB3BA': 'var(--kawaii-primary-500)',
-  '#FFF8F0': 'var(--kawaii-cream)',
-  '#fff5f7': 'var(--kawaii-primary-50)',
-  '#ffe3e8': 'var(--kawaii-primary-100)',
-  '#ffc7d1': 'var(--kawaii-primary-200)',
-  '#ffaaba': 'var(--kawaii-primary-300)',
-  '#ff8ea3': 'var(--kawaii-primary-400)',
-  '#ff6b7f': 'var(--kawaii-primary-600)',
-  '#ff4d63': 'var(--kawaii-primary-700)',
-  '#ff2f47': 'var(--kawaii-primary-800)',
-  '#e6002b': 'var(--kawaii-primary-900)',
-  '#b30021': 'var(--kawaii-primary-950)',
-  'rgb(255, 248, 240)': 'var(--kawaii-cream)',
-  'rgb(255, 179, 186)': 'var(--kawaii-primary-500)',
+  '#FFB3BA': 'var(--bubblequest-primary-500)',
+  '#FFF8F0': 'var(--bubblequest-cream)',
+  '#fff5f7': 'var(--bubblequest-primary-50)',
+  '#ffe3e8': 'var(--bubblequest-primary-100)',
+  '#ffc7d1': 'var(--bubblequest-primary-200)',
+  '#ffaaba': 'var(--bubblequest-primary-300)',
+  '#ff8ea3': 'var(--bubblequest-primary-400)',
+  '#ff6b7f': 'var(--bubblequest-primary-600)',
+  '#ff4d63': 'var(--bubblequest-primary-700)',
+  '#ff2f47': 'var(--bubblequest-primary-800)',
+  '#e6002b': 'var(--bubblequest-primary-900)',
+  '#b30021': 'var(--bubblequest-primary-950)',
+  'rgb(255, 248, 240)': 'var(--bubblequest-cream)',
+  'rgb(255, 179, 186)': 'var(--bubblequest-primary-500)',
 };
 
 function scanFile(filePath: string) {
@@ -47,7 +47,7 @@ function scanFile(filePath: string) {
 
   lines.forEach((line, index) => {
     // Skip CSS variable definitions
-    if (line.includes('--kawaii-') || line.includes(':root')) {
+    if (line.includes('--bubblequest-') || line.includes(':root')) {
       return;
     }
 
@@ -121,7 +121,7 @@ function generateReport() {
     console.log('─'.repeat(80));
 
     matches.forEach((match) => {
-      const suggestion = COLOR_MAPPINGS[match.color.toLowerCase()] || 'var(--kawaii-???)';
+      const suggestion = COLOR_MAPPINGS[match.color.toLowerCase()] || 'var(--bubblequest-???)';
       console.log(`  Line ${match.line}: ${match.color}`);
       console.log(`    → Suggestion: ${suggestion}`);
       console.log(`    Context: ${match.context.substring(0, 100)}...`);
@@ -139,7 +139,7 @@ function generateReport() {
 
   const sortedColors = Object.entries(colorCounts).sort((a, b) => b[1] - a[1]);
   sortedColors.forEach(([color, count]) => {
-    const suggestion = COLOR_MAPPINGS[color] || 'var(--kawaii-???)';
+    const suggestion = COLOR_MAPPINGS[color] || 'var(--bubblequest-???)';
     console.log(`  ${color}: ${count} occurrences → ${suggestion}`);
   });
 

@@ -17,7 +17,7 @@ export const SystemThemeConfig: React.FC = () => {
     updateSystemTheme,
   } = useCentralizedThemeStore();
 
-  const [primaryColor, setPrimaryColor] = useState('var(--kawaii-primary-500)');
+  const [primaryColor, setPrimaryColor] = useState('var(--bubblequest-primary-500)');
 
   useEffect(() => {
     loadSystemTheme();
@@ -44,7 +44,7 @@ export const SystemThemeConfig: React.FC = () => {
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-2" style={{ color: 'var(--kawaii-primary-500)' }}>
+      <h1 className="text-3xl font-bold mb-2" style={{ color: 'var(--bubblequest-primary-500)' }}>
         System Theme Configuration
       </h1>
       <p className="text-neutral-600 mb-8">
@@ -68,9 +68,9 @@ export const SystemThemeConfig: React.FC = () => {
               className="p-4 rounded-xl border-2 transition-all hover:scale-105"
               style={{
                 borderColor: systemTheme?.primary_500 === preset.colors.primary_500 
-                  ? 'var(--kawaii-primary-500)' 
-                  : 'var(--kawaii-neutral-200)',
-                backgroundColor: 'var(--kawaii-cream)',
+                  ? 'var(--bubblequest-primary-500)' 
+                  : 'var(--bubblequest-neutral-200)',
+                backgroundColor: 'var(--bubblequest-cream)',
               }}
             >
               <div

@@ -5,10 +5,10 @@
  * Uses backend API for persistent storage.
  */
 
-import { FlightBooking } from '@/components/kawaii/BoardingPassCard';
-import { AccommodationBooking } from '@/components/kawaii/AccommodationCard';
-import { TransportationTicket } from '@/components/kawaii/TransportationTicketCard';
-import { AttractionTicket } from '@/components/kawaii/AttractionTicketCard';
+import { FlightBooking } from '@/components/bubblequest/BoardingPassCard';
+import { AccommodationBooking } from '@/components/bubblequest/AccommodationCard';
+import { TransportationTicket } from '@/components/bubblequest/TransportationTicketCard';
+import { AttractionTicket } from '@/components/bubblequest/AttractionTicketCard';
 import api from './api';
 import { getAuthToken } from '@/utils/auth';
 

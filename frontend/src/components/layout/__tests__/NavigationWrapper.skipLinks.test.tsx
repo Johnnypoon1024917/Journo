@@ -12,13 +12,13 @@ import { render, screen } from '@testing-library/react';
 import { NavigationWrapper } from '../NavigationWrapper';
 
 // Mock the navigation components
-vi.mock('@/components/kawaii/SideNavigation', () => ({
+vi.mock('@/components/bubblequest/SideNavigation', () => ({
   SideNavigation: ({ activeTab }: { activeTab?: string }) => (
     <div data-testid="side-navigation">Side Nav - {activeTab}</div>
   ),
 }));
 
-vi.mock('@/components/kawaii/BottomNavigation', () => ({
+vi.mock('@/components/bubblequest/BottomNavigation', () => ({
   BottomNavigation: ({ activeTab }: { activeTab?: string }) => (
     <div data-testid="bottom-navigation">Bottom Nav - {activeTab}</div>
   ),

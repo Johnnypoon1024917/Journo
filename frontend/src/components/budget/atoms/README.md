@@ -58,7 +58,7 @@ Displays split expense information.
 
 ## Styling
 
-All components follow the kawaii theme with:
+All components follow the BubbleQuest theme with:
 - Pastel colors (pink, beige, soft pastels)
 - Rounded corners (rounded-2xl, rounded-full)
 - Soft shadows
@@ -143,7 +143,7 @@ import {
 - **Requirement 2.7**: Expense display with all required fields
 - **Requirement 4.6**: Burn rate calculation and display
 - **Requirement 7.1**: Expense filtering interface
-- **Requirement 10.1**: Kawaii theme with pastel colors
+- **Requirement 10.1**: BubbleQuest theme with pastel colors
 - **Requirement 10.2**: Rounded cards and soft shadows
 - **Requirement 10.8**: Floating action button for quick access
 - **Requirement 10.9**: Responsive design

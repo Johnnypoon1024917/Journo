@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { ToastNotification } from '../components/kawaii/NotificationToast';
+import { ToastNotification } from '../components/bubblequest/NotificationToast';
 import { useAriaAnnouncer } from '../providers/AriaAnnouncerProvider';
 
 let toastId = 0;

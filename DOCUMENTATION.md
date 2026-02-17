@@ -18,13 +18,13 @@
 
 ## Project Overview
 
-Journo is a collaborative travel planning platform with real-time features, offline support, and a kawaii-themed UI.
+Journo is a collaborative travel planning platform with real-time features, offline support, and a bubblequest-themed UI.
 
 ### Tech Stack
 - **Frontend**: React, TypeScript, Vite, Capacitor (iOS)
 - **Backend**: Node.js, Express, PostgreSQL
 - **Real-time**: Socket.io
-- **Styling**: Custom design system with kawaii theme
+- **Styling**: Custom design system with BubbleQuest theme
 - **i18n**: Multi-language support
 
 ### Key Features
@@ -169,7 +169,7 @@ npx cap open ios
 ```
 
 ### Design System
-Located in `/frontend/src/design-system` and `/frontend/src/components/kawaii`
+Located in `/frontend/src/design-system` and `/frontend/src/components/bubblequest`
 
 Key components:
 - Buttons, inputs, cards
@@ -289,11 +289,11 @@ Detailed specs available in `.kiro/specs/`:
 - Collaboration enhancements
 - Enhanced authentication
 - iOS app store preparation
-- Kawaii UI redesign
+- BubbleQuest UI redesign
 
 ### Component Documentation
 See individual component README files in:
-- `/frontend/src/components/kawaii/`
+- `/frontend/src/components/bubblequest/`
 - `/frontend/src/components/stickers/`
 - `/frontend/src/design-system/`
 

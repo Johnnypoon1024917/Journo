@@ -4,8 +4,8 @@
 /* Import animation styles */
 @import './styles/animations.css';
 
-/* Import centralized Kawaii theme system */
-@import './design-system/centralizedKawaiiTheme.css';
+/* Import centralized BubbleQuest theme system */
+@import './design-system/centralizedBubbleQuestTheme.css';
 
 @tailwind base;
 @tailwind components;

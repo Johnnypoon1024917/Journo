@@ -23,7 +23,7 @@ function MyComponent() {
     <div>
       <h1>{t('common:appName')}</h1>
       <button>{t('common:actions.save')}</button>
-      <p>{t('kawaii:navigation.schedule')}</p>
+      <p>{t('bubbleQuest:navigation.schedule')}</p>
     </div>
   );
 }
@@ -36,7 +36,7 @@ import { useTranslation } from 'react-i18next';
 
 function ScheduleScreen() {
   // Specify the namespace
-  const { t } = useTranslation('kawaii');
+  const { t } = useTranslation('bubbleQuest');
 
   return (
     <div>
@@ -53,7 +53,7 @@ function ScheduleScreen() {
 import { useTranslation } from 'react-i18next';
 
 function CountdownTimer({ days, hours, minutes, seconds }) {
-  const { t } = useTranslation('kawaii');
+  const { t } = useTranslation('bubbleQuest');
 
   return (
     <div>
@@ -217,31 +217,31 @@ function RelativeTimeExamples() {
 - **community**: Community feed translations
 - **settings**: Settings screen translations
 - **errors**: Error messages
-- **kawaii**: Kawaii UI redesign translations (navigation, countdown, weather, etc.)
+- **kawaii**: BubbleQuest UI redesign translations (navigation, countdown, weather, etc.)
 
 ### Kawaii Namespace Structure
 
 ```typescript
 // Navigation tabs
-t('kawaii:navigation.schedule') // "Schedule" / "行程" / "スケジュール"
-t('kawaii:navigation.booking') // "Booking" / "預約" / "予約"
-t('kawaii:navigation.shopping') // "Shopping" / "購物" / "買い物"
+t('bubbleQuest:navigation.schedule') // "Schedule" / "行程" / "スケジュール"
+t('bubbleQuest:navigation.booking') // "Booking" / "預約" / "予約"
+t('bubbleQuest:navigation.shopping') // "Shopping" / "購物" / "買い物"
 
 // Countdown timer
-t('kawaii:countdown.days', { count: 5 }) // "5 days" / "5 天" / "5 日"
-t('kawaii:countdown.hours', { count: 3 }) // "3 hours" / "3 小時" / "3 時間"
+t('bubbleQuest:countdown.days', { count: 5 }) // "5 days" / "5 天" / "5 日"
+t('bubbleQuest:countdown.hours', { count: 3 }) // "3 hours" / "3 小時" / "3 時間"
 
 // Weather
-t('kawaii:weather.conditions.sunny') // "Sunny" / "晴天" / "晴れ"
-t('kawaii:weather.conditions.rainy') // "Rainy" / "下雨" / "雨"
+t('bubbleQuest:weather.conditions.sunny') // "Sunny" / "晴天" / "晴れ"
+t('bubbleQuest:weather.conditions.rainy') // "Rainy" / "下雨" / "雨"
 
 // Theme customization
-t('kawaii:theme.colors.pink') // "Pink" / "粉紅" / "ピンク"
-t('kawaii:theme.animationTypes.sakura') // "Sakura" / "櫻花" / "桜"
+t('bubbleQuest:theme.colors.pink') // "Pink" / "粉紅" / "ピンク"
+t('bubbleQuest:theme.animationTypes.sakura') // "Sakura" / "櫻花" / "桜"
 
 // Stickers
-t('kawaii:stickers.categories.characters') // "Characters" / "角色" / "キャラクター"
-t('kawaii:stickers.categories.food') // "Food" / "美食" / "食べ物"
+t('bubbleQuest:stickers.categories.characters') // "Characters" / "角色" / "キャラクター"
+t('bubbleQuest:stickers.categories.food') // "Food" / "美食" / "食べ物"
 ```
 
 ## Best Practices
@@ -263,12 +263,12 @@ t('kawaii:stickers.categories.food') // "Food" / "美食" / "食べ物"
 ❌ **Bad:**
 ```tsx
 const { t } = useTranslation();
-return <h1>{t('kawaii:schedule.title')}</h1>;
+return <h1>{t('bubbleQuest:schedule.title')}</h1>;
 ```
 
 ✅ **Good:**
 ```tsx
-const { t } = useTranslation('kawaii');
+const { t } = useTranslation('bubbleQuest');
 return <h1>{t('schedule.title')}</h1>;
 ```
 
@@ -300,14 +300,14 @@ return (
 
 ✅ **Good:**
 ```tsx
-<p>{t('kawaii:countdown.days', { count })}</p>
+<p>{t('bubbleQuest:countdown.days', { count })}</p>
 ```
 
 ### 5. Provide Context with Interpolation
 
 ```tsx
 // Translation key: "shopping.stats": "{{bought}} bought, {{toBuy}} to buy"
-<p>{t('kawaii:shopping.stats', { bought: 5, toBuy: 3 })}</p>
+<p>{t('bubbleQuest:shopping.stats', { bought: 5, toBuy: 3 })}</p>
 // Result: "5 bought, 3 to buy" / "已買 5 件，待買 3 件"
 ```
 
@@ -338,7 +338,7 @@ describe('MyComponent', () => {
 
 ## Adding New Translations
 
-### 1. Add to English (en/kawaii.json)
+### 1. Add to English (en/bubbleQuest.json)
 
 ```json
 {
@@ -351,12 +351,12 @@ describe('MyComponent', () => {
 
 ### 2. Add to All Other Languages
 
-Repeat for `zh-TW/kawaii.json`, `zh-CN/kawaii.json`, and `ja/kawaii.json`.
+Repeat for `zh-TW/bubbleQuest.json`, `zh-CN/bubbleQuest.json`, and `ja/bubbleQuest.json`.
 
 ### 3. Use in Components
 
 ```tsx
-const { t } = useTranslation('kawaii');
+const { t } = useTranslation('bubbleQuest');
 return <h1>{t('myFeature.title')}</h1>;
 ```
 
@@ -401,7 +401,7 @@ Total i18n bundle size: ~40KB (gzipped: ~12KB)
 If a translation key is missing, the key itself will be displayed:
 
 ```tsx
-t('kawaii:nonexistent.key') // Returns: "nonexistent.key"
+t('bubbleQuest:nonexistent.key') // Returns: "nonexistent.key"
 ```
 
 Check the browser console for warnings about missing keys.

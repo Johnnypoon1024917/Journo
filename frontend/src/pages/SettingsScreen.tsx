@@ -17,11 +17,11 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/useToast';
-import { ThemeCustomization } from '@/components/kawaii/ThemeCustomization';
-import { AnimationSelector } from '@/components/kawaii/AnimationSelector';
-import { LanguageSelector } from '@/components/kawaii/LanguageSelector';
-import { Card } from '@/components/kawaii/Card';
-import { Button } from '@/components/kawaii/Button';
+import { ThemeCustomization } from '@/components/bubblequest/ThemeCustomization';
+import { AnimationSelector } from '@/components/bubblequest/AnimationSelector';
+import { LanguageSelector } from '@/components/bubblequest/LanguageSelector';
+import { Card } from '@/components/bubblequest/Card';
+import { Button } from '@/components/bubblequest/Button';
 import { PageLayout, NavigationWrapper } from '@/components/layout';
 import type { NavigationTab } from '@/components/layout';
 import { cn } from '@/utils/cn';
@@ -99,7 +99,7 @@ export const SettingsScreen: React.FC = () => {
     <NavigationWrapper activeTab={activeTab} onTabChange={setActiveTab}>
       <PageLayout>
         {/* Header with Back Button */}
-        <div className="bg-gradient-to-r from-kawaii-primary-400 to-kawaii-primary-600 text-white px-6 py-8 shadow-lg">
+        <div className="bg-gradient-to-r from-bubblequest-primary-400 to-bubblequest-primary-600 text-white px-6 py-8 shadow-lg">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -129,7 +129,7 @@ export const SettingsScreen: React.FC = () => {
               {t('settings.title', 'Settings')}
             </h1>
           </div>
-          <p className="text-kawaii-primary-50 text-sm ml-14">
+          <p className="text-bubblequest-primary-50 text-sm ml-14">
             {t('settings.subtitle', 'Customize your experience')}
           </p>
         </motion.div>
@@ -143,7 +143,7 @@ export const SettingsScreen: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
         >
-          <h2 className="text-2xl font-bold text-kawaii-neutral-800 dark:text-kawaii-neutral-100 mb-6">
+          <h2 className="text-2xl font-bold text-bubblequest-neutral-800 dark:text-bubblequest-neutral-100 mb-6">
             {t('settings.appearance.title', 'Appearance')}
           </h2>
           
@@ -162,7 +162,7 @@ export const SettingsScreen: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <h2 className="text-2xl font-bold text-kawaii-neutral-800 dark:text-kawaii-neutral-100 mb-6">
+          <h2 className="text-2xl font-bold text-bubblequest-neutral-800 dark:text-bubblequest-neutral-100 mb-6">
             {t('settings.language.title', 'Language')}
           </h2>
           
@@ -176,7 +176,7 @@ export const SettingsScreen: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          <h2 className="text-2xl font-bold text-kawaii-neutral-800 dark:text-kawaii-neutral-100 mb-6">
+          <h2 className="text-2xl font-bold text-bubblequest-neutral-800 dark:text-bubblequest-neutral-100 mb-6">
             {t('settings.account.title', 'Account')}
           </h2>
           
@@ -184,7 +184,7 @@ export const SettingsScreen: React.FC = () => {
             {/* Profile Card - Requirement 15.6 */}
             <Card className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-kawaii-neutral-800 dark:text-kawaii-neutral-100">
+                <h3 className="text-lg font-semibold text-bubblequest-neutral-800 dark:text-bubblequest-neutral-100">
                   {t('settings.account.profile', 'Profile')}
                 </h3>
                 <Button
@@ -199,18 +199,18 @@ export const SettingsScreen: React.FC = () => {
               {user && (
                 <div className="space-y-3">
                   <div>
-                    <label className="text-xs text-kawaii-neutral-500 dark:text-kawaii-neutral-400">
+                    <label className="text-xs text-bubblequest-neutral-500 dark:text-bubblequest-neutral-400">
                       {t('settings.account.name', 'Name')}
                     </label>
-                    <p className="text-kawaii-neutral-800 dark:text-kawaii-neutral-100 font-medium">
+                    <p className="text-bubblequest-neutral-800 dark:text-bubblequest-neutral-100 font-medium">
                       {user.email?.split('@')[0] || user.email}
                     </p>
                   </div>
                   <div>
-                    <label className="text-xs text-kawaii-neutral-500 dark:text-kawaii-neutral-400">
+                    <label className="text-xs text-bubblequest-neutral-500 dark:text-bubblequest-neutral-400">
                       {t('settings.account.email', 'Email')}
                     </label>
-                    <p className="text-kawaii-neutral-800 dark:text-kawaii-neutral-100 font-medium">
+                    <p className="text-bubblequest-neutral-800 dark:text-bubblequest-neutral-100 font-medium">
                       {user.email}
                     </p>
                   </div>
@@ -221,7 +221,7 @@ export const SettingsScreen: React.FC = () => {
             {/* Password Card - Requirement 15.6 */}
             <Card className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-kawaii-neutral-800 dark:text-kawaii-neutral-100">
+                <h3 className="text-lg font-semibold text-bubblequest-neutral-800 dark:text-bubblequest-neutral-100">
                   {t('settings.account.password', 'Password')}
                 </h3>
                 {!isChangingPassword && (
@@ -240,7 +240,7 @@ export const SettingsScreen: React.FC = () => {
                   <div>
                     <label
                       htmlFor="currentPassword"
-                      className="block text-sm font-medium text-kawaii-neutral-700 dark:text-kawaii-neutral-300 mb-2"
+                      className="block text-sm font-medium text-bubblequest-neutral-700 dark:text-bubblequest-neutral-300 mb-2"
                     >
                       {t('settings.account.currentPassword', 'Current Password')}
                     </label>
@@ -253,10 +253,10 @@ export const SettingsScreen: React.FC = () => {
                       }
                       className={cn(
                         'w-full px-4 py-3 rounded-xl',
-                        'border-2 border-[#d5d0c2] dark:border-kawaii-neutral-700',
-                        'bg-white dark:bg-kawaii-neutral-800',
-                        'text-kawaii-neutral-900 dark:text-kawaii-neutral-100',
-                        'focus:outline-none focus:ring-2 focus:ring-kawaii-primary-500/20 focus:border-kawaii-primary-500',
+                        'border-2 border-[#d5d0c2] dark:border-bubblequest-neutral-700',
+                        'bg-white dark:bg-bubblequest-neutral-800',
+                        'text-bubblequest-neutral-900 dark:text-bubblequest-neutral-100',
+                        'focus:outline-none focus:ring-2 focus:ring-bubblequest-primary-500/20 focus:border-bubblequest-primary-500',
                         'transition-colors'
                       )}
                       required
@@ -266,7 +266,7 @@ export const SettingsScreen: React.FC = () => {
                   <div>
                     <label
                       htmlFor="newPassword"
-                      className="block text-sm font-medium text-kawaii-neutral-700 dark:text-kawaii-neutral-300 mb-2"
+                      className="block text-sm font-medium text-bubblequest-neutral-700 dark:text-bubblequest-neutral-300 mb-2"
                     >
                       {t('settings.account.newPassword', 'New Password')}
                     </label>
@@ -279,10 +279,10 @@ export const SettingsScreen: React.FC = () => {
                       }
                       className={cn(
                         'w-full px-4 py-3 rounded-xl',
-                        'border-2 border-[#d5d0c2] dark:border-kawaii-neutral-700',
-                        'bg-white dark:bg-kawaii-neutral-800',
-                        'text-kawaii-neutral-900 dark:text-kawaii-neutral-100',
-                        'focus:outline-none focus:ring-2 focus:ring-kawaii-primary-500/20 focus:border-kawaii-primary-500',
+                        'border-2 border-[#d5d0c2] dark:border-bubblequest-neutral-700',
+                        'bg-white dark:bg-bubblequest-neutral-800',
+                        'text-bubblequest-neutral-900 dark:text-bubblequest-neutral-100',
+                        'focus:outline-none focus:ring-2 focus:ring-bubblequest-primary-500/20 focus:border-bubblequest-primary-500',
                         'transition-colors'
                       )}
                       required
@@ -293,7 +293,7 @@ export const SettingsScreen: React.FC = () => {
                   <div>
                     <label
                       htmlFor="confirmPassword"
-                      className="block text-sm font-medium text-kawaii-neutral-700 dark:text-kawaii-neutral-300 mb-2"
+                      className="block text-sm font-medium text-bubblequest-neutral-700 dark:text-bubblequest-neutral-300 mb-2"
                     >
                       {t('settings.account.confirmPassword', 'Confirm New Password')}
                     </label>
@@ -306,10 +306,10 @@ export const SettingsScreen: React.FC = () => {
                       }
                       className={cn(
                         'w-full px-4 py-3 rounded-xl',
-                        'border-2 border-[#d5d0c2] dark:border-kawaii-neutral-700',
-                        'bg-white dark:bg-kawaii-neutral-800',
-                        'text-kawaii-neutral-900 dark:text-kawaii-neutral-100',
-                        'focus:outline-none focus:ring-2 focus:ring-kawaii-primary-500/20 focus:border-kawaii-primary-500',
+                        'border-2 border-[#d5d0c2] dark:border-bubblequest-neutral-700',
+                        'bg-white dark:bg-bubblequest-neutral-800',
+                        'text-bubblequest-neutral-900 dark:text-bubblequest-neutral-100',
+                        'focus:outline-none focus:ring-2 focus:ring-bubblequest-primary-500/20 focus:border-bubblequest-primary-500',
                         'transition-colors'
                       )}
                       required
@@ -346,7 +346,7 @@ export const SettingsScreen: React.FC = () => {
                   </div>
                 </form>
               ) : (
-                <p className="text-sm text-kawaii-neutral-600 dark:text-kawaii-neutral-400">
+                <p className="text-sm text-bubblequest-neutral-600 dark:text-bubblequest-neutral-400">
                   {t('settings.account.passwordDescription', 'Change your password to keep your account secure')}
                 </p>
               )}
@@ -354,10 +354,10 @@ export const SettingsScreen: React.FC = () => {
 
             {/* Logout Card - Requirement 15.7 */}
             <Card className="p-6">
-              <h3 className="text-lg font-semibold text-kawaii-neutral-800 dark:text-kawaii-neutral-100 mb-2">
+              <h3 className="text-lg font-semibold text-bubblequest-neutral-800 dark:text-bubblequest-neutral-100 mb-2">
                 {t('settings.account.logout', 'Logout')}
               </h3>
-              <p className="text-sm text-kawaii-neutral-600 dark:text-kawaii-neutral-400 mb-4">
+              <p className="text-sm text-bubblequest-neutral-600 dark:text-bubblequest-neutral-400 mb-4">
                 {t('settings.account.logoutDescription', 'Sign out of your account on this device')}
               </p>
               <Button
@@ -377,11 +377,11 @@ export const SettingsScreen: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <Card className="p-6 bg-kawaii-primary-50 dark:bg-kawaii-primary-900/20 border-kawaii-primary-200 dark:border-kawaii-primary-800">
+          <Card className="p-6 bg-bubblequest-primary-50 dark:bg-bubblequest-primary-900/20 border-bubblequest-primary-200 dark:border-bubblequest-primary-800">
             <div className="flex items-start gap-3">
               <div className="flex-shrink-0 mt-0.5">
                 <svg
-                  className="w-5 h-5 text-kawaii-primary-600 dark:text-kawaii-primary-400"
+                  className="w-5 h-5 text-bubblequest-primary-600 dark:text-bubblequest-primary-400"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -395,7 +395,7 @@ export const SettingsScreen: React.FC = () => {
                 </svg>
               </div>
               <div className="flex-1">
-                <p className="text-sm text-kawaii-primary-700 dark:text-kawaii-primary-300">
+                <p className="text-sm text-bubblequest-primary-700 dark:text-bubblequest-primary-300">
                   {t(
                     'settings.info',
                     'All settings are saved automatically and will be applied immediately. Your preferences are stored locally on your device.'

@@ -316,13 +316,13 @@ export const TripCard: React.FC<TripCardProps> = ({ trip, onDelete }) => {
           <button
             onClick={(e) => {
               e.stopPropagation();
-              navigate(`/trip/${trip.id}/kawaii`);
+              navigate(`/trip/${trip.id}/bubblequest`);
             }}
             className="flex items-center gap-1 text-xs font-medium text-pink-600 hover:text-pink-700 bg-pink-50 hover:bg-pink-100 px-3 py-1.5 rounded-full transition-colors"
-            title="View in Kawaii style"
+            title="View in BubbleQuest style"
           >
             <span>🌸</span>
-            <span>Kawaii</span>
+            <span>BubbleQuest</span>
           </button>
         </div>
       </div>

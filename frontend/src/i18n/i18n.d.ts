@@ -9,7 +9,7 @@ import enPacking from '../locales/en/packing.json';
 import enCommunity from '../locales/en/community.json';
 import enSettings from '../locales/en/settings.json';
 import enErrors from '../locales/en/errors.json';
-import enKawaii from '../locales/en/kawaii.json';
+import enBubbleQuest from '../locales/en/bubbleQuest.json';
 
 declare module 'react-i18next' {
   interface CustomTypeOptions {
@@ -23,7 +23,7 @@ declare module 'react-i18next' {
       community: typeof enCommunity;
       settings: typeof enSettings;
       errors: typeof enErrors;
-      kawaii: typeof enKawaii;
+      bubbleQuest: typeof enBubbleQuest;
     };
   }
 }

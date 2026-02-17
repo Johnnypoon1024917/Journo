@@ -1,5 +1,5 @@
 /**
- * Kawaii MembersScreen Page Component
+ * BubbleQuest MembersScreen Page Component
  * 
  * Main members screen that integrates MemberCard components.
  * 
@@ -42,8 +42,8 @@ import { useFABPosition, getFABStyle } from '@/hooks/useFABPosition';
 import { useScrollDirection } from '@/hooks/useScrollDirection';
 
 // Components
-import { MemberCard } from '@/components/kawaii/MemberCard';
-import { KawaiiModal } from '@/components/kawaii/KawaiiModal';
+import { MemberCard } from '@/components/bubblequest/MemberCard';
+import { BubbleQuestModal } from '@/components/bubblequest/BubbleQuestModal';
 import { PageLayout, NavigationWrapper } from '@/components/layout';
 import type { NavigationTab } from '@/components/layout';
 
@@ -54,9 +54,9 @@ import { UserPlusIcon } from '@heroicons/react/24/outline';
  * Loading spinner component
  */
 const LoadingSpinner: React.FC = () => (
-  <div className="flex items-center justify-center min-h-screen bg-[#f7f3eb] dark:bg-kawaii-neutral-900">
+  <div className="flex items-center justify-center min-h-screen bg-[#f7f3eb] dark:bg-bubblequest-neutral-900">
     <motion.div
-      className="w-16 h-16 border-4 border-kawaii-primary-200 border-t-kawaii-primary-600 rounded-full"
+      className="w-16 h-16 border-4 border-bubblequest-primary-200 border-t-bubblequest-primary-600 rounded-full"
       animate={{ rotate: 360 }}
       transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
     />
@@ -74,17 +74,17 @@ const ErrorDisplay: React.FC<{ message: string; onRetry?: () => void; onGoHome?:
   const { t } = useTranslation('common');
   
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[#f7f3eb] dark:bg-kawaii-neutral-900 p-4">
+    <div className="flex items-center justify-center min-h-screen bg-[#f7f3eb] dark:bg-bubblequest-neutral-900 p-4">
       <div className="text-center max-w-md">
         <span className="text-6xl mb-4 block">😢</span>
-        <p className="text-xl text-kawaii-neutral-700 dark:text-kawaii-neutral-300 mb-6">
+        <p className="text-xl text-bubblequest-neutral-700 dark:text-bubblequest-neutral-300 mb-6">
           {message}
         </p>
         <div className="flex gap-3 justify-center">
           {onRetry && (
             <button
               onClick={onRetry}
-              className="px-6 py-2 bg-kawaii-primary-500 text-white rounded-lg hover:bg-kawaii-primary-600 transition-colors focus:outline-none focus:ring-2 focus:ring-kawaii-primary-500 focus:ring-offset-2"
+              className="px-6 py-2 bg-bubblequest-primary-500 text-white rounded-lg hover:bg-bubblequest-primary-600 transition-colors focus:outline-none focus:ring-2 focus:ring-bubblequest-primary-500 focus:ring-offset-2"
             >
               {t('actions.tryAgain')}
             </button>
@@ -92,7 +92,7 @@ const ErrorDisplay: React.FC<{ message: string; onRetry?: () => void; onGoHome?:
           {onGoHome && (
             <button
               onClick={onGoHome}
-              className="px-6 py-2 bg-kawaii-neutral-200 dark:bg-kawaii-neutral-700 text-kawaii-neutral-700 dark:text-kawaii-neutral-300 rounded-lg hover:bg-kawaii-neutral-300 dark:hover:bg-kawaii-neutral-600 transition-colors focus:outline-none focus:ring-2 focus:ring-kawaii-neutral-500 focus:ring-offset-2"
+              className="px-6 py-2 bg-bubblequest-neutral-200 dark:bg-bubblequest-neutral-700 text-bubblequest-neutral-700 dark:text-bubblequest-neutral-300 rounded-lg hover:bg-bubblequest-neutral-300 dark:hover:bg-bubblequest-neutral-600 transition-colors focus:outline-none focus:ring-2 focus:ring-bubblequest-neutral-500 focus:ring-offset-2"
             >
               {t('actions.goHome')}
             </button>
@@ -117,10 +117,10 @@ const EmptyState: React.FC<{ onInvite: () => void; canManage: boolean }> = ({ on
       transition={{ duration: 0.5 }}
     >
       <span className="text-8xl mb-6 block">👥</span>
-      <h3 className="text-2xl font-semibold text-kawaii-neutral-700 dark:text-kawaii-neutral-300 mb-3">
+      <h3 className="text-2xl font-semibold text-bubblequest-neutral-700 dark:text-bubblequest-neutral-300 mb-3">
         {t('noMembers')}
       </h3>
-      <p className="text-kawaii-neutral-600 dark:text-kawaii-neutral-400 mb-6 max-w-md mx-auto">
+      <p className="text-bubblequest-neutral-600 dark:text-bubblequest-neutral-400 mb-6 max-w-md mx-auto">
         Invite collaborators to plan this trip together
       </p>
       {canManage && (
@@ -168,7 +168,7 @@ const InviteModal: React.FC<InviteModalProps> = ({ isOpen, onClose, onInvite, is
   };
 
   return (
-    <KawaiiModal
+    <BubbleQuestModal
       isOpen={isOpen}
       onClose={handleClose}
       title={t('inviteByEmail')}
@@ -178,7 +178,7 @@ const InviteModal: React.FC<InviteModalProps> = ({ isOpen, onClose, onInvite, is
         <div>
           <label
             htmlFor="member-email"
-            className="block text-sm font-medium text-kawaii-neutral-700 dark:text-kawaii-neutral-300 mb-2"
+            className="block text-sm font-medium text-bubblequest-neutral-700 dark:text-bubblequest-neutral-300 mb-2"
           >
             Email Address
           </label>
@@ -190,12 +190,12 @@ const InviteModal: React.FC<InviteModalProps> = ({ isOpen, onClose, onInvite, is
             placeholder="colleague@example.com"
             className={cn(
               'w-full px-4 py-3',
-              'bg-white dark:bg-kawaii-neutral-800',
-              'border-2 border-[#d5d0c2] dark:border-kawaii-neutral-700',
+              'bg-white dark:bg-bubblequest-neutral-800',
+              'border-2 border-[#d5d0c2] dark:border-bubblequest-neutral-700',
               'rounded-xl',
-              'text-kawaii-neutral-900 dark:text-kawaii-neutral-100',
-              'placeholder-kawaii-neutral-400',
-              'focus:outline-none focus:ring-2 focus:ring-kawaii-primary-500 focus:border-transparent',
+              'text-bubblequest-neutral-900 dark:text-bubblequest-neutral-100',
+              'placeholder-bubblequest-neutral-400',
+              'focus:outline-none focus:ring-2 focus:ring-bubblequest-primary-500 focus:border-transparent',
               'transition-all duration-200',
               'disabled:opacity-50 disabled:cursor-not-allowed'
             )}
@@ -206,7 +206,7 @@ const InviteModal: React.FC<InviteModalProps> = ({ isOpen, onClose, onInvite, is
 
         {/* Role Selection */}
         <div>
-          <label className="block text-sm font-medium text-kawaii-neutral-700 dark:text-kawaii-neutral-300 mb-2">
+          <label className="block text-sm font-medium text-bubblequest-neutral-700 dark:text-bubblequest-neutral-300 mb-2">
             Role
           </label>
           <div className="grid grid-cols-2 gap-2">
@@ -217,11 +217,11 @@ const InviteModal: React.FC<InviteModalProps> = ({ isOpen, onClose, onInvite, is
               className={cn(
                 'px-4 py-3 rounded-lg text-sm font-medium',
                 'transition-all duration-200',
-                'focus:outline-none focus:ring-2 focus:ring-kawaii-primary-500',
+                'focus:outline-none focus:ring-2 focus:ring-bubblequest-primary-500',
                 'disabled:opacity-50 disabled:cursor-not-allowed',
                 role === 'editor'
-                  ? 'bg-kawaii-primary-500 text-white'
-                  : 'bg-kawaii-neutral-100 dark:bg-kawaii-neutral-700 text-kawaii-neutral-700 dark:text-kawaii-neutral-300 hover:bg-kawaii-neutral-200 dark:hover:bg-kawaii-neutral-600'
+                  ? 'bg-bubblequest-primary-500 text-white'
+                  : 'bg-bubblequest-neutral-100 dark:bg-bubblequest-neutral-700 text-bubblequest-neutral-700 dark:text-bubblequest-neutral-300 hover:bg-bubblequest-neutral-200 dark:hover:bg-bubblequest-neutral-600'
               )}
             >
               <div className="font-semibold">{t('roles.editor')}</div>
@@ -236,11 +236,11 @@ const InviteModal: React.FC<InviteModalProps> = ({ isOpen, onClose, onInvite, is
               className={cn(
                 'px-4 py-3 rounded-lg text-sm font-medium',
                 'transition-all duration-200',
-                'focus:outline-none focus:ring-2 focus:ring-kawaii-primary-500',
+                'focus:outline-none focus:ring-2 focus:ring-bubblequest-primary-500',
                 'disabled:opacity-50 disabled:cursor-not-allowed',
                 role === 'viewer'
-                  ? 'bg-kawaii-primary-500 text-white'
-                  : 'bg-kawaii-neutral-100 dark:bg-kawaii-neutral-700 text-kawaii-neutral-700 dark:text-kawaii-neutral-300 hover:bg-kawaii-neutral-200 dark:hover:bg-kawaii-neutral-600'
+                  ? 'bg-bubblequest-primary-500 text-white'
+                  : 'bg-bubblequest-neutral-100 dark:bg-bubblequest-neutral-700 text-bubblequest-neutral-700 dark:text-bubblequest-neutral-300 hover:bg-bubblequest-neutral-200 dark:hover:bg-bubblequest-neutral-600'
               )}
             >
               <div className="font-semibold">{t('roles.viewer')}</div>
@@ -259,12 +259,12 @@ const InviteModal: React.FC<InviteModalProps> = ({ isOpen, onClose, onInvite, is
             disabled={isInviting}
             className={cn(
               'flex-1 px-4 py-3 rounded-xl',
-              'bg-kawaii-neutral-100 dark:bg-kawaii-neutral-700',
-              'text-kawaii-neutral-700 dark:text-kawaii-neutral-300',
+              'bg-bubblequest-neutral-100 dark:bg-bubblequest-neutral-700',
+              'text-bubblequest-neutral-700 dark:text-bubblequest-neutral-300',
               'font-medium',
-              'hover:bg-kawaii-neutral-200 dark:hover:bg-kawaii-neutral-600',
+              'hover:bg-bubblequest-neutral-200 dark:hover:bg-bubblequest-neutral-600',
               'transition-colors duration-200',
-              'focus:outline-none focus:ring-2 focus:ring-kawaii-neutral-500',
+              'focus:outline-none focus:ring-2 focus:ring-bubblequest-neutral-500',
               'disabled:opacity-50 disabled:cursor-not-allowed'
             )}
           >
@@ -299,7 +299,7 @@ const InviteModal: React.FC<InviteModalProps> = ({ isOpen, onClose, onInvite, is
           </button>
         </div>
       </form>
-    </KawaiiModal>
+    </BubbleQuestModal>
   );
 };
 
@@ -546,7 +546,7 @@ export const MembersScreen: React.FC = () => {
     >
       <PageLayout tripId={tripId}>
         {/* Header Section with Gradient Background */}
-        <div className="w-full bg-gradient-to-br from-kawaii-primary-100 to-kawaii-primary-200 dark:from-kawaii-primary-900/30 dark:to-kawaii-primary-800/30">
+        <div className="w-full bg-gradient-to-br from-bubblequest-primary-100 to-bubblequest-primary-200 dark:from-bubblequest-primary-900/30 dark:to-bubblequest-primary-800/30">
           <div className="max-w-7xl mx-auto px-4 py-6 w-full">
             {/* Trip Title */}
             <motion.div
@@ -554,13 +554,13 @@ export const MembersScreen: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <h1 className="text-3xl md:text-4xl font-bold text-kawaii-neutral-900 dark:text-kawaii-neutral-100 mb-2">
+              <h1 className="text-3xl md:text-4xl font-bold text-bubblequest-neutral-900 dark:text-bubblequest-neutral-100 mb-2">
                 {trip.title}
               </h1>
-              <p className="text-lg text-kawaii-neutral-600 dark:text-kawaii-neutral-400 mb-4">
+              <p className="text-lg text-bubblequest-neutral-600 dark:text-bubblequest-neutral-400 mb-4">
                 {t('title')}
               </p>
-              <p className="text-sm text-kawaii-neutral-600 dark:text-kawaii-neutral-400">
+              <p className="text-sm text-bubblequest-neutral-600 dark:text-bubblequest-neutral-400">
                 {members.length} {members.length === 1 ? 'member' : 'members'}
               </p>
             </motion.div>

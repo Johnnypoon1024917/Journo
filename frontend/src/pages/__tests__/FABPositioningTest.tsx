@@ -15,7 +15,7 @@
 import React, { useState } from 'react';
 import { Bell, Plus, Sparkles, Trash2 } from 'lucide-react';
 import { useFABPosition, getFABStyle } from '../../hooks/useFABPosition';
-import { BottomNavigation } from '../../components/kawaii/BottomNavigation';
+import { BottomNavigation } from '../../components/bubblequest/BottomNavigation';
 
 export const FABPositioningTest: React.FC = () => {
   const [showBottomNav, setShowBottomNav] = useState(true);

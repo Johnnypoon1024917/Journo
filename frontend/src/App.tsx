@@ -1,8 +1,8 @@
 import { useEffect, Suspense, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { KawaiiHome as Home } from './pages/KawaiiHome';
-import { KawaiiLogin as Login } from './pages/KawaiiLogin';
-import { KawaiiRegister as Register } from './pages/KawaiiRegister';
+import { BubbleQuestHome as Home } from './pages/BubbleQuestHome';
+import { BubbleQuestLogin as Login } from './pages/BubbleQuestLogin';
+import { BubbleQuestRegister as Register } from './pages/BubbleQuestRegister';
 import { Profile } from './pages/Profile';
 import { Privacy } from './pages/Privacy';
 import { Help } from './pages/Help';
@@ -14,7 +14,7 @@ import { CommunityBlog } from './pages/CommunityBlog';
 import { Settings } from './pages/Settings';
 import { SettingsScreen } from './pages/SettingsScreen';
 import { TripSettingsScreen } from './pages/TripSettingsScreen';
-import { KawaiiTripDetail } from './pages/KawaiiTripDetail';
+import { BubbleQuestTripDetail } from './pages/BubbleQuestTripDetail';
 import { ScheduleScreen } from './pages/ScheduleScreen';
 import { BookingScreen } from './pages/BookingScreen';
 import { ShoppingScreen } from './pages/ShoppingScreen';
@@ -47,8 +47,8 @@ import { useFeatureFlagStore } from './stores/featureFlagStore';
 import { usePageTracking } from './hooks/useAnalytics';
 import { useCentralizedThemeStore } from './stores/centralizedThemeStore';
 import { useEnhancedAuthStore } from './stores/enhancedAuthStore';
-import AnimationProvider from './components/kawaii/AnimationProvider';
-import TouchTargetValidator from './components/kawaii/TouchTargetValidator';
+import AnimationProvider from './components/bubblequest/AnimationProvider';
+import TouchTargetValidator from './components/bubblequest/TouchTargetValidator';
 import { DynamicTypeProvider } from './providers/DynamicTypeProvider';
 import { AriaAnnouncerProvider } from './providers/AriaAnnouncerProvider';
 import './i18n/config';
@@ -233,7 +233,7 @@ function App() {
               }
             />
             
-            {/* Trip Schedule Screen - Kawaii-style */}
+            {/* Trip Schedule Screen - BubbleQuest-style */}
             <Route
               path="/trips/:id/schedule"
               element={
@@ -243,7 +243,7 @@ function App() {
               }
             />
             
-            {/* Trip Booking Screen - Kawaii-style */}
+            {/* Trip Booking Screen - BubbleQuest-style */}
             <Route
               path="/trips/:id/booking"
               element={
@@ -253,7 +253,7 @@ function App() {
               }
             />
             
-            {/* Trip Shopping Screen - Kawaii-style */}
+            {/* Trip Shopping Screen - BubbleQuest-style */}
             <Route
               path="/trips/:id/shopping"
               element={
@@ -263,7 +263,7 @@ function App() {
               }
             />
             
-            {/* Trip Checklist Screen - Kawaii-style */}
+            {/* Trip Checklist Screen - BubbleQuest-style */}
             <Route
               path="/trips/:id/checklist"
               element={
@@ -273,7 +273,7 @@ function App() {
               }
             />
             
-            {/* Trip Members Screen - Kawaii-style */}
+            {/* Trip Members Screen - BubbleQuest-style */}
             <Route
               path="/trips/:id/members"
               element={
@@ -283,7 +283,7 @@ function App() {
               }
             />
             
-            {/* Trip Budget Screen - Kawaii-style */}
+            {/* Trip Budget Screen - BubbleQuest-style */}
             <Route
               path="/trips/:id/budget"
               element={
@@ -293,7 +293,7 @@ function App() {
               }
             />
             
-            {/* Trip Settings Screen - Kawaii-style */}
+            {/* Trip Settings Screen - BubbleQuest-style */}
             <Route
               path="/trips/:id/settings"
               element={
@@ -303,17 +303,17 @@ function App() {
               }
             />
             
-            {/* Trip routes - Kawaii-style UI (default) */}
+            {/* Trip routes - BubbleQuest-style UI (default) */}
             <Route
               path="/trip/:id"
               element={
                 <ProtectedRoute>
-                  <KawaiiTripDetail />
+                  <BubbleQuestTripDetail />
                 </ProtectedRoute>
               }
             />
             
-            {/* Kawaii Trip Sub-screens */}
+            {/* BubbleQuest Trip Sub-screens */}
             <Route
               path="/trip/:id/booking"
               element={

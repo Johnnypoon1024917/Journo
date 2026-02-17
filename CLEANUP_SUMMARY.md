@@ -8,7 +8,7 @@ Cleaned up unused demo files, scraping services, and example files from the code
 
 ### Frontend Demo Pages (6 files)
 1. `frontend/src/pages/ScheduleDemo.tsx` - Demo page for schedule components
-2. `frontend/src/pages/KawaiiDemo.tsx` - Demo page for Kawaii UI components
+2. `frontend/src/pages/KawaiiDemo.tsx` - Demo page for BubbleQuest UI components
 3. `frontend/src/pages/BadgeDemo.tsx` - Demo page for badge system
 4. `frontend/src/pages/ReduceMotionDemo.tsx` - Demo page for reduced motion
 5. `frontend/src/pages/NetworkReconnectionDemo.tsx` - Demo page for network reconnection
@@ -46,7 +46,7 @@ Cleaned up unused demo files, scraping services, and example files from the code
 
 Removed the following demo routes:
 - `/badge-demo` - Badge system demo
-- `/kawaii-demo` - Kawaii UI components demo
+- `/bubblequest-demo` - BubbleQuest UI components demo
 - `/sticker-demo` - Sticker canvas demo
 
 ## Files Modified

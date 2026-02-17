@@ -872,38 +872,38 @@ img {
    ============================================ */
 
 /* Kawaii cream background with proper contrast */
-.kawaii-bg {
+.bubblequest-bg {
   background-color: #fef3e2;
   color: #1f2937; /* 13.6:1 contrast */
 }
 
 /* Kawaii accent colors with proper contrast */
-.kawaii-pink-text {
+.bubblequest-pink-text {
   color: #be185d; /* Darker pink for better contrast: 7.2:1 on white */
 }
 
-.kawaii-purple-text {
+.bubblequest-purple-text {
   color: #6b21a8; /* Darker purple for better contrast: 7.8:1 on white */
 }
 
-.kawaii-blue-text {
+.bubblequest-blue-text {
   color: #1e40af; /* Darker blue for better contrast: 8.6:1 on white */
 }
 
 /* Kawaii button colors */
-.kawaii-btn-pink {
+.bubblequest-btn-pink {
   background-color: #ec4899;
   color: #ffffff; /* 5.2:1 contrast - meets AA for large text */
   font-size: 1.125rem; /* 18px - large text */
   font-weight: 600;
 }
 
-.kawaii-btn-purple {
+.bubblequest-btn-purple {
   background-color: #8b5cf6;
   color: #ffffff; /* 6.1:1 contrast - meets AA */
 }
 
-.kawaii-btn-blue {
+.bubblequest-btn-blue {
   background-color: #3b82f6;
   color: #ffffff; /* 4.5:1 contrast - meets AA */
 }

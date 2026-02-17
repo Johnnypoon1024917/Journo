@@ -150,7 +150,7 @@ export const BudgetSetupSection: React.FC<BudgetSetupSectionProps> = ({
   // Render collapsed state
   if (isCollapsed) {
     return (
-      <div className={`rounded-2xl border-2 border-[#d5d0c2] dark:border-gray-700 bg-white dark:bg-gray-800 p-4 shadow-kawaii-sm ${className}`}>
+      <div className={`rounded-2xl border-2 border-[#d5d0c2] dark:border-gray-700 bg-white dark:bg-gray-800 p-4 shadow-bubblequest-sm ${className}`}>
         <button
           onClick={onToggleCollapse}
           className="w-full flex items-center justify-between text-left hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg p-2 transition-colors"
@@ -182,7 +182,7 @@ export const BudgetSetupSection: React.FC<BudgetSetupSectionProps> = ({
 
   // Render expanded state
   return (
-    <div className={`rounded-2xl border-2 border-[#d5d0c2] dark:border-gray-700 bg-white dark:bg-gray-800 overflow-hidden shadow-kawaii-sm ${className}`}>
+    <div className={`rounded-2xl border-2 border-[#d5d0c2] dark:border-gray-700 bg-white dark:bg-gray-800 overflow-hidden shadow-bubblequest-sm ${className}`}>
       {/* Header */}
       <div className="p-4 border-b-2 border-[#d5d0c2] dark:border-gray-700">
         <div className="flex items-center justify-between">

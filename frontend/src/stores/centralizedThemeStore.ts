@@ -1,23 +1,23 @@
 /**
  * Centralized Theme Store
  * 
- * Manages both system-wide and trip-specific Kawaii themes.
+ * Manages both system-wide and trip-specific BubbleQuest themes.
  * Fetches theme configuration from database and applies CSS custom properties.
  */
 
 import { create } from 'zustand';
 import { themeService } from '@/services/themeService';
-import type { KawaiiColorTheme } from '@/types/theme';
+import type { BubbleQuestColorTheme } from '@/types/theme';
 
 interface CentralizedThemeState {
   // Current active theme
-  currentTheme: KawaiiColorTheme | null;
+  currentTheme: BubbleQuestColorTheme | null;
   
   // System theme (fallback)
-  systemTheme: KawaiiColorTheme | null;
+  systemTheme: BubbleQuestColorTheme | null;
   
   // Trip-specific theme (if viewing a trip)
-  tripTheme: KawaiiColorTheme | null;
+  tripTheme: BubbleQuestColorTheme | null;
   currentTripId: string | null;
   
   // Loading states
@@ -28,46 +28,46 @@ interface CentralizedThemeState {
   loadSystemTheme: () => Promise<void>;
   loadUserTheme: () => Promise<void>;
   loadTripTheme: (tripId: string) => Promise<void>;
-  updateSystemTheme: (updates: Partial<KawaiiColorTheme>) => Promise<void>;
-  updateTripTheme: (tripId: string, updates: Partial<KawaiiColorTheme>) => Promise<void>;
+  updateSystemTheme: (updates: Partial<BubbleQuestColorTheme>) => Promise<void>;
+  updateTripTheme: (tripId: string, updates: Partial<BubbleQuestColorTheme>) => Promise<void>;
   deleteTripTheme: (tripId: string) => Promise<void>;
-  applyTheme: (theme: KawaiiColorTheme) => void;
-  setCurrentTheme: (theme: KawaiiColorTheme) => void;
+  applyTheme: (theme: BubbleQuestColorTheme) => void;
+  setCurrentTheme: (theme: BubbleQuestColorTheme) => void;
   resetToSystemTheme: () => void;
 }
 
 // Apply theme colors to CSS custom properties
-const applyCSSVariables = (theme: KawaiiColorTheme) => {
+const applyCSSVariables = (theme: BubbleQuestColorTheme) => {
   const root = document.documentElement;
   
   // Primary colors
-  root.style.setProperty('--kawaii-primary-50', theme.primary_50);
-  root.style.setProperty('--kawaii-primary-100', theme.primary_100);
-  root.style.setProperty('--kawaii-primary-200', theme.primary_200);
-  root.style.setProperty('--kawaii-primary-300', theme.primary_300);
-  root.style.setProperty('--kawaii-primary-400', theme.primary_400);
-  root.style.setProperty('--kawaii-primary-500', theme.primary_500);
-  root.style.setProperty('--kawaii-primary-600', theme.primary_600);
-  root.style.setProperty('--kawaii-primary-700', theme.primary_700);
-  root.style.setProperty('--kawaii-primary-800', theme.primary_800);
-  root.style.setProperty('--kawaii-primary-900', theme.primary_900);
-  root.style.setProperty('--kawaii-primary-950', theme.primary_950);
+  root.style.setProperty('--bubblequest-primary-50', theme.primary_50);
+  root.style.setProperty('--bubblequest-primary-100', theme.primary_100);
+  root.style.setProperty('--bubblequest-primary-200', theme.primary_200);
+  root.style.setProperty('--bubblequest-primary-300', theme.primary_300);
+  root.style.setProperty('--bubblequest-primary-400', theme.primary_400);
+  root.style.setProperty('--bubblequest-primary-500', theme.primary_500);
+  root.style.setProperty('--bubblequest-primary-600', theme.primary_600);
+  root.style.setProperty('--bubblequest-primary-700', theme.primary_700);
+  root.style.setProperty('--bubblequest-primary-800', theme.primary_800);
+  root.style.setProperty('--bubblequest-primary-900', theme.primary_900);
+  root.style.setProperty('--bubblequest-primary-950', theme.primary_950);
   
   // Background
-  root.style.setProperty('--kawaii-cream', theme.cream_bg);
+  root.style.setProperty('--bubblequest-cream', theme.cream_bg);
   
   // Neutral colors
-  root.style.setProperty('--kawaii-neutral-50', theme.neutral_50);
-  root.style.setProperty('--kawaii-neutral-100', theme.neutral_100);
-  root.style.setProperty('--kawaii-neutral-200', theme.neutral_200);
-  root.style.setProperty('--kawaii-neutral-300', theme.neutral_300);
-  root.style.setProperty('--kawaii-neutral-400', theme.neutral_400);
-  root.style.setProperty('--kawaii-neutral-500', theme.neutral_500);
-  root.style.setProperty('--kawaii-neutral-600', theme.neutral_600);
-  root.style.setProperty('--kawaii-neutral-700', theme.neutral_700);
-  root.style.setProperty('--kawaii-neutral-800', theme.neutral_800);
-  root.style.setProperty('--kawaii-neutral-900', theme.neutral_900);
-  root.style.setProperty('--kawaii-neutral-950', theme.neutral_950);
+  root.style.setProperty('--bubblequest-neutral-50', theme.neutral_50);
+  root.style.setProperty('--bubblequest-neutral-100', theme.neutral_100);
+  root.style.setProperty('--bubblequest-neutral-200', theme.neutral_200);
+  root.style.setProperty('--bubblequest-neutral-300', theme.neutral_300);
+  root.style.setProperty('--bubblequest-neutral-400', theme.neutral_400);
+  root.style.setProperty('--bubblequest-neutral-500', theme.neutral_500);
+  root.style.setProperty('--bubblequest-neutral-600', theme.neutral_600);
+  root.style.setProperty('--bubblequest-neutral-700', theme.neutral_700);
+  root.style.setProperty('--bubblequest-neutral-800', theme.neutral_800);
+  root.style.setProperty('--bubblequest-neutral-900', theme.neutral_900);
+  root.style.setProperty('--bubblequest-neutral-950', theme.neutral_950);
 };
 
 export const useCentralizedThemeStore = create<CentralizedThemeState>((set, get) => ({
@@ -115,7 +115,7 @@ export const useCentralizedThemeStore = create<CentralizedThemeState>((set, get)
     }
   },
 
-  updateSystemTheme: async (updates: Partial<KawaiiColorTheme>) => {
+  updateSystemTheme: async (updates: Partial<BubbleQuestColorTheme>) => {
     set({ isLoading: true, error: null });
     try {
       const updatedTheme = await themeService.updateSystemTheme(updates);
@@ -131,7 +131,7 @@ export const useCentralizedThemeStore = create<CentralizedThemeState>((set, get)
     }
   },
 
-  updateTripTheme: async (tripId: string, updates: Partial<KawaiiColorTheme>) => {
+  updateTripTheme: async (tripId: string, updates: Partial<BubbleQuestColorTheme>) => {
     set({ isLoading: true, error: null });
     try {
       const updatedTheme = await themeService.updateTripTheme(tripId, updates);
@@ -184,12 +184,12 @@ export const useCentralizedThemeStore = create<CentralizedThemeState>((set, get)
     }
   },
 
-  applyTheme: (theme: KawaiiColorTheme) => {
+  applyTheme: (theme: BubbleQuestColorTheme) => {
     applyCSSVariables(theme);
     set({ currentTheme: theme });
   },
 
-  setCurrentTheme: (theme: KawaiiColorTheme) => {
+  setCurrentTheme: (theme: BubbleQuestColorTheme) => {
     // Apply CSS variables immediately when theme changes
     applyCSSVariables(theme);
     set({ currentTheme: theme });

@@ -25,7 +25,7 @@ export default {
     extend: {
       colors: {
         // Kawaii primary colors - Soft pink/coral
-        kawaii: {
+        bubbleQuest: {
           50: '#fff5f7',
           100: '#ffe3e8',
           200: '#ffc7d1',
@@ -43,8 +43,8 @@ export default {
           },
           border: '#d5d0c2',  // Custom border color
         },
-        // Kawaii theme presets
-        'kawaii-orange': {
+        // BubbleQuest theme presets
+        'bubblequest-orange': {
           50: '#fff7ed',
           100: '#ffedd5',
           200: '#fed7aa',
@@ -57,7 +57,7 @@ export default {
           900: '#7c2d12',
           950: '#431407',
         },
-        'kawaii-blue': {
+        'bubblequest-blue': {
           50: '#eff6ff',
           100: '#dbeafe',
           200: '#bfdbfe',
@@ -70,7 +70,7 @@ export default {
           900: '#1e3a8a',
           950: '#172554',
         },
-        'kawaii-teal': {
+        'bubblequest-teal': {
           50: '#f0fdfa',
           100: '#ccfbf1',
           200: '#99f6e4',
@@ -83,7 +83,7 @@ export default {
           900: '#134e4a',
           950: '#042f2e',
         },
-        'kawaii-purple': {
+        'bubblequest-purple': {
           50: '#faf5ff',
           100: '#f3e8ff',
           200: '#e9d5ff',
@@ -96,7 +96,7 @@ export default {
           900: '#581c87',
           950: '#3b0764',
         },
-        'kawaii-yellow': {
+        'bubblequest-yellow': {
           50: '#fefce8',
           100: '#fef9c3',
           200: '#fef08a',

@@ -2088,9 +2088,9 @@ export const InviteLinkModal: React.FC<InviteLinkModalProps> = ({ isOpen, onClos
   };
   
   return (
-    <KawaiiModal isOpen={isOpen} onClose={onClose} title="Shareable Invitation Links">
+    <BubbleQuestModal isOpen={isOpen} onClose={onClose} title="Shareable Invitation Links">
       {/* Generate new link section */}
-      <div className="mb-6 p-4 bg-kawaii-primary-50 rounded-lg">
+      <div className="mb-6 p-4 bg-bubblequest-primary-50 rounded-lg">
         <h3 className="font-semibold mb-3">Generate New Link</h3>
         
         {/* Role selection */}
@@ -2101,7 +2101,7 @@ export const InviteLinkModal: React.FC<InviteLinkModalProps> = ({ isOpen, onClos
               onClick={() => setRole('editor')}
               className={cn(
                 'flex-1 py-2 rounded-lg',
-                role === 'editor' ? 'bg-kawaii-primary-500 text-white' : 'bg-white'
+                role === 'editor' ? 'bg-bubblequest-primary-500 text-white' : 'bg-white'
               )}
             >
               Editor
@@ -2110,7 +2110,7 @@ export const InviteLinkModal: React.FC<InviteLinkModalProps> = ({ isOpen, onClos
               onClick={() => setRole('viewer')}
               className={cn(
                 'flex-1 py-2 rounded-lg',
-                role === 'viewer' ? 'bg-kawaii-primary-500 text-white' : 'bg-white'
+                role === 'viewer' ? 'bg-bubblequest-primary-500 text-white' : 'bg-white'
               )}
             >
               Viewer
@@ -2135,7 +2135,7 @@ export const InviteLinkModal: React.FC<InviteLinkModalProps> = ({ isOpen, onClos
         <button
           onClick={handleGenerate}
           disabled={isGenerating}
-          className="w-full py-2 bg-kawaii-primary-500 text-white rounded-lg"
+          className="w-full py-2 bg-bubblequest-primary-500 text-white rounded-lg"
         >
           {isGenerating ? 'Generating...' : 'Generate Link'}
         </button>
@@ -2165,7 +2165,7 @@ export const InviteLinkModal: React.FC<InviteLinkModalProps> = ({ isOpen, onClos
                   />
                   <button
                     onClick={() => handleCopy(link.url)}
-                    className="px-3 py-2 bg-kawaii-primary-500 text-white rounded"
+                    className="px-3 py-2 bg-bubblequest-primary-500 text-white rounded"
                   >
                     Copy
                   </button>
@@ -2184,7 +2184,7 @@ export const InviteLinkModal: React.FC<InviteLinkModalProps> = ({ isOpen, onClos
           </div>
         )}
       </div>
-    </KawaiiModal>
+    </BubbleQuestModal>
   );
 };
 ```

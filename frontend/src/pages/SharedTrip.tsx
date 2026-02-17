@@ -104,7 +104,7 @@ export function SharedTrip() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#f7f3eb] dark:bg-kawaii-neutral-900 flex items-center justify-center">
+      <div className="min-h-screen bg-[#f7f3eb] dark:bg-bubblequest-neutral-900 flex items-center justify-center">
         <div className="text-center">
           <svg
             className="animate-spin h-12 w-12 text-blue-600 mx-auto mb-4"
@@ -134,7 +134,7 @@ export function SharedTrip() {
 
   if (error || !trip) {
     return (
-      <div className="min-h-screen bg-[#f7f3eb] dark:bg-kawaii-neutral-900 flex items-center justify-center">
+      <div className="min-h-screen bg-[#f7f3eb] dark:bg-bubblequest-neutral-900 flex items-center justify-center">
         <div className="text-center">
           <svg
             className="w-16 h-16 text-red-500 mx-auto mb-4"
@@ -159,7 +159,7 @@ export function SharedTrip() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f7f3eb] dark:bg-kawaii-neutral-900">
+    <div className="min-h-screen bg-[#f7f3eb] dark:bg-bubblequest-neutral-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header with connection status */}
         <div className="flex justify-between items-center mb-4">

@@ -1,10 +1,10 @@
 /**
  * Theme Types
  * 
- * Frontend types for centralized Kawaii theme system
+ * Frontend types for centralized BubbleQuest theme system
  */
 
-export interface KawaiiColorTheme {
+export interface BubbleQuestColorTheme {
   id: string;
   theme_name: string;
   
@@ -53,7 +53,7 @@ export interface ThemePreset {
 
 export const KAWAII_THEME_PRESETS: ThemePreset[] = [
   {
-    name: 'Kawaii Pink',
+    name: 'BubbleQuest Pink',
     description: 'Soft pink theme - default',
     colors: {
       primary_500: '#FFB3BA',
@@ -62,7 +62,7 @@ export const KAWAII_THEME_PRESETS: ThemePreset[] = [
     }
   },
   {
-    name: 'Kawaii Orange',
+    name: 'BubbleQuest Orange',
     description: 'Warm orange theme',
     colors: {
       primary_500: '#F4A460',
@@ -71,7 +71,7 @@ export const KAWAII_THEME_PRESETS: ThemePreset[] = [
     }
   },
   {
-    name: 'Kawaii Blue',
+    name: 'BubbleQuest Blue',
     description: 'Calm blue theme',
     colors: {
       primary_500: '#6B9BD1',
@@ -80,7 +80,7 @@ export const KAWAII_THEME_PRESETS: ThemePreset[] = [
     }
   },
   {
-    name: 'Kawaii Teal',
+    name: 'BubbleQuest Teal',
     description: 'Fresh teal theme',
     colors: {
       primary_500: '#7ECEC4',
@@ -89,7 +89,7 @@ export const KAWAII_THEME_PRESETS: ThemePreset[] = [
     }
   },
   {
-    name: 'Kawaii Purple',
+    name: 'BubbleQuest Purple',
     description: 'Dreamy purple theme',
     colors: {
       primary_500: '#C5B3E6',
@@ -98,7 +98,7 @@ export const KAWAII_THEME_PRESETS: ThemePreset[] = [
     }
   },
   {
-    name: 'Kawaii Yellow',
+    name: 'BubbleQuest Yellow',
     description: 'Cheerful yellow theme',
     colors: {
       primary_500: '#FFD97D',

@@ -78,7 +78,7 @@ import { StickerCanvas } from '@/components/stickers';
 
 ## 🎨 Customization
 
-All components use your Kawaii theme colors automatically:
+All components use your BubbleQuest theme colors automatically:
 - Pink gradients: `from-pink-400 to-pink-500`
 - Pastel backgrounds
 - Soft shadows

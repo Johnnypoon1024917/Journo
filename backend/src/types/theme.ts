@@ -1,11 +1,11 @@
 /**
  * Theme System Types
  * 
- * Types for centralized Kawaii theme system with system-wide
+ * Types for centralized BubbleQuest theme system with system-wide
  * and trip-specific color configurations
  */
 
-export interface KawaiiColorTheme {
+export interface BubbleQuestColorTheme {
   id: string;
   theme_name: string;
   
@@ -42,11 +42,11 @@ export interface KawaiiColorTheme {
   updated_at: Date;
 }
 
-export interface SystemColorTheme extends KawaiiColorTheme {
+export interface SystemColorTheme extends BubbleQuestColorTheme {
   is_active: boolean;
 }
 
-export interface TripColorTheme extends KawaiiColorTheme {
+export interface TripColorTheme extends BubbleQuestColorTheme {
   trip_id: string;
 }
 
@@ -87,7 +87,7 @@ export interface ThemePreset {
   colors: UpdateThemeRequest;
 }
 
-// Kawaii theme presets
+// BubbleQuest theme presets
 export const KAWAII_THEME_PRESETS: ThemePreset[] = [
   {
     name: 'Kawaii Pink',

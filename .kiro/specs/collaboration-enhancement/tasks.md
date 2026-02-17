@@ -560,8 +560,8 @@ This document breaks down the implementation of collaboration enhancement featur
 - [x] Unit tests written
 
 **Files to Create/Modify**:
-- `frontend/src/components/kawaii/ActivityLog.tsx` (new)
-- `frontend/src/components/kawaii/ActivityLogItem.tsx` (new)
+- `frontend/src/components/bubblequest/ActivityLog.tsx` (new)
+- `frontend/src/components/bubblequest/ActivityLogItem.tsx` (new)
 
 ### Task 6.2: Create ActivityLogFilter Component
 **Status**: ✅ Completed
@@ -581,7 +581,7 @@ This document breaks down the implementation of collaboration enhancement featur
 - [x] Unit tests written
 
 **Files to Create/Modify**:
-- `frontend/src/components/kawaii/ActivityLogFilter.tsx` (new)
+- `frontend/src/components/bubblequest/ActivityLogFilter.tsx` (new)
 
 ### Task 6.3: Integrate ActivityLog into MembersScreen
 **Status**: ✅ Completed
@@ -626,8 +626,8 @@ This document breaks down the implementation of collaboration enhancement featur
 - [ ] Unit tests written
 
 **Files to Create/Modify**:
-- `frontend/src/components/kawaii/InviteLinkModal.tsx` (new) ✅
-- `frontend/src/components/kawaii/InviteLinkCard.tsx` (new) ✅
+- `frontend/src/components/bubblequest/InviteLinkModal.tsx` (new) ✅
+- `frontend/src/components/bubblequest/InviteLinkCard.tsx` (new) ✅
 
 ### Task 7.2: Create InvitationAcceptPage Component
 **Status**: ✅ Completed
@@ -696,8 +696,8 @@ This document breaks down the implementation of collaboration enhancement featur
 - [ ] Unit tests written
 
 **Files to Create/Modify**:
-- `frontend/src/components/kawaii/NotificationToast.tsx` (new) ✅
-- `frontend/src/components/kawaii/ToastContainer.tsx` (new) ✅
+- `frontend/src/components/bubblequest/NotificationToast.tsx` (new) ✅
+- `frontend/src/components/bubblequest/ToastContainer.tsx` (new) ✅
 
 ### Task 8.2: Create NotificationCenter Component
 **Status**: ✅ Completed
@@ -720,8 +720,8 @@ This document breaks down the implementation of collaboration enhancement featur
 - [ ] Unit tests written
 
 **Files to Create/Modify**:
-- `frontend/src/components/kawaii/NotificationCenter.tsx` (new) ✅
-- `frontend/src/components/kawaii/NotificationItem.tsx` (new) ✅
+- `frontend/src/components/bubblequest/NotificationCenter.tsx` (new) ✅
+- `frontend/src/components/bubblequest/NotificationItem.tsx` (new) ✅
 
 ### Task 8.3: Create NotificationPreferences Component
 **Status**: ✅ Completed
@@ -743,7 +743,7 @@ This document breaks down the implementation of collaboration enhancement featur
 - [ ] Unit tests written
 
 **Files to Create/Modify**:
-- `frontend/src/components/kawaii/NotificationPreferences.tsx` (new) ✅
+- `frontend/src/components/bubblequest/NotificationPreferences.tsx` (new) ✅
 - `frontend/src/pages/SettingsScreen.tsx` (integrate)
 
 ### Task 8.4: Integrate Toast Notifications
@@ -788,7 +788,7 @@ This document breaks down the implementation of collaboration enhancement featur
 - [ ] Unit tests written
 
 **Files to Create/Modify**:
-- `frontend/src/components/kawaii/MemberCard.tsx` (enhance)
+- `frontend/src/components/bubblequest/MemberCard.tsx` (enhance)
 
 ### Task 9.2: Create PendingInvitations Component
 **Status**: ✅ Completed
@@ -808,7 +808,7 @@ This document breaks down the implementation of collaboration enhancement featur
 - [ ] Unit tests written
 
 **Files to Create/Modify**:
-- `frontend/src/components/kawaii/PendingInvitations.tsx` (new) ✅
+- `frontend/src/components/bubblequest/PendingInvitations.tsx` (new) ✅
 - `frontend/src/pages/MembersScreen.tsx` (integrate)
 
 ### Task 9.3: Add Member Search and Sort
@@ -899,10 +899,10 @@ This document breaks down the implementation of collaboration enhancement featur
 - [x] Consistent styling
 
 **Files to Create/Modify**:
-- `frontend/src/components/kawaii/skeletons/ActivityLogSkeleton.tsx` (new) ✅
-- `frontend/src/components/kawaii/skeletons/MemberCardSkeleton.tsx` (new) ✅
-- `frontend/src/components/kawaii/skeletons/NotificationSkeleton.tsx` (new) ✅
-- `frontend/src/components/kawaii/skeletons/Skeleton.tsx` (new) ✅
+- `frontend/src/components/bubblequest/skeletons/ActivityLogSkeleton.tsx` (new) ✅
+- `frontend/src/components/bubblequest/skeletons/MemberCardSkeleton.tsx` (new) ✅
+- `frontend/src/components/bubblequest/skeletons/NotificationSkeleton.tsx` (new) ✅
+- `frontend/src/components/bubblequest/skeletons/Skeleton.tsx` (new) ✅
 
 ### Task 10.3: Add Error Boundaries
 **Status**: ✅ Completed
@@ -1039,7 +1039,7 @@ This document breaks down the implementation of collaboration enhancement featur
 - [ ] >80% coverage
 
 **Files to Create/Modify**:
-- `frontend/src/components/kawaii/__tests__/*.test.tsx`
+- `frontend/src/components/bubblequest/__tests__/*.test.tsx`
 - `frontend/src/hooks/__tests__/*.test.ts`
 - `frontend/src/services/__tests__/*.test.ts`
 
@@ -1142,7 +1142,7 @@ This document breaks down the implementation of collaboration enhancement featur
 - [ ] Accessibility notes
 
 **Files to Create/Modify**:
-- `frontend/src/components/kawaii/*.stories.tsx` (new)
+- `frontend/src/components/bubblequest/*.stories.tsx` (new)
 
 ### Task DOC.3: User Guide
 **Status**: ⬜ Not Started

@@ -450,7 +450,7 @@ export function TripPlanner() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#f7f3eb] dark:bg-kawaii-neutral-900 flex items-center justify-center">
+      <div className="min-h-screen bg-[#f7f3eb] dark:bg-bubblequest-neutral-900 flex items-center justify-center">
         <div className="text-center">
           <Spinner size="large" />
           <p className="text-gray-600 mt-4">Loading trip...</p>
@@ -461,7 +461,7 @@ export function TripPlanner() {
 
   if (error || !trip) {
     return (
-      <div className="min-h-screen bg-[#f7f3eb] dark:bg-kawaii-neutral-900 flex items-center justify-center">
+      <div className="min-h-screen bg-[#f7f3eb] dark:bg-bubblequest-neutral-900 flex items-center justify-center">
         <div className="text-center">
           <p className="text-red-600 mb-4">{error || 'Trip not found'}</p>
           <button

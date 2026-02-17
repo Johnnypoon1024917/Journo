@@ -31,7 +31,7 @@
 - [Internationalization](./frontend/src/i18n/README.md) - Multi-language support
 
 ### Component Documentation
-- [Kawaii Components](./frontend/src/components/kawaii/README.md) - UI components
+- [Kawaii Components](./frontend/src/components/bubblequest/README.md) - UI components
 - [Design System](./frontend/src/design-system/README.md) - Design tokens
 - [Sticker Components](./frontend/src/components/stickers/README.md) - Sticker UI
 
@@ -53,7 +53,7 @@
 - Offline storage → [Offline Support](./docs-consolidated/features/OFFLINE_SUPPORT.md)
 
 ### UI & Components
-- Component library → [Kawaii Components](./frontend/src/components/kawaii/README.md)
+- Component library → [Kawaii Components](./frontend/src/components/bubblequest/README.md)
 - Design system → [Design System](./frontend/src/design-system/README.md)
 - Styling → [Frontend Setup](./docs-consolidated/guides/FRONTEND_SETUP.md)
 

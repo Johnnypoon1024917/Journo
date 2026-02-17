@@ -11,7 +11,7 @@ import enPacking from '../locales/en/packing.json';
 import enCommunity from '../locales/en/community.json';
 import enSettings from '../locales/en/settings.json';
 import enErrors from '../locales/en/errors.json';
-import enKawaii from '../locales/en/kawaii.json';
+import enBubbleQuest from '../locales/en/bubbleQuest.json';
 import enMembers from '../locales/en/members.json';
 import enActivity from '../locales/en/activity.json';
 import enCollaboration from '../locales/en/collaboration.json';
@@ -27,7 +27,7 @@ import zhTWPacking from '../locales/zh-TW/packing.json';
 import zhTWCommunity from '../locales/zh-TW/community.json';
 import zhTWSettings from '../locales/zh-TW/settings.json';
 import zhTWErrors from '../locales/zh-TW/errors.json';
-import zhTWKawaii from '../locales/zh-TW/kawaii.json';
+import zhTWBubbleQuest from '../locales/zh-TW/bubbleQuest.json';
 import zhTWMembers from '../locales/zh-TW/members.json';
 import zhTWActivity from '../locales/zh-TW/activity.json';
 import zhTWCollaboration from '../locales/zh-TW/collaboration.json';
@@ -43,7 +43,7 @@ import zhCNPacking from '../locales/zh-CN/packing.json';
 import zhCNCommunity from '../locales/zh-CN/community.json';
 import zhCNSettings from '../locales/zh-CN/settings.json';
 import zhCNErrors from '../locales/zh-CN/errors.json';
-import zhCNKawaii from '../locales/zh-CN/kawaii.json';
+import zhCNBubbleQuest from '../locales/zh-CN/bubbleQuest.json';
 import zhCNMembers from '../locales/zh-CN/members.json';
 import zhCNActivity from '../locales/zh-CN/activity.json';
 import zhCNCollaboration from '../locales/zh-CN/collaboration.json';
@@ -59,7 +59,7 @@ import jaPacking from '../locales/ja/packing.json';
 import jaCommunity from '../locales/ja/community.json';
 import jaSettings from '../locales/ja/settings.json';
 import jaErrors from '../locales/ja/errors.json';
-import jaKawaii from '../locales/ja/kawaii.json';
+import jaBubbleQuest from '../locales/ja/bubbleQuest.json';
 import jaMembers from '../locales/ja/members.json';
 import jaActivity from '../locales/ja/activity.json';
 import jaCollaboration from '../locales/ja/collaboration.json';
@@ -133,7 +133,7 @@ i18n
         community: enCommunity,
         settings: enSettings,
         errors: enErrors,
-        kawaii: enKawaii,
+        bubbleQuest: enBubbleQuest,
         members: enMembers,
         activity: enActivity,
         collaboration: enCollaboration,
@@ -149,7 +149,7 @@ i18n
         community: zhTWCommunity,
         settings: zhTWSettings,
         errors: zhTWErrors,
-        kawaii: zhTWKawaii,
+        bubbleQuest: zhTWBubbleQuest,
         members: zhTWMembers,
         activity: zhTWActivity,
         collaboration: zhTWCollaboration,
@@ -165,7 +165,7 @@ i18n
         community: zhCNCommunity,
         settings: zhCNSettings,
         errors: zhCNErrors,
-        kawaii: zhCNKawaii,
+        bubbleQuest: zhCNBubbleQuest,
         members: zhCNMembers,
         activity: zhCNActivity,
         collaboration: zhCNCollaboration,
@@ -181,7 +181,7 @@ i18n
         community: jaCommunity,
         settings: jaSettings,
         errors: jaErrors,
-        kawaii: jaKawaii,
+        bubbleQuest: jaBubbleQuest,
         members: jaMembers,
         activity: jaActivity,
         collaboration: jaCollaboration,
@@ -192,7 +192,7 @@ i18n
     fallbackLng: 'en',
     // Remove hardcoded lng to allow detector to work
     defaultNS: 'common',
-    ns: ['common', 'trip', 'place', 'budget', 'packing', 'community', 'settings', 'errors', 'kawaii', 'members', 'activity', 'collaboration', 'newTrip', 'notifications'],
+    ns: ['common', 'trip', 'place', 'budget', 'packing', 'community', 'settings', 'errors', 'bubbleQuest', 'members', 'activity', 'collaboration', 'newTrip', 'notifications'],
     interpolation: {
       escapeValue: false, // React already escapes values
     },

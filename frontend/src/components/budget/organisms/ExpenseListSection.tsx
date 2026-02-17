@@ -126,7 +126,7 @@ export const ExpenseListSection: React.FC<ExpenseListSectionProps> = ({
 
   return (
     <section
-      className={`bg-white dark:bg-gray-800 rounded-2xl shadow-kawaii-sm border-2 border-[#d5d0c2] dark:border-gray-700 p-4 ${className}`}
+      className={`bg-white dark:bg-gray-800 rounded-2xl shadow-bubblequest-sm border-2 border-[#d5d0c2] dark:border-gray-700 p-4 ${className}`}
       aria-label="Expense list section"
     >
       {/* Filter Tabs */}

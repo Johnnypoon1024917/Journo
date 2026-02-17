@@ -5,8 +5,8 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { SideNavigation } from '@/components/kawaii/SideNavigation';
-import { BottomNavigation } from '@/components/kawaii/BottomNavigation';
+import { SideNavigation } from '@/components/bubblequest/SideNavigation';
+import { BottomNavigation } from '@/components/bubblequest/BottomNavigation';
 import { SkipLinks } from '@/components/common/SkipLinks';
 import { safeAreaService } from '@/services/safeAreaService';
 

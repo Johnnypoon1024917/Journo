@@ -2,7 +2,7 @@
 
 ## Overview
 
-The ShoppingScreen is a kawaii-style page component that provides a complete shopping list management interface for trip planning. It integrates shopping statistics, filtering, and item management with a beautiful, touch-optimized UI.
+The ShoppingScreen is a bubblequest-style page component that provides a complete shopping list management interface for trip planning. It integrates shopping statistics, filtering, and item management with a beautiful, touch-optimized UI.
 
 ## Features
 

@@ -55,7 +55,7 @@ frontend/
 ├── public/              # Static assets
 ├── src/
 │   ├── components/      # React components
-│   │   ├── kawaii/     # Kawaii-themed components
+│   │   ├── kawaii/     # BubbleQuest-themed components
 │   │   ├── stickers/   # Sticker system
 │   │   └── common/     # Shared components
 │   ├── pages/          # Page components

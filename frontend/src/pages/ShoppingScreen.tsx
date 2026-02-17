@@ -1,7 +1,7 @@
 /**
- * Kawaii ShoppingScreen Page Component
+ * BubbleQuest ShoppingScreen Page Component
  * 
- * Main shopping screen that integrates all kawaii shopping components.
+ * Main shopping screen that integrates all BubbleQuest shopping components.
  * 
  * Features:
  * - ShoppingStats for displaying to buy/bought counts
@@ -41,11 +41,11 @@ import { useFABPosition, getFABStyle } from '@/hooks/useFABPosition';
 import { useScrollDirection } from '@/hooks/useScrollDirection';
 
 // Components
-import { FilterDropdown } from '@/components/kawaii/FilterDropdown';
-import { ShoppingItem } from '@/components/kawaii/ShoppingItem';
-import { StickerModal } from '@/components/kawaii/StickerModal';
-import { StickerDisplay } from '@/components/kawaii/StickerDisplay';
-import { AddShoppingItemModal, ShoppingItemFormData } from '@/components/kawaii/AddShoppingItemModal';
+import { FilterDropdown } from '@/components/bubblequest/FilterDropdown';
+import { ShoppingItem } from '@/components/bubblequest/ShoppingItem';
+import { StickerModal } from '@/components/bubblequest/StickerModal';
+import { StickerDisplay } from '@/components/bubblequest/StickerDisplay';
+import { AddShoppingItemModal, ShoppingItemFormData } from '@/components/bubblequest/AddShoppingItemModal';
 import { PageLayout, NavigationWrapper } from '@/components/layout';
 import type { NavigationTab } from '@/components/layout';
 
@@ -59,9 +59,9 @@ import { PlusIcon, SparklesIcon } from '@heroicons/react/24/outline';
  * Loading spinner component
  */
 const LoadingSpinner: React.FC = () => (
-  <div className="flex items-center justify-center min-h-screen bg-[#f7f3eb] dark:bg-kawaii-neutral-900">
+  <div className="flex items-center justify-center min-h-screen bg-[#f7f3eb] dark:bg-bubblequest-neutral-900">
     <motion.div
-      className="w-16 h-16 border-4 border-kawaii-primary-200 border-t-kawaii-primary-600 rounded-full"
+      className="w-16 h-16 border-4 border-bubblequest-primary-200 border-t-bubblequest-primary-600 rounded-full"
       animate={{ rotate: 360 }}
       transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
     />
@@ -77,17 +77,17 @@ const ErrorDisplay: React.FC<{ message: string; onRetry?: () => void; onGoHome?:
   onGoHome,
 }) => {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[#f7f3eb] dark:bg-kawaii-neutral-900 p-4">
+    <div className="flex items-center justify-center min-h-screen bg-[#f7f3eb] dark:bg-bubblequest-neutral-900 p-4">
       <div className="text-center max-w-md">
         <span className="text-6xl mb-4 block">😢</span>
-        <p className="text-xl text-kawaii-neutral-700 dark:text-kawaii-neutral-300 mb-6">
+        <p className="text-xl text-bubblequest-neutral-700 dark:text-bubblequest-neutral-300 mb-6">
           {message}
         </p>
         <div className="flex gap-3 justify-center">
           {onRetry && (
             <button
               onClick={onRetry}
-              className="px-6 py-2 bg-kawaii-primary-500 text-white rounded-lg hover:bg-kawaii-primary-600 transition-colors focus:outline-none focus:ring-2 focus:ring-kawaii-primary-500 focus:ring-offset-2"
+              className="px-6 py-2 bg-bubblequest-primary-500 text-white rounded-lg hover:bg-bubblequest-primary-600 transition-colors focus:outline-none focus:ring-2 focus:ring-bubblequest-primary-500 focus:ring-offset-2"
             >
               Try Again
             </button>
@@ -95,7 +95,7 @@ const ErrorDisplay: React.FC<{ message: string; onRetry?: () => void; onGoHome?:
           {onGoHome && (
             <button
               onClick={onGoHome}
-              className="px-6 py-2 bg-kawaii-neutral-200 dark:bg-kawaii-neutral-700 text-kawaii-neutral-700 dark:text-kawaii-neutral-300 rounded-lg hover:bg-kawaii-neutral-300 dark:hover:bg-kawaii-neutral-600 transition-colors focus:outline-none focus:ring-2 focus:ring-kawaii-neutral-500 focus:ring-offset-2"
+              className="px-6 py-2 bg-bubblequest-neutral-200 dark:bg-bubblequest-neutral-700 text-bubblequest-neutral-700 dark:text-bubblequest-neutral-300 rounded-lg hover:bg-bubblequest-neutral-300 dark:hover:bg-bubblequest-neutral-600 transition-colors focus:outline-none focus:ring-2 focus:ring-bubblequest-neutral-500 focus:ring-offset-2"
             >
               Go Home
             </button>
@@ -110,7 +110,7 @@ const ErrorDisplay: React.FC<{ message: string; onRetry?: () => void; onGoHome?:
  * Empty state component
  */
 const EmptyState: React.FC<{ onAdd: () => void }> = ({ onAdd }) => {
-  const { t } = useTranslation('kawaii');
+  const { t } = useTranslation('bubbleQuest');
 
   return (
     <motion.div
@@ -120,10 +120,10 @@ const EmptyState: React.FC<{ onAdd: () => void }> = ({ onAdd }) => {
       transition={{ duration: 0.5 }}
     >
       <span className="text-8xl mb-6 block">🛍️</span>
-      <h3 className="text-2xl font-semibold text-kawaii-neutral-700 dark:text-kawaii-neutral-300 mb-3">
+      <h3 className="text-2xl font-semibold text-bubblequest-neutral-700 dark:text-bubblequest-neutral-300 mb-3">
         {t('shopping.noItems')}
       </h3>
-      <p className="text-kawaii-neutral-600 dark:text-kawaii-neutral-400 mb-6 max-w-md mx-auto">
+      <p className="text-bubblequest-neutral-600 dark:text-bubblequest-neutral-400 mb-6 max-w-md mx-auto">
         Start building your shopping list for the trip
       </p>
       <button
@@ -143,7 +143,7 @@ const EmptyState: React.FC<{ onAdd: () => void }> = ({ onAdd }) => {
 export const ShoppingScreen: React.FC = () => {
   const { id: tripId } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { t } = useTranslation('kawaii');
+  const { t } = useTranslation('bubbleQuest');
   const { accessToken, logout } = useEnhancedAuthStore();
   const { showSuccess, showError } = useToast();
 
@@ -484,15 +484,15 @@ export const ShoppingScreen: React.FC = () => {
     >
       <PageLayout tripId={tripId} showStickers>
         {/* Header Section - Matching Screenshot Design */}
-        <div className="sticky top-0 z-30 w-full bg-white dark:bg-kawaii-neutral-800 border-b border-kawaii-neutral-200 dark:border-kawaii-neutral-700 shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 py-6 w-full bg-white dark:bg-kawaii-neutral-800">
+        <div className="sticky top-0 z-30 w-full bg-white dark:bg-bubblequest-neutral-800 border-b border-bubblequest-neutral-200 dark:border-bubblequest-neutral-700 shadow-sm">
+          <div className="max-w-7xl mx-auto px-4 py-6 w-full bg-white dark:bg-bubblequest-neutral-800">
             {/* Title Row with Add Button */}
             <div className="flex items-start justify-between mb-2">
               <div className="flex-1">
-                <h1 className="text-2xl md:text-3xl font-bold text-kawaii-neutral-900 dark:text-kawaii-neutral-100 mb-1">
+                <h1 className="text-2xl md:text-3xl font-bold text-bubblequest-neutral-900 dark:text-bubblequest-neutral-100 mb-1">
                   {t('shopping.title')}
                 </h1>
-                <p className="text-sm text-kawaii-neutral-600 dark:text-kawaii-neutral-400">
+                <p className="text-sm text-bubblequest-neutral-600 dark:text-bubblequest-neutral-400">
                   {t('shopping.subtitle')}
                 </p>
               </div>
@@ -525,17 +525,17 @@ export const ShoppingScreen: React.FC = () => {
             <div className="grid grid-cols-2 gap-3 mt-6">
               {/* To Buy Card */}
               <motion.div
-                className="bg-[#f7f3eb] dark:bg-kawaii-neutral-700 rounded-2xl p-4 border-2 border-[#d5d0c2] dark:border-kawaii-neutral-600"
+                className="bg-[#f7f3eb] dark:bg-bubblequest-neutral-700 rounded-2xl p-4 border-2 border-[#d5d0c2] dark:border-bubblequest-neutral-600"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.1 }}
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-3xl md:text-4xl font-bold text-kawaii-neutral-900 dark:text-kawaii-neutral-100">
+                    <div className="text-3xl md:text-4xl font-bold text-bubblequest-neutral-900 dark:text-bubblequest-neutral-100">
                       {stats.toBuy}
                     </div>
-                    <div className="text-sm text-kawaii-neutral-600 dark:text-kawaii-neutral-400 mt-1">
+                    <div className="text-sm text-bubblequest-neutral-600 dark:text-bubblequest-neutral-400 mt-1">
                       {t('shopping.toBuy')}
                     </div>
                   </div>
@@ -547,17 +547,17 @@ export const ShoppingScreen: React.FC = () => {
 
               {/* Bought Card */}
               <motion.div
-                className="bg-[#f7f3eb] dark:bg-kawaii-neutral-700 rounded-2xl p-4 border-2 border-[#d5d0c2] dark:border-kawaii-neutral-600"
+                className="bg-[#f7f3eb] dark:bg-bubblequest-neutral-700 rounded-2xl p-4 border-2 border-[#d5d0c2] dark:border-bubblequest-neutral-600"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.2 }}
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-3xl md:text-4xl font-bold text-kawaii-neutral-900 dark:text-kawaii-neutral-100">
+                    <div className="text-3xl md:text-4xl font-bold text-bubblequest-neutral-900 dark:text-bubblequest-neutral-100">
                       {stats.bought}
                     </div>
-                    <div className="text-sm text-kawaii-neutral-600 dark:text-kawaii-neutral-400 mt-1">
+                    <div className="text-sm text-bubblequest-neutral-600 dark:text-bubblequest-neutral-400 mt-1">
                       {t('shopping.bought')}
                     </div>
                   </div>
@@ -591,7 +591,7 @@ export const ShoppingScreen: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
-              <h2 className="text-lg font-semibold text-kawaii-neutral-900 dark:text-kawaii-neutral-100">
+              <h2 className="text-lg font-semibold text-bubblequest-neutral-900 dark:text-bubblequest-neutral-100">
                 {t('shopping.toBuy')}
               </h2>
               <div className="flex items-center gap-2 relative">
@@ -631,7 +631,7 @@ export const ShoppingScreen: React.FC = () => {
                   transition={{ duration: 0.3 }}
                 >
                   <span className="text-6xl mb-4 block">🔍</span>
-                  <p className="text-xl text-kawaii-neutral-700 dark:text-kawaii-neutral-300">
+                  <p className="text-xl text-bubblequest-neutral-700 dark:text-bubblequest-neutral-300">
                     {t('shopping.noResults')}
                   </p>
                 </motion.div>

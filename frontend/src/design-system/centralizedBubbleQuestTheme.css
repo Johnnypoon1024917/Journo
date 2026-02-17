@@ -1,0 +1,170 @@
+/**
+ * Centralized Kawaii Theme System
+ * 
+ * Single source of truth for all colors and styling.
+ * All colors are CSS custom properties that can be dynamically
+ * updated from database (system theme or trip theme).
+ */
+
+:root {
+  /* ============================================
+     Kawaii Primary Colors (50-950 scale)
+     ============================================ */
+  --bubblequest-primary-50: #fff5f7;
+  --bubblequest-primary-100: #ffe3e8;
+  --bubblequest-primary-200: #ffc7d1;
+  --bubblequest-primary-300: #ffaaba;
+  --bubblequest-primary-400: #ff8ea3;
+  --bubblequest-primary-500: #FFB3BA;
+  --bubblequest-primary-600: #ff6b7f;
+  --bubblequest-primary-700: #ff4d63;
+  --bubblequest-primary-800: #ff2f47;
+  --bubblequest-primary-900: #e6002b;
+  --bubblequest-primary-950: #b30021;
+  
+  /* ============================================
+     Kawaii Background
+     ============================================ */
+  --bubblequest-cream: #FFF8F0;
+  
+  /* ============================================
+     Kawaii Neutral Colors (50-950 scale)
+     ============================================ */
+  --bubblequest-neutral-50: #fafaf9;
+  --bubblequest-neutral-100: #f5f5f4;
+  --bubblequest-neutral-200: #e7e5e4;
+  --bubblequest-neutral-300: #d6d3d1;
+  --bubblequest-neutral-400: #a8a29e;
+  --bubblequest-neutral-500: #78716c;
+  --bubblequest-neutral-600: #57534e;
+  --bubblequest-neutral-700: #44403c;
+  --bubblequest-neutral-800: #292524;
+  --bubblequest-neutral-900: #1c1917;
+  --bubblequest-neutral-950: #0f0e0d;
+}
+
+/* ============================================
+   Typography
+   ============================================ */
+:root {
+  --bubblequest-font-family: 'Noto Sans TC', 'Noto Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  --bubblequest-font-family-display: 'Fredoka', 'Noto Sans TC', 'Noto Sans', sans-serif;
+  
+  --bubblequest-font-size: 16px;
+  --bubblequest-font-size-sm: 14px;
+  --bubblequest-font-size-lg: 18px;
+  --bubblequest-font-size-xl: 20px;
+}
+
+/* ============================================
+   Spacing
+   ============================================ */
+:root {
+  --bubblequest-spacing-xs: 0.5rem;
+  --bubblequest-spacing-sm: 0.75rem;
+  --bubblequest-spacing-md: 1rem;
+  --bubblequest-spacing-lg: 1.5rem;
+  --bubblequest-spacing-xl: 2rem;
+  --bubblequest-spacing-2xl: 3rem;
+  --bubblequest-spacing-3xl: 4rem;
+  
+  --bubblequest-touch-min: 44px;
+  --bubblequest-touch-comfortable: 48px;
+  --bubblequest-touch-large: 56px;
+}
+
+/* ============================================
+   Animations
+   ============================================ */
+:root {
+  --bubblequest-duration-fast: 150ms;
+  --bubblequest-duration-normal: 300ms;
+  --bubblequest-duration-slow: 500ms;
+  --bubblequest-easing-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --bubblequest-easing-ease-out: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================
+   Shadows
+   ============================================ */
+:root {
+  --bubblequest-shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.08);
+  --bubblequest-shadow-md: 0 4px 8px -2px rgba(0, 0, 0, 0.1);
+  --bubblequest-shadow-lg: 0 10px 20px -5px rgba(0, 0, 0, 0.12);
+  --bubblequest-shadow-xl: 0 20px 30px -8px rgba(0, 0, 0, 0.15);
+}
+
+/* ============================================
+   Border Radius
+   ============================================ */
+:root {
+  --bubblequest-radius-sm: 0.5rem;
+  --bubblequest-radius-md: 0.75rem;
+  --bubblequest-radius-lg: 1rem;
+  --bubblequest-radius-xl: 1.5rem;
+  --bubblequest-radius-2xl: 2rem;
+  --bubblequest-radius-full: 9999px;
+}
+
+/* ============================================
+   Global Styles
+   ============================================ */
+body {
+  font-family: var(--bubblequest-font-family);
+  font-size: var(--bubblequest-font-size);
+  background-color: var(--bubblequest-cream);
+  color: var(--bubblequest-neutral-900);
+}
+
+/* ============================================
+   Utility Classes
+   ============================================ */
+.bubblequest-card {
+  background-color: var(--bubblequest-cream);
+  border-radius: var(--bubblequest-radius-xl);
+  box-shadow: var(--bubblequest-shadow-md);
+  padding: var(--bubblequest-spacing-lg);
+  transition: all var(--bubblequest-duration-normal) var(--bubblequest-easing-ease-out);
+}
+
+.bubblequest-card:hover {
+  box-shadow: var(--bubblequest-shadow-lg);
+  transform: translateY(-2px);
+}
+
+.bubblequest-button {
+  min-height: var(--bubblequest-touch-min);
+  min-width: var(--bubblequest-touch-min);
+  padding: var(--bubblequest-spacing-sm) var(--bubblequest-spacing-lg);
+  border-radius: var(--bubblequest-radius-full);
+  font-weight: 500;
+  font-size: var(--bubblequest-font-size);
+  transition: all var(--bubblequest-duration-fast) var(--bubblequest-easing-spring);
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+.bubblequest-button:active {
+  transform: scale(0.95);
+}
+
+.bubblequest-button-primary {
+  background: linear-gradient(135deg, var(--bubblequest-primary-500), var(--bubblequest-primary-600));
+  color: white;
+  box-shadow: 0 4px 12px -3px var(--bubblequest-primary-500);
+}
+
+.bubblequest-button-primary:hover {
+  background: linear-gradient(135deg, var(--bubblequest-primary-600), var(--bubblequest-primary-700));
+  box-shadow: 0 6px 16px -3px var(--bubblequest-primary-600);
+}
+
+.bubblequest-button-secondary {
+  background: var(--bubblequest-neutral-100);
+  color: var(--bubblequest-neutral-900);
+}
+
+.bubblequest-button-secondary:hover {
+  background: var(--bubblequest-neutral-200);
+}

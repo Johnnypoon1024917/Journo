@@ -2,7 +2,7 @@
 
 ## Overview
 
-The BookingScreen is a fully functional kawaii-style page component for managing flight, train, and accommodation bookings within a trip.
+The BookingScreen is a fully functional bubblequest-style page component for managing flight, train, and accommodation bookings within a trip.
 
 ## Features Implemented
 
@@ -55,16 +55,16 @@ The BookingScreen is a fully functional kawaii-style page component for managing
    - Added BookingScreen import
    - Added route: `/trips/:id/booking`
 
-2. **frontend/src/locales/en/kawaii.json**
+2. **frontend/src/locales/en/bubbleQuest.json**
    - Added booking translations: `addTicket`, `addAccommodation`, `noTickets`, `noAccommodation`
 
-3. **frontend/src/locales/zh-TW/kawaii.json**
+3. **frontend/src/locales/zh-TW/bubbleQuest.json**
    - Added Chinese (Traditional) translations
 
-4. **frontend/src/locales/zh-CN/kawaii.json**
+4. **frontend/src/locales/zh-CN/bubbleQuest.json**
    - Added Chinese (Simplified) translations
 
-5. **frontend/src/locales/ja/kawaii.json**
+5. **frontend/src/locales/ja/bubbleQuest.json**
    - Added Japanese translations
 
 ## Usage

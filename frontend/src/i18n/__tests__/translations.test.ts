@@ -15,37 +15,37 @@ describe('i18n Translations', () => {
     });
 
     it('should translate common navigation items', () => {
-      expect(i18n.t('kawaii:navigation.schedule')).toBe('Schedule');
-      expect(i18n.t('kawaii:navigation.booking')).toBe('Booking');
-      expect(i18n.t('kawaii:navigation.shopping')).toBe('Shopping');
-      expect(i18n.t('kawaii:navigation.checklist')).toBe('Checklist');
-      expect(i18n.t('kawaii:navigation.members')).toBe('Members');
-      expect(i18n.t('kawaii:navigation.settings')).toBe('Settings');
+      expect(i18n.t('bubbleQuest:navigation.schedule')).toBe('Schedule');
+      expect(i18n.t('bubbleQuest:navigation.booking')).toBe('Booking');
+      expect(i18n.t('bubbleQuest:navigation.shopping')).toBe('Shopping');
+      expect(i18n.t('bubbleQuest:navigation.checklist')).toBe('Checklist');
+      expect(i18n.t('bubbleQuest:navigation.members')).toBe('Members');
+      expect(i18n.t('bubbleQuest:navigation.settings')).toBe('Settings');
     });
 
     it('should translate countdown timer', () => {
-      expect(i18n.t('kawaii:countdown.days', { count: 1 })).toBe('1 day');
-      expect(i18n.t('kawaii:countdown.days', { count: 5 })).toBe('5 days');
-      expect(i18n.t('kawaii:countdown.hours', { count: 1 })).toBe('1 hour');
-      expect(i18n.t('kawaii:countdown.hours', { count: 3 })).toBe('3 hours');
+      expect(i18n.t('bubbleQuest:countdown.days', { count: 1 })).toBe('1 day');
+      expect(i18n.t('bubbleQuest:countdown.days', { count: 5 })).toBe('5 days');
+      expect(i18n.t('bubbleQuest:countdown.hours', { count: 1 })).toBe('1 hour');
+      expect(i18n.t('bubbleQuest:countdown.hours', { count: 3 })).toBe('3 hours');
     });
 
     it('should translate weather conditions', () => {
-      expect(i18n.t('kawaii:weather.conditions.sunny')).toBe('Sunny');
-      expect(i18n.t('kawaii:weather.conditions.rainy')).toBe('Rainy');
-      expect(i18n.t('kawaii:weather.conditions.snowy')).toBe('Snowy');
+      expect(i18n.t('bubbleQuest:weather.conditions.sunny')).toBe('Sunny');
+      expect(i18n.t('bubbleQuest:weather.conditions.rainy')).toBe('Rainy');
+      expect(i18n.t('bubbleQuest:weather.conditions.snowy')).toBe('Snowy');
     });
 
     it('should translate theme colors', () => {
-      expect(i18n.t('kawaii:theme.colors.pink')).toBe('Pink');
-      expect(i18n.t('kawaii:theme.colors.orange')).toBe('Orange');
-      expect(i18n.t('kawaii:theme.colors.blue')).toBe('Blue');
+      expect(i18n.t('bubbleQuest:theme.colors.pink')).toBe('Pink');
+      expect(i18n.t('bubbleQuest:theme.colors.orange')).toBe('Orange');
+      expect(i18n.t('bubbleQuest:theme.colors.blue')).toBe('Blue');
     });
 
     it('should translate animation types', () => {
-      expect(i18n.t('kawaii:theme.animationTypes.none')).toBe('None');
-      expect(i18n.t('kawaii:theme.animationTypes.snow')).toBe('Snow');
-      expect(i18n.t('kawaii:theme.animationTypes.sakura')).toBe('Sakura');
+      expect(i18n.t('bubbleQuest:theme.animationTypes.none')).toBe('None');
+      expect(i18n.t('bubbleQuest:theme.animationTypes.snow')).toBe('Snow');
+      expect(i18n.t('bubbleQuest:theme.animationTypes.sakura')).toBe('Sakura');
     });
   });
 
@@ -55,25 +55,25 @@ describe('i18n Translations', () => {
     });
 
     it('should translate common navigation items', () => {
-      expect(i18n.t('kawaii:navigation.schedule')).toBe('行程');
-      expect(i18n.t('kawaii:navigation.booking')).toBe('預約');
-      expect(i18n.t('kawaii:navigation.shopping')).toBe('購物');
-      expect(i18n.t('kawaii:navigation.checklist')).toBe('準備');
-      expect(i18n.t('kawaii:navigation.members')).toBe('成員');
-      expect(i18n.t('kawaii:navigation.settings')).toBe('設置');
+      expect(i18n.t('bubbleQuest:navigation.schedule')).toBe('行程');
+      expect(i18n.t('bubbleQuest:navigation.booking')).toBe('預約');
+      expect(i18n.t('bubbleQuest:navigation.shopping')).toBe('購物');
+      expect(i18n.t('bubbleQuest:navigation.checklist')).toBe('準備');
+      expect(i18n.t('bubbleQuest:navigation.members')).toBe('成員');
+      expect(i18n.t('bubbleQuest:navigation.settings')).toBe('設置');
     });
 
     it('should translate countdown timer', () => {
-      expect(i18n.t('kawaii:countdown.days', { count: 1 })).toBe('1 天');
-      expect(i18n.t('kawaii:countdown.days', { count: 5 })).toBe('5 天');
-      expect(i18n.t('kawaii:countdown.hours', { count: 1 })).toBe('1 小時');
-      expect(i18n.t('kawaii:countdown.hours', { count: 3 })).toBe('3 小時');
+      expect(i18n.t('bubbleQuest:countdown.days', { count: 1 })).toBe('1 天');
+      expect(i18n.t('bubbleQuest:countdown.days', { count: 5 })).toBe('5 天');
+      expect(i18n.t('bubbleQuest:countdown.hours', { count: 1 })).toBe('1 小時');
+      expect(i18n.t('bubbleQuest:countdown.hours', { count: 3 })).toBe('3 小時');
     });
 
     it('should translate weather conditions', () => {
-      expect(i18n.t('kawaii:weather.conditions.sunny')).toBe('晴天');
-      expect(i18n.t('kawaii:weather.conditions.rainy')).toBe('下雨');
-      expect(i18n.t('kawaii:weather.conditions.snowy')).toBe('下雪');
+      expect(i18n.t('bubbleQuest:weather.conditions.sunny')).toBe('晴天');
+      expect(i18n.t('bubbleQuest:weather.conditions.rainy')).toBe('下雨');
+      expect(i18n.t('bubbleQuest:weather.conditions.snowy')).toBe('下雪');
     });
   });
 
@@ -83,16 +83,16 @@ describe('i18n Translations', () => {
     });
 
     it('should translate common navigation items', () => {
-      expect(i18n.t('kawaii:navigation.schedule')).toBe('行程');
-      expect(i18n.t('kawaii:navigation.booking')).toBe('预约');
-      expect(i18n.t('kawaii:navigation.shopping')).toBe('购物');
-      expect(i18n.t('kawaii:navigation.checklist')).toBe('准备');
+      expect(i18n.t('bubbleQuest:navigation.schedule')).toBe('行程');
+      expect(i18n.t('bubbleQuest:navigation.booking')).toBe('预约');
+      expect(i18n.t('bubbleQuest:navigation.shopping')).toBe('购物');
+      expect(i18n.t('bubbleQuest:navigation.checklist')).toBe('准备');
     });
 
     it('should translate theme colors', () => {
-      expect(i18n.t('kawaii:theme.colors.pink')).toBe('粉红');
-      expect(i18n.t('kawaii:theme.colors.orange')).toBe('橙色');
-      expect(i18n.t('kawaii:theme.colors.blue')).toBe('蓝色');
+      expect(i18n.t('bubbleQuest:theme.colors.pink')).toBe('粉红');
+      expect(i18n.t('bubbleQuest:theme.colors.orange')).toBe('橙色');
+      expect(i18n.t('bubbleQuest:theme.colors.blue')).toBe('蓝色');
     });
   });
 
@@ -102,69 +102,69 @@ describe('i18n Translations', () => {
     });
 
     it('should translate common navigation items', () => {
-      expect(i18n.t('kawaii:navigation.schedule')).toBe('スケジュール');
-      expect(i18n.t('kawaii:navigation.booking')).toBe('予約');
-      expect(i18n.t('kawaii:navigation.shopping')).toBe('買い物');
-      expect(i18n.t('kawaii:navigation.checklist')).toBe('チェックリスト');
-      expect(i18n.t('kawaii:navigation.members')).toBe('メンバー');
-      expect(i18n.t('kawaii:navigation.settings')).toBe('設定');
+      expect(i18n.t('bubbleQuest:navigation.schedule')).toBe('スケジュール');
+      expect(i18n.t('bubbleQuest:navigation.booking')).toBe('予約');
+      expect(i18n.t('bubbleQuest:navigation.shopping')).toBe('買い物');
+      expect(i18n.t('bubbleQuest:navigation.checklist')).toBe('チェックリスト');
+      expect(i18n.t('bubbleQuest:navigation.members')).toBe('メンバー');
+      expect(i18n.t('bubbleQuest:navigation.settings')).toBe('設定');
     });
 
     it('should translate countdown timer', () => {
-      expect(i18n.t('kawaii:countdown.days', { count: 1 })).toBe('1 日');
-      expect(i18n.t('kawaii:countdown.days', { count: 5 })).toBe('5 日');
-      expect(i18n.t('kawaii:countdown.hours', { count: 1 })).toBe('1 時間');
-      expect(i18n.t('kawaii:countdown.hours', { count: 3 })).toBe('3 時間');
+      expect(i18n.t('bubbleQuest:countdown.days', { count: 1 })).toBe('1 日');
+      expect(i18n.t('bubbleQuest:countdown.days', { count: 5 })).toBe('5 日');
+      expect(i18n.t('bubbleQuest:countdown.hours', { count: 1 })).toBe('1 時間');
+      expect(i18n.t('bubbleQuest:countdown.hours', { count: 3 })).toBe('3 時間');
     });
 
     it('should translate weather conditions', () => {
-      expect(i18n.t('kawaii:weather.conditions.sunny')).toBe('晴れ');
-      expect(i18n.t('kawaii:weather.conditions.rainy')).toBe('雨');
-      expect(i18n.t('kawaii:weather.conditions.snowy')).toBe('雪');
+      expect(i18n.t('bubbleQuest:weather.conditions.sunny')).toBe('晴れ');
+      expect(i18n.t('bubbleQuest:weather.conditions.rainy')).toBe('雨');
+      expect(i18n.t('bubbleQuest:weather.conditions.snowy')).toBe('雪');
     });
 
     it('should translate animation types', () => {
-      expect(i18n.t('kawaii:theme.animationTypes.none')).toBe('なし');
-      expect(i18n.t('kawaii:theme.animationTypes.snow')).toBe('雪');
-      expect(i18n.t('kawaii:theme.animationTypes.sakura')).toBe('桜');
+      expect(i18n.t('bubbleQuest:theme.animationTypes.none')).toBe('なし');
+      expect(i18n.t('bubbleQuest:theme.animationTypes.snow')).toBe('雪');
+      expect(i18n.t('bubbleQuest:theme.animationTypes.sakura')).toBe('桜');
     });
   });
 
   describe('Sticker categories', () => {
     it('should translate sticker categories in all languages', () => {
       i18n.changeLanguage('en');
-      expect(i18n.t('kawaii:stickers.categories.characters')).toBe('Characters');
-      expect(i18n.t('kawaii:stickers.categories.food')).toBe('Food');
-      expect(i18n.t('kawaii:stickers.categories.transportation')).toBe('Transportation');
+      expect(i18n.t('bubbleQuest:stickers.categories.characters')).toBe('Characters');
+      expect(i18n.t('bubbleQuest:stickers.categories.food')).toBe('Food');
+      expect(i18n.t('bubbleQuest:stickers.categories.transportation')).toBe('Transportation');
 
       i18n.changeLanguage('zh-TW');
-      expect(i18n.t('kawaii:stickers.categories.characters')).toBe('角色');
-      expect(i18n.t('kawaii:stickers.categories.food')).toBe('美食');
-      expect(i18n.t('kawaii:stickers.categories.transportation')).toBe('交通');
+      expect(i18n.t('bubbleQuest:stickers.categories.characters')).toBe('角色');
+      expect(i18n.t('bubbleQuest:stickers.categories.food')).toBe('美食');
+      expect(i18n.t('bubbleQuest:stickers.categories.transportation')).toBe('交通');
 
       i18n.changeLanguage('ja');
-      expect(i18n.t('kawaii:stickers.categories.characters')).toBe('キャラクター');
-      expect(i18n.t('kawaii:stickers.categories.food')).toBe('食べ物');
-      expect(i18n.t('kawaii:stickers.categories.transportation')).toBe('交通');
+      expect(i18n.t('bubbleQuest:stickers.categories.characters')).toBe('キャラクター');
+      expect(i18n.t('bubbleQuest:stickers.categories.food')).toBe('食べ物');
+      expect(i18n.t('bubbleQuest:stickers.categories.transportation')).toBe('交通');
     });
   });
 
   describe('Shopping tags', () => {
     it('should translate shopping tags in all languages', () => {
       i18n.changeLanguage('en');
-      expect(i18n.t('kawaii:shopping.tags.food')).toBe('Food');
-      expect(i18n.t('kawaii:shopping.tags.clothing')).toBe('Clothing');
-      expect(i18n.t('kawaii:shopping.tags.important')).toBe('Important');
+      expect(i18n.t('bubbleQuest:shopping.tags.food')).toBe('Food');
+      expect(i18n.t('bubbleQuest:shopping.tags.clothing')).toBe('Clothing');
+      expect(i18n.t('bubbleQuest:shopping.tags.important')).toBe('Important');
 
       i18n.changeLanguage('zh-TW');
-      expect(i18n.t('kawaii:shopping.tags.food')).toBe('寄食');
-      expect(i18n.t('kawaii:shopping.tags.clothing')).toBe('服飾');
-      expect(i18n.t('kawaii:shopping.tags.important')).toBe('重要');
+      expect(i18n.t('bubbleQuest:shopping.tags.food')).toBe('寄食');
+      expect(i18n.t('bubbleQuest:shopping.tags.clothing')).toBe('服飾');
+      expect(i18n.t('bubbleQuest:shopping.tags.important')).toBe('重要');
 
       i18n.changeLanguage('ja');
-      expect(i18n.t('kawaii:shopping.tags.food')).toBe('食品');
-      expect(i18n.t('kawaii:shopping.tags.clothing')).toBe('衣類');
-      expect(i18n.t('kawaii:shopping.tags.important')).toBe('重要');
+      expect(i18n.t('bubbleQuest:shopping.tags.food')).toBe('食品');
+      expect(i18n.t('bubbleQuest:shopping.tags.clothing')).toBe('衣類');
+      expect(i18n.t('bubbleQuest:shopping.tags.important')).toBe('重要');
     });
   });
 

@@ -8,7 +8,7 @@ import {
 
 /**
  * Property-Based Tests for Google Maps URL Generation
- * Feature: kawaii-ui-redesign
+ * Feature: bubblequest-ui-redesign
  * 
  * These tests verify that the Google Maps URL generation functions
  * maintain correctness properties across a wide range of inputs.

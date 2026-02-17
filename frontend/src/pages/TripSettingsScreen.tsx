@@ -10,8 +10,8 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { changeLanguage } from '@/utils/languageUtils';
 import { TripThemeSettings } from '@/components/trip/TripThemeSettings';
-import { Card } from '@/components/kawaii/Card';
-import { Button } from '@/components/kawaii/Button';
+import { Card } from '@/components/bubblequest/Card';
+import { Button } from '@/components/bubblequest/Button';
 import { NavigationWrapper, PageLayout } from '@/components/layout';
 import type { NavigationTab } from '@/components/layout';
 import { tripService } from '@/services/tripService';
@@ -118,17 +118,17 @@ export const TripSettingsScreen: React.FC = () => {
     <NavigationWrapper activeTab={navActiveTab} onTabChange={handleNavTabChange}>
       <PageLayout tripId={id}>
         {/* Header Section */}
-        <div className="w-full bg-gradient-to-br from-kawaii-primary-100 to-kawaii-primary-200 dark:from-kawaii-primary-900/30 dark:to-kawaii-primary-800/30">
+        <div className="w-full bg-gradient-to-br from-bubblequest-primary-100 to-bubblequest-primary-200 dark:from-bubblequest-primary-900/30 dark:to-bubblequest-primary-800/30">
           <div className="max-w-7xl mx-auto px-4 py-6 w-full">
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <h1 className="text-3xl md:text-4xl font-bold text-kawaii-neutral-900 dark:text-kawaii-neutral-100 mb-2">
+              <h1 className="text-3xl md:text-4xl font-bold text-bubblequest-neutral-900 dark:text-bubblequest-neutral-100 mb-2">
                 {trip?.title || t('settings.title', 'Trip Settings')}
               </h1>
-              <p className="text-lg text-kawaii-neutral-600 dark:text-kawaii-neutral-400">
+              <p className="text-lg text-bubblequest-neutral-600 dark:text-bubblequest-neutral-400">
                 {t('settings.subtitle', 'Customize your trip settings')}
               </p>
             </motion.div>
@@ -145,10 +145,10 @@ export const TripSettingsScreen: React.FC = () => {
               transition={{ duration: 0.3, delay: 0.05 }}
             >
               <Card className="p-6">
-                <h2 className="text-2xl font-bold mb-4 text-kawaii-primary-600 dark:text-kawaii-primary-400">
+                <h2 className="text-2xl font-bold mb-4 text-bubblequest-primary-600 dark:text-bubblequest-primary-400">
                   Language / 語言
                 </h2>
-                <p className="text-sm text-kawaii-neutral-600 dark:text-kawaii-neutral-400 mb-4">
+                <p className="text-sm text-bubblequest-neutral-600 dark:text-bubblequest-neutral-400 mb-4">
                   Choose your preferred language for the app interface
                 </p>
                 
@@ -157,7 +157,7 @@ export const TripSettingsScreen: React.FC = () => {
                   <select
                     value={i18n.language}
                     onChange={(e) => changeLanguage(e.target.value)}
-                    className="w-full px-4 py-3 pr-10 rounded-lg border-2 border-kawaii-neutral-200 dark:border-kawaii-neutral-700 bg-white dark:bg-kawaii-neutral-800 text-kawaii-neutral-800 dark:text-kawaii-neutral-100 font-medium focus:outline-none focus:border-kawaii-primary-500 focus:ring-2 focus:ring-kawaii-primary-500/20 transition-all cursor-pointer appearance-none"
+                    className="w-full px-4 py-3 pr-10 rounded-lg border-2 border-bubblequest-neutral-200 dark:border-bubblequest-neutral-700 bg-white dark:bg-bubblequest-neutral-800 text-bubblequest-neutral-800 dark:text-bubblequest-neutral-100 font-medium focus:outline-none focus:border-bubblequest-primary-500 focus:ring-2 focus:ring-bubblequest-primary-500/20 transition-all cursor-pointer appearance-none"
                     style={{ backgroundImage: 'none' }}
                   >
                     <option value="en">🇺🇸 English</option>
@@ -168,14 +168,14 @@ export const TripSettingsScreen: React.FC = () => {
                   
                   {/* Custom dropdown arrow */}
                   <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-                    <svg className="w-5 h-5 text-kawaii-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="w-5 h-5 text-bubblequest-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </div>
                 </div>
                 
                 {/* Info text */}
-                <p className="mt-4 text-xs text-kawaii-neutral-500 dark:text-kawaii-neutral-400">
+                <p className="mt-4 text-xs text-bubblequest-neutral-500 dark:text-bubblequest-neutral-400">
                   Language changes are applied immediately across the app
                 </p>
               </Card>
@@ -188,35 +188,35 @@ export const TripSettingsScreen: React.FC = () => {
               transition={{ duration: 0.3, delay: 0.2 }}
             >
               <Card className="p-6">
-                <h2 className="text-2xl font-bold mb-4 text-kawaii-primary-600 dark:text-kawaii-primary-400">
+                <h2 className="text-2xl font-bold mb-4 text-bubblequest-primary-600 dark:text-bubblequest-primary-400">
                   {t('settings.tripInfo', 'Trip Information')}
                 </h2>
                 {trip && (
                   <div className="space-y-3">
                     <div>
-                      <label className="text-xs text-kawaii-neutral-500 dark:text-kawaii-neutral-400">
+                      <label className="text-xs text-bubblequest-neutral-500 dark:text-bubblequest-neutral-400">
                         {t('settings.tripName', 'Trip Name')}
                       </label>
-                      <p className="text-kawaii-neutral-800 dark:text-kawaii-neutral-100 font-medium">
+                      <p className="text-bubblequest-neutral-800 dark:text-bubblequest-neutral-100 font-medium">
                         {trip.title}
                       </p>
                     </div>
                     {trip.start_date && (
                       <div>
-                        <label className="text-xs text-kawaii-neutral-500 dark:text-kawaii-neutral-400">
+                        <label className="text-xs text-bubblequest-neutral-500 dark:text-bubblequest-neutral-400">
                           {t('settings.startDate', 'Start Date')}
                         </label>
-                        <p className="text-kawaii-neutral-800 dark:text-kawaii-neutral-100 font-medium">
+                        <p className="text-bubblequest-neutral-800 dark:text-bubblequest-neutral-100 font-medium">
                           {new Date(trip.start_date).toLocaleDateString()}
                         </p>
                       </div>
                     )}
                     {trip.end_date && (
                       <div>
-                        <label className="text-xs text-kawaii-neutral-500 dark:text-kawaii-neutral-400">
+                        <label className="text-xs text-bubblequest-neutral-500 dark:text-bubblequest-neutral-400">
                           {t('settings.endDate', 'End Date')}
                         </label>
-                        <p className="text-kawaii-neutral-800 dark:text-kawaii-neutral-100 font-medium">
+                        <p className="text-bubblequest-neutral-800 dark:text-bubblequest-neutral-100 font-medium">
                           {new Date(trip.end_date).toLocaleDateString()}
                         </p>
                       </div>

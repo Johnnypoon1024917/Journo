@@ -125,7 +125,7 @@ interface Coordinates {
 
 ## Requirements Satisfied
 
-This utility satisfies the following requirements from the kawaii-ui-redesign spec:
+This utility satisfies the following requirements from the bubblequest-ui-redesign spec:
 
 - **Requirement 3.1**: Tap location to open Google Maps
 - **Requirement 3.2**: Construct proper URLs with coordinates when available

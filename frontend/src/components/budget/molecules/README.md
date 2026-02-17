@@ -94,7 +94,7 @@ Dismissible alert banner for warnings and notifications.
 
 ## Styling
 
-All components follow the kawaii theme with:
+All components follow the BubbleQuest theme with:
 - **Pastel colors**: Pink (#FFB6C1), beige (#F5E6D3), soft pastels
 - **Rounded corners**: `rounded-2xl` for cards, `rounded-full` for circles
 - **Soft shadows**: Subtle elevation with `shadow-md`, `shadow-lg`
@@ -232,7 +232,7 @@ Unit tests should cover:
 - **Requirement 4.3**: Budget status visualization
 - **Requirement 4.7**: Burn rate warning display
 - **Requirement 5.6**: Category allocation adjustment
-- **Requirement 10.1**: Kawaii theme with pastel colors
+- **Requirement 10.1**: BubbleQuest theme with pastel colors
 - **Requirement 10.2**: Rounded corners and soft shadows
 - **Requirement 10.3**: Cat animation in dashboard
 - **Requirement 10.4**: Visual feedback with animations

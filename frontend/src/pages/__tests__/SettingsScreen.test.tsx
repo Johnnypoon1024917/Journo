@@ -24,28 +24,28 @@ vi.mock('react-i18next', () => ({
   }),
 }));
 
-// Mock the kawaii components
-vi.mock('@/components/kawaii/ThemeCustomization', () => ({
+// Mock the BubbleQuest components
+vi.mock('@/components/bubblequest/ThemeCustomization', () => ({
   ThemeCustomization: () => <div data-testid="theme-customization">Theme Customization</div>,
 }));
 
-vi.mock('@/components/kawaii/FontSizeSlider', () => ({
+vi.mock('@/components/bubblequest/FontSizeSlider', () => ({
   FontSizeSlider: () => <div data-testid="font-size-slider">Font Size Slider</div>,
 }));
 
-vi.mock('@/components/kawaii/DarkModeToggle', () => ({
+vi.mock('@/components/bubblequest/DarkModeToggle', () => ({
   DarkModeToggle: () => <div data-testid="dark-mode-toggle">Dark Mode Toggle</div>,
 }));
 
-vi.mock('@/components/kawaii/AnimationSelector', () => ({
+vi.mock('@/components/bubblequest/AnimationSelector', () => ({
   AnimationSelector: () => <div data-testid="animation-selector">Animation Selector</div>,
 }));
 
-vi.mock('@/components/kawaii/LanguageSelector', () => ({
+vi.mock('@/components/bubblequest/LanguageSelector', () => ({
   LanguageSelector: () => <div data-testid="language-selector">Language Selector</div>,
 }));
 
-vi.mock('@/components/kawaii/Card', () => ({
+vi.mock('@/components/bubblequest/Card', () => ({
   Card: ({ children, className }: any) => (
     <div className={className} data-testid="card">
       {children}
@@ -53,7 +53,7 @@ vi.mock('@/components/kawaii/Card', () => ({
   ),
 }));
 
-vi.mock('@/components/kawaii/Button', () => ({
+vi.mock('@/components/bubblequest/Button', () => ({
   Button: ({ children, onClick, ...props }: any) => (
     <button onClick={onClick} {...props}>
       {children}

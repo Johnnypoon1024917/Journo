@@ -6,7 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { Bell } from 'lucide-react';
 import { useNotifications } from '../../hooks/useNotifications';
-import { NotificationCenter } from '../kawaii/NotificationCenterWeb';
+import { NotificationCenter } from '../bubblequest/NotificationCenterWeb';
 import { useEnhancedAuthStore } from '../../stores/enhancedAuthStore';
 import { useFABPosition, getFABStyle } from '../../hooks/useFABPosition';
 import { useLocation } from 'react-router-dom';
@@ -118,7 +118,7 @@ export const GlobalNotifications: React.FC = () => {
       <button
         onClick={() => setShowCenter(true)}
         style={getFABStyle(fabPosition)}
-        className="bg-kawaii-primary-500 hover:bg-kawaii-primary-600 text-white rounded-full p-4 shadow-lg transition-all hover:scale-110"
+        className="bg-bubblequest-primary-500 hover:bg-bubblequest-primary-600 text-white rounded-full p-4 shadow-lg transition-all hover:scale-110"
         aria-label="Open notifications"
       >
         <Bell className="w-6 h-6" />

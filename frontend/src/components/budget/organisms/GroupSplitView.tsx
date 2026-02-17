@@ -106,7 +106,7 @@ export const GroupSplitView: React.FC<GroupSplitViewProps> = ({
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-kawaii-sm p-6 border-2 border-[#d5d0c2] dark:border-gray-700">
+    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-bubblequest-sm p-6 border-2 border-[#d5d0c2] dark:border-gray-700">
       {/* Header */}
       <div className="flex items-center gap-3 mb-6">
         <div className="w-10 h-10 bg-gradient-to-br from-pink-200 to-purple-200 rounded-full flex items-center justify-center">

@@ -1,6 +1,6 @@
 # Offline Support Implementation
 
-This document describes the offline support implementation for the Kawaii UI Redesign.
+This document describes the offline support implementation for the BubbleQuest UI Redesign.
 
 ## Overview
 

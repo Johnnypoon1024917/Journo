@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { NewTripFlow } from '@/components/kawaii/NewTripFlow';
+import { NewTripFlow } from '@/components/bubblequest/NewTripFlow';
 
 export const NewTrip: React.FC = () => {
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ export const NewTrip: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f7f3eb] dark:bg-kawaii-neutral-900 py-8 px-4">
+    <div className="min-h-screen bg-[#f7f3eb] dark:bg-bubblequest-neutral-900 py-8 px-4">
       <NewTripFlow
         onCancel={handleCancel}
         onComplete={handleComplete}

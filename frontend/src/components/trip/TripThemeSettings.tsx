@@ -142,7 +142,7 @@ export const TripThemeSettings: React.FC<TripThemeSettingsProps> = ({ tripId, is
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-2" style={{ color: 'var(--kawaii-primary-500)' }}>
+      <h2 className="text-2xl font-bold mb-2" style={{ color: 'var(--bubblequest-primary-500)' }}>
         Trip Theme Color
       </h2>
       <p className="text-neutral-600 mb-6">
@@ -320,7 +320,7 @@ export const TripThemeSettings: React.FC<TripThemeSettingsProps> = ({ tripId, is
                     'border border-neutral-300',
                     'bg-white text-neutral-900',
                     'text-sm font-mono',
-                    'focus:outline-none focus:ring-2 focus:ring-kawaii-primary-500/20'
+                    'focus:outline-none focus:ring-2 focus:ring-bubblequest-primary-500/20'
                   )}
                   placeholder="#FFB3BA"
                 />
@@ -328,7 +328,7 @@ export const TripThemeSettings: React.FC<TripThemeSettingsProps> = ({ tripId, is
                   onClick={handleCustomColorApply}
                   className={cn(
                     'px-4 py-2 rounded-lg',
-                    'bg-kawaii-primary-500 hover:bg-kawaii-primary-600',
+                    'bg-bubblequest-primary-500 hover:bg-bubblequest-primary-600',
                     'text-white font-medium',
                     'transition-colors'
                   )}

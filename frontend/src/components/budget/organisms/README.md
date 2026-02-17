@@ -663,7 +663,7 @@ Comprehensive test coverage includes:
 - Body scroll prevention
 
 **Dark Mode:**
-The component includes dark mode support through Tailwind's dark: variants, though the budget page primarily uses the light kawaii theme.
+The component includes dark mode support through Tailwind's dark: variants, though the budget page primarily uses the light BubbleQuest theme.
 
 **Future Enhancements:**
 - Confirmation dialog for unsaved changes

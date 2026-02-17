@@ -43,7 +43,7 @@ function YourPage() {
 ```tsx
 import { useState } from 'react';
 import { StickerCanvas } from '@/components/stickers';
-import { StickerModal } from '@/components/kawaii/StickerModal';
+import { StickerModal } from '@/components/bubblequest/StickerModal';
 import { useStickerStore } from '@/stores/stickerStore';
 
 function YourPage() {
@@ -119,7 +119,7 @@ export function BudgetPage() {
 ### Itinerary Day Card
 
 ```tsx
-// frontend/src/components/kawaii/DayCard.tsx
+// frontend/src/components/bubblequest/DayCard.tsx
 import { StickerCanvas } from '@/components/stickers';
 
 export function DayCard({ day, tripId }) {
