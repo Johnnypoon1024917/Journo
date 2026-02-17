@@ -14,10 +14,7 @@ import { CommunityBlog } from './pages/CommunityBlog';
 import { Settings } from './pages/Settings';
 import { SettingsScreen } from './pages/SettingsScreen';
 import { TripSettingsScreen } from './pages/TripSettingsScreen';
-import { BadgeDemo } from './pages/BadgeDemo';
-import { KawaiiDemo } from './pages/KawaiiDemo';
 import { KawaiiTripDetail } from './pages/KawaiiTripDetail';
-import { StickerCanvasDemo } from './components/stickers/examples/StickerCanvasDemo';
 import { ScheduleScreen } from './pages/ScheduleScreen';
 import { BookingScreen } from './pages/BookingScreen';
 import { ShoppingScreen } from './pages/ShoppingScreen';
@@ -203,9 +200,6 @@ function App() {
             {/* Public routes */}
             <Route path="/community" element={<CommunityBlog />} />
             <Route path="/t/:token" element={<SharedTrip />} />
-            <Route path="/badge-demo" element={<BadgeDemo />} />
-            <Route path="/kawaii-demo" element={<KawaiiDemo />} />
-            <Route path="/sticker-demo" element={<StickerCanvasDemo />} />
             <Route path="/help" element={<Help />} />
             <Route path="/feedback" element={<Feedback />} />
             

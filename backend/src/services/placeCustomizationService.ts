@@ -1,5 +1,5 @@
 import { pool } from '../config/database.js';
-import { LocationScraperService } from './locationScraperService.js';
+// import { LocationScraperService } from './locationScraperService.js'; // REMOVED: Scraping service deleted
 
 export interface SimilarityRequest {
   referencePlace: {
@@ -68,11 +68,13 @@ export class PlaceCustomizationService {
       // Search for similar places using location scraper
       for (const query of searchQueries) {
         try {
-          const places = await LocationScraperService.searchLocations(query);
+          // REMOVED: Scraping service deleted - returning empty results
+          // const places = await LocationScraperService.searchLocations(query);
+          const places: any[] = []; // TODO: Replace with Google Places API
           const convertedPlaces = places
-            .filter(p => !excludePlaceIds.includes(p.location_name))
+            .filter((p: any) => !excludePlaceIds.includes(p.location_name))
             .slice(0, Math.ceil(maxResults / searchQueries.length))
-            .map(p => ({
+            .map((p: any) => ({
               id: `similar-${Date.now()}-${Math.random()}`,
               name: p.location_name,
               address: p.source || '',

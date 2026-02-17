@@ -1,5 +1,5 @@
 import { pool } from '../config/database.js';
-import { LocationScraperService } from './locationScraperService.js';
+// import { LocationScraperService } from './locationScraperService.js'; // REMOVED: Scraping service deleted
 
 export interface RegenerationMemory {
   userId: string;
@@ -172,11 +172,13 @@ export class RegenerationMemoryService {
       // Search for alternatives
       for (const query of searchQueries) {
         try {
-          const places = await LocationScraperService.searchLocations(query);
+          // REMOVED: Scraping service deleted - returning empty results
+          // const places = await LocationScraperService.searchLocations(query);
+          const places: any[] = []; // TODO: Replace with Google Places API
           const convertedPlaces = places
-            .filter(p => !memoryConstraints.excludePlaceIds.includes(p.location_name))
+            .filter((p: any) => !memoryConstraints.excludePlaceIds.includes(p.location_name))
             .slice(0, 2)
-            .map(p => ({
+            .map((p: any) => ({
               id: `diverse-${Date.now()}-${Math.random()}`,
               name: p.location_name,
               address: p.source || '',
@@ -309,11 +311,13 @@ export class RegenerationMemoryService {
     // Search for new places
     for (const query of searchQueries) {
       try {
-        const places = await LocationScraperService.searchLocations(query);
+        // REMOVED: Scraping service deleted - returning empty results
+        // const places = await LocationScraperService.searchLocations(query);
+        const places: any[] = []; // TODO: Replace with Google Places API
         const convertedPlaces = places
-          .filter(p => !excludePlaceIds.includes(p.location_name))
+          .filter((p: any) => !excludePlaceIds.includes(p.location_name))
           .slice(0, 3)
-          .map(p => ({
+          .map((p: any) => ({
             id: `regen-${Date.now()}-${Math.random()}`,
             name: p.location_name,
             address: p.source || '',

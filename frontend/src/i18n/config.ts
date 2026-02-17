@@ -202,6 +202,16 @@ i18n
     },
     react: {
       useSuspense: true,
+      // Enable instant language switching without restart
+      bindI18n: 'languageChanged',
+      bindI18nStore: 'added',
+    },
+    // Log missing translation keys in development
+    saveMissing: import.meta.env.DEV,
+    missingKeyHandler: (lngs, ns, key) => {
+      if (import.meta.env.DEV) {
+        console.warn(`🌐 Missing translation key: ${key} in namespace: ${ns} for languages: ${lngs.join(', ')}`);
+      }
     },
   });
 

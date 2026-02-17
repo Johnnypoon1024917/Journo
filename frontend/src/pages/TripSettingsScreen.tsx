@@ -181,17 +181,6 @@ export const TripSettingsScreen: React.FC = () => {
               </Card>
             </motion.div>
 
-            {/* Trip Theme Settings */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.1 }}
-            >
-              <Card>
-                <TripThemeSettings tripId={id} isOwner={isOwner} />
-              </Card>
-            </motion.div>
-
             {/* Trip Information */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}

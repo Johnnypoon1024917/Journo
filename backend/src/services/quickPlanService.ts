@@ -1,5 +1,5 @@
 import { pool } from '../config/database.js';
-import { LocationScraperService } from './locationScraperService.js';
+// import { LocationScraperService } from './locationScraperService.js'; // REMOVED: Scraping service deleted
 import { weatherService, WeatherData } from './weatherService.js';
 import { WeatherBasedPlaceFilteringService, PlaceWithWeatherSuitability } from './weatherBasedPlaceFilteringService.js';
 import { BudgetIntegrationService } from './budgetIntegrationService.js';
@@ -659,8 +659,10 @@ export class QuickPlanService {
     // Search for places
     for (const query of searchQueries) {
       try {
-        const places = await LocationScraperService.searchLocations(query);
-        const convertedPlaces: PlaceWithWeatherSuitability[] = places.slice(0, 2).map(p => ({
+        // REMOVED: Scraping service deleted - returning empty results
+        // const places = await LocationScraperService.searchLocations(query);
+        const places: any[] = []; // TODO: Replace with Google Places API
+        const convertedPlaces: PlaceWithWeatherSuitability[] = places.slice(0, 2).map((p: any) => ({
           name: p.location_name,
           address: p.source || '',
           lat: p.lat || 0,
@@ -1120,7 +1122,9 @@ export class QuickPlanService {
       for (const query of searchQueries) {
         try {
           const cacheStart = Date.now();
-          const places = await LocationScraperService.searchLocations(query);
+          // REMOVED: Scraping service deleted - returning empty results
+          // const places = await LocationScraperService.searchLocations(query);
+          const places: any[] = []; // TODO: Replace with Google Places API
           const cacheTime = Date.now() - cacheStart;
           
           // Track cache performance (simplified - assume cache hit if response is fast)

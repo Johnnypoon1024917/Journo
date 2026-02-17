@@ -32,20 +32,13 @@ import bookingRoutes from './routes/bookingRoutes.js';
 import shoppingRoutes from './routes/shoppingRoutes.js';
 import budgetRoutes from './routes/budgetRoutes.js';
 import destinationAutocompleteRoutes from './routes/destinationAutocomplete.js';
-import scrapingRoutes from './routes/scraping.js';
 import analyticsRoutes from './routes/analytics.js';
 import adminRoutes from './routes/admin.js';
-import cacheManagementRoutes from './routes/cacheManagement.js';
 import quickPlanRoutes from './routes/quickPlanRoutes.js';
 import quickPlanAnalyticsRoutes from './routes/quickPlanAnalytics.js';
-import scrapingManagementRoutes from './routes/scrapingManagementRoutes.js';
-import pythonScraperRoutes from './routes/pythonScraperRoutes.js';
 import stickerRoutes from './routes/stickers.js';
 import themeRoutes from './routes/theme.js';
 import { DestinationService } from './services/destinationService.js';
-import { CacheManagementService } from './services/cacheManagementService.js';
-import { ScrapingSchedulerService } from './services/scrapingSchedulerService.js';
-import { PythonScraperService } from './services/pythonScraperService.js';
 import { socketAuthMiddleware, AuthenticatedSocket } from './middleware/socketAuth.js';
 import { socketService } from './services/socketService.js';
 
@@ -279,29 +272,17 @@ app.use('/api/badges', badgeRoutes);
 app.use('/api/destinations', destinationRoutes);
 app.use('/api/destinations', destinationAutocompleteRoutes);
 
-// Scraping routes
-app.use('/api/scrape', scrapingRoutes);
-
 // Analytics routes
 app.use('/api/analytics', analyticsRoutes);
 
 // Admin routes
 app.use('/api/admin', adminRoutes);
 
-// Cache management routes
-app.use('/api/cache', cacheManagementRoutes);
-
 // Quick plan routes
 app.use('/api/quick-plan', quickPlanRoutes);
 
 // Quick plan analytics routes
 app.use('/api/quick-plan-analytics', quickPlanAnalyticsRoutes);
-
-// Scraping management routes
-app.use('/api/scraping', scrapingManagementRoutes);
-
-// Python scraper routes
-app.use('/api/python-scraper', pythonScraperRoutes);
 
 // Sticker routes
 app.use('/api/stickers', stickerRoutes);
@@ -397,17 +378,6 @@ async function startServer() {
 
     // Populate initial destination suggestions
     // await DestinationService.populateInitialData();
-
-    // Start cache management service
-    // CacheManagementService.start();
-
-    // Start scraping scheduler service
-    // ScrapingSchedulerService.start();
-    // console.log('🕐 Scraping scheduler started');
-
-    // Start Python scraper service for weekly data collection
-    // PythonScraperService.start();
-    // console.log('🐍 Python scraper service started');
 
     // Start server
     // Listen on 0.0.0.0 to accept connections from iOS devices on local network
