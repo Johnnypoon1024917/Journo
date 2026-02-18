@@ -992,3 +992,125 @@ select:focus {
   background-color: #0284c7;
   color: #ffffff; /* 4.5:1 contrast */
 }
+
+/* ============================================
+   Browser Zoom Support (up to 200%)
+   ============================================ */
+
+/* Ensure layout doesn't break at high zoom levels */
+@media (min-resolution: 2dppx) {
+  /* Adjust for high DPI displays */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Use relative units for responsive scaling */
+:root {
+  --base-font-size: 16px;
+  --font-scale: 1;
+  --spacing-unit: 0.25rem;
+}
+
+/* Ensure containers don't overflow at high zoom */
+.container,
+.card,
+.modal {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+/* ============================================
+   Dynamic Text Sizing
+   ============================================ */
+
+/* Base font size using CSS custom property */
+html {
+  font-size: var(--base-font-size);
+}
+
+/* All text should use rem units */
+body {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1rem; }
+
+p, li, td, th {
+  font-size: 1rem;
+}
+
+small {
+  font-size: 0.875rem;
+}
+
+/* Ensure line height scales with font size */
+* {
+  line-height: calc(1.5 * var(--font-scale));
+}
+
+/* ============================================
+   Touch Target Sizing
+   ============================================ */
+
+/* Minimum touch target size: 44x44px (iOS) / 48x48px (Android) */
+button,
+a,
+input[type="checkbox"],
+input[type="radio"],
+[role="button"],
+[role="link"],
+[tabindex]:not([tabindex="-1"]) {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0.5rem 1rem;
+}
+
+/* Ensure adequate spacing between touch targets */
+button + button,
+a + a {
+  margin-left: 0.5rem;
+}
+
+/* ============================================
+   Color Blind Friendly Patterns
+   ============================================ */
+
+/* Add visual patterns to status indicators */
+.status-indicator {
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.status-indicator::before {
+  position: absolute;
+  left: 0;
+  font-weight: bold;
+}
+
+.status-success::before {
+  content: "✓";
+  color: inherit;
+}
+
+.status-warning::before {
+  content: "⚠";
+  color: inherit;
+}
+
+.status-error::before {
+  content: "✕";
+  color: inherit;
+}
+
+.status-info::before {
+  content: "ℹ";
+  color: inherit;
+}

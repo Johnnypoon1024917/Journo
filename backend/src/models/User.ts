@@ -1,5 +1,5 @@
 import { query } from '../config/database.js';
-import bcrypt from 'bcrypt';
+import argon2 from 'argon2';
 
 export interface User {
   id: string;
@@ -27,15 +27,18 @@ export interface UserResponse {
   created_at: Date;
 }
 
-const SALT_ROUNDS = 10;
-
 export class UserModel {
   // Create a new user
   static async create(userData: UserCreateInput): Promise<UserResponse> {
     const { email, name, password } = userData;
 
-    // Hash password
-    const password_hash = await bcrypt.hash(password, SALT_ROUNDS);
+    // Hash password using Argon2 (more secure than bcrypt)
+    const password_hash = await argon2.hash(password, {
+      type: argon2.argon2id, // Use Argon2id variant (recommended)
+      memoryCost: 65536, // 64 MB
+      timeCost: 3, // 3 iterations
+      parallelism: 4, // 4 parallel threads
+    });
 
     const result = await query(
       `INSERT INTO users (email, name, password_hash, role)
@@ -67,9 +70,14 @@ export class UserModel {
     return result.rows[0] || null;
   }
 
-  // Verify password
+  // Verify password using Argon2
   static async verifyPassword(plainPassword: string, hashedPassword: string): Promise<boolean> {
-    return await bcrypt.compare(plainPassword, hashedPassword);
+    try {
+      return await argon2.verify(hashedPassword, plainPassword);
+    } catch (error) {
+      // If verification fails (e.g., invalid hash format), return false
+      return false;
+    }
   }
 
   // Update user
@@ -89,7 +97,12 @@ export class UserModel {
     }
 
     if (updates.password) {
-      const password_hash = await bcrypt.hash(updates.password, SALT_ROUNDS);
+      const password_hash = await argon2.hash(updates.password, {
+        type: argon2.argon2id,
+        memoryCost: 65536,
+        timeCost: 3,
+        parallelism: 4,
+      });
       fields.push(`password_hash = $${paramCount++}`);
       values.push(password_hash);
     }

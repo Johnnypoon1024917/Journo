@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { cn } from '../../utils/cn';
 import { useA11yId, useFocusTrap } from '../../hooks/useAccessibility';
 
 interface ModalProps {
@@ -71,28 +72,32 @@ export const Modal: React.FC<ModalProps> = ({
         isVisible ? 'opacity-100' : 'opacity-0'
       }`}
       style={{ zIndex: 99999 }}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby={title ? titleId : undefined}
-      aria-label={ariaLabel || (title ? undefined : 'Dialog')}
-      aria-describedby={ariaDescribedBy}
     >
       <div className="flex min-h-screen items-center justify-center p-4">
         {/* Backdrop */}
         <div
-          className={`fixed inset-0 bg-black transition-opacity duration-300 ${
-            isVisible ? 'bg-opacity-50' : 'bg-opacity-0'
-          }`}
+          className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
           onClick={onClose}
           aria-hidden="true"
         />
 
-        {/* Modal */}
+        {/* Modal Dialog */}
         <div
           ref={focusTrapRef as React.RefObject<HTMLDivElement>}
-          className={`relative bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full ${sizeStyles[size]} transform transition-all duration-300 ${
-            isVisible ? 'scale-100 opacity-100 translate-y-0' : 'scale-95 opacity-0 translate-y-4'
-          }`}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={title ? titleId : undefined}
+          aria-label={ariaLabel || (title ? undefined : 'Dialog')}
+          aria-describedby={ariaDescribedBy}
+          tabIndex={-1}
+          className={cn(
+            'relative z-10 w-full',
+            sizeStyles[size],
+            'bg-white dark:bg-neutral-800',
+            'rounded-lg shadow-xl',
+            'transform transition-all duration-300',
+            isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'
+          )}
         >
           {/* Header */}
           {title && (

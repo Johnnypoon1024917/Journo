@@ -213,7 +213,7 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({
         <div className="h-2 bg-neutral-200 dark:bg-neutral-700 rounded-full overflow-hidden">
           {/* Progress Bar Fill */}
           <motion.div
-            className="h-full bg-gradient-to-r from-bubblequest-400 to-bubblequest-500 rounded-full"
+            className="h-full bg-gradient-to-r from-primary-400 to-primary-500 rounded-full"
             initial={{ width: 0 }}
             animate={{ width: `${displayProgress}%` }}
             transition={{ duration: 0.5, ease: "easeOut" }}

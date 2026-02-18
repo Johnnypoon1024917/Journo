@@ -106,16 +106,37 @@ export function useSwipeGesture(options: SwipeGestureOptions = {}) {
     const deltaY = touchEndRef.current.y - touchStartRef.current.y;
     const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
     const duration = touchEndRef.current.time - touchStartRef.current.time;
-    const velocity = distance / duration; // pixels per millisecond
+    
+    // Calculate velocity (pixels per millisecond)
+    const velocity = distance / duration;
 
-    // Update final swipe state
-    swipeStateRef.current.velocity = velocity;
+    // Update swipe state with velocity
+    swipeStateRef.current = {
+      ...swipeStateRef.current,
+      velocity,
+    };
 
-    // Check if swipe meets threshold requirements
-    if (distance < threshold) return;
+    // Check if swipe meets threshold and velocity requirements
+    const meetsThreshold = distance > threshold;
+    const meetsVelocity = velocity > 0.3; // Default velocity threshold
 
-    // Determine swipe direction and trigger appropriate callback
-    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+    if (!meetsThreshold || !meetsVelocity) {
+      // Reset state
+      touchStartRef.current = null;
+      touchEndRef.current = null;
+      swipeStateRef.current = {
+        isSwiping: false,
+        direction: null,
+        distance: 0,
+        velocity: 0,
+      };
+      return;
+    }
+
+    // Determine primary direction
+    const isHorizontal = Math.abs(deltaX) > Math.abs(deltaY);
+
+    if (isHorizontal) {
       // Horizontal swipe
       if (deltaX > 0 && onSwipeRight) {
         onSwipeRight();
@@ -131,9 +152,15 @@ export function useSwipeGesture(options: SwipeGestureOptions = {}) {
       }
     }
 
-    // Reset refs
+    // Reset state
     touchStartRef.current = null;
     touchEndRef.current = null;
+    swipeStateRef.current = {
+      isSwiping: false,
+      direction: null,
+      distance: 0,
+      velocity: 0,
+    };
   }, [threshold, onSwipeLeft, onSwipeRight, onSwipeUp, onSwipeDown]);
 
   const handleTouchCancel = useCallback(() => {

@@ -42,43 +42,46 @@ const Text = forwardRef<HTMLElement, TextAtomProps>(
       }
     );
 
-    // Variant styles with responsive typography
+    // Variant styles with responsive typography and dynamic scaling
     const variantStyles = {
       display: cn(
         'font-bold tracking-tight',
         isMobileLayout 
-          ? 'text-3xl sm:text-4xl leading-tight' 
-          : 'text-4xl lg:text-5xl xl:text-6xl leading-tight'
+          ? 'leading-tight' 
+          : 'leading-tight',
+        // Dynamic font scaling with clamp
+        'text-[clamp(1.875rem,4vw,3.75rem)]' // 30px-60px
       ),
       heading: cn(
         'font-semibold tracking-tight',
         isMobileLayout 
-          ? 'text-2xl sm:text-3xl leading-tight' 
-          : 'text-3xl lg:text-4xl leading-tight'
+          ? 'leading-tight' 
+          : 'leading-tight',
+        // Dynamic font scaling with clamp
+        'text-[clamp(1.5rem,3vw,2.25rem)]' // 24px-36px
       ),
       subheading: cn(
         'font-medium tracking-tight',
         isMobileLayout 
-          ? 'text-xl sm:text-2xl leading-snug' 
-          : 'text-2xl lg:text-3xl leading-snug'
+          ? 'leading-snug' 
+          : 'leading-snug',
+        // Dynamic font scaling with clamp
+        'text-[clamp(1.25rem,2.5vw,1.875rem)]' // 20px-30px
       ),
       body: cn(
         'leading-relaxed',
-        isMobileLayout 
-          ? 'text-base leading-relaxed' 
-          : 'text-base lg:text-lg leading-relaxed'
+        // Dynamic font scaling with clamp to prevent overflow
+        'text-[clamp(1rem,1.5vw,1.125rem)]' // 16px-18px
       ),
       caption: cn(
         'leading-normal',
-        isMobileLayout 
-          ? 'text-sm leading-normal' 
-          : 'text-sm lg:text-base leading-normal'
+        // Dynamic font scaling with clamp
+        'text-[clamp(0.875rem,1.25vw,1rem)]' // 14px-16px
       ),
       overline: cn(
         'font-medium uppercase tracking-wider leading-tight',
-        isMobileLayout 
-          ? 'text-xs leading-tight' 
-          : 'text-xs lg:text-sm leading-tight'
+        // Dynamic font scaling with clamp
+        'text-[clamp(0.75rem,1vw,0.875rem)]' // 12px-14px
       ),
     };
 

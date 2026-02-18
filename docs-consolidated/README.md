@@ -26,6 +26,8 @@ Deprecated or historical documentation kept for reference.
 - [Frontend Setup](./guides/FRONTEND_SETUP.md)
 - [iOS Setup](./guides/IOS_SETUP.md)
 - [Testing Guide](./guides/TESTING.md)
+- [Accessibility Features](./features/ACCESSIBILITY.md) - WCAG compliance guide
+- [Accessibility Audit](../ACCESSIBILITY_AUDIT.md) - Full audit results
 
 ## Finding Documentation
 

@@ -1,0 +1,216 @@
+/**
+ * Reduced Motion Styles
+ * 
+ * Respects user's prefers-reduced-motion preference
+ * Disables non-essential animations for users with motion sensitivity
+ */
+
+/* ============================================
+   Reduced Motion Media Query
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  /* Disable all animations and transitions */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Remove transform animations */
+  * {
+    transform: none !important;
+  }
+
+  /* Keep essential transitions for focus indicators */
+  *:focus-visible {
+    transition: outline 0.15s ease-out !important;
+  }
+
+  /* Disable parallax effects */
+  [data-parallax] {
+    transform: none !important;
+  }
+
+  /* Disable auto-playing videos */
+  video {
+    animation: none !important;
+  }
+
+  /* Disable carousel auto-advance */
+  .carousel {
+    animation: none !important;
+  }
+
+  /* Disable loading spinners rotation (keep opacity) */
+  .spinner {
+    animation: none !important;
+  }
+
+  /* Keep fade transitions for modals (but instant) */
+  .modal-enter,
+  .modal-exit {
+    transition: opacity 0.01ms !important;
+  }
+
+  /* Disable hover effects that use transforms */
+  button:hover,
+  a:hover,
+  .card:hover {
+    transform: none !important;
+  }
+
+  /* Disable skeleton loading animations */
+  .skeleton {
+    animation: none !important;
+    background: var(--skeleton-color) !important;
+  }
+
+  /* Disable progress bar animations */
+  .progress-bar {
+    transition: width 0.01ms !important;
+  }
+
+  /* Disable toast/notification slide-in */
+  .toast-enter,
+  .notification-enter {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+}
+
+/* ============================================
+   Reduced Motion Class (Manual Toggle)
+   ============================================ */
+
+.reduce-motion,
+.reduce-motion * {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+.reduce-motion *:focus-visible {
+  transition: outline 0.15s ease-out !important;
+}
+
+/* ============================================
+   Safe Animations (Always Allowed)
+   ============================================ */
+
+/* These animations are considered safe even with reduced motion */
+.safe-animation {
+  /* Opacity changes are generally safe */
+  transition: opacity 0.2s ease-out;
+}
+
+.safe-animation-focus {
+  /* Focus indicators should always be visible quickly */
+  transition: outline 0.15s ease-out, box-shadow 0.15s ease-out;
+}
+
+/* ============================================
+   Animation Duration CSS Variables
+   ============================================ */
+
+:root {
+  --animation-duration-fast: 150ms;
+  --animation-duration-normal: 300ms;
+  --animation-duration-slow: 500ms;
+  --animation-duration-multiplier: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --animation-duration-fast: 1ms;
+    --animation-duration-normal: 1ms;
+    --animation-duration-slow: 1ms;
+    --animation-duration-multiplier: 0;
+  }
+}
+
+.reduce-motion {
+  --animation-duration-fast: 1ms;
+  --animation-duration-normal: 1ms;
+  --animation-duration-slow: 1ms;
+  --animation-duration-multiplier: 0;
+}
+
+/* ============================================
+   Utility Classes
+   ============================================ */
+
+/* Use these classes for animations that respect reduced motion */
+.animate-fade {
+  animation: fade calc(var(--animation-duration-normal) * var(--animation-duration-multiplier)) ease-out;
+}
+
+.animate-slide-up {
+  animation: slideUp calc(var(--animation-duration-normal) * var(--animation-duration-multiplier)) ease-out;
+}
+
+.animate-scale {
+  animation: scale calc(var(--animation-duration-fast) * var(--animation-duration-multiplier)) ease-out;
+}
+
+/* Keyframes */
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scale {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Disable keyframe animations in reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  @keyframes fade {
+    from,
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideUp {
+    from,
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes scale {
+    from,
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+}
