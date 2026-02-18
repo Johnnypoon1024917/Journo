@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { TripCollaboratorWithUser } from '../../types/collaboration';
-import { collaboratorService } from '../../services/collaboratorService';
+import { collaboratorService } from '../../features/collab/collaboratorService';
 import { CollaboratorList } from './CollaboratorList';
 import { AddCollaborator } from './AddCollaborator';
 import { useEnhancedAuthStore } from '../../stores/enhancedAuthStore';

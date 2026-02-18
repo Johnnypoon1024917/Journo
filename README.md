@@ -53,9 +53,10 @@ A comprehensive travel planning and real-time journey sharing platform built wit
 
 Comprehensive documentation is available in the `docs/` folder:
 
-- **[Current Project Status](docs/CURRENT_PROJECT_STATUS.md)** - Complete project overview
-- **[UI Redesign Guide](docs/UI_REDESIGN_PREPARATION.md)** - UI redesign preparation
 - **[Documentation Index](docs/README.md)** - Full documentation structure
+- **[System Overview](docs/architecture/SYSTEM_OVERVIEW.md)** - Architecture documentation
+- **[Backend Setup](docs/guides/BACKEND_SETUP.md)** - Backend setup guide
+- **[Frontend Setup](docs/guides/FRONTEND_SETUP.md)** - Frontend setup guide
 - **[Test Credentials](LOGIN_TEST_CREDENTIALS.md)** - Test account credentials
 
 ## 🏁 Getting Started
@@ -143,24 +144,32 @@ Journo/
 │   │   ├── models/          # Database models
 │   │   ├── migrations/      # Database migrations
 │   │   └── utils/           # Utility functions
+│   ├── scripts/             # Maintenance and utility scripts
+│   ├── tests/               # Test files
+│   ├── migrations/          # SQL migration files
 │   ├── uploads/             # User uploads
 │   └── python_scraper/      # Python scraping service
 ├── frontend/                 # Frontend React application
 │   ├── src/
 │   │   ├── components/      # React components
 │   │   ├── pages/           # Page components
+│   │   ├── features/        # Feature-specific modules
+│   │   │   ├── ai/         # AI suggestions & quick plan
+│   │   │   └── collab/     # Real-time collaboration
 │   │   ├── services/        # API services
 │   │   ├── stores/          # Zustand stores
 │   │   ├── hooks/           # Custom hooks
 │   │   ├── types/           # TypeScript types
 │   │   ├── utils/           # Utility functions
-│   │   └── design-system/   # Design system components
+│   │   ├── design-system/   # Design system components
+│   │   ├── __tests__/       # Test files
+│   │   └── test/            # Test utilities
 │   └── public/              # Static assets
 ├── docs/                     # Documentation
-│   ├── archive/             # Historical documentation
-│   ├── fixes/               # Bug fix documentation
-│   ├── implementation/      # Implementation guides
-│   └── *.md                 # Current documentation
+│   ├── architecture/        # Architecture documentation
+│   ├── features/            # Feature documentation
+│   ├── guides/              # Setup and usage guides
+│   └── archive/             # Historical documentation
 ├── README.md                # This file
 ├── LOGIN_TEST_CREDENTIALS.md # Test credentials
 └── docker-compose.yml       # Docker services configuration

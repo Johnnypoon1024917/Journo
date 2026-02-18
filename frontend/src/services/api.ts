@@ -1,5 +1,6 @@
 import { useEnhancedAuthStore } from '../stores/enhancedAuthStore';
 import { networkErrorHandler } from './networkErrorHandler';
+import { handleAuthError } from '../utils/authErrorHandler';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
@@ -116,12 +117,17 @@ export async function apiRequest<T>(
           }
           
           // Token refresh failed - throw error silently for expected auth failures
-          throw new ApiError(
+          const authError = new ApiError(
             'Authentication required',
             401,
             data,
             'AUTH_REQUIRED'
           );
+          
+          // Trigger global auth error handler
+          handleAuthError(authError);
+          
+          throw authError;
         } catch (refreshError: any) {
           // If it's already an ApiError, re-throw it
           if (refreshError instanceof ApiError) {
@@ -134,12 +140,17 @@ export async function apiRequest<T>(
           }
           
           // Re-throw as ApiError
-          throw new ApiError(
+          const authError = new ApiError(
             'Authentication required',
             401,
             data,
             'AUTH_REQUIRED'
           );
+          
+          // Trigger global auth error handler
+          handleAuthError(authError);
+          
+          throw authError;
         }
       }
       
@@ -153,6 +164,11 @@ export async function apiRequest<T>(
 
     return data;
   } catch (error: any) {
+    // Handle authentication errors globally
+    if (error instanceof ApiError && error.status === 401) {
+      handleAuthError(error);
+    }
+    
     // Check network connectivity first
     if (!networkErrorHandler.isOnline()) {
       throw new ApiError(

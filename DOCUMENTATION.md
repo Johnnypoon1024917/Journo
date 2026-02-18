@@ -3,6 +3,8 @@
 > Consolidated documentation for the Journo Travel Platform
 > Last Updated: February 18, 2026
 
+> **Note**: Additional documentation is available in the `/docs` folder, including architecture guides, feature documentation, and setup guides.
+
 ## Table of Contents
 
 1. [Project Overview](#project-overview)

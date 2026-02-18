@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { TripCollaboratorWithUser, CollaboratorRole } from '../../types/collaboration';
-import { collaboratorService } from '../../services/collaboratorService';
+import { collaboratorService } from '../../features/collab/collaboratorService';
 import { Button } from '../common/Button';
 import { Modal } from '../common/Modal';
 import { useToast } from '../../hooks/useToast';

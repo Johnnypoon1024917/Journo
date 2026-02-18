@@ -30,7 +30,7 @@ import {
 
 // Services
 import { tripService } from '@/services/tripService';
-import { collaboratorService } from '@/services/collaboratorService';
+import { collaboratorService } from '@/features/collab';
 import { socketService } from '@/services/socketService';
 
 // Stores

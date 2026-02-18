@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import { useEditingState } from './useEditingState';
+import { useEditingState } from '../../hooks/useEditingState';
 
 interface UseItemLockOptions {
   tripId: string;

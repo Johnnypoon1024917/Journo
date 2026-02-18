@@ -1,7 +1,7 @@
-import { apiRequest } from './api';
-import { getAuthToken } from '../utils/auth';
+import { apiRequest } from '../../services/api';
+import { getAuthToken } from '../../utils/auth';
 import { QuickPlanOfflineService } from './quickPlanOfflineService';
-import { TripTheme } from '../types/trip';
+import { TripTheme } from '../../types/trip';
 
 export interface InterestCategory {
   id: string;

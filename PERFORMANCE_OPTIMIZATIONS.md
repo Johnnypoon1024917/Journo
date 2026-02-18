@@ -216,13 +216,13 @@ Removed unused CSS selectors and scoped variables to `:root` for better encapsul
 
 **Cleanup Process:**
 1. Identified unused selectors with PurgeCSS
-2. Removed `.kawaii-unused-class` and similar
+2. Removed `.unused-class` and similar
 3. Scoped CSS variables to `:root`
 4. Minified with PostCSS in production
 
 **Before:**
 ```css
-.kawaii-unused-class { ... }
+.unused-class { ... }
 .old-theme-color { ... }
 --custom-var: value; /* Global scope */
 ```

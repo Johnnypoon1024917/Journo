@@ -1,11 +1,11 @@
-import api from './api';
-import { getAuthToken } from '../utils/auth';
+import api from '../../services/api';
+import { getAuthToken } from '../../utils/auth';
 import {
   TripCollaborator,
   TripCollaboratorWithUser,
   TripPermissions,
   CollaboratorRole
-} from '../types/collaboration';
+} from '../../types/collaboration';
 
 export const collaboratorService = {
   // Get all collaborators for a trip

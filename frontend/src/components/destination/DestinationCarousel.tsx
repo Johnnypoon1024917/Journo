@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon, MapPinIcon, SunIcon } from '@heroicons/react/24/outline';
-import { useDestinationSuggestions } from '../../hooks/useDestinationSuggestions';
+import { useDestinationSuggestions } from '../../features/ai/useDestinationSuggestions';
 import { useEnhancedAuthStore } from '../../stores/enhancedAuthStore';
 import { useNavigate } from 'react-router-dom';
 

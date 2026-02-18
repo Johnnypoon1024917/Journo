@@ -190,3 +190,44 @@ export function getAccessibleTextColor(
   const luminance = (0.299 * bg.r + 0.587 * bg.g + 0.114 * bg.b) / 255;
   return luminance > 0.5 ? '#1e293b' : '#e2e8f0'; // gray-800 : gray-200
 }
+
+/**
+ * Auto-adjust color for high contrast mode
+ * Increases contrast ratio by darkening or lightening colors
+ */
+export function adjustForHighContrast(
+  color: string,
+  isBackground: boolean = false,
+  multiplier: number = 1.5
+): string {
+  const rgb = hexToRgb(color);
+  if (!rgb) return color;
+
+  let { r, g, b } = rgb;
+
+  if (isBackground) {
+    // Lighten backgrounds in high contrast
+    r = Math.min(255, Math.round(r + (255 - r) * (multiplier - 1)));
+    g = Math.min(255, Math.round(g + (255 - g) * (multiplier - 1)));
+    b = Math.min(255, Math.round(b + (255 - b) * (multiplier - 1)));
+  } else {
+    // Darken text/foreground in high contrast
+    r = Math.max(0, Math.round(r / multiplier));
+    g = Math.max(0, Math.round(g / multiplier));
+    b = Math.max(0, Math.round(b / multiplier));
+  }
+
+  return rgbToHex(r, g, b);
+}
+
+/**
+ * Check if system prefers high contrast
+ */
+export function prefersHighContrast(): boolean {
+  if (typeof window === 'undefined') return false;
+  
+  const forcedColors = window.matchMedia('(forced-colors: active)').matches;
+  const prefersContrast = window.matchMedia('(prefers-contrast: more)').matches;
+  
+  return forcedColors || prefersContrast;
+}

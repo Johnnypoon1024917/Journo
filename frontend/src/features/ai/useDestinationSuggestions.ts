@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { DestinationSuggestion } from '../types/destination';
-import { DestinationService, DestinationServiceError, DestinationServiceErrorType } from '../services/destinationService';
-import { useEnhancedAuthStore } from '../stores/enhancedAuthStore';
+import { DestinationSuggestion } from '../../types/destination';
+import { DestinationService, DestinationServiceError, DestinationServiceErrorType } from '../../services/destinationService';
+import { useEnhancedAuthStore } from '../../stores/enhancedAuthStore';
 
 interface UseDestinationSuggestionsOptions {
   month?: number;

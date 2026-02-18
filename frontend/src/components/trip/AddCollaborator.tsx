@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { CollaboratorRole } from '../../types/collaboration';
-import { collaboratorService } from '../../services/collaboratorService';
+import { collaboratorService } from '../../features/collab/collaboratorService';
 import { Button } from '../common/Button';
 import { Input } from '../common/Input';
 import { useToast } from '../../hooks/useToast';

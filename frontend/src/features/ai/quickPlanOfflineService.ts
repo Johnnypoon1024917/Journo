@@ -1,6 +1,6 @@
-import { offlineStorage } from './offlineStorage';
-import { syncService } from './syncService';
-import type { Trip, TripWithDays } from '../types/trip';
+import { offlineStorage } from '../../services/offlineStorage';
+import { syncService } from '../../services/syncService';
+import type { Trip, TripWithDays } from '../../types/trip';
 
 /**
  * Service for handling offline support and caching for Quick Plan generated trips

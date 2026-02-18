@@ -54,28 +54,39 @@ export const Button: React.FC<ButtonProps> = ({
   
   const variantClasses = {
     primary: cn(
-      'bg-gradient-to-r from-bubblequest-primary-500 to-bubblequest-primary-400',
-      'text-white shadow-md',
-      'hover:from-bubblequest-primary-600 hover:to-bubblequest-primary-500',
-      'focus:ring-bubblequest-primary-500',
-      'disabled:from-bubblequest-primary-300 disabled:to-bubblequest-primary-300',
-      // Dark mode: keep white text for better contrast
-      'dark:from-bubblequest-primary-500 dark:to-bubblequest-primary-600',
-      'dark:hover:from-bubblequest-primary-600 dark:hover:to-bubblequest-primary-700'
+      // Use direct colors to ensure visibility
+      'bg-blue-600 text-white shadow-lg',
+      'hover:bg-blue-700',
+      'focus:ring-blue-500',
+      'disabled:bg-gray-400 disabled:opacity-60',
+      // Alternative: use inline style if Tailwind fails
+      '!bg-[#2563eb]', // Force blue background
+      'hover:!bg-[#1d4ed8]',
+      // Dark mode
+      'dark:bg-blue-600 dark:hover:bg-blue-700',
+      // High contrast mode
+      'high-contrast:bg-[#0369a1] high-contrast:text-white high-contrast:border-2 high-contrast:border-black',
+      'high-contrast:hover:bg-[#075985]'
     ),
     secondary: cn(
       'bg-bubblequest-neutral-100 text-bubblequest-neutral-800',
-      'border-2 border-[#d5d0c2]',
-      'hover:bg-bubblequest-neutral-200 hover:border-bubblequest-neutral-300',
+      'border-2 border-[#b8b3a5]', // Darker border for better contrast (was #d5d0c2)
+      'hover:bg-bubblequest-neutral-200 hover:border-bubblequest-neutral-400',
       'focus:ring-bubblequest-neutral-400',
       'dark:bg-bubblequest-neutral-700 dark:text-bubblequest-neutral-100',
-      'dark:border-bubblequest-neutral-600 dark:hover:bg-bubblequest-neutral-600'
+      'dark:border-bubblequest-neutral-600 dark:hover:bg-bubblequest-neutral-600',
+      // High contrast mode
+      'high-contrast:bg-white high-contrast:text-black high-contrast:border-black high-contrast:border-3',
+      'high-contrast:hover:bg-gray-100'
     ),
     ghost: cn(
-      'bg-transparent text-bubblequest-primary-600',
+      'bg-transparent text-bubblequest-primary-700', // Darker text for better contrast (was primary-600)
       'hover:bg-bubblequest-primary-50',
       'focus:ring-bubblequest-primary-500',
-      'dark:text-bubblequest-primary-300 dark:hover:bg-bubblequest-primary-900/20'
+      'dark:text-bubblequest-primary-300 dark:hover:bg-bubblequest-primary-900/20',
+      // High contrast mode
+      'high-contrast:text-black high-contrast:border high-contrast:border-black',
+      'high-contrast:hover:bg-gray-200'
     ),
   };
   
@@ -104,6 +115,14 @@ export const Button: React.FC<ButtonProps> = ({
         widthClass,
         className
       )}
+      style={
+        variant === 'primary' && !disabled && !loading
+          ? {
+              backgroundColor: '#2563eb',
+              color: '#ffffff',
+            }
+          : undefined
+      }
       disabled={disabled || loading}
       variants={buttonVariants}
       initial="initial"

@@ -1,92 +1,37 @@
 /**
- * Authentication Error Handler Hook
+ * React Hook for Authentication Error Handling
  * 
- * Provides consistent authentication error handling across components
- * 
- * Requirements: 2.4, 2.5, 6.4, 6.5
+ * Provides a convenient way to handle auth errors in React components
  */
 
-import { useState, useCallback } from 'react';
-import {
-  AuthErrorDetails,
-  getAuthErrorDetails,
-  handleAuthError,
-  isAuthError,
-  withAuthErrorHandling,
-} from '../services/authErrorHandler';
-import { AuthError } from '../services/authenticationStateManager';
-
-export interface UseAuthErrorHandlerReturn {
-  error: AuthErrorDetails | null;
-  showError: (error: any) => void;
-  clearError: () => void;
-  handleAuthOperation: <T>(operation: () => Promise<T>) => Promise<T | null>;
-  isAuthenticationError: (error: any) => boolean;
-}
+import { useCallback } from 'react';
+import { useLocation } from 'react-router-dom';
+import { handleAuthError, withAuthErrorHandling } from '../utils/authErrorHandler';
 
 /**
- * Hook for handling authentication errors with consistent UI feedback
+ * Hook that provides auth error handling utilities
  */
-export function useAuthErrorHandler(): UseAuthErrorHandlerReturn {
-  const [error, setError] = useState<AuthErrorDetails | null>(null);
-
+export function useAuthErrorHandler() {
+  const location = useLocation();
+  
   /**
-   * Show an authentication error with user-friendly details
+   * Handle an error and redirect to login if it's an auth error
    */
-  const showError = useCallback((err: any) => {
-    // Convert to AuthError format if needed
-    const authError: AuthError = {
-      type: err.type || 'UNKNOWN',
-      message: err.message || 'An authentication error occurred',
-      status: err.status,
-      originalError: err,
-    };
-
-    // Get user-friendly error details
-    const errorDetails = getAuthErrorDetails(authError);
-    setError(errorDetails);
-
-    // Also handle through the state manager
-    handleAuthError(err).catch(console.error);
-  }, []);
-
+  const handleError = useCallback((error: unknown) => {
+    handleAuthError(error, location.pathname);
+  }, [location.pathname]);
+  
   /**
-   * Clear the current error
+   * Wrap an async function with automatic auth error handling
    */
-  const clearError = useCallback(() => {
-    setError(null);
-  }, []);
-
-  /**
-   * Wrap an authentication operation with error handling
-   */
-  const handleAuthOperation = useCallback(
-    async <T,>(operation: () => Promise<T>): Promise<T | null> => {
-      try {
-        clearError();
-        return await withAuthErrorHandling(operation, showError);
-      } catch (err) {
-        // Non-auth errors are re-thrown by withAuthErrorHandling
-        throw err;
-      }
-    },
-    [showError, clearError]
-  );
-
-  /**
-   * Check if an error is an authentication error
-   */
-  const isAuthenticationError = useCallback((err: any): boolean => {
-    return isAuthError(err);
-  }, []);
-
+  const withErrorHandling = useCallback(<T extends (...args: any[]) => Promise<any>>(
+    fn: T
+  ): T => {
+    return withAuthErrorHandling(fn, location.pathname);
+  }, [location.pathname]);
+  
   return {
-    error,
-    showError,
-    clearError,
-    handleAuthOperation,
-    isAuthenticationError,
+    handleError,
+    withErrorHandling,
   };
 }
-
-export default useAuthErrorHandler;

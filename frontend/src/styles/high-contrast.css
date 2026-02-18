@@ -38,6 +38,14 @@
     opacity: 1 !important;
     border-color: GrayText !important;
     color: GrayText !important;
+    background-color: Canvas !important;
+  }
+
+  /* Ensure disabled buttons don't look clickable */
+  button:disabled,
+  [aria-disabled="true"][role="button"] {
+    cursor: not-allowed !important;
+    text-decoration: line-through !important;
   }
 
   /* Ensure icons and graphics are visible */

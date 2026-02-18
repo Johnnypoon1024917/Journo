@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { TripPermissions } from '../types/collaboration';
-import { collaboratorService } from '../services/collaboratorService';
+import { collaboratorService } from '../features/collab/collaboratorService';
 
 export function useTripPermissions(tripId: string | undefined) {
   const [permissions, setPermissions] = useState<TripPermissions>({

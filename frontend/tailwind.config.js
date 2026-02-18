@@ -5,6 +5,15 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   darkMode: 'class',
+  // Support for high contrast mode
+  variants: {
+    extend: {
+      backgroundColor: ['high-contrast'],
+      textColor: ['high-contrast'],
+      borderColor: ['high-contrast'],
+      borderWidth: ['high-contrast'],
+    },
+  },
   theme: {
     // Enhanced responsive breakpoints for better mobile-first design
     screens: {
@@ -24,14 +33,14 @@ export default {
     },
     extend: {
       colors: {
-        // Kawaii primary colors - Soft pink/coral
+        // BubbleQuest primary colors - Soft pink/coral
         bubbleQuest: {
           50: '#fff5f7',
           100: '#ffe3e8',
           200: '#ffc7d1',
           300: '#ffaaba',
           400: '#ff8ea3',
-          500: '#FFB3BA',  // Main kawaii pink
+          500: '#FFB3BA',  // Main BubbleQuest pink
           600: '#ff6b7f',
           700: '#ff4d63',
           800: '#ff2f47',
@@ -42,6 +51,20 @@ export default {
             DEFAULT: '#FFF8F0',
           },
           border: '#d5d0c2',  // Custom border color
+        },
+        // Alias for consistency (kebab-case)
+        'bubblequest-primary': {
+          50: '#eff6ff',
+          100: '#dbeafe',
+          200: '#bfdbfe',
+          300: '#93c5fd',
+          400: '#60a5fa',
+          500: '#3b82f6',  // Solid blue for better contrast
+          600: '#2563eb',
+          700: '#1d4ed8',
+          800: '#1e40af',
+          900: '#1e3a8a',
+          950: '#172554',
         },
         // BubbleQuest theme presets
         'bubblequest-orange': {
@@ -445,7 +468,14 @@ export default {
   },
   plugins: [
     // Custom plugin for responsive utilities
-    function({ addUtilities, theme }) {
+    function({ addUtilities, addVariant, theme }) {
+      // Add high-contrast variant
+      addVariant('high-contrast', [
+        '@media (prefers-contrast: more) &',
+        '@media (forced-colors: active) &',
+        '.high-contrast &',
+      ]);
+
       const newUtilities = {
         // Touch-optimized utilities
         '.touch-manipulation': {

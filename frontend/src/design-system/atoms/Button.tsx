@@ -65,44 +65,57 @@ const Button = forwardRef<HTMLButtonElement, ButtonAtomProps>(
         'hover:bg-primary-700 hover:border-primary-700',
         'focus-visible:ring-primary-500',
         'active:bg-primary-800',
-        'dark:bg-primary-500 dark:hover:bg-primary-600'
+        'dark:bg-primary-500 dark:hover:bg-primary-600',
+        // High contrast mode
+        'high-contrast:bg-[#0369a1] high-contrast:border-2 high-contrast:border-black',
+        'high-contrast:hover:bg-[#075985]'
       ),
       secondary: cn(
-        'bg-white text-neutral-700 border-neutral-300',
-        'hover:bg-neutral-50 hover:border-neutral-400',
+        'bg-white text-neutral-800 border-neutral-400', // Darker border (was neutral-300)
+        'hover:bg-neutral-50 hover:border-neutral-500',
         'focus-visible:ring-neutral-500',
         'active:bg-neutral-100',
         'dark:bg-neutral-800 dark:text-neutral-200 dark:border-neutral-600',
-        'dark:hover:bg-neutral-700 dark:hover:border-neutral-500'
+        'dark:hover:bg-neutral-700 dark:hover:border-neutral-500',
+        // High contrast mode
+        'high-contrast:border-black high-contrast:border-2'
       ),
       tertiary: cn(
-        'bg-neutral-100 text-neutral-700 border-neutral-200',
-        'hover:bg-neutral-200 hover:border-neutral-300',
+        'bg-neutral-100 text-neutral-800 border-neutral-300', // Darker text (was neutral-700)
+        'hover:bg-neutral-200 hover:border-neutral-400',
         'focus-visible:ring-neutral-500',
         'active:bg-neutral-300',
         'dark:bg-neutral-700 dark:text-neutral-200 dark:border-neutral-600',
-        'dark:hover:bg-neutral-600'
+        'dark:hover:bg-neutral-600',
+        // High contrast mode
+        'high-contrast:border-black high-contrast:border-2'
       ),
       danger: cn(
         'bg-error-600 text-white border-error-600',
         'hover:bg-error-700 hover:border-error-700',
         'focus-visible:ring-error-500',
         'active:bg-error-800',
-        'dark:bg-error-500 dark:hover:bg-error-600'
+        'dark:bg-error-500 dark:hover:bg-error-600',
+        // High contrast mode
+        'high-contrast:bg-[#b91c1c] high-contrast:border-2 high-contrast:border-black'
       ),
       ghost: cn(
-        'bg-transparent text-neutral-700 border-transparent',
+        'bg-transparent text-neutral-800 border-transparent', // Darker text (was neutral-700)
         'hover:bg-neutral-100',
         'focus-visible:ring-neutral-500',
         'active:bg-neutral-200',
-        'dark:text-neutral-200 dark:hover:bg-neutral-800'
+        'dark:text-neutral-200 dark:hover:bg-neutral-800',
+        // High contrast mode
+        'high-contrast:text-black high-contrast:border high-contrast:border-black'
       ),
       link: cn(
-        'bg-transparent text-primary-600 border-transparent p-0 h-auto min-h-0 min-w-0',
-        'hover:text-primary-700 hover:underline',
+        'bg-transparent text-primary-700 border-transparent p-0 h-auto min-h-0 min-w-0', // Darker (was primary-600)
+        'hover:text-primary-800 hover:underline',
         'focus-visible:ring-primary-500',
-        'active:text-primary-800',
-        'dark:text-primary-400 dark:hover:text-primary-300'
+        'active:text-primary-900',
+        'dark:text-primary-400 dark:hover:text-primary-300',
+        // High contrast mode
+        'high-contrast:text-[#0000ee] high-contrast:underline'
       ),
     };
 

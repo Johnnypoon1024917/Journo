@@ -5,6 +5,7 @@ import { tripService } from '../../services/tripService';
 import { useEnhancedAuthStore } from '../../stores/enhancedAuthStore';
 import { Button } from '../common/Button';
 import { PullToRefresh } from '../common/PullToRefresh';
+import { useAuthErrorHandler } from '../../hooks/useAuthErrorHandler';
 import {
   DndContext,
   closestCenter,
@@ -34,6 +35,7 @@ export const TripList: React.FC<TripListProps> = ({ onTripDeleted }) => {
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [isReordering, setIsReordering] = useState(false);
   const { accessToken } = useEnhancedAuthStore();
+  const { handleError } = useAuthErrorHandler();
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -71,6 +73,10 @@ export const TripList: React.FC<TripListProps> = ({ onTripDeleted }) => {
       setError(null);
     } catch (err: any) {
       console.error('Error fetching trips:', err);
+      
+      // Handle authentication errors globally
+      handleError(err);
+      
       setError(err.message || 'Failed to load trips');
     } finally {
       setIsLoading(false);

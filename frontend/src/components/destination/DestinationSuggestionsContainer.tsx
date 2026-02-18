@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDestinationSuggestions } from '../../hooks/useDestinationSuggestions';
+import { useDestinationSuggestions } from '../../features/ai/useDestinationSuggestions';
 import { DestinationLoadingState } from './DestinationLoadingState';
 import { DestinationErrorDisplay } from './DestinationErrorDisplay';
 import { DestinationEmptyState } from './DestinationEmptyState';
