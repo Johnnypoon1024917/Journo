@@ -182,18 +182,15 @@ export const colors = {
 export const typography = {
   fontFamily: {
     sans: [
-      'Inter',
-      '-apple-system',
-      'BlinkMacSystemFont',
       'Segoe UI',
-      'Roboto',
       'Helvetica Neue',
+      'Helvetica',
       'Arial',
       'sans-serif',
     ],
     serif: [
-      'Playfair Display',
       'Georgia',
+      'Cambria',
       'Times New Roman',
       'serif',
     ],

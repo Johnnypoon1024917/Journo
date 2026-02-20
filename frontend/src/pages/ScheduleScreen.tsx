@@ -31,7 +31,7 @@ import { DayCard } from '@/components/bubblequest/DayCard';
 import { AddActivityModal, ActivityFormData } from '@/components/bubblequest/AddActivityModal';
 import { EditActivityModal } from '@/components/bubblequest/EditActivityModal';
 import { StickerModal } from '@/components/bubblequest/StickerModal';
-import { PageLayout, NavigationWrapper } from '@/components/layout';
+import { PageLayout, NavigationWrapper, Header } from '@/components/layout';
 import type { NavigationTab } from '@/components/layout';
 
 // Icons
@@ -518,36 +518,40 @@ export const ScheduleScreen: React.FC = () => {
   }
 
   return (
-    <NavigationWrapper activeTab={navActiveTab} onTabChange={handleNavTabChange}>
-      <PageLayout tripId={tripId} showStickers={false}>
-        {/* Header Section */}
-        <div className="w-full">
-          <div className="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
-              {/* Trip Title */}
-              <div className="mb-4 sm:mb-6">
-                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-                  {trip.title}
-                </h1>
-                {trip.destination && (
-                  <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400">
-                    📍 {trip.destination}
-                  </p>
-                )}
-              </div>
-
-              {/* Countdown Timer */}
-              {trip.start_date && (
+    <>
+      {/* Header Navigation */}
+      <Header isAuthenticated={true} activeRoute="home" hideBottomNav={true} />
+      
+      <NavigationWrapper activeTab={navActiveTab} onTabChange={handleNavTabChange}>
+        <PageLayout tripId={tripId} showStickers={false}>
+          {/* Header Section */}
+          <div className="w-full">
+            <div className="max-w-7xl mx-auto px-3 sm:px-4 pt-0 pb-4 sm:pb-6">
+                {/* Trip Title */}
                 <div className="mb-4 sm:mb-6">
-                  <CountdownTimer
-                    departureDate={new Date(trip.start_date)}
-                    createdDate={trip.created_at ? new Date(trip.created_at) : undefined}
-                  />
+                  <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+                    {trip.title}
+                  </h1>
+                  {trip.destination && (
+                    <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400">
+                      📍 {trip.destination}
+                    </p>
+                  )}
                 </div>
-              )}
 
-              {/* Date Selector */}
-              {tripDates.length > 0 && (
-                <div className="mb-4 sm:mb-6 -mx-3 sm:mx-0">
+                {/* Countdown Timer */}
+                {trip.start_date && (
+                  <div className="mb-4 sm:mb-6">
+                    <CountdownTimer
+                      departureDate={new Date(trip.start_date)}
+                      createdDate={trip.created_at ? new Date(trip.created_at) : undefined}
+                    />
+                  </div>
+                )}
+
+                {/* Date Selector */}
+                {tripDates.length > 0 && (
+                  <div className="mb-4 sm:mb-6 -mx-3 sm:mx-0">
                   <DateSelector
                     dates={tripDates}
                     selectedDate={selectedDate || tripDates[0]}
@@ -650,6 +654,7 @@ export const ScheduleScreen: React.FC = () => {
         tripId={tripId || ''}
       />
     </NavigationWrapper>
+    </>
   );
 };
 

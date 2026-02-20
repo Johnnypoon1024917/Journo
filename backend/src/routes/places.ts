@@ -1,5 +1,6 @@
 import express from 'express';
 import { PlaceController } from '../controllers/placeController.js';
+import { CountryRecommendationController } from '../controllers/countryRecommendationController.js';
 import { authenticate } from '../middleware/auth.js';
 import { createActivityLogMiddleware } from '../middleware/activityLogMiddleware.js';
 
@@ -7,6 +8,10 @@ const router = express.Router();
 
 // All place routes require authentication
 router.use(authenticate);
+
+// Country recommendation endpoints
+router.get('/countries/recommendations', CountryRecommendationController.getRecommendations);
+router.get('/countries/recommendations/:month', CountryRecommendationController.getRecommendationsByMonth);
 
 // Place CRUD operations
 router.post('/', createActivityLogMiddleware.placeAdded(), PlaceController.createPlace);

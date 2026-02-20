@@ -370,6 +370,37 @@ export interface SyncQueueItem {
   updated_at: Date;
 }
 
+// Country Recommendation types
+export interface CountryRecommendation {
+  id: string;
+  country_name: string;
+  best_months: number[];
+  temp_range: string;
+  avoid_months: number[];
+  region: string;
+  description: string;
+  created_at?: Date;
+  updated_at?: Date;
+}
+
+export type WeatherPreference = 'Warm' | 'Cold' | 'Any';
+
+export type CountryRegion = 
+  | 'Asia' 
+  | 'Europe' 
+  | 'Americas' 
+  | 'Africa' 
+  | 'Oceania' 
+  | 'Middle East';
+
+export interface CountryQueryFilters {
+  month?: number;
+  weather?: WeatherPreference;
+  region?: CountryRegion;
+  limit?: number;
+  offset?: number;
+}
+
 // Request/Response DTOs
 export interface ApiResponse<T = any> {
   success: boolean;

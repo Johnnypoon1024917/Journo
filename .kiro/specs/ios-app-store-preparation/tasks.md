@@ -381,7 +381,7 @@ This implementation plan outlines the tasks for preparing the Journo travel plan
     - **Validates: Requirements 15.9**
 
 - [ ] 13. Prepare App Store metadata and assets
-  - [~] 13.1 Create app icons in all required sizes
+  - [ ] 13.1 Create app icons in all required sizes
     - Generate icons from source: 20x20 to 1024x1024
     - Add icons to Xcode asset catalog
     - Verify icon quality and appearance
@@ -391,7 +391,7 @@ This implementation plan outlines the tasks for preparing the Journo travel plan
     - **Example 4: App Icon Completeness**
     - **Validates: Requirements 2.1**
   
-  - [~] 13.3 Create app screenshots
+  - [ ] 13.3 Create app screenshots
     - Capture screenshots for 6.5", 6.7", 5.5" iPhones
     - Ensure at least 3 screenshots per device size
     - Highlight key features in screenshots
@@ -401,14 +401,14 @@ This implementation plan outlines the tasks for preparing the Journo travel plan
     - **Example 5: Screenshot Availability**
     - **Validates: Requirements 2.2**
   
-  - [~] 13.5 Write App Store description and metadata
+  - [ ] 13.5 Write App Store description and metadata
     - Write compelling app name (max 30 chars)
     - Write descriptive subtitle (max 30 chars)
     - Write detailed description (max 4000 chars)
     - Choose relevant keywords (max 100 chars)
     - _Requirements: 2.4, 2.5, 2.6, 2.7_
   
-  - [~] 13.6 Create privacy policy
+  - [ ] 13.6 Create privacy policy
     - Write comprehensive privacy policy
     - Host privacy policy on website
     - Add privacy policy link to app settings
@@ -418,7 +418,7 @@ This implementation plan outlines the tasks for preparing the Journo travel plan
     - **Example 1: Privacy Policy Accessibility**
     - **Validates: Requirements 1.1**
   
-  - [~] 13.8 Configure Info.plist with permission descriptions
+  - [ ] 13.8 Configure Info.plist with permission descriptions
     - Add NSCameraUsageDescription
     - Add NSPhotoLibraryUsageDescription
     - Add NSLocationWhenInUseUsageDescription
@@ -430,13 +430,13 @@ This implementation plan outlines the tasks for preparing the Journo travel plan
     - **Validates: Requirements 1.3**
 
 - [ ] 14. Implement account deletion feature
-  - [~] 14.1 Create account deletion UI
+  - [ ] 14.1 Create account deletion UI
     - Add "Delete Account" option to settings
     - Add confirmation dialog with warning
     - Add password re-authentication before deletion
     - _Requirements: 1.8_
   
-  - [~] 14.2 Implement account deletion API
+  - [ ] 14.2 Implement account deletion API
     - Create backend endpoint for account deletion
     - Delete all user data and associated trips
     - Send confirmation email after deletion
@@ -447,54 +447,54 @@ This implementation plan outlines the tasks for preparing the Journo travel plan
     - **Validates: Requirements 1.8**
 
 - [ ] 15. Implement analytics and crash reporting
-  - [~] 15.1 Integrate crash reporting service
+  - [ ] 15.1 Integrate crash reporting service
     - Add Sentry or Firebase Crashlytics
     - Configure crash reporting with app version
     - Test crash reporting in development
     - _Requirements: 14.1, 14.2_
   
-  - [~] 15.2 Implement analytics tracking
+  - [ ] 15.2 Implement analytics tracking
     - Add PostHog or Firebase Analytics
     - Track key user events (app opens, trip creation, etc.)
     - Implement privacy-respecting analytics
     - Add opt-out option in settings
     - _Requirements: 14.3, 14.4, 14.5_
   
-  - [~] 15.3 Implement error logging
+  - [ ] 15.3 Implement error logging
     - Create error logger utility
     - Log errors with context and device info
     - Send errors to crash reporting service
     - _Requirements: 14.1, 14.2_
 
-- [~] 16. Checkpoint - Ensure all features are complete
+- [ ] 16. Checkpoint - Ensure all features are complete
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 17. Perform comprehensive testing
-  - [~] 17.1 Run unit and property tests
+  - [ ] 17.1 Run unit and property tests
     - Execute all unit tests
     - Execute all property-based tests
     - Ensure >80% code coverage
     - _Requirements: 17.1_
   
-  - [~] 17.2 Run integration tests
+  - [ ] 17.2 Run integration tests
     - Test API integrations
     - Test authentication flows
     - Test offline sync
     - _Requirements: 17.2_
   
-  - [~] 17.3 Run end-to-end tests
+  - [ ] 17.3 Run end-to-end tests
     - Test critical user journeys
     - Test on physical iOS devices
     - Test on multiple iOS versions
     - _Requirements: 17.3, 17.4, 17.5_
   
-  - [~] 17.4 Perform accessibility testing
+  - [ ] 17.4 Perform accessibility testing
     - Test with VoiceOver
     - Test with Dynamic Type
     - Test with Reduce Motion
     - _Requirements: 17.6_
   
-  - [~] 17.5 Perform performance testing
+  - [ ] 17.5 Perform performance testing
     - Measure app launch time
     - Measure screen transition times
     - Measure memory usage
@@ -502,39 +502,39 @@ This implementation plan outlines the tasks for preparing the Journo travel plan
     - _Requirements: 8.1, 8.2, 8.3, 8.4_
 
 - [ ] 18. Prepare for App Store submission
-  - [~] 18.1 Create demo account for reviewers
+  - [ ] 18.1 Create demo account for reviewers
     - Create test account with pre-populated data
     - Document login credentials
     - Add reviewer instructions to App Store Connect
     - _Requirements: 13.1, 13.2_
   
-  - [~] 18.2 Remove debug code and test data
+  - [ ] 18.2 Remove debug code and test data
     - Remove console.log statements
     - Remove test data and fixtures
     - Remove development-only features
     - _Requirements: 13.4_
   
-  - [~] 18.3 Build and sign production app
+  - [ ] 18.3 Build and sign production app
     - Create production build
     - Sign with distribution certificate
     - Upload to App Store Connect
     - _Requirements: 10.10_
   
-  - [~] 18.4 Submit for TestFlight beta testing
+  - [ ] 18.4 Submit for TestFlight beta testing
     - Upload build to TestFlight
     - Invite internal testers (5 developers)
     - Invite external testers (20 users)
     - Collect feedback for 2 weeks
     - _Requirements: 17.9_
   
-  - [~] 18.5 Submit to App Store for review
+  - [ ] 18.5 Submit to App Store for review
     - Complete all App Store Connect metadata
     - Submit app for review
     - Monitor review status
     - Respond to reviewer questions promptly
     - _Requirements: 13.1, 13.2, 13.3, 13.7_
 
-- [~] 19. Final checkpoint - Ready for App Store submission
+- [ ] 19. Final checkpoint - Ready for App Store submission
   - Ensure all tests pass, ask the user if questions arise.
 
 ## Notes

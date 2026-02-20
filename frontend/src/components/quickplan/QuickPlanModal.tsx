@@ -420,7 +420,7 @@ export function QuickPlanModal({ isOpen, onClose, suggestedDestination, onTripCr
         mustVisitPlaces: travelInfo.mustVisitPlaces
       };
 
-      const { quickPlanService } = await import('../../services/quickPlanService');
+      const { quickPlanService } = await import('../../features/ai/quickPlanService');
       const suggestionsResponse = await quickPlanService.generateSuggestions(enhancedRequest);
       
       if (!suggestionsResponse.success) {

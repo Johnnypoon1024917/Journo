@@ -54,7 +54,7 @@ export function createInfoWindowContent(place: Place): string {
   const costDisplay = place.cost ? formatCost(place.cost, place.cost_currency || undefined) : null;
 
   return `
-    <div style="padding: 12px; max-width: 280px; font-family: system-ui, -apple-system, sans-serif;">
+    <div style="padding: 12px; max-width: 280px; font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
       <div style="margin-bottom: 8px;">
         <h3 style="margin: 0 0 4px 0; font-size: 16px; font-weight: 600; color: #1f2937; line-height: 1.4;">
           ${escapeHtml(place.name)}

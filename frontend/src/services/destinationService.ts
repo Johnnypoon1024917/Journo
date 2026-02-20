@@ -1,6 +1,7 @@
 import api from './api';
 import { getAuthToken } from '../utils/auth';
 import { DestinationSuggestion, SuggestionInteractionType, PersonalizedSuggestions } from '../types/destination';
+import { CountryRecommendation, RecommendationFilters, WeatherPreference } from '../types/countryRecommendation';
 
 // Retry configuration
 interface RetryConfig {
@@ -32,6 +33,7 @@ export class DestinationServiceError extends Error {
 
 export class DestinationService {
   private static cache = new Map<string, { data: DestinationSuggestion[]; timestamp: number }>();
+  private static countryCache = new Map<string, { data: CountryRecommendation[]; timestamp: number }>();
   private static CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours
   
   // Retry configuration
@@ -396,5 +398,121 @@ export class DestinationService {
     };
 
     return currencyMap[country] || 'USD';
+  }
+
+  /**
+   * Get country recommendations with optional filters
+   * Implements Requirements 9.3: Extend destinationService for country recommendations
+   */
+  static async getCountryRecommendations(
+    filters: RecommendationFilters = {}
+  ): Promise<CountryRecommendation[]> {
+    const cacheKey = `countries_${JSON.stringify(filters)}`;
+    
+    // Check cache first (fresh cache only)
+    const cached = this.countryCache.get(cacheKey);
+    if (cached && Date.now() - cached.timestamp < this.CACHE_DURATION) {
+      return cached.data;
+    }
+
+    try {
+      // Use retry mechanism for fetching country recommendations
+      const countries = await this.retryWithBackoff(async () => {
+        const token = getAuthToken();
+        
+        // Build query parameters
+        const params = new URLSearchParams();
+        if (filters.month) params.append('month', filters.month.toString());
+        if (filters.weatherPreference) params.append('weather', filters.weatherPreference.toLowerCase());
+        if (filters.region) params.append('region', filters.region);
+        
+        const queryString = params.toString();
+        const url = `/places/countries/recommendations${queryString ? `?${queryString}` : ''}`;
+        
+        const response = await api.get(url, { token: token || undefined });
+        return (response as any).data.countries;
+      }, `getCountryRecommendations(${JSON.stringify(filters)})`);
+
+      // Cache the results
+      this.countryCache.set(cacheKey, {
+        data: countries,
+        timestamp: Date.now()
+      });
+
+      return countries;
+    } catch (error) {
+      console.error('Error fetching country recommendations:', error);
+      
+      // Fallback to cached data if available, even if expired
+      const cachedCountries = this.countryCache.get(cacheKey);
+      if (cachedCountries) {
+        console.log('Using expired cache as fallback for country recommendations');
+        return cachedCountries.data;
+      }
+      
+      // Re-throw the classified error
+      throw error;
+    }
+  }
+
+  /**
+   * Get country recommendations for a specific month
+   * Implements Requirements 9.3: Extend destinationService for country recommendations
+   */
+  static async getCountryRecommendationsByMonth(
+    month: number,
+    weather?: WeatherPreference
+  ): Promise<CountryRecommendation[]> {
+    const cacheKey = `countries_month_${month}_${weather || 'any'}`;
+    
+    // Check cache first (fresh cache only)
+    const cached = this.countryCache.get(cacheKey);
+    if (cached && Date.now() - cached.timestamp < this.CACHE_DURATION) {
+      return cached.data;
+    }
+
+    try {
+      // Use retry mechanism for fetching country recommendations
+      const countries = await this.retryWithBackoff(async () => {
+        const token = getAuthToken();
+        
+        // Build query parameters
+        const params = new URLSearchParams();
+        if (weather) params.append('weather', weather.toLowerCase());
+        
+        const queryString = params.toString();
+        const url = `/places/countries/recommendations/${month}${queryString ? `?${queryString}` : ''}`;
+        
+        const response = await api.get(url, { token: token || undefined });
+        return (response as any).data.countries;
+      }, `getCountryRecommendationsByMonth(${month}, ${weather})`);
+
+      // Cache the results
+      this.countryCache.set(cacheKey, {
+        data: countries,
+        timestamp: Date.now()
+      });
+
+      return countries;
+    } catch (error) {
+      console.error('Error fetching country recommendations by month:', error);
+      
+      // Fallback to cached data if available, even if expired
+      const cachedCountries = this.countryCache.get(cacheKey);
+      if (cachedCountries) {
+        console.log('Using expired cache as fallback for country recommendations by month');
+        return cachedCountries.data;
+      }
+      
+      // Re-throw the classified error
+      throw error;
+    }
+  }
+
+  /**
+   * Clear country recommendation cache
+   */
+  static clearCountryCache(): void {
+    this.countryCache.clear();
   }
 }

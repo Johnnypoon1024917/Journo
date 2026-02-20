@@ -18,7 +18,7 @@ import { cn } from '@/utils/cn';
 import { useEnhancedAuthStore } from '@/stores/enhancedAuthStore';
 import { useBubbleQuestThemeStore } from '@/stores/bubbleQuestThemeStore';
 import { tripService } from '@/services/tripService';
-import { quickPlanService } from '@/services/quickPlanService';
+import { quickPlanService } from '@/features/ai/quickPlanService';
 import stickerService from '@/services/stickerService';
 import { Button } from '@/design-system/atoms/Button';
 import { TripTemplateSelector, TripTemplate } from './TripTemplateSelector';

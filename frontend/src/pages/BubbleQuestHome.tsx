@@ -4,25 +4,25 @@
  * BubbleQuest-styled homepage with soft colors, rounded corners, and playful design.
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { TripList } from '../components/trip/TripList';
 import { BubbleQuestTripEditor } from '../components/bubblequest/BubbleQuestTripEditor';
 import { BubbleQuestModal } from '../components/bubblequest/BubbleQuestModal';
 import { Button as BubbleQuestButton } from '../components/bubblequest/Button';
 import { ToastContainer } from '../components/common/Toast';
-import { OfflineBadge } from '../components/common/OfflineBadge';
-import { NotificationBell } from '../components/notifications/NotificationBell';
-import { UserProfileDropdown } from '../components/user/UserProfileDropdown';
 import { offlineTripService } from '../services/offlineTripService';
 import { CreateTripDto } from '../types/trip';
 import { useEnhancedAuthStore } from '../stores/enhancedAuthStore';
 import { useToast } from '../hooks/useToast';
 import { useOfflineStore } from '../stores/offlineStore';
-import { DestinationCarousel } from '../components/destination';
 import { cn } from '@/utils/cn';
+import { HeroBackground, ParticleEffect } from '../components/hero';
+import { ActionCard, DiscoveryWidget } from '../components/home';
+import { Header } from '../components/layout';
+import { InstallPrompt } from '../components/pwa';
 
 export function BubbleQuestHome() {
   const { user, isAuthenticated } = useAuth();
@@ -31,6 +31,32 @@ export function BubbleQuestHome() {
   const navigate = useNavigate();
   const { toasts, showSuccess, showError, dismissToast } = useToast();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
+
+  // Animation variants that respect reduced motion preference
+  const pageVariants = {
+    initial: { opacity: shouldReduceMotion ? 1 : 0, y: shouldReduceMotion ? 0 : 20 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: shouldReduceMotion ? 1 : 0, y: shouldReduceMotion ? 0 : -20 }
+  };
+
+  const sectionVariants = {
+    initial: { opacity: shouldReduceMotion ? 1 : 0, y: shouldReduceMotion ? 0 : 30 },
+    animate: { opacity: 1, y: 0 },
+  };
+
+  const staggerContainer = {
+    animate: {
+      transition: {
+        staggerChildren: shouldReduceMotion ? 0 : 0.1
+      }
+    }
+  };
+
+  const staggerItem = {
+    initial: { opacity: shouldReduceMotion ? 1 : 0, y: shouldReduceMotion ? 0 : 20 },
+    animate: { opacity: 1, y: 0 }
+  };
 
   // Get access token from auth store - if null, try to get from enhanced auth store
   let accessToken = authStore.accessToken;
@@ -155,52 +181,42 @@ export function BubbleQuestHome() {
 
   if (!isAuthenticated || !user) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-bubblequest-cream-50 via-bubblequest-primary-50/30 to-bubblequest-secondary-50/30">
+      <motion.div 
+        className="min-h-screen bg-gradient-to-br from-bubblequest-cream-50 via-bubblequest-primary-50/30 to-bubblequest-secondary-50/30"
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        variants={pageVariants}
+        transition={{ duration: shouldReduceMotion ? 0 : 0.5 }}
+      >
         {/* Header */}
-        <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-bubblequest-primary-100 shadow-sm">
-          <div className="max-w-screen-xl mx-auto px-6 lg:px-8">
-            <div className="flex justify-between items-center h-20">
-              <Link to="/" className="flex items-center space-x-2">
-                <div className="w-10 h-10 bg-gradient-to-br from-bubblequest-primary-400 to-bubblequest-primary-600 rounded-2xl flex items-center justify-center shadow-lg">
-                  <span className="text-white font-bold text-xl">J</span>
-                </div>
-                <span className="text-2xl font-bold bg-gradient-to-r from-bubblequest-primary-600 to-bubblequest-secondary-600 bg-clip-text text-transparent">
-                  journo
-                </span>
-              </Link>
-
-              <div className="flex items-center space-x-4">
-                <Link to="/community" className="hidden md:block text-sm font-medium text-bubblequest-neutral-700 hover:text-bubblequest-primary-600 px-4 py-2 rounded-full hover:bg-bubblequest-primary-50 transition-all">
-                  Travel Stories
-                </Link>
-                <UserProfileDropdown />
-              </div>
-            </div>
-          </div>
-        </header>
+        <Header isAuthenticated={false} />
 
         {/* Hero Section */}
-        <section className="relative min-h-[70vh] flex items-center justify-center px-6 py-20">
+        <section className="relative min-h-[70vh] flex items-center justify-center px-6 py-26">
           <div className="absolute inset-0 overflow-hidden">
             <div className="absolute top-20 left-10 w-72 h-72 bg-bubblequest-primary-200/30 rounded-full blur-3xl"></div>
             <div className="absolute bottom-20 right-10 w-96 h-96 bg-bubblequest-secondary-200/30 rounded-full blur-3xl"></div>
           </div>
           
+          {/* Subtle bubble animation */}
+          <ParticleEffect type="bubbles" enabled={!shouldReduceMotion} density="low" speed={0.8} />
+          
           <motion.div
             className="relative text-center max-w-4xl"
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: shouldReduceMotion ? 1 : 0, y: shouldReduceMotion ? 0 : 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.6 }}
           >
             <motion.div
-              className="inline-block mb-6"
-              animate={{ rotate: [0, 10, -10, 0] }}
+              className="inline-block mb-8"
+              animate={shouldReduceMotion ? {} : { rotate: [0, 10, -10, 0] }}
               transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
             >
               <span className="text-8xl">✈️</span>
             </motion.div>
             
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+            <h1 className="text-5xl md:text-7xl font-display font-bold mb-8 leading-tight">
               <span className="bg-gradient-to-r from-bubblequest-primary-600 via-bubblequest-secondary-600 to-bubblequest-primary-600 bg-clip-text text-transparent">
                 Plan Your Dream
               </span>
@@ -208,11 +224,11 @@ export function BubbleQuestHome() {
               <span className="text-bubblequest-neutral-800">Adventure</span>
             </h1>
             
-            <p className="text-xl md:text-2xl text-bubblequest-neutral-600 mb-10 font-light">
+            <p className="text-xl md:text-2xl text-bubblequest-neutral-600 mb-12 font-light leading-loose">
               Create beautiful travel itineraries with friends 🌸
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-5 justify-center">
               <Link to="/register">
                 <BubbleQuestButton size="lg" className="min-w-[200px]">
                   <span className="text-lg">Get Started</span>
@@ -229,24 +245,37 @@ export function BubbleQuestHome() {
         </section>
 
         {/* Features Section */}
-        <section className="py-20 px-6 bg-white/50 backdrop-blur-sm">
+        <motion.section 
+          className="py-26 px-6 bg-white/50 backdrop-blur-sm"
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={sectionVariants}
+          transition={{ duration: shouldReduceMotion ? 0 : 0.6 }}
+        >
           <div className="max-w-screen-xl mx-auto">
             <motion.div
-              className="text-center mb-16"
-              initial={{ opacity: 0, y: 20 }}
+              className="text-center mb-18"
+              initial={{ opacity: shouldReduceMotion ? 1 : 0, y: shouldReduceMotion ? 0 : 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: shouldReduceMotion ? 0 : 0.6 }}
             >
-              <h2 className="text-4xl md:text-5xl font-bold text-bubblequest-neutral-800 mb-4">
+              <h2 className="text-4xl md:text-5xl font-display font-bold text-bubblequest-neutral-800 mb-6">
                 Plan Together, Travel Better
               </h2>
-              <p className="text-xl text-bubblequest-neutral-600 max-w-2xl mx-auto">
+              <p className="text-xl text-bubblequest-neutral-600 max-w-2xl mx-auto leading-relaxed">
                 Everything you need for the perfect trip ✨
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <motion.div 
+              className="grid grid-cols-1 md:grid-cols-3 gap-10"
+              variants={staggerContainer}
+              initial="initial"
+              whileInView="animate"
+              viewport={{ once: true }}
+            >
               {[
                 {
                   emoji: '👥',
@@ -270,17 +299,15 @@ export function BubbleQuestHome() {
                 <motion.div
                   key={index}
                   className={cn(
-                    'bg-gradient-to-br p-8 rounded-3xl shadow-lg hover:shadow-xl transition-all',
+                    'bg-gradient-to-br p-10 rounded-3xl shadow-lg hover:shadow-xl transition-all',
                     feature.color
                   )}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  whileHover={{ scale: 1.05, y: -5 }}
+                  variants={staggerItem}
+                  whileHover={shouldReduceMotion ? {} : { scale: 1.05, y: -5 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  <div className="text-6xl mb-6">{feature.emoji}</div>
-                  <h3 className="text-2xl font-bold text-bubblequest-neutral-800 mb-4">
+                  <div className="text-6xl mb-8">{feature.emoji}</div>
+                  <h3 className="text-2xl font-display font-bold text-bubblequest-neutral-800 mb-5">
                     {feature.title}
                   </h3>
                   <p className="text-bubblequest-neutral-600 leading-relaxed">
@@ -288,23 +315,37 @@ export function BubbleQuestHome() {
                   </p>
                 </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
-        </section>
+        </motion.section>
 
         {/* Popular Destinations */}
-        <section className="py-20 px-6">
+        <motion.section 
+          className="py-26 px-6"
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={sectionVariants}
+          transition={{ duration: shouldReduceMotion ? 0 : 0.6 }}
+        >
           <div className="max-w-screen-xl mx-auto">
             <motion.h2
-              className="text-4xl font-bold text-bubblequest-neutral-800 mb-12 text-center"
-              initial={{ opacity: 0, y: 20 }}
+              className="text-4xl font-display font-bold text-bubblequest-neutral-800 mb-14 text-center"
+              initial={{ opacity: shouldReduceMotion ? 1 : 0, y: shouldReduceMotion ? 0 : 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
+              transition={{ duration: shouldReduceMotion ? 0 : 0.5 }}
             >
               Inspiration for Your Next Trip 🌏
             </motion.h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <motion.div 
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
+              variants={staggerContainer}
+              initial="initial"
+              whileInView="animate"
+              viewport={{ once: true }}
+            >
               {[
                 { name: 'Tokyo', country: 'Japan', emoji: '🗼', image: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800&q=80' },
                 { name: 'Paris', country: 'France', emoji: '🗼', image: 'https://images.unsplash.com/photo-1502602898536-47ad22581b52?w=800&q=80' },
@@ -314,43 +355,49 @@ export function BubbleQuestHome() {
                 <motion.div
                   key={index}
                   className="group cursor-pointer"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  whileHover={{ y: -10 }}
+                  variants={staggerItem}
+                  whileHover={shouldReduceMotion ? {} : { y: -10 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  <div className="relative overflow-hidden rounded-3xl aspect-square mb-4 shadow-lg">
+                  <div className="relative overflow-hidden rounded-3xl aspect-square mb-5 shadow-lg">
                     <img
                       src={destination.image}
                       alt={`${destination.name}, ${destination.country}`}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
-                    <div className="absolute bottom-4 left-4 text-white">
-                      <div className="text-3xl mb-2">{destination.emoji}</div>
-                      <h3 className="font-bold text-xl">{destination.name}</h3>
-                      <p className="text-sm opacity-90">{destination.country}</p>
+                    <div className="absolute bottom-5 left-5 text-white">
+                      <div className="text-3xl mb-3">{destination.emoji}</div>
+                      <h3 className="font-display font-bold text-xl">{destination.name}</h3>
+                      <p className="text-sm opacity-90 leading-relaxed">{destination.country}</p>
                     </div>
                   </div>
                 </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
-        </section>
+        </motion.section>
 
         {/* CTA Section */}
-        <section className="py-20 px-6 bg-gradient-to-br from-bubblequest-primary-100 to-bubblequest-secondary-100">
+        <motion.section 
+          className="py-26 px-6 bg-gradient-to-br from-bubblequest-primary-100 to-bubblequest-secondary-100"
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={sectionVariants}
+          transition={{ duration: shouldReduceMotion ? 0 : 0.6 }}
+        >
           <motion.div
             className="max-w-4xl mx-auto text-center"
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: shouldReduceMotion ? 1 : 0, y: shouldReduceMotion ? 0 : 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.5 }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-bubblequest-neutral-800 mb-6">
+            <h2 className="text-4xl md:text-5xl font-display font-bold text-bubblequest-neutral-800 mb-8">
               Ready to Start Planning? 🎉
             </h2>
-            <p className="text-xl text-bubblequest-neutral-600 mb-10">
+            <p className="text-xl text-bubblequest-neutral-600 mb-12 leading-relaxed">
               Join thousands of travelers creating amazing memories
             </p>
             <Link to="/register">
@@ -360,51 +407,51 @@ export function BubbleQuestHome() {
               </BubbleQuestButton>
             </Link>
           </motion.div>
-        </section>
+        </motion.section>
 
         {/* Footer */}
-        <footer className="border-t border-bubblequest-primary-100 bg-white/80 backdrop-blur-md py-12 px-6">
+        <footer className="border-t border-bubblequest-primary-100 bg-white/80 backdrop-blur-md py-14 px-6">
           <div className="max-w-screen-xl mx-auto">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-10">
               <div>
-                <h3 className="font-bold text-bubblequest-neutral-800 mb-4">Support</h3>
-                <ul className="space-y-2 text-bubblequest-neutral-600">
-                  <li><Link to="/help" className="hover:text-bubblequest-primary-600 transition-colors">Help Center</Link></li>
-                  <li><Link to="/contact" className="hover:text-bubblequest-primary-600 transition-colors">Contact Us</Link></li>
+                <h3 className="font-sans font-bold text-bubblequest-neutral-800 mb-5">Support</h3>
+                <ul className="space-y-3 text-bubblequest-neutral-600">
+                  <li><Link to="/help" className="hover:text-bubblequest-primary-600 transition-colors leading-relaxed">Help Center</Link></li>
+                  <li><Link to="/contact" className="hover:text-bubblequest-primary-600 transition-colors leading-relaxed">Contact Us</Link></li>
                 </ul>
               </div>
               
               <div>
-                <h3 className="font-bold text-bubblequest-neutral-800 mb-4">Community</h3>
-                <ul className="space-y-2 text-bubblequest-neutral-600">
-                  <li><Link to="/community" className="hover:text-bubblequest-primary-600 transition-colors">Explore Trips</Link></li>
-                  <li><Link to="/blog" className="hover:text-bubblequest-primary-600 transition-colors">Travel Blog</Link></li>
+                <h3 className="font-sans font-bold text-bubblequest-neutral-800 mb-5">Community</h3>
+                <ul className="space-y-3 text-bubblequest-neutral-600">
+                  <li><Link to="/community" className="hover:text-bubblequest-primary-600 transition-colors leading-relaxed">Explore Trips</Link></li>
+                  <li><Link to="/blog" className="hover:text-bubblequest-primary-600 transition-colors leading-relaxed">Travel Blog</Link></li>
                 </ul>
               </div>
               
               <div>
-                <h3 className="font-bold text-bubblequest-neutral-800 mb-4">Planning</h3>
-                <ul className="space-y-2 text-bubblequest-neutral-600">
-                  <li><Link to="/features" className="hover:text-bubblequest-primary-600 transition-colors">Features</Link></li>
-                  <li><Link to="/guides" className="hover:text-bubblequest-primary-600 transition-colors">Travel Guides</Link></li>
+                <h3 className="font-sans font-bold text-bubblequest-neutral-800 mb-5">Planning</h3>
+                <ul className="space-y-3 text-bubblequest-neutral-600">
+                  <li><Link to="/features" className="hover:text-bubblequest-primary-600 transition-colors leading-relaxed">Features</Link></li>
+                  <li><Link to="/guides" className="hover:text-bubblequest-primary-600 transition-colors leading-relaxed">Travel Guides</Link></li>
                 </ul>
               </div>
               
               <div>
-                <h3 className="font-bold text-bubblequest-neutral-800 mb-4">Journo</h3>
-                <ul className="space-y-2 text-bubblequest-neutral-600">
-                  <li><Link to="/about" className="hover:text-bubblequest-primary-600 transition-colors">About</Link></li>
-                  <li><Link to="/privacy" className="hover:text-bubblequest-primary-600 transition-colors">Privacy</Link></li>
+                <h3 className="font-sans font-bold text-bubblequest-neutral-800 mb-5">Journo</h3>
+                <ul className="space-y-3 text-bubblequest-neutral-600">
+                  <li><Link to="/about" className="hover:text-bubblequest-primary-600 transition-colors leading-relaxed">About</Link></li>
+                  <li><Link to="/privacy" className="hover:text-bubblequest-primary-600 transition-colors leading-relaxed">Privacy</Link></li>
                 </ul>
               </div>
             </div>
             
-            <div className="border-t border-bubblequest-primary-100 pt-8 text-center text-bubblequest-neutral-600">
-              <p>&copy; 2024 Journo. Made with 💖 for travelers</p>
+            <div className="border-t border-bubblequest-primary-100 pt-10 text-center text-bubblequest-neutral-600">
+              <p className="leading-relaxed">&copy; 2024 Journo. Made with 💖 for travelers</p>
             </div>
           </div>
         </footer>
-      </div>
+      </motion.div>
     );
   }
 
@@ -412,90 +459,135 @@ export function BubbleQuestHome() {
   return (
     <>
       <ToastContainer toasts={toasts} onRemove={dismissToast} />
-      <div className="min-h-screen bg-gradient-to-br from-bubblequest-cream-50 via-bubblequest-primary-50/30 to-bubblequest-secondary-50/30 dark:from-bubblequest-neutral-900 dark:via-bubblequest-neutral-800 dark:to-bubblequest-neutral-900">
+      <motion.div 
+        className="min-h-screen bg-gradient-to-br from-bubblequest-cream-50 via-bubblequest-primary-50/30 to-bubblequest-secondary-50/30 dark:from-bubblequest-neutral-900 dark:via-bubblequest-neutral-800 dark:to-bubblequest-neutral-900"
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        variants={pageVariants}
+        transition={{ duration: shouldReduceMotion ? 0 : 0.5 }}
+      >
         {/* Header */}
-        <header className="sticky top-0 z-50 bg-white/80 dark:bg-bubblequest-neutral-900/80 backdrop-blur-md border-b border-bubblequest-primary-100 dark:border-bubblequest-neutral-700 shadow-sm">
-          <div className="max-w-screen-xl mx-auto px-6 lg:px-8">
-            <div className="flex justify-between items-center h-20">
-              <Link to="/" className="flex items-center space-x-2">
-                <div className="w-10 h-10 bg-gradient-to-br from-bubblequest-primary-400 to-bubblequest-primary-600 rounded-2xl flex items-center justify-center shadow-lg">
-                  <span className="text-white font-bold text-xl">J</span>
-                </div>
-                <span className="text-2xl font-bold bg-gradient-to-r from-bubblequest-primary-600 to-bubblequest-secondary-600 bg-clip-text text-transparent">
-                  journo
-                </span>
-              </Link>
-
-              <div className="flex items-center space-x-4">
-                <BubbleQuestButton 
-                  onClick={() => setIsCreateModalOpen(true)} 
-                  variant="ghost"
-                  size="sm"
-                  className="hidden md:flex"
-                >
-                  Create a trip
-                </BubbleQuestButton>
-                <OfflineBadge />
-                <NotificationBell />
-                <UserProfileDropdown />
-              </div>
-            </div>
-          </div>
-        </header>
+        <Header 
+          isAuthenticated={true} 
+          onCreateTrip={() => setIsCreateModalOpen(true)}
+          activeRoute="home"
+          hideNotifications={true}
+        />
 
         {/* Main Content */}
-        <div className="max-w-screen-xl mx-auto px-6 lg:px-8 py-12">
-          {/* Welcome Section */}
+        <div className="max-w-screen-xl mx-auto px-4 lg:px-8 py-4 md:py-8">
+          {/* Welcome Section with Hero Background */}
           <motion.div
-            className="mb-12"
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: shouldReduceMotion ? 1 : 0, y: shouldReduceMotion ? 0 : 20 }}
             animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.6 }}
           >
-            <h1 className="text-4xl md:text-5xl font-bold text-bubblequest-neutral-900 dark:text-bubblequest-neutral-100 mb-3">
-              Welcome back, {user.name}! 👋
-            </h1>
-            <p className="text-xl text-bubblequest-neutral-600 dark:text-bubblequest-neutral-300">
-              Ready for your next adventure?
-            </p>
+            <HeroBackground
+              imageSrc="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1920&q=80"
+              imageSrcSet="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=640&q=80 640w, https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1280&q=80 1280w, https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1920&q=80 1920w"
+              imageAlt="Beautiful travel destination"
+              enableParticles={!shouldReduceMotion}
+              className="mb-6 md:mb-10 rounded-2xl md:rounded-3xl min-h-[200px] md:min-h-[320px] flex items-center justify-center"
+            >
+              {/* Subtle wave animation overlay */}
+              <ParticleEffect type="waves" enabled={!shouldReduceMotion} speed={1.2} />
+              
+              <motion.div
+                className="text-center px-4 py-6 md:py-12"
+                initial={{ opacity: shouldReduceMotion ? 1 : 0, y: shouldReduceMotion ? 0 : 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: shouldReduceMotion ? 0 : 0.6, delay: shouldReduceMotion ? 0 : 0.2 }}
+              >
+                <h1 className="text-2xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-3 md:mb-6 leading-tight" style={{ textShadow: '0 4px 12px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2)' }}>
+                  Hey {user.firstName || user.email.split('@')[0]}! Where to next? ✈️
+                </h1>
+                <p className="text-sm md:text-xl lg:text-2xl text-white/95 font-medium leading-snug md:leading-relaxed" style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)' }}>
+                  Your next unforgettable journey is just a tap away
+                </p>
+              </motion.div>
+            </HeroBackground>
           </motion.div>
 
           {/* Quick Actions */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            {[
-              { title: 'Plan a Trip', emoji: '✈️', description: 'Create a new collaborative itinerary', action: () => setIsCreateModalOpen(true) },
-              { title: 'Explore', emoji: '🔍', description: 'Discover trips from the community', action: () => navigate('/community') },
-              { title: 'Wishlist', emoji: '💖', description: 'Save places you want to visit', action: () => {} }
-            ].map((item, index) => (
-              <motion.div
-                key={index}
-                onClick={item.action}
-                className="group cursor-pointer bg-white dark:bg-bubblequest-neutral-800 backdrop-blur-sm border-2 border-bubblequest-primary-100 dark:border-bubblequest-neutral-700 rounded-3xl p-8 hover:border-bubblequest-primary-300 dark:hover:border-bubblequest-primary-600 hover:shadow-xl transition-all"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ scale: 1.05, y: -5 }}
-              >
-                <div className="text-5xl mb-4">{item.emoji}</div>
-                <h3 className="text-2xl font-bold text-bubblequest-neutral-900 dark:text-bubblequest-neutral-100 mb-2">
-                  {item.title}
-                </h3>
-                <p className="text-bubblequest-neutral-600 dark:text-bubblequest-neutral-300">{item.description}</p>
-              </motion.div>
-            ))}
-          </div>
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 mb-6 md:mb-10"
+            variants={staggerContainer}
+            initial="initial"
+            animate="animate"
+          >
+            <motion.div variants={staggerItem}>
+              <ActionCard
+                title="Start a New Adventure"
+                description="Turn your travel dreams into reality with a collaborative itinerary"
+                icon="✈️"
+                onClick={() => setIsCreateModalOpen(true)}
+                iconGradient={{
+                  from: 'from-bubblequest-primary-400',
+                  to: 'to-bubblequest-blue-400',
+                }}
+                delay={0}
+              />
+            </motion.div>
+            
+            <motion.div variants={staggerItem}>
+              <ActionCard
+                title="Find Your Perfect Escape"
+                description="Discover destinations that match your travel style and preferences"
+                icon="🌍"
+                onClick={() => navigate('/country-recommendations')}
+                iconGradient={{
+                  from: 'from-bubblequest-teal-400',
+                  to: 'to-bubblequest-primary-400',
+                }}
+                delay={0.1}
+              />
+            </motion.div>
+            
+            <motion.div variants={staggerItem}>
+              <ActionCard
+                title="See What Others Are Planning"
+                description="Get inspired by amazing trips from our travel community"
+                icon="🔍"
+                onClick={() => navigate('/community')}
+                iconGradient={{
+                  from: 'from-bubblequest-purple-400',
+                  to: 'to-bubblequest-primary-400',
+                }}
+                delay={0.2}
+              />
+            </motion.div>
+          </motion.div>
 
           {/* Destination Suggestions */}
-          <div className="mb-12">
-            <h2 className="text-3xl font-bold text-bubblequest-neutral-900 dark:text-bubblequest-neutral-100 mb-8">
+          <motion.div 
+            className="mb-6 md:mb-10"
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={sectionVariants}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.6 }}
+          >
+            <h2 className="text-2xl md:text-3xl font-display font-bold text-bubblequest-neutral-900 dark:text-bubblequest-neutral-100 mb-4 md:mb-6">
               Inspiration for Your Next Trip 🌸
             </h2>
-            <DestinationCarousel />
-          </div>
+            
+            {/* Discovery Widget - Interactive destination finder */}
+            <DiscoveryWidget className="mb-4 md:mb-6" />
+            
+          </motion.div>
 
           {/* Your Trips Section */}
-          <div className="mb-12">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-3xl font-bold text-bubblequest-neutral-900 dark:text-bubblequest-neutral-100">
+          <motion.div 
+            className="mb-6 md:mb-10"
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={sectionVariants}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.6 }}
+          >
+            <div className="flex items-center justify-between mb-4 md:mb-6">
+              <h2 className="text-2xl md:text-3xl font-display font-bold text-bubblequest-neutral-900 dark:text-bubblequest-neutral-100">
                 Your Trips 🗺️
               </h2>
               <BubbleQuestButton 
@@ -509,7 +601,7 @@ export function BubbleQuestHome() {
             </div>
             
             <TripList />
-          </div>
+          </motion.div>
         </div>
 
         {/* Create Trip Modal */}
@@ -525,7 +617,10 @@ export function BubbleQuestHome() {
             onCancel={() => setIsCreateModalOpen(false)}
           />
         </BubbleQuestModal>
-      </div>
+
+        {/* Install Prompt */}
+        <InstallPrompt />
+      </motion.div>
     </>
   );
 }

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { quickPlanService } from '../../services/quickPlanService';
+import { quickPlanService } from '../../features/ai/quickPlanService';
 import { useOfflineStore } from '../../stores/offlineStore';
 import { useToast } from '../../hooks/useToast';
 import { Button } from '../common/Button';

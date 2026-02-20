@@ -15,3 +15,6 @@ export type { PinchZoomContainerProps } from './PinchZoomContainer';
 
 export { PullToRefresh } from './PullToRefresh';
 export type { PullToRefreshProps } from './PullToRefresh';
+
+export { SkeletonCard, TripCardsSkeleton, DestinationCardsSkeleton } from './SkeletonCard';
+export type { SkeletonCardProps } from './SkeletonCard';

@@ -32,6 +32,25 @@ export default {
       'landscape': { 'raw': '(orientation: landscape)' },
     },
     extend: {
+      fontFamily: {
+        sans: ['Segoe UI', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
+        serif: ['Georgia', 'Cambria', 'Times New Roman', 'serif'],
+        display: ['Segoe UI', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
+      },
+      lineHeight: {
+        'relaxed': '1.7',
+        'loose': '1.8',
+        'extra-loose': '2',
+      },
+      spacing: {
+        // Enhanced spacing scale for better airiness (20-30% increase)
+        '18': '4.5rem',   // 72px (was effectively 64px)
+        '22': '5.5rem',   // 88px (was effectively 80px)
+        '26': '6.5rem',   // 104px (was effectively 96px)
+        '30': '7.5rem',   // 120px (was effectively 112px)
+        '34': '8.5rem',   // 136px (was effectively 128px)
+        '38': '9.5rem',   // 152px (was effectively 144px)
+      },
       colors: {
         // BubbleQuest primary colors - Soft pink/coral
         bubbleQuest: {
@@ -275,20 +294,23 @@ export default {
         },
       },
       fontSize: {
-        // Responsive font sizes with better mobile scaling
-        'xs': ['0.75rem', { lineHeight: '1rem' }],
-        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
-        'base': ['1rem', { lineHeight: '1.5rem' }],
-        'lg': ['1.125rem', { lineHeight: '1.75rem' }],
-        'xl': ['1.25rem', { lineHeight: '1.75rem' }],
-        '2xl': ['1.5rem', { lineHeight: '2rem' }],
-        '3xl': ['1.875rem', { lineHeight: '2.25rem' }],
-        '4xl': ['2.25rem', { lineHeight: '2.5rem' }],
-        // Mobile-optimized sizes
-        'mobile-xs': ['0.8125rem', { lineHeight: '1.125rem' }],
-        'mobile-sm': ['0.9375rem', { lineHeight: '1.375rem' }],
-        'mobile-base': ['1.0625rem', { lineHeight: '1.625rem' }],
-        'mobile-lg': ['1.1875rem', { lineHeight: '1.875rem' }],
+        // Responsive font sizes with improved line-height (1.6-1.8)
+        'xs': ['0.75rem', { lineHeight: '1.2rem' }],
+        'sm': ['0.875rem', { lineHeight: '1.4rem' }],
+        'base': ['1rem', { lineHeight: '1.6rem' }],
+        'lg': ['1.125rem', { lineHeight: '1.8rem' }],
+        'xl': ['1.25rem', { lineHeight: '2rem' }],
+        '2xl': ['1.5rem', { lineHeight: '2.4rem' }],
+        '3xl': ['1.875rem', { lineHeight: '3rem' }],
+        '4xl': ['2.25rem', { lineHeight: '3.6rem' }],
+        '5xl': ['3rem', { lineHeight: '4.8rem' }],
+        '6xl': ['3.75rem', { lineHeight: '6rem' }],
+        '7xl': ['4.5rem', { lineHeight: '7.2rem' }],
+        // Mobile-optimized sizes with better line-height
+        'mobile-xs': ['0.8125rem', { lineHeight: '1.3rem' }],
+        'mobile-sm': ['0.9375rem', { lineHeight: '1.5rem' }],
+        'mobile-base': ['1.0625rem', { lineHeight: '1.7rem' }],
+        'mobile-lg': ['1.1875rem', { lineHeight: '1.9rem' }],
       },
       spacing: {
         // Touch-friendly spacing

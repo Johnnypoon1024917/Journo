@@ -47,8 +47,8 @@
    Typography
    ============================================ */
 :root {
-  --bubblequest-font-family: 'Noto Sans TC', 'Noto Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-  --bubblequest-font-family-display: 'Fredoka', 'Noto Sans TC', 'Noto Sans', sans-serif;
+  --bubblequest-font-family: 'Segoe UI', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  --bubblequest-font-family-display: 'Segoe UI', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
   
   --bubblequest-font-size: 16px;
   --bubblequest-font-size-sm: 14px;

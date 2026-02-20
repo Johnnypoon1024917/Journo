@@ -11,6 +11,7 @@ import { TripPlanner } from './pages/TripPlanner';
 import { PackingPage } from './pages/PackingPage';
 import { SharedTrip } from './pages/SharedTrip';
 import { CommunityBlog } from './pages/CommunityBlog';
+import { CountryRecommendations } from './pages/CountryRecommendations';
 import { Settings } from './pages/Settings';
 import { SettingsScreen } from './pages/SettingsScreen';
 import { TripSettingsScreen } from './pages/TripSettingsScreen';
@@ -199,6 +200,7 @@ function App() {
             
             {/* Public routes */}
             <Route path="/community" element={<CommunityBlog />} />
+            <Route path="/country-recommendations" element={<CountryRecommendations />} />
             <Route path="/t/:token" element={<SharedTrip />} />
             <Route path="/help" element={<Help />} />
             <Route path="/feedback" element={<Feedback />} />

@@ -68,6 +68,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    line-height: 1.7; /* Increased for better readability */
   }
 
   /* Responsive images by default */
@@ -79,6 +80,66 @@
   /* Better button defaults */
   button {
     touch-action: manipulation;
+  }
+
+  /* Modern heading hierarchy with Segoe UI */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.75em;
+  }
+
+  h1 {
+    @apply text-5xl md:text-6xl lg:text-7xl;
+    line-height: 1.2;
+    font-weight: 800;
+  }
+
+  h2 {
+    @apply text-4xl md:text-5xl lg:text-6xl;
+    line-height: 1.25;
+    font-weight: 700;
+  }
+
+  h3 {
+    @apply text-3xl md:text-4xl lg:text-5xl;
+    line-height: 1.3;
+    font-weight: 700;
+  }
+
+  h4 {
+    @apply text-2xl md:text-3xl lg:text-4xl;
+    line-height: 1.35;
+    font-weight: 600;
+  }
+
+  h5 {
+    @apply text-xl md:text-2xl lg:text-3xl;
+    line-height: 1.4;
+    font-weight: 600;
+  }
+
+  h6 {
+    @apply text-lg md:text-xl lg:text-2xl;
+    line-height: 1.45;
+    font-weight: 600;
+  }
+
+  /* Body text with Segoe UI */
+  p, li, span, div {
+    font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    line-height: 1.7;
+  }
+
+  /* Improved paragraph spacing */
+  p {
+    margin-bottom: 1.25em;
+  }
+
+  p:last-child {
+    margin-bottom: 0;
   }
 }
 
@@ -301,6 +362,16 @@
     scroll-behavior: smooth;
   }
 
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari and Opera */
+  }
+
   /* Animation utilities with reduced motion support */
   @keyframes slide-in-right {
     from {
@@ -387,9 +458,11 @@
   }
 }
 
+/* No custom font imports needed - using system fonts */
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  line-height: 1.7; /* Increased from 1.5 to 1.7 for better readability */
   font-weight: 400;
 
   font-synthesis: none;

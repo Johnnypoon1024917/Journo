@@ -6,6 +6,7 @@ import { useEnhancedAuthStore } from '../../stores/enhancedAuthStore';
 import { Button } from '../common/Button';
 import { PullToRefresh } from '../common/PullToRefresh';
 import { useAuthErrorHandler } from '../../hooks/useAuthErrorHandler';
+import { TripCardsSkeleton } from '../common/SkeletonCard';
 import {
   DndContext,
   closestCenter,
@@ -151,14 +152,7 @@ export const TripList: React.FC<TripListProps> = ({ onTripDeleted }) => {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center py-16">
-        <div className="text-center">
-          <div className="w-12 h-12 border-2 border-gray-200 border-t-black rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading your trips...</p>
-        </div>
-      </div>
-    );
+    return <TripCardsSkeleton count={3} />;
   }
 
   if (error && trips.length === 0) {
@@ -183,16 +177,43 @@ export const TripList: React.FC<TripListProps> = ({ onTripDeleted }) => {
   if (trips.length === 0) {
     return (
       <div className="flex items-center justify-center py-16">
-        <div className="text-center max-w-md">
-          <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
+        <div className="text-center max-w-md px-4">
+          {/* Happy traveler illustration */}
+          <div className="w-32 h-32 mx-auto mb-6 relative">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full animate-pulse"></div>
+            <div className="relative w-full h-full flex items-center justify-center">
+              <svg className="w-20 h-20 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {/* Suitcase */}
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+              {/* Happy face emoji overlay */}
+              <span className="absolute -top-2 -right-2 text-3xl">😊</span>
+            </div>
           </div>
-          <h3 className="text-2xl font-bold text-gray-900 mb-3">No trips yet</h3>
-          <p className="text-gray-600 mb-8 leading-relaxed">
-            Start planning your next adventure by creating your first trip. Collaborate with friends and create unforgettable memories.
+          
+          <h3 className="text-2xl font-bold text-gray-900 mb-3">
+            Ready for your first trip?
+          </h3>
+          <p className="text-gray-600 mb-8 text-lg leading-relaxed">
+            Tap 'Create a trip' to begin! 🚀
+          </p>
+          
+          {/* Prominent CTA button */}
+          <Button 
+            onClick={() => {
+              // Navigate to create trip - this will be handled by parent component
+              const createButton = document.querySelector('[data-create-trip]') as HTMLElement;
+              if (createButton) {
+                createButton.click();
+              }
+            }}
+            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+          >
+            Create Your First Trip
+          </Button>
+          
+          <p className="text-gray-500 text-sm mt-6">
+            Join thousands of travelers planning amazing adventures ✨
           </p>
         </div>
       </div>

@@ -68,7 +68,7 @@ export function BubbleQuestLogin() {
                 animate={{ rotate: [0, 10, -10, 0] }}
                 transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
               >
-                <span className="text-6xl">👋</span>
+                <span className="text-6xl"></span>
               </motion.div>
               <h2 className="text-4xl font-bold text-bubblequest-neutral-800 mb-2">
                 Welcome Back!

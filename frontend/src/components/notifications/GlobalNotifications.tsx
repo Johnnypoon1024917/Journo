@@ -22,6 +22,9 @@ export const GlobalNotifications: React.FC = () => {
   // Check if we're on a page with bottom navigation
   const hasBottomNav = location.pathname.includes('/trips/');
   
+  // Hide notification FAB on homepage
+  const isHomePage = location.pathname === '/' || location.pathname === '/home';
+  
   // Get FAB position (notification is always top-most, index 0)
   const fabPosition = useFABPosition({ 
     type: 'notification', 
@@ -115,19 +118,21 @@ export const GlobalNotifications: React.FC = () => {
       </div>
 
       {/* Notification Bell Button */}
-      <button
-        onClick={() => setShowCenter(true)}
-        style={getFABStyle(fabPosition)}
-        className="bg-bubblequest-primary-500 hover:bg-bubblequest-primary-600 text-white rounded-full p-4 shadow-lg transition-all hover:scale-110"
-        aria-label="Open notifications"
-      >
-        <Bell className="w-6 h-6" />
-        {unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
-            {unreadCount > 9 ? '9+' : unreadCount}
-          </span>
-        )}
-      </button>
+      {!isHomePage && (
+        <button
+          onClick={() => setShowCenter(true)}
+          style={getFABStyle(fabPosition)}
+          className="bg-bubblequest-primary-500 hover:bg-bubblequest-primary-600 text-white rounded-full p-4 shadow-lg transition-all hover:scale-110"
+          aria-label="Open notifications"
+        >
+          <Bell className="w-6 h-6" />
+          {unreadCount > 0 && (
+            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
+              {unreadCount > 9 ? '9+' : unreadCount}
+            </span>
+          )}
+        </button>
+      )}
 
       {/* Notification Center */}
       <NotificationCenter
