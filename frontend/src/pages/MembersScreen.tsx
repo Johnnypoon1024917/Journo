@@ -324,8 +324,8 @@ export const MembersScreen: React.FC = () => {
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
   const [isInviting, setIsInviting] = useState(false);
 
-  // FAB positioning - primary action (invite member) at index 1
-  const inviteFABPosition = useFABPosition({ type: 'primary', index: 1, hasBottomNav: true });
+  // FAB positioning - primary action (invite member) at index 0
+  const inviteFABPosition = useFABPosition({ type: 'primary', index: 0, hasBottomNav: true });
 
   // Scroll direction detection for collapsible FABs
   const { isScrollingDown } = useScrollDirection({ threshold: 5 });

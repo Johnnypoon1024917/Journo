@@ -52,8 +52,8 @@ export const StickerCanvas: React.FC<StickerCanvasProps> = ({
   const location = useLocation();
   const hasBottomNav = location.pathname.includes('/trips/');
   
-  // Get the actual FAB position for the recycle bin
-  const recycleBinFABPosition = useFABPosition({ type: 'recycle', index: 3, hasBottomNav });
+  // Get the actual FAB position for the recycle bin (index 2: below primary and secondary FABs)
+  const recycleBinFABPosition = useFABPosition({ type: 'recycle', index: 2, hasBottomNav });
 
   // Debounced update for sticker changes (500ms delay with retry logic)
   const { scheduleUpdate: schedulePositionUpdate } = useDebouncedUpdate<{

@@ -510,6 +510,7 @@ export function BubbleQuestHome() {
           </motion.div>
 
           {/* Quick Actions */}
+          {/*
           <motion.div 
             className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 mb-6 md:mb-10"
             variants={staggerContainer}
@@ -558,7 +559,7 @@ export function BubbleQuestHome() {
               />
             </motion.div>
           </motion.div>
-
+*/}
           {/* Destination Suggestions */}
           <motion.div 
             className="mb-6 md:mb-10"
@@ -569,7 +570,7 @@ export function BubbleQuestHome() {
             transition={{ duration: shouldReduceMotion ? 0 : 0.6 }}
           >
             <h2 className="text-2xl md:text-3xl font-display font-bold text-bubblequest-neutral-900 dark:text-bubblequest-neutral-100 mb-4 md:mb-6">
-              Inspiration for Your Next Trip 🌸
+              Inspiration for Your Next Trip
             </h2>
             
             {/* Discovery Widget - Interactive destination finder */}
@@ -588,7 +589,7 @@ export function BubbleQuestHome() {
           >
             <div className="flex items-center justify-between mb-4 md:mb-6">
               <h2 className="text-2xl md:text-3xl font-display font-bold text-bubblequest-neutral-900 dark:text-bubblequest-neutral-100">
-                Your Trips 🗺️
+                Your Trips
               </h2>
               <BubbleQuestButton 
                 onClick={() => setIsCreateModalOpen(true)} 

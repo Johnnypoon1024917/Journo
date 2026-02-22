@@ -1,7 +1,7 @@
 import express from 'express';
 import { EnhancedAuthController } from '../controllers/enhancedAuthController.js';
 import { createEnhancedAuthMiddleware } from '../middleware/authMiddleware.js';
-import { rateLimitMiddleware } from '../middleware/rateLimitMiddleware.js';
+import { generalApiRateLimit } from '../middleware/rateLimitMiddleware.js';
 import { validationMiddleware } from '../middleware/validationMiddleware.js';
 import { body } from 'express-validator';
 import { Pool } from 'pg';
@@ -89,7 +89,7 @@ export function createEnhancedAuthRoutes(db: Pool): express.Router {
    * @access Public
    */
   router.post('/register',
-    rateLimitMiddleware('register'),
+    generalApiRateLimit,
     registerValidation,
     validationMiddleware,
     authController.register
@@ -101,7 +101,7 @@ export function createEnhancedAuthRoutes(db: Pool): express.Router {
    * @access Public
    */
   router.post('/login',
-    rateLimitMiddleware('login'),
+    generalApiRateLimit,
     loginValidation,
     validationMiddleware,
     authController.login
@@ -113,7 +113,7 @@ export function createEnhancedAuthRoutes(db: Pool): express.Router {
    * @access Public
    */
   router.post('/forgot-password',
-    rateLimitMiddleware('password_reset'),
+    generalApiRateLimit,
     passwordResetRequestValidation,
     validationMiddleware,
     authController.requestPasswordReset
@@ -125,7 +125,7 @@ export function createEnhancedAuthRoutes(db: Pool): express.Router {
    * @access Public
    */
   router.post('/reset-password',
-    rateLimitMiddleware('password_reset'),
+    generalApiRateLimit,
     passwordResetValidation,
     validationMiddleware,
     authController.resetPassword
@@ -137,7 +137,7 @@ export function createEnhancedAuthRoutes(db: Pool): express.Router {
    * @access Public
    */
   router.post('/verify-email',
-    rateLimitMiddleware('email_verification'),
+    generalApiRateLimit,
     emailVerificationValidation,
     validationMiddleware,
     authController.verifyEmail
@@ -149,7 +149,7 @@ export function createEnhancedAuthRoutes(db: Pool): express.Router {
    * @access Public
    */
   router.post('/resend-verification',
-    rateLimitMiddleware('email_verification'),
+    generalApiRateLimit,
     passwordResetRequestValidation, // Same validation as password reset request
     validationMiddleware,
     authController.resendEmailVerification
@@ -161,7 +161,7 @@ export function createEnhancedAuthRoutes(db: Pool): express.Router {
    * @access Public (but requires refresh token cookie)
    */
   router.post('/refresh',
-    rateLimitMiddleware('api_general'),
+    generalApiRateLimit,
     authController.refreshToken
   );
 
@@ -171,7 +171,7 @@ export function createEnhancedAuthRoutes(db: Pool): express.Router {
    * @access Public
    */
   router.post('/logout',
-    rateLimitMiddleware('api_general'),
+    generalApiRateLimit,
     authController.logout
   );
 
@@ -184,7 +184,7 @@ export function createEnhancedAuthRoutes(db: Pool): express.Router {
    */
   router.get('/me',
     enhancedAuthMiddleware,
-    rateLimitMiddleware('api_general'),
+    generalApiRateLimit,
     authController.getProfile
   );
 
@@ -195,7 +195,7 @@ export function createEnhancedAuthRoutes(db: Pool): express.Router {
    */
   router.post('/change-password',
     enhancedAuthMiddleware,
-    rateLimitMiddleware('api_sensitive'),
+    generalApiRateLimit,
     changePasswordValidation,
     validationMiddleware,
     authController.changePassword
@@ -208,7 +208,7 @@ export function createEnhancedAuthRoutes(db: Pool): express.Router {
    */
   router.get('/check-default-password',
     enhancedAuthMiddleware,
-    rateLimitMiddleware('api_general'),
+    generalApiRateLimit,
     authController.checkDefaultPassword
   );
 
@@ -219,7 +219,7 @@ export function createEnhancedAuthRoutes(db: Pool): express.Router {
    */
   router.get('/security-events',
     enhancedAuthMiddleware,
-    rateLimitMiddleware('api_general'),
+    generalApiRateLimit,
     authController.getSecurityEvents
   );
 
@@ -230,7 +230,7 @@ export function createEnhancedAuthRoutes(db: Pool): express.Router {
    */
   router.patch('/language',
     enhancedAuthMiddleware,
-    rateLimitMiddleware('api_general'),
+    generalApiRateLimit,
     authController.updateLanguage
   );
 

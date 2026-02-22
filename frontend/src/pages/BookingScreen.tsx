@@ -348,9 +348,9 @@ export const BookingScreen: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [editingBooking, setEditingBooking] = useState<Booking | null>(null);
 
-  // FAB positioning - primary action (add booking) at index 1, secondary (add sticker) at index 2
-  const addBookingFABPosition = useFABPosition({ type: 'primary', index: 1, hasBottomNav: true });
-  const addStickerFABPosition = useFABPosition({ type: 'secondary', index: 2, hasBottomNav: true });
+  // FAB positioning - primary action (add booking) at index 0, secondary (add sticker) at index 1
+  const addBookingFABPosition = useFABPosition({ type: 'primary', index: 0, hasBottomNav: true });
+  const addStickerFABPosition = useFABPosition({ type: 'secondary', index: 1, hasBottomNav: true });
 
   // Scroll direction detection for collapsible FABs
   const { isScrollingDown, isAtTop } = useScrollDirection({ threshold: 5 });

@@ -170,7 +170,6 @@ export const DiscoveryForm: React.FC<DiscoveryFormProps> = ({
         ) : (
           <span className="flex items-center justify-center gap-2">
             Find My Spot
-            <span className="text-xl">🎯</span>
           </span>
         )}
       </motion.button>

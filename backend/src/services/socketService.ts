@@ -24,9 +24,17 @@ interface UserPresence {
   lastUpdate: Date;
 }
 
+interface EngagementData {
+  likeCount: number;
+  replyCount: number;
+  repostCount: number;
+  engagementScore: number;
+}
+
 class SocketService {
   private io: Server | null = null;
   private tripRooms: Map<string, TripRoom> = new Map();
+  private communityRooms: Map<string, Set<string>> = new Map();
   private presenceMap: Map<string, UserPresence> = new Map();
   private cleanupInterval: NodeJS.Timeout | null = null;
 
@@ -446,12 +454,161 @@ class SocketService {
       }
     }
     
-    // Clean up all room memberships
+    // Clean up all trip room memberships
     this.tripRooms.forEach((room, tripId) => {
       if (room.viewers.has(socket.id)) {
         this.leaveTripRoom(socket, tripId);
       }
     });
+
+    // Clean up all community room memberships
+    this.communityRooms.forEach((room, communityId) => {
+      if (room.has(socket.id)) {
+        this.leaveCommunityRoom(socket, communityId);
+      }
+    });
+  }
+
+  // ==================== Community Events ====================
+
+  /**
+   * Join a community room for real-time updates
+   */
+  joinCommunityRoom(socket: AuthenticatedSocket, communityId: string) {
+    const roomName = `community:${communityId}`;
+    socket.join(roomName);
+
+    // Track room membership
+    if (!this.communityRooms.has(communityId)) {
+      this.communityRooms.set(communityId, new Set());
+    }
+
+    const room = this.communityRooms.get(communityId)!;
+    room.add(socket.id);
+
+    console.log(`Socket ${socket.id} joined community room: ${communityId}`);
+
+    return roomName;
+  }
+
+  /**
+   * Leave a community room
+   */
+  leaveCommunityRoom(socket: AuthenticatedSocket, communityId: string) {
+    const roomName = `community:${communityId}`;
+    socket.leave(roomName);
+
+    // Update room tracking
+    const room = this.communityRooms.get(communityId);
+    if (room) {
+      room.delete(socket.id);
+      
+      // Clean up empty rooms
+      if (room.size === 0) {
+        this.communityRooms.delete(communityId);
+      }
+    }
+
+    console.log(`Socket ${socket.id} left community room: ${communityId}`);
+  }
+
+  /**
+   * Emit new post event to community room or global feed
+   */
+  emitNewPost(communityId: string | null, post: any) {
+    const timestamp = new Date().toISOString();
+    
+    if (communityId) {
+      // Emit to specific community room
+      const roomName = `community:${communityId}`;
+      this.getIO().to(roomName).emit('post:new', {
+        post,
+        timestamp,
+      });
+      console.log(`Emitted new post to community: ${communityId}`);
+    } else {
+      // Emit to global feed (all connected clients)
+      this.getIO().emit('post:new', {
+        post,
+        timestamp,
+      });
+      console.log('Emitted new post to global feed');
+    }
+  }
+
+  /**
+   * Emit post updated event
+   */
+  emitPostUpdated(postId: string, post: any) {
+    this.getIO().emit('post:updated', {
+      postId,
+      post,
+      timestamp: new Date().toISOString(),
+    });
+    console.log(`Emitted post updated: ${postId}`);
+  }
+
+  /**
+   * Emit post deleted event
+   */
+  emitPostDeleted(postId: string) {
+    this.getIO().emit('post:deleted', {
+      postId,
+      timestamp: new Date().toISOString(),
+    });
+    console.log(`Emitted post deleted: ${postId}`);
+  }
+
+  /**
+   * Emit engagement update event (likes, reposts, replies)
+   */
+  emitEngagementUpdate(postId: string, engagement: EngagementData) {
+    this.getIO().emit('engagement:updated', {
+      postId,
+      engagement,
+      timestamp: new Date().toISOString(),
+    });
+    console.log(`Emitted engagement update for post: ${postId}`);
+  }
+
+  /**
+   * Emit new reply event to parent post viewers
+   */
+  emitNewReply(parentPostId: string, reply: any) {
+    this.getIO().emit('reply:new', {
+      parentPostId,
+      reply,
+      timestamp: new Date().toISOString(),
+    });
+    console.log(`Emitted new reply to post: ${parentPostId}`);
+  }
+
+  /**
+   * Emit community joined event
+   */
+  emitCommunityJoined(communityId: string, userId: string, userName?: string) {
+    const roomName = `community:${communityId}`;
+    this.getIO().to(roomName).emit('community:joined', {
+      communityId,
+      userId,
+      userName,
+      timestamp: new Date().toISOString(),
+    });
+    console.log(`Emitted community joined: ${communityId}, user: ${userName || userId}`);
+  }
+
+  /**
+   * Emit community left event
+   */
+  emitCommunityLeft(communityId: string, userId: string, userName?: string) {
+    const roomName = `community:${communityId}`;
+    this.getIO().to(roomName).emit('community:left', {
+      communityId,
+      userId,
+      userName,
+      timestamp: new Date().toISOString(),
+    });
+    console.log(`Emitted community left: ${communityId}, user: ${userName || userId}`);
   }
 }
 

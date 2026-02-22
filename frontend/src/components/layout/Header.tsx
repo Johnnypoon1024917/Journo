@@ -12,6 +12,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import logo from '../../../media/adventrous.svg'
 import {
   HomeIcon,
   PlusCircleIcon,
@@ -43,8 +44,8 @@ interface HeaderProps {
   hideBottomNav?: boolean;
 }
 
-export function Header({ 
-  isAuthenticated = false, 
+export function Header({
+  isAuthenticated = false,
   onCreateTrip,
   activeRoute = 'home',
   hideNotifications = false,
@@ -93,21 +94,23 @@ export function Header({
         <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16 md:h-20">
             {/* Logo */}
-            <Link 
-              to="/" 
+            <Link
+              to="/"
               className="flex items-center space-x-2 group"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               <motion.div
-                className="w-10 h-10 bg-gradient-to-br from-bubblequest-primary-400 to-bubblequest-primary-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow"
-                whileHover={{ scale: 1.05, rotate: 5 }}
+                className="h-20 flex items-center justify-center"
+                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <span className="text-white font-bold text-xl">J</span>
+                <img 
+                  src={logo} 
+                  alt="Adventrous Logo" 
+                  className="h-full w-auto object-contain mix-blend-multiply dark:mix-blend-normal dark:brightness-110"
+                  style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))' }}
+                />
               </motion.div>
-              <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-bubblequest-primary-600 to-bubblequest-secondary-600 bg-clip-text text-transparent">
-                journo
-              </span>
             </Link>
 
             {/* Desktop Navigation */}
@@ -152,8 +155,9 @@ export function Header({
                   </div>
                   {!hideNotifications && <NotificationBell />}
                   <UserProfileDropdown />
-                  
+
                   {/* Mobile Menu Toggle */}
+                  {/*
                   <button
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                     className="md:hidden p-2 rounded-lg hover:bg-bubblequest-primary-50 dark:hover:bg-bubblequest-neutral-800 transition-colors"
@@ -165,6 +169,7 @@ export function Header({
                       <Bars3Icon className="w-6 h-6 text-bubblequest-neutral-700 dark:text-bubblequest-neutral-300" />
                     )}
                   </button>
+                  */}
                 </>
               ) : (
                 <UserProfileDropdown />
@@ -288,7 +293,7 @@ export function Header({
       )}
 
       {/* Bottom Navigation Spacer (prevents content from being hidden) */}
-      {isAuthenticated && !hideBottomNav && <div className="md:hidden h-16" />}
+      {/*{isAuthenticated && !hideBottomNav && <div className="md:hidden h-16" />}*/}
     </>
   );
 }

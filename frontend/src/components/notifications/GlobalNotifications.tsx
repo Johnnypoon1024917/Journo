@@ -1,36 +1,18 @@
 /**
  * GlobalNotifications Component
- * Displays toast notifications and provides access to notification center
+ * Displays toast notifications for real-time updates
+ * Note: Notification bell is in the header navigation bar
  */
 
 import React, { useState, useEffect } from 'react';
-import { Bell } from 'lucide-react';
 import { useNotifications } from '../../hooks/useNotifications';
-import { NotificationCenter } from '../bubblequest/NotificationCenterWeb';
 import { useEnhancedAuthStore } from '../../stores/enhancedAuthStore';
-import { useFABPosition, getFABStyle } from '../../hooks/useFABPosition';
-import { useLocation } from 'react-router-dom';
 
 export const GlobalNotifications: React.FC = () => {
-  const [showCenter, setShowCenter] = useState(false);
   const [toasts, setToasts] = useState<Array<{ id: string; title: string; message: string; type: 'info' | 'success' | 'warning' | 'error' }>>([]);
-  const { notifications, unreadCount } = useNotifications();
+  const { notifications } = useNotifications();
   const isAuthenticated = useEnhancedAuthStore((state) => state.isAuthenticated);
   const accessToken = useEnhancedAuthStore((state) => state.accessToken);
-  const location = useLocation();
-  
-  // Check if we're on a page with bottom navigation
-  const hasBottomNav = location.pathname.includes('/trips/');
-  
-  // Hide notification FAB on homepage
-  const isHomePage = location.pathname === '/' || location.pathname === '/home';
-  
-  // Get FAB position (notification is always top-most, index 0)
-  const fabPosition = useFABPosition({ 
-    type: 'notification', 
-    index: 0,
-    hasBottomNav 
-  });
 
   // Listen for new notifications and show toasts
   useEffect(() => {
@@ -116,29 +98,6 @@ export const GlobalNotifications: React.FC = () => {
           </div>
         ))}
       </div>
-
-      {/* Notification Bell Button */}
-      {!isHomePage && (
-        <button
-          onClick={() => setShowCenter(true)}
-          style={getFABStyle(fabPosition)}
-          className="bg-bubblequest-primary-500 hover:bg-bubblequest-primary-600 text-white rounded-full p-4 shadow-lg transition-all hover:scale-110"
-          aria-label="Open notifications"
-        >
-          <Bell className="w-6 h-6" />
-          {unreadCount > 0 && (
-            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
-              {unreadCount > 9 ? '9+' : unreadCount}
-            </span>
-          )}
-        </button>
-      )}
-
-      {/* Notification Center */}
-      <NotificationCenter
-        visible={showCenter}
-        onClose={() => setShowCenter(false)}
-      />
     </>
   );
 };

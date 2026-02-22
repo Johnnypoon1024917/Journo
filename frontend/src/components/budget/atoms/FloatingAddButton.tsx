@@ -16,8 +16,8 @@ export const FloatingAddButton: React.FC<FloatingAddButtonProps> = ({
   const location = useLocation();
   const hasBottomNav = location.pathname.includes('/trips/');
   
-  // Budget FAB is primary action at index 1 (same as schedule page)
-  const fabPosition = useFABPosition({ type: 'primary', index: 1, hasBottomNav });
+  // Budget FAB is primary action at index 0
+  const fabPosition = useFABPosition({ type: 'primary', index: 0, hasBottomNav });
   
   return (
     <button

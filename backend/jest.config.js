@@ -12,7 +12,7 @@ export default {
     }]
   },
   transformIgnorePatterns: [
-    'node_modules/(?!(uuid)/)'
+    'node_modules/(?!(uuid|isomorphic-dompurify|@exodus/bytes|html-encoding-sniffer|jsdom|whatwg-url|data-urls)/)'
   ],
   testTimeout: 60000
 };

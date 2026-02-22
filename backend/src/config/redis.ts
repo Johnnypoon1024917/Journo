@@ -33,6 +33,11 @@ export async function initializeRedis(): Promise<void> {
 
 // Redis service class
 export class RedisService {
+  // Get the Redis client instance
+  static getClient() {
+    return redisClient;
+  }
+
   // Set a value with expiration
   static async set(key: string, value: string, expirationSeconds?: number): Promise<void> {
     try {
@@ -77,6 +82,36 @@ export class RedisService {
       await redisClient.del(key);
     } catch (error) {
       console.error('Redis delete error:', error);
+    }
+  }
+
+  // Delete keys matching a pattern
+  static async deletePattern(pattern: string): Promise<void> {
+    try {
+      if (!redisClient.isOpen) {
+        console.warn('Redis client not connected, skipping pattern delete');
+        return;
+      }
+
+      // Use SCAN to find keys matching the pattern
+      const keys: string[] = [];
+      let cursor = 0;
+
+      do {
+        const result = await redisClient.scan(cursor, {
+          MATCH: pattern,
+          COUNT: 100,
+        });
+        cursor = result.cursor;
+        keys.push(...result.keys);
+      } while (cursor !== 0);
+
+      // Delete all matching keys
+      if (keys.length > 0) {
+        await redisClient.del(keys);
+      }
+    } catch (error) {
+      console.error('Redis deletePattern error:', error);
     }
   }
 

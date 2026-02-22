@@ -30,8 +30,8 @@ export const RecycleBin: React.FC<RecycleBinProps> = ({
   const location = useLocation();
   const hasBottomNav = location.pathname.includes('/trips/');
   
-  // RecycleBin appears at index 3 (below notification, add activity, add sticker)
-  const fabPosition = useFABPosition({ type: 'recycle', index: 3, hasBottomNav });
+  // RecycleBin appears at index 2 (below primary and secondary FABs)
+  const fabPosition = useFABPosition({ type: 'recycle', index: 2, hasBottomNav });
 
   useEffect(() => {
     if (justAte) {

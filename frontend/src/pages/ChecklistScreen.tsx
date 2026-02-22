@@ -317,9 +317,9 @@ export const ChecklistScreen: React.FC = () => {
   const [editingItem, setEditingItem] = useState<PackingItem | null>(null);
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
 
-  // FAB positioning - primary action (add item) at index 1, secondary (add sticker) at index 2
-  const addItemFABPosition = useFABPosition({ type: 'primary', index: 1, hasBottomNav: true });
-  const addStickerFABPosition = useFABPosition({ type: 'secondary', index: 2, hasBottomNav: true });
+  // FAB positioning - primary action (add item) at index 0, secondary (add sticker) at index 1
+  const addItemFABPosition = useFABPosition({ type: 'primary', index: 0, hasBottomNav: true });
+  const addStickerFABPosition = useFABPosition({ type: 'secondary', index: 1, hasBottomNav: true });
 
   // Scroll direction detection for collapsible FABs
   const { isScrollingDown, isAtTop } = useScrollDirection({ threshold: 5 });

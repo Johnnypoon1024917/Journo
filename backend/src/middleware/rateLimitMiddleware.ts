@@ -1,92 +1,90 @@
-import { Request, Response, NextFunction } from 'express';
-import { RateLimitService } from '../services/rateLimitService.js';
-import { Pool } from 'pg';
+import rateLimit from 'express-rate-limit';
+import RedisStore from 'rate-limit-redis';
+import { redisClient } from '../config/redis.js';
+import { Request, Response } from 'express';
 
-// Store rate limit service instance
-let rateLimitServiceInstance: RateLimitService | null = null;
-
-export const initializeRateLimitMiddleware = (db: Pool): void => {
-  rateLimitServiceInstance = new RateLimitService(db);
-};
-
-export const rateLimitMiddleware = (action: string, maxAttempts?: number, windowMs?: number) => {
-  return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      if (!rateLimitServiceInstance) {
-        console.error('Rate limit middleware not initialized');
-        next();
-        return;
-      }
-
-      // Get client identifier (IP address or user ID if authenticated)
-      const identifier = getClientIdentifier(req);
-
-      // Check rate limit
-      const result = await rateLimitServiceInstance.checkRateLimit(
-        identifier,
-        action,
-        maxAttempts,
-        windowMs
-      );
-
-      // Set rate limit headers
-      res.set({
-        'X-RateLimit-Limit': maxAttempts?.toString() || '100',
-        'X-RateLimit-Remaining': result.remaining?.toString() || '0',
-        'X-RateLimit-Reset': result.resetTime ? new Date(result.resetTime).toISOString() : ''
+/**
+ * Create Redis store only if Redis is connected
+ */
+function createRedisStore(prefix: string) {
+  try {
+    if (redisClient.isOpen) {
+      return new RedisStore({
+        // @ts-expect-error - RedisStore types are not fully compatible
+        sendCommand: (...args: string[]) => redisClient.sendCommand(args),
+        prefix,
       });
-
-      if (!result.allowed) {
-        res.status(429).json({
-          success: false,
-          message: 'Too many requests. Please try again later.',
-          retryAfter: result.retryAfter ? Math.ceil(result.retryAfter / 1000) : undefined
-        });
-        return;
-      }
-
-      next();
-    } catch (error) {
-      console.error('Rate limit middleware error:', error);
-      // Fail open - allow the request if rate limiting fails
-      next();
     }
-  };
-};
-
-// Helper function to get client identifier
-function getClientIdentifier(req: Request): string {
-  // Use user ID if authenticated, otherwise use IP address
-  const user = (req as any).user;
-  if (user && user.id) {
-    return `user:${user.id}`;
+  } catch (error) {
+    console.warn(`Redis store creation failed for ${prefix}, using memory store:`, error);
   }
-
-  // Get IP address from various possible headers
-  const ip = req.ip ||
-    req.connection.remoteAddress ||
-    req.socket.remoteAddress ||
-    (req.connection as any)?.socket?.remoteAddress ||
-    req.get('X-Forwarded-For') ||
-    req.get('X-Real-IP') ||
-    'unknown';
-
-  return `ip:${ip}`;
+  return undefined; // Will use default memory store
 }
 
-// Specific rate limit configurations for common actions
-export const createRateLimitMiddleware = {
-  // Authentication endpoints
-  login: () => rateLimitMiddleware('login', 10, 15 * 60 * 1000), // 10 attempts per 15 minutes
-  register: () => rateLimitMiddleware('register', 5, 60 * 60 * 1000), // 5 attempts per hour
-  passwordReset: () => rateLimitMiddleware('password_reset', 3, 60 * 60 * 1000), // 3 attempts per hour
-  emailVerification: () => rateLimitMiddleware('email_verification', 5, 60 * 60 * 1000), // 5 attempts per hour
-
-  // API endpoints
-  apiGeneral: () => rateLimitMiddleware('api_general', 100, 60 * 1000), // 100 requests per minute
-  apiSensitive: () => rateLimitMiddleware('api_sensitive', 20, 60 * 1000), // 20 requests per minute
+/**
+ * Rate limiting middleware for post creation
+ * Limits users to 5 posts per hour
+ * Validates: Requirements 1.6
+ */
+export const postCreationRateLimit = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 5, // 5 requests per hour
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
   
-  // Custom rate limits
-  custom: (action: string, maxAttempts: number, windowMs: number) => 
-    rateLimitMiddleware(action, maxAttempts, windowMs)
-};
+  // Use Redis store for distributed rate limiting (if available)
+  store: createRedisStore('ratelimit:post:'),
+  
+  // Custom key generator - use user ID from authenticated request
+  keyGenerator: (req: Request): string => {
+    // User ID should be set by authentication middleware
+    const userId = (req as any).user?.id;
+    if (!userId) {
+      // Fallback to IP if user is not authenticated (shouldn't happen for post creation)
+      return req.ip || 'unknown';
+    }
+    return userId;
+  },
+  
+  // Custom handler for rate limit exceeded
+  handler: (req: Request, res: Response) => {
+    res.status(429).json({
+      error: 'Rate limit exceeded',
+      message: 'You can only create 5 posts per hour. Please try again later.',
+      retryAfter: res.getHeader('Retry-After'),
+    });
+  },
+  
+  // Skip rate limiting for failed requests (only count successful post creations)
+  skipFailedRequests: true,
+  
+  // Skip rate limiting for successful requests that don't create posts
+  skipSuccessfulRequests: false,
+});
+
+/**
+ * General API rate limiting middleware
+ * More lenient limits for general API usage
+ */
+export const generalApiRateLimit = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // 100 requests per 15 minutes
+  standardHeaders: true,
+  legacyHeaders: false,
+  
+  // Use Redis store for distributed rate limiting (if available)
+  store: createRedisStore('ratelimit:api:'),
+  
+  keyGenerator: (req: Request): string => {
+    const userId = (req as any).user?.id;
+    return userId || req.ip || 'unknown';
+  },
+  
+  handler: (req: Request, res: Response) => {
+    res.status(429).json({
+      error: 'Rate limit exceeded',
+      message: 'Too many requests. Please try again later.',
+      retryAfter: res.getHeader('Retry-After'),
+    });
+  },
+});

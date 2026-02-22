@@ -19,6 +19,14 @@ interface SocketEventHandlers {
   onCollaboratorJoined?: (data: any) => void;
   onCollaboratorLeft?: (data: any) => void;
   onCollaboratorRoleChanged?: (data: any) => void;
+  // Community feed event handlers
+  onPostNew?: (data: any) => void;
+  onPostUpdated?: (data: any) => void;
+  onPostDeleted?: (data: any) => void;
+  onEngagementUpdated?: (data: any) => void;
+  onReplyNew?: (data: any) => void;
+  onCommunityJoined?: (data: any) => void;
+  onCommunityLeft?: (data: any) => void;
 }
 
 class SocketService {
@@ -203,6 +211,42 @@ class SocketService {
     this.socket.on('collaborator:role_changed', (data) => {
       console.log('Collaborator role changed:', data);
       this.eventHandlers.onCollaboratorRoleChanged?.(data);
+    });
+
+    // Community feed events
+    this.socket.on('post:new', (data) => {
+      console.log('Post new:', data);
+      this.eventHandlers.onPostNew?.(data);
+    });
+
+    this.socket.on('post:updated', (data) => {
+      console.log('Post updated:', data);
+      this.eventHandlers.onPostUpdated?.(data);
+    });
+
+    this.socket.on('post:deleted', (data) => {
+      console.log('Post deleted:', data);
+      this.eventHandlers.onPostDeleted?.(data);
+    });
+
+    this.socket.on('engagement:updated', (data) => {
+      console.log('Engagement updated:', data);
+      this.eventHandlers.onEngagementUpdated?.(data);
+    });
+
+    this.socket.on('reply:new', (data) => {
+      console.log('Reply new:', data);
+      this.eventHandlers.onReplyNew?.(data);
+    });
+
+    this.socket.on('community:joined', (data) => {
+      console.log('Community joined:', data);
+      this.eventHandlers.onCommunityJoined?.(data);
+    });
+
+    this.socket.on('community:left', (data) => {
+      console.log('Community left:', data);
+      this.eventHandlers.onCommunityLeft?.(data);
     });
   }
 

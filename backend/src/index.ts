@@ -10,7 +10,6 @@ import { pool } from './config/database.js';
 import { runMigrations } from './utils/runMigrations.js';
 import { initializeRedis } from './config/redis.js';
 import { createEnhancedAuthRoutes } from './routes/enhancedAuth.js';
-import { initializeRateLimitMiddleware } from './middleware/rateLimitMiddleware.js';
 import tripRoutes from './routes/trips.js';
 import dayRoutes from './routes/days.js';
 import placeRoutes from './routes/places.js';
@@ -351,6 +350,27 @@ io.on('connection', (socket: AuthenticatedSocket) => {
     }
   });
 
+  // Handle joining community rooms
+  socket.on('community:join', (communityId: string) => {
+    try {
+      socketService.joinCommunityRoom(socket, communityId);
+      socket.emit('community:joined', { communityId, success: true });
+    } catch (error) {
+      console.error('Error joining community room:', error);
+      socket.emit('community:joined', { communityId, success: false, error: 'Failed to join community room' });
+    }
+  });
+
+  // Handle leaving community rooms
+  socket.on('community:leave', (communityId: string) => {
+    try {
+      socketService.leaveCommunityRoom(socket, communityId);
+      socket.emit('community:left', { communityId, success: true });
+    } catch (error) {
+      console.error('Error leaving community room:', error);
+    }
+  });
+
   // Handle disconnection
   socket.on('disconnect', () => {
     console.log('Client disconnected:', socket.id);
@@ -372,9 +392,8 @@ async function startServer() {
     // Initialize Redis
     await initializeRedis();
 
-    // Initialize rate limiting middleware
-    initializeRateLimitMiddleware(pool);
-    console.log('🛡️ Rate limiting middleware initialized');
+    // Rate limiting is configured per-route in the route files
+    console.log('🛡️ Rate limiting middleware configured');
 
     // Populate initial destination suggestions
     // await DestinationService.populateInitialData();

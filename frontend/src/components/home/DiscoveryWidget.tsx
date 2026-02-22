@@ -95,7 +95,6 @@ export const DiscoveryWidget: React.FC<DiscoveryWidgetProps> = ({ className }) =
           animate={{ rotate: [0, 10, -10, 0] }}
           transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
         >
-          <span className="text-6xl">🌍</span>
         </motion.div>
         <h2 className="text-3xl md:text-4xl font-bold text-bubblequest-neutral-900 dark:text-bubblequest-neutral-100 mb-3">
           Discover Your Next Adventure

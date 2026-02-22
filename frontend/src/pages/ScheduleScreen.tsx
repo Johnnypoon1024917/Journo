@@ -32,6 +32,7 @@ import { AddActivityModal, ActivityFormData } from '@/components/bubblequest/Add
 import { EditActivityModal } from '@/components/bubblequest/EditActivityModal';
 import { StickerModal } from '@/components/bubblequest/StickerModal';
 import { PageLayout, NavigationWrapper, Header } from '@/components/layout';
+import { ShareTripButton } from '@/components/trips/ShareTripButton';
 import type { NavigationTab } from '@/components/layout';
 
 // Icons
@@ -123,9 +124,9 @@ export const ScheduleScreen: React.FC = () => {
   const [selectedActivity, setSelectedActivity] = useState<Place | null>(null);
   const [isAddingActivity, setIsAddingActivity] = useState(false);
   
-  // FAB positioning - primary action (add activity) at index 1, secondary (add sticker) at index 2
-  const addActivityFABPosition = useFABPosition({ type: 'primary', index: 1, hasBottomNav: true });
-  const addStickerFABPosition = useFABPosition({ type: 'secondary', index: 2, hasBottomNav: true });
+  // FAB positioning - primary action (add activity) at index 0, secondary (add sticker) at index 1
+  const addActivityFABPosition = useFABPosition({ type: 'primary', index: 0, hasBottomNav: true });
+  const addStickerFABPosition = useFABPosition({ type: 'secondary', index: 1, hasBottomNav: true });
 
   // Scroll direction detection for collapsible FABs
   const { isScrollingDown, isAtTop } = useScrollDirection({ threshold: 5 });
@@ -529,9 +530,14 @@ export const ScheduleScreen: React.FC = () => {
             <div className="max-w-7xl mx-auto px-3 sm:px-4 pt-0 pb-4 sm:pb-6">
                 {/* Trip Title */}
                 <div className="mb-4 sm:mb-6">
-                  <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-                    {trip.title}
-                  </h1>
+                  <div className="flex items-start justify-between gap-3 mb-2">
+                    <div className="flex-1 min-w-0">
+                      <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">
+                        {trip.title}
+                      </h1>
+                    </div>
+                    <ShareTripButton trip={trip} className="flex-shrink-0" />
+                  </div>
                   {trip.destination && (
                     <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400">
                       📍 {trip.destination}

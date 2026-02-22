@@ -9,6 +9,9 @@
  * - Automatic stacking for multiple FABs
  * - Consistent z-index hierarchy
  * - Bottom navigation awareness
+ * 
+ * Note: Notification functionality is now in the header navigation bar.
+ * The notification FAB type is kept for backward compatibility but not actively used.
  */
 
 import { useMemo } from 'react';
@@ -30,7 +33,7 @@ interface UseFABPositionOptions {
 
 /**
  * Z-index hierarchy:
- * - notification: 9998 (highest, always visible)
+ * - notification: 9998 (legacy, not actively used - notifications in header)
  * - recycle: 60 (above stickers)
  * - primary: 50 (main action buttons)
  * - secondary: 45 (secondary actions)

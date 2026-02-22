@@ -11,6 +11,7 @@ import { TripPlanner } from './pages/TripPlanner';
 import { PackingPage } from './pages/PackingPage';
 import { SharedTrip } from './pages/SharedTrip';
 import { CommunityBlog } from './pages/CommunityBlog';
+import { Community } from './pages/Community';
 import { CountryRecommendations } from './pages/CountryRecommendations';
 import { Settings } from './pages/Settings';
 import { SettingsScreen } from './pages/SettingsScreen';
@@ -40,6 +41,7 @@ import { ResetPassword } from './components/auth/ResetPassword';
 import { EnhancedErrorBoundary } from './components/common/EnhancedErrorBoundary';
 import { useOfflineStore } from './stores/offlineStore';
 import { useOfflineSync } from './hooks/useOfflineSync';
+import { useCommunitySocket } from './hooks/useCommunitySocket';
 import { offlineSyncService } from './services/offlineSyncService';
 import { networkReconnectionService } from './services/networkReconnectionService';
 import { socketService } from './services/socketService';
@@ -70,6 +72,9 @@ function App() {
   
   // Enable automatic offline sync
   useOfflineSync();
+  
+  // Initialize community socket listeners for real-time updates
+  useCommunitySocket({ autoConnect: true });
   
   // Initialize dark mode (this will apply saved preference or system preference)
   useDarkMode();
@@ -199,7 +204,8 @@ function App() {
             <Route path="/register" element={<Register />} />
             
             {/* Public routes */}
-            <Route path="/community" element={<CommunityBlog />} />
+            <Route path="/community" element={<Community />} />
+            <Route path="/community-blog" element={<CommunityBlog />} />
             <Route path="/country-recommendations" element={<CountryRecommendations />} />
             <Route path="/t/:token" element={<SharedTrip />} />
             <Route path="/help" element={<Help />} />
